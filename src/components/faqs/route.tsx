@@ -29,26 +29,28 @@ export function Faqs() {
             title: "A página personalizada tem validade?",
             description: "Sim, no plano básico, a página estará disponível por 1 ano. No plano avançado, a página será vitalícia.",
         },
-         {
+        {
             id: 6,
             title: "Quanto tempo leva para receber o QR Code por email?",
             description: "Pagamentos com Cartão de Crédito & PIX são processados imediatamente.",
         },
     ]
 
-    const [abrirModal, setAbrirModal] = useState(false)
+    const [abrirModal, setAbrirModal] = useState<number | null>(null)
 
-    function exibirModal() {
-        setAbrirModal(true) //abrir modal
+    function exibirModal(id: any) {
+        setAbrirModal(id) //abrir modal
     }
 
     return (
-        <div>
+        <div className="flex p-2">
             <div>
                 <h1>F.A.Q</h1>
-            <h1>Perguntas Frequentes</h1>
-            <p>Aqui estão algumas perguntas frequentes para ajudar você a entender melhor a HeartLink. Caso tenha alguma dúvida, entre em contato conosco.</p>
-            <Link to="/duvidas">Dúvidas? Entre em contato por aqui</Link>
+                <h1>Perguntas Frequentes</h1>
+                <p>Aqui estão algumas perguntas frequentes para ajudar você a entender melhor a HeartLink. Caso tenha alguma dúvida, entre em contato conosco.</p>
+                <Link to="/duvidas">Dúvidas? Entre em contato por aqui</Link>
+            </div>
+            <div>
             </div>
         </div>
     )

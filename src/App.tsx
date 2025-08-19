@@ -5,6 +5,7 @@ import { Header } from './components/header'
 import { Footer } from './components/footer/route'
 import BoasVindas from './components/boasvindas'
 import Recursos from './components/recursos'
+import Faqs from './components/faqs'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" />
         </Routes>
+        <Faqs />
         <Footer />
       </BrowserRouter>
     </>

@@ -6,6 +6,7 @@ import { Footer } from './components/footer/route'
 import BoasVindas from './components/boasvindas'
 import Recursos from './components/recursos'
 import Faqs from './components/faqs'
+import Planos from './components/planos'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Header />
         <BoasVindas />
         <Recursos />
+        <Planos />
         <Routes>
           <Route path="/" />
         </Routes>

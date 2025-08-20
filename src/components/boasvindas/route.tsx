@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaHeartCircleExclamation } from "react-icons/fa6";
+import { ReactTyped } from "react-typed";
 
 export function BoasVindas() {
   return (
@@ -11,9 +12,7 @@ export function BoasVindas() {
         <h1 className="text-5xl md:text-6xl font-bold mb-4">
           Declare seu amor
         </h1>
-        <h3 className="text-3xl md:text-4xl text-red-500 mb-6 italic">
-          para seu amor!
-        </h3>
+        <TextoAnimado />
         <p className="mb-8 text-lg md:text-xl">
           Crie uma página personalizada para quem você ama e surpreenda a pessoa
           com uma declaração especial que ficará para sempre.
@@ -23,7 +22,7 @@ export function BoasVindas() {
           to="/criar"
           className="flex gap-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-300 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 w-100 h-15 justify-start items-center"
         >
-          <FaHeartCircleExclamation size={20}/> Criar minha página
+          <FaHeartCircleExclamation size={20} /> Criar minha página
         </Link>
 
         {/* Avaliação dos usuários */}
@@ -58,6 +57,27 @@ export function BoasVindas() {
           className="rounded-xl shadow-2xl"
         />
       </div>
+    </div>
+  );
+}
+
+function TextoAnimado() {
+  return (
+    <div>
+      <h3 className="text-3xl md:text-4xl text-red-500 mb-6 italic">
+        <ReactTyped
+          strings={[
+            "para seu amor!",
+            "para alguém especial!",
+            "para eternizar momentos!",
+            "para surpreender alguém!",
+            "para seu amigo!",
+          ]}
+          typeSpeed={50}
+          backSpeed={30} 
+          loop      
+        />
+      </h3>
     </div>
   );
 }

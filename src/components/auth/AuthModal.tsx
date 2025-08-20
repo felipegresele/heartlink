@@ -1,5 +1,8 @@
 import { Controller, useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase/firebaseconfig";
 
 // Definindo o tipo de dados do formulário
 type AuthFormProps = {
@@ -48,10 +51,30 @@ export function AuthForm({ fecharModal }: AuthModalProps) {
     },
   });
 
-  const onSubmit = (data: AuthFormProps) => {
-    console.log(data);
-    fecharModal()
-    // Aqui você pode adicionar lógica de envio de dados
+  const onSubmit = async (data: AuthFormProps) => {
+    
+    try {
+        //cria o usuario com email e senha
+        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password)
+        
+        //atualiza o nome no firebase auth
+        await updateProfile(userCredential.user, {
+            displayName: data.displayName,
+        })
+
+        //salva os dados do usuário no fireStone
+        await addDoc(collection(db, "usuarios"), {
+            uid: userCredential.user.uid,
+            nome: data.displayName,
+            email: data.email
+        })
+
+        console.log("Usuário cadastrado com sucesso!")
+        fecharModal()
+    } catch(error) {
+        console.error("Erro ao cadastrar: ", error)
+        alert("Erro ao cadastrar")
+    }
   };
 
   return (

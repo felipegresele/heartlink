@@ -9,25 +9,42 @@ import Faqs from './components/faqs'
 import Planos from './components/planos'
 import { EscolhaTema } from './components/escolha$tema/route'
 import RegrasComoFunciona from './components/instrucoes'
+import TermosDeUso from './components/regras'
+import { Privacidade } from './components/regras/route'
 
 function App() {
 
-  return (
-    <>
-      <BrowserRouter>
-        <Header />
-        <BoasVindas />
-        <Recursos />
-        <EscolhaTema />
-        <RegrasComoFunciona />
-        <Planos />
-        <Routes>
-          <Route path="/" />
-        </Routes>
-        <Faqs />
-        <Footer />
-      </BrowserRouter>
-    </>
+ return (
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        {/* Página principal com todos os componentes */}
+        <Route
+          path="/"
+          element={
+            <>
+              <BoasVindas />
+              <Recursos />
+              <EscolhaTema />
+              <RegrasComoFunciona />
+              <Planos />
+              <Faqs />
+            </>
+          }
+        />
+
+        {/* Página de Termos de Uso */}
+        <Route
+          path="/termos-de-uso"
+          element={<TermosDeUso />}
+        />
+        <Route 
+          path="/privacidade"
+          element={<Privacidade />}
+        />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   )
 }
 

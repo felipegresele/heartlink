@@ -1,8 +1,21 @@
 import { Link } from "react-router-dom";
 import { FaHeartCircleExclamation } from "react-icons/fa6";
 import { ReactTyped } from "react-typed";
+import { useAuth } from "../../contexts/AuthContext";
+import { useState } from "react";
+import AuthModal from "../auth/AuthModal";
 
 export function BoasVindas() {
+  const { user } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const handleCreateClick = (e: React.MouseEvent) => {
+    if (!user) {
+      e.preventDefault();
+      setShowAuthModal(true);
+    }
+  };
+
   return (
     <div
       className="relative flex flex-col items-start justify-center min-h-screen px-8 md:px-20 text-white bg-black"
@@ -20,6 +33,7 @@ export function BoasVindas() {
 
         <Link
           to="/criar"
+          onClick={handleCreateClick}
           className="flex gap-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-300 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 w-100 h-15 justify-start items-center"
         >
           <FaHeartCircleExclamation size={20} /> Criar minha página
@@ -57,6 +71,17 @@ export function BoasVindas() {
           className="rounded-xl shadow-2xl"
         />
       </div>
+      
+      {/* Modal de Autenticação */}
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={() => {
+            setShowAuthModal(false);
+          }}
+        />
+      )}
     </div>
   );
 }

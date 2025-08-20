@@ -1,8 +1,10 @@
 import { FaTimes } from "react-icons/fa";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa";
+import { useAuth } from "../../contexts/AuthContext";
+import { useState } from "react";
+import AuthModal from "../auth/AuthModal";
 
 export function Planos() {
-
     return (
         <div className="flex flex-col bg-black text-white text-center">
             <h1 className="font-semibold text-xl text-white">Nossos Planos</h1>
@@ -11,10 +13,20 @@ export function Planos() {
             <PlanoPageContent />
         </div>
     )
-
 }
 
 function PlanoPageContent() {
+  const { user } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const handleCreateClick = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    // Redirecionar para a página de criação se autenticado
+    window.location.href = '/criar';
+  };
 
    const planos = [
     {
@@ -98,12 +110,28 @@ function PlanoPageContent() {
               </h3>
             </div>
 
-            <button className="mt-auto bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-bold">
+            <button 
+              onClick={handleCreateClick}
+              className="mt-auto bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-bold"
+            >
               Criar minha página
             </button>
           </div>
         ))}
       </div>
+      
+      {/* Modal de Autenticação */}
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={() => {
+            setShowAuthModal(false);
+            // Redirecionar após login bem-sucedido
+            window.location.href = '/criar';
+          }}
+        />
+      )}
     </div>
   );
 }

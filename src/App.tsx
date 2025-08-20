@@ -11,12 +11,15 @@ import { EscolhaTema } from './components/escolha$tema/route'
 import RegrasComoFunciona from './components/instrucoes'
 import TermosDeUso from './components/regras'
 import { Privacidade } from './components/regras/route'
+import { GaleriaTemplates } from './components/galeria-templates/route'
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
 
  return (
-    <BrowserRouter>
-      <Header />
+    <AuthProvider>
+      <BrowserRouter>
+        <Header />
       <Routes>
         {/* Página principal com todos os componentes */}
         <Route
@@ -42,9 +45,15 @@ function App() {
           path="/privacidade"
           element={<Privacidade />}
         />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+        {/* Página da Galeria de Templates */}
+        <Route 
+          path="/criar"
+          element={<GaleriaTemplates />}
+        />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

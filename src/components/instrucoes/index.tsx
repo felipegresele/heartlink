@@ -1,7 +1,3 @@
-function Instrucoes() {
-    return (
-        <div>
-            <h1>dada</h1>
-        </div>
-    )
-}
+import { RegrasComoFunciona } from "./route";
+
+export default RegrasComoFunciona

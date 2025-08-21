@@ -251,7 +251,6 @@ function FormModoImagem({ modoImagem, setModoImagem }: FormModoImagemProps) {
         { label: "Carrossel", value: "carrossel" },
         { label: "Grade", value: "grid" },
         { label: "Slideshow", value: "slideshow" },
-        { label: "Capa", value: "capa" },
     ];
 
     return (
@@ -262,8 +261,8 @@ function FormModoImagem({ modoImagem, setModoImagem }: FormModoImagemProps) {
                     <label
                         key={op.value}
                         className={`cursor-pointer p-1 rounded-md border text-sm ${modoImagem === op.value
-                                ? "border-red-500 bg-gray-800"
-                                : "border-gray-600"
+                            ? "border-red-500 bg-gray-800"
+                            : "border-gray-600"
                             }`}
                     >
                         <input
@@ -329,8 +328,8 @@ function FormModoExibicao({
                     <label
                         key={op.value}
                         className={`cursor-pointer p-1 rounded-md border text-sm ${modoExibicao === op.value
-                                ? "border-red-500 bg-gray-800"
-                                : "border-gray-600"
+                            ? "border-red-500 bg-gray-800"
+                            : "border-gray-600"
                             }`}
                     >
                         <input
@@ -486,17 +485,6 @@ function PreviewCarrossel({
                     </div>
                 );
 
-            case "capa":
-                return (
-                    <div className="w-100 h-100 overflow-hidden rounded-md mb-4">
-                        <img
-                            src={imagens[0]}
-                            alt="Capa"
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                );
-
             default:
                 return null;
         }
@@ -546,7 +534,7 @@ function PreviewCarrossel({
                 return (
                     <p className="text-gray-300 mt-4 text-sm">
                         Estamos juntos há {tempoDetalhado.anos} anos e {tempoDetalhado.meses}{" "}
-                        meses.
+                        meses ❤️
                     </p>
                 );
 
@@ -556,25 +544,29 @@ function PreviewCarrossel({
     };
 
     return (
-        <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center">
-            {renderImagens()}
-            <h1
-                className="mb-4"
-                style={{
-                    color: corTitulo,
-                    fontFamily: fonteTitulo,
-                    fontSize: `${tamanhoTitulo}px`,
-                }}
-            >
-                {titulo || "Seu título aqui"}
-            </h1>
-            <p
-                className="whitespace-pre-line max-h-40 px-2"
-                style={{ fontSize: `${tamanhoMensagem}px` }}
-            >
-                {mensagem || "Sua mensagem aqui"}
-            </p>
-            {renderTempo()}
-        </div>
+        <>
+            <h1 className="font-bold text-center text-[20px] mb-5">Preview do seu site</h1>
+            <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center">
+                {renderImagens()}
+                <h1
+                    className="mb-4"
+                    style={{
+                        color: corTitulo,
+                        fontFamily: fonteTitulo,
+                        fontSize: `${tamanhoTitulo}px`,
+                    }}
+                >
+                    {titulo || "Seu título aqui"}
+                </h1>
+                <p
+                    className="whitespace-pre-line max-h-40 px-2"
+                    style={{ fontSize: `${tamanhoMensagem}px` }}
+                >
+                    {mensagem || "Sua mensagem aqui"}
+                </p>
+                {renderTempo()}
+            </div>
+        </>
+
     );
 }

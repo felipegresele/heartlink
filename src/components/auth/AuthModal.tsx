@@ -3,7 +3,6 @@ import { IoClose } from "react-icons/io5";
 import { auth, db } from "../../firebase/firebaseconfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { useState } from "react";
 
 type AuthFormProps = {
   email: string;

@@ -11,6 +11,7 @@ import { EscolhaTema } from './components/escolha$tema/route'
 import RegrasComoFunciona from './components/instrucoes'
 import TermosDeUso from './components/regras'
 import { Privacidade } from './components/regras/route'
+import { CriadorDeclaracao } from './components/criar-declaracao/template-basico'
 
 function App() {
 
@@ -41,6 +42,10 @@ function App() {
         <Route 
           path="/privacidade"
           element={<Privacidade />}
+        />
+        <Route 
+          path="/criar"
+          element={<CriadorDeclaracao />}
         />
       </Routes>
       <Footer />

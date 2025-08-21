@@ -3,7 +3,6 @@ import { IoClose } from "react-icons/io5";
 import { auth } from "../../firebase/firebaseconfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 type LoginFormProps = {
   email: string;
@@ -45,7 +44,6 @@ export function LoginForm({ fecharModal }: LoginModalProps) {
   });
 
   const navigate = useNavigate();
-  const [mensagem, setMensagem] = useState(""); // Estado para mostrar a mensagem
 
   const onSubmit = async (data: LoginFormProps) => {
     try {
@@ -70,11 +68,6 @@ export function LoginForm({ fecharModal }: LoginModalProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="text-white">
       <h2 className="text-lg font-semibold mb-4 text-white">Faça login</h2>
-
-      {/* Mensagem */}
-      {mensagem && (
-        <p className="mb-2 text-sm font-semibold text-yellow-400">{mensagem}</p>
-      )}
 
       {/* Email */}
       <Controller

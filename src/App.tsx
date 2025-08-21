@@ -51,6 +51,10 @@ function App() {
         />
         <Route 
           path="/padrao"
+          element={<CriadorDeclaracao />}
+        />
+        <Route 
+          path="/netflix"
           element={<TemplateNetflix />}
         />
       </Routes>

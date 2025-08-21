@@ -11,7 +11,9 @@ import { EscolhaTema } from './components/escolha$tema/route'
 import RegrasComoFunciona from './components/instrucoes'
 import TermosDeUso from './components/regras'
 import { Privacidade } from './components/regras/route'
-import { CriadorDeclaracao } from './components/criar-declaracao/template-basico'
+import EscolherTemplate from './components/criar-declaracao'
+import { CriadorDeclaracao } from './components/criar-declaracao/templates/template-basico'
+import { TemplateNetflix } from './components/criar-declaracao/templates/template-netflix'
 
 function App() {
 
@@ -45,7 +47,11 @@ function App() {
         />
         <Route 
           path="/criar"
-          element={<CriadorDeclaracao />}
+          element={<EscolherTemplate />}
+        />
+        <Route 
+          path="/padrao"
+          element={<TemplateNetflix />}
         />
       </Routes>
       <Footer />

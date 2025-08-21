@@ -28,7 +28,8 @@ export function Header() {
   const abrirModal = () => setExibirModal(true);
   const fecharModal = () => setExibirModal(false);
   const abrirModalLogin = () => setExibirModalLogin(true);
-
+  const fecharModalLogin = () => setExibirModalLogin(false);
+  
   const deslogar = async () => {
     await signOut(auth);
     setUsuario(null);
@@ -152,7 +153,7 @@ export function Header() {
       )}
 
       {exibirModal && <AuthModal fecharModal={fecharModal} />}
-      {exibirModalLogin && <LoginModal fecharModal={fecharModal} />}
+      {exibirModalLogin && <LoginModal fecharModal={fecharModalLogin} />}
     </header>
   );
 }

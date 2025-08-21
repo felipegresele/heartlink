@@ -66,7 +66,7 @@ export function Header() {
                 setAuthMode('login');
                 setShowAuthModal(true);
               }}
-              className="px-4 py-2 text-white border border-[#fb2c36] rounded-lg hover:bg-[#fb2c36] transition-all duration-300 font-medium"
+              className="px-5 py-2.5 text-white border-2 border-[#fb2c36] rounded-lg hover:bg-[#fb2c36] hover:shadow-lg transition-all duration-300 font-semibold"
             >
               Entrar
             </button>
@@ -75,7 +75,7 @@ export function Header() {
                 setAuthMode('register');
                 setShowAuthModal(true);
               }}
-              className="px-4 py-2 bg-[#fb2c36] text-white rounded-lg hover:bg-red-600 transition-all duration-300 font-medium"
+              className="px-5 py-2.5 bg-[#fb2c36] text-white rounded-lg hover:bg-red-600 hover:shadow-lg transition-all duration-300 font-semibold"
             >
               Cadastrar
             </button>

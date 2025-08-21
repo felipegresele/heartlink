@@ -3,7 +3,9 @@ import {
   signInWithEmailAndPassword, 
   signOut, 
   User,
-  updateProfile
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from './config';
@@ -56,6 +58,35 @@ export const signIn = async (email: string, password: string) => {
 export const logOut = async () => {
   try {
     await signOut(auth);
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+// Login com Google
+export const signInWithGoogle = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    const userCredential = await signInWithPopup(auth, provider);
+    const user = userCredential.user;
+    
+    // Verificar se o usuário já existe no Firestore
+    const existingUserData = await getUserData(user.uid);
+    
+    if (!existingUserData) {
+      // Salvar dados do usuário no Firestore se não existir
+      const userData: UserData = {
+        uid: user.uid,
+        email: user.email!,
+        displayName: user.displayName || 'Usuário',
+        createdAt: new Date()
+      };
+      
+      await setDoc(doc(db, 'users', user.uid), userData);
+      return { user, userData };
+    }
+    
+    return { user, userData: existingUserData };
   } catch (error: any) {
     throw new Error(error.message);
   }

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { FaHeartCircleExclamation } from "react-icons/fa6";
-import { ReactTyped } from "react-typed";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import AuthModal from "../auth/AuthModal";
@@ -25,7 +24,7 @@ export function BoasVindas() {
         <h1 className="text-5xl md:text-6xl font-bold mb-4">
           Declare seu amor
         </h1>
-        <TextoAnimado />
+        {/* <TextoAnimado /> */}
         <p className="mb-8 text-lg md:text-xl">
           Crie uma página personalizada para quem você ama e surpreenda a pessoa
           com uma declaração especial que ficará para sempre.
@@ -86,23 +85,23 @@ export function BoasVindas() {
   );
 }
 
-function TextoAnimado() {
-  return (
-    <div>
-      <h3 className="text-3xl md:text-4xl text-red-500 mb-6 italic">
-        <ReactTyped
-          strings={[
-            "para seu amor!",
-            "para alguém especial!",
-            "para eternizar momentos!",
-            "para surpreender alguém!",
-            "para seu amigo!",
-          ]}
-          typeSpeed={50}
-          backSpeed={30} 
-          loop      
-        />
-      </h3>
-    </div>
-  );
-}
+// function TextoAnimado() {
+//   return (
+//     <div>
+//       <h3 className="text-3xl md:text-4xl text-red-500 mb-6 italic">
+//         <ReactTyped
+//           strings={[
+//             "para seu amor!",
+//             "para alguém especial!",
+//             "para eternizar momentos!",
+//             "para surpreender alguém!",
+//             "para seu amigo!",
+//           ]}
+//           typeSpeed={50}
+//           backSpeed={30} 
+//           loop      
+//         />
+//       </h3>
+//     </div>
+//   );
+// }

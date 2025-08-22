@@ -167,29 +167,10 @@ interface PreviewNetflixProps {
 }
 
 function PreviewNetflix({ titulo, mensagem, imagemPrincipal, episodios, dataConhecimento }: PreviewNetflixProps) {
-    // Função para calcular o tempo sem biblioteca
-    const calcularTempo = (data: string) => {
-        if (!data) return "";
-        const inicio = new Date(data);
-        const hoje = new Date();
-        let anos = hoje.getFullYear() - inicio.getFullYear();
-        let meses = hoje.getMonth() - inicio.getMonth();
-        let dias = hoje.getDate() - inicio.getDate();
-
-        if (dias < 0) {
-            meses -= 1;
-            dias += new Date(hoje.getFullYear(), hoje.getMonth(), 0).getDate();
-        }
-        if (meses < 0) {
-            anos -= 1;
-            meses += 12;
-        }
-
-        return `${anos} anos, ${meses} meses, ${dias} dias`;
-    };
-
+    
     return (
         <div className="bg-gray-800 rounded-md overflow-hidden text-white">
+            <h1 className="bg-black text-red-500 font-bold text-[20px] p-4 justify-center text-center">Heartlink</h1>
             {/* Imagem principal com sombra na parte inferior */}
             <div className="relative w-full h-120 bg-gray-700">
                 {imagemPrincipal && (
@@ -225,16 +206,14 @@ function PreviewNetflix({ titulo, mensagem, imagemPrincipal, episodios, dataConh
                 {episodios.map((img, i) => (
                     <div
                         key={i}
-                        className="w-80 h-50 bg-gray-700 rounded-md overflow-hidden flex items-center justify-center relative ml-4"
+                        className="max-w-70 h-50 bg-gray-700 rounded-md overflow-hidden flex items-center justify-center relative ml-4"
                     >
                         {img ? <img src={img} className="w-full h-full object-cover" /> : <span className="text-gray-400">{i + 1}</span>}
                         {/* Ícone HD no canto inferior direito */}
                         <div className="absolute bottom-2 right-2">
                             <MdHd
-                                size={24}
-                                color="gray"
-                                className="border border-white rounded-sm p-[2px]"
-                            />
+                                size={25}
+                                color="gray"                            />
                         </div>
                     </div>
                 ))}

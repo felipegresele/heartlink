@@ -1,157 +1,121 @@
 import { Controller, useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
-import { auth, db } from "../../firebase/firebaseconfig";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { apiPost } from "../../api/auth/api";
 
-type AuthFormProps = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  displayName: string;
-};
-
-interface AuthModalProps {
-  fecharModal: () => void;
-}
+type AuthFormProps = { displayName: string; email: string; password: string; confirmPassword: string };
+interface AuthModalProps { fecharModal: () => void }
 
 export function AuthModal({ fecharModal }: AuthModalProps) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full sm:w-100">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-bold text-white">Heartlink</h1>
-          <button onClick={fecharModal}>
-            <IoClose size={20} color="white" />
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+      {/* max-h-[90vh] e overflow-y-auto garantem que o formulário não "suma" em telas pequenas */}
+      <div className="bg-gray-900 border border-gray-700 p-8 rounded-2xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-y-auto custom-scrollbar">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">Heartlink</h1>
+          <button 
+            onClick={fecharModal} 
+            className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+          >
+            <IoClose size={24} className="text-gray-400 hover:text-white"/>
           </button>
         </div>
-
         <AuthForm fecharModal={fecharModal} />
       </div>
     </div>
   );
 }
 
-export function AuthForm({ fecharModal }: AuthModalProps) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    getValues
-  } = useForm<AuthFormProps>({
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      displayName: "",
-    },
+function AuthForm({ fecharModal }: AuthModalProps) {
+  const { control, handleSubmit, formState: { errors }, getValues } = useForm<AuthFormProps>({
+    defaultValues: { displayName: "", email: "", password: "", confirmPassword: "" }
   });
 
   const onSubmit = async (data: AuthFormProps) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-
-      await updateProfile(userCredential.user, {
-        displayName: data.displayName,
-      });
-
-      await setDoc(doc(db, "users", userCredential.user.uid), {
-        nome: data.displayName,
+      await apiPost("/users", {
+        username: data.displayName,
         email: data.email,
-        createdAt: new Date(),
+        password: data.password
       });
-
-      alert("Usuário cadastrado com sucesso!");
+      alert("Conta criada com sucesso!");
       fecharModal();
-    } catch (error: any) {
-      if (error.code === "auth/email-already-in-use") {
-        alert("Esse email já está cadastrado. Tente fazer login.");
-      } else if (error.code === "auth/weak-password") {
-        alert("A senha deve ter pelo menos 6 caracteres.");
-      } else {
-        alert("Erro ao cadastrar: " + error.message);
-      }
-      console.error("Erro ao cadastrar: ", error);
+    } catch (err: any) {
+      alert(err.message);
     }
   };
 
+  // Estilo padrão para os inputs para evitar repetição de código
+  const inputStyles = (hasError: any) => `
+    w-full px-4 py-2.5 bg-gray-800 border rounded-xl text-white outline-none transition-all focus:ring-2 
+    ${hasError ? 'border-red-500 focus:ring-red-500/20' : 'border-gray-700 focus:border-emerald-500 focus:ring-emerald-500/20'}
+  `;
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="text-white">
-      <h2 className="text-lg font-semibold mb-4 text-white">Crie sua conta</h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <h2 className="text-lg font-medium text-gray-200">Crie sua conta</h2>
+        <p className="text-sm text-gray-500 mb-2">Junte-se à nossa comunidade hoje.</p>
+      </div>
 
-      {/* Nome Completo */}
-      <Controller
-        name="displayName"
-        control={control}
-        rules={{
-          required: { value: true, message: "Nome é obrigatório" },
-          maxLength: { value: 30, message: "O nome deve ter no máximo 30 caracteres" },
-          minLength: { value: 3, message: "O nome deve ter no mínimo 3 caracteres" },
-        }}
-        render={({ field }) => (
-          <>
-            <label className="block text-sm font-medium mb-1 text-white">Nome Completo:</label>
-            <input {...field} placeholder="Digite seu nome completo" className="w-full p-2 border border-gray-600 rounded-md mb-2 bg-gray-700 text-white focus:outline-none focus:border-red-500" />
-            {errors.displayName && <p className="text-xs text-red-500">{errors.displayName.message}</p>}
-          </>
-        )}
-      />
+      {/* Campo Nome */}
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium text-gray-400 ml-1">Nome de exibição</label>
+        <Controller name="displayName" control={control}
+          rules={{ required: "Nome obrigatório", minLength: { value: 3, message: "Mínimo 3 caracteres" } }}
+          render={({ field }) => (
+            <input {...field} placeholder="Seu nome" className={inputStyles(errors.displayName)} />
+          )}
+        />
+        {errors.displayName && <span className="text-xs text-red-400 ml-1">{errors.displayName.message}</span>}
+      </div>
 
-      {/* Email */}
-      <Controller
-        name="email"
-        control={control}
-        rules={{
-          required: { value: true, message: "Email é obrigatório" },
-          pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Formato de e-mail inválido" },
-        }}
-        render={({ field }) => (
-          <>
-            <label className="block text-sm font-medium mb-1 text-white">Email:</label>
-            <input {...field} placeholder="Digite seu email" className="w-full p-2 border border-gray-600 rounded-md mb-2 bg-gray-700 text-white focus:outline-none focus:border-red-500" />
-            {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-          </>
-        )}
-      />
+      {/* Campo Email */}
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium text-gray-400 ml-1">Email</label>
+        <Controller name="email" control={control}
+          rules={{ required: "Email obrigatório", pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Email inválido" } }}
+          render={({ field }) => (
+            <input {...field} placeholder="seu@email.com" className={inputStyles(errors.email)} />
+          )}
+        />
+        {errors.email && <span className="text-xs text-red-400 ml-1">{errors.email.message}</span>}
+      </div>
 
-      {/* Senha */}
-      <Controller
-        name="password"
-        control={control}
-        rules={{ required: { value: true, message: "Senha é obrigatória" } }}
-        render={({ field }) => (
-          <>
-            <label className="block text-sm font-medium mb-1 text-white">Senha:</label>
-            <input {...field} placeholder="Digite sua senha" type="password" className="w-full p-2 border border-gray-600 rounded-md mb-2 bg-gray-700 text-white focus:outline-none focus:border-red-500" />
-            {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
-          </>
-        )}
-      />
+      {/* Grid para Senhas (em telas maiores ficam lado a lado se desejar, mas vertical é melhor para mobile) */}
+      <div className="grid grid-cols-1 gap-4">
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-400 ml-1">Senha</label>
+          <Controller name="password" control={control}
+            rules={{ required: "Senha obrigatória", minLength: { value: 6, message: "Mínimo 6 caracteres" } }}
+            render={({ field }) => (
+              <input type="password" {...field} placeholder="••••••••" className={inputStyles(errors.password)} />
+            )}
+          />
+          {errors.password && <span className="text-xs text-red-400 ml-1">{errors.password.message}</span>}
+        </div>
 
-      {/* Confirmar Senha */}
-      <Controller
-        name="confirmPassword"
-        control={control}
-        rules={{
-          required: { value: true, message: "Confirme a senha por favor" },
-          validate: (value) => value === getValues("password") || "As senhas não coincidem"
-        }}
-        render={({ field }) => (
-          <>
-            <label className="block text-sm font-medium mb-1 text-white">Confirmar Senha:</label>
-            <input {...field} placeholder="Confirme sua senha" type="password" className="w-full p-2 border border-gray-600 rounded-md mb-2 bg-gray-700 text-white focus:outline-none focus:border-red-500" />
-            {errors.confirmPassword && <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>}
-          </>
-        )}
-      />
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-400 ml-1">Confirmar Senha</label>
+          <Controller name="confirmPassword" control={control}
+            rules={{ required: "Confirme a senha", validate: (v) => v === getValues("password") || "Senhas não coincidem" }}
+            render={({ field }) => (
+              <input type="password" {...field} placeholder="••••••••" className={inputStyles(errors.confirmPassword)} />
+            )}
+          />
+          {errors.confirmPassword && <span className="text-xs text-red-400 ml-1">{errors.confirmPassword.message}</span>}
+        </div>
+      </div>
 
-      <button type="submit" className="w-full mt-4 bg-red-700 font-bold text-white py-2 rounded-md hover:bg-red-500 focus:outline-none">
-        Criar Conta
+      <button 
+        type="submit" 
+        className="w-full py-3 px-4 mt-6 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-emerald-900/20"
+      >
+        Cadastrar agora
       </button>
+
+      <p className="text-center text-xs text-gray-500 mt-4">
+        Ao se cadastrar, você concorda com nossos Termos de Serviço.
+      </p>
     </form>
   );
 }

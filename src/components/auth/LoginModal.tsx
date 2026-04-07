@@ -1,132 +1,102 @@
 import { Controller, useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
-import { auth } from "../../firebase/firebaseconfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { apiPost } from "../../api/auth/api";
 
-type LoginFormProps = {
-  email: string;
-  password: string;
-};
-
-interface LoginModalProps {
-  fecharModal: () => void;
-}
+type LoginFormProps = { email: string; password: string };
+interface LoginModalProps { fecharModal: () => void }
 
 export function LoginModal({ fecharModal }: LoginModalProps) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full sm:w-100">
-        {/* Fechar Modal */}
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-bold text-white">Heartlink</h1>
-          <button onClick={fecharModal}>
-            <IoClose size={20} color="white" />
+    // Overlay com desfoque (backdrop-blur) para foco total no modal
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+      <div className="bg-gray-900 border border-gray-700 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">Heartlink</h1>
+          <button 
+            onClick={fecharModal} 
+            className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+          >
+            <IoClose size={24} className="text-gray-400 hover:text-white"/>
           </button>
         </div>
-
         <LoginForm fecharModal={fecharModal} />
       </div>
     </div>
   );
 }
 
-export function LoginForm({ fecharModal }: LoginModalProps) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormProps>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+function LoginForm({ fecharModal }: LoginModalProps) {
+  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormProps>({
+    defaultValues: { email: "", password: "" }
   });
-
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginFormProps) => {
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
-
-      alert("Login realizado com sucesso!"); 
+      const user = await apiPost("/users/login", data);
+      localStorage.setItem("user", JSON.stringify(user));
       fecharModal();
       navigate("/");
-
-    } catch (error: any) {
-      if (error.code === "auth/user-not-found") {
-        alert("Usuário não encontrado. Cadastre-se primeiro.");
-      } else if (error.code === "auth/wrong-password") {
-        alert("Senha incorreta.");
-      } else {
-        alert("Erro ao fazer login: " + error.message);
-      }
-      console.error("Erro no login: ", error);
+    } catch (err: any) {
+      alert(err.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="text-white">
-      <h2 className="text-lg font-semibold mb-4 text-white">Faça login</h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <div>
+        <h2 className="text-lg font-medium text-gray-300 mb-1">Bem-vindo de volta</h2>
+        <p className="text-sm text-gray-500 mb-6">Insira seus dados para acessar sua conta.</p>
+      </div>
 
-      {/* Email */}
-      <Controller
-        name="email"
-        control={control}
-        rules={{
-          required: { value: true, message: "Email é obrigatório" },
-          pattern: {
-            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: "Formato de e-mail inválido",
-          },
-        }}
-        render={({ field }) => (
-          <>
-            <label className="block text-sm font-medium mb-1 text-white">
-              Email:
-            </label>
-            <input
-              {...field}
-              placeholder="Digite seu email"
-              className="w-full p-2 border border-gray-600 rounded-md mb-2 bg-gray-700 text-white focus:outline-none focus:border-red-500"
-            />
-            {errors.email && (
-              <p className="text-xs text-red-500">{errors.email.message}</p>
+      <div className="space-y-4">
+        {/* Campo Email */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-gray-400 ml-1">Email</label>
+          <Controller
+            name="email" control={control}
+            rules={{
+              required: "Email é obrigatório",
+              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Email inválido" }
+            }}
+            render={({ field }) => (
+              <input 
+                {...field} 
+                placeholder="exemplo@email.com"
+                className={`w-full px-4 py-3 bg-gray-800 border rounded-xl text-white outline-none transition-all focus:ring-2 
+                  ${errors.email ? 'border-red-500 focus:ring-red-500/20' : 'border-gray-700 focus:border-blue-500 focus:ring-blue-500/20'}`} 
+              />
             )}
-          </>
-        )}
-      />
+          />
+          {errors.email && <span className="text-xs text-red-400 ml-1">{errors.email.message}</span>}
+        </div>
 
-      {/* Senha */}
-      <Controller
-        name="password"
-        control={control}
-        rules={{
-          required: { value: true, message: "Senha é obrigatória" },
-        }}
-        render={({ field }) => (
-          <>
-            <label className="block text-sm font-medium mb-1 text-white">
-              Senha:
-            </label>
-            <input
-              {...field}
-              type="password"
-              placeholder="Digite sua senha"
-              className="w-full p-2 border border-gray-600 rounded-md mb-2 bg-gray-700 text-white focus:outline-none focus:border-red-500"
-            />
-            {errors.password && (
-              <p className="text-xs text-red-500">{errors.password.message}</p>
+        {/* Campo Senha */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-gray-400 ml-1">Senha</label>
+          <Controller
+            name="password" control={control}
+            rules={{ required: "Senha é obrigatória" }}
+            render={({ field }) => (
+              <input 
+                type="password" 
+                {...field} 
+                placeholder="••••••••"
+                className={`w-full px-4 py-3 bg-gray-800 border rounded-xl text-white outline-none transition-all focus:ring-2 
+                  ${errors.password ? 'border-red-500 focus:ring-red-500/20' : 'border-gray-700 focus:border-blue-500 focus:ring-blue-500/20'}`} 
+              />
             )}
-          </>
-        )}
-      />
+          />
+          {errors.password && <span className="text-xs text-red-400 ml-1">{errors.password.message}</span>}
+        </div>
+      </div>
 
-      <button
-        type="submit"
-        className="w-full mt-4 bg-red-700 font-bold text-white py-2 rounded-md hover:bg-red-500 focus:outline-none"
+      <button 
+        type="submit" 
+        className="w-full py-3 px-4 mt-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-blue-900/20"
       >
-        Entrar
+        Entrar na conta
       </button>
     </form>
   );

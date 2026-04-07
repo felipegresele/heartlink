@@ -1,0 +1,25 @@
+const API_URL = "http://localhost:8080/api"; // troque para a URL do seu backend
+
+export async function apiPost(path: string, body: any) {
+  const res = await fetch(`${API_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Erro na requisição");
+  }
+  return res.json();
+}
+
+export async function apiDelete(path: string) {
+  const res = await fetch(`${API_URL}${path}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Erro na requisição");
+  }
+  return res.json();
+}

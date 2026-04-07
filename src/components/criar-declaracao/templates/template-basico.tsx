@@ -12,10 +12,16 @@ import {
   FaCommentDots,
 } from "react-icons/fa";
 import StepHeader from "../components/ui/StepHeader";
-import { Alert } from "@mantine/core";
 import { FiAlertCircle } from "react-icons/fi";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import MusicPlayerFooter from "../components/music/exibir-musica";
+import { FormTitulo } from "../components/forms-templates/form-titulo";
+import { FormModoExibicao } from "../components/forms-templates/form-modo-exibicao";
+import { FormModoImagem } from "../components/forms-templates/form-modo-imagens";
+import { FormTempoConhecimento } from "../components/forms-templates/form-tempo";
+import { FormImagens } from "../components/forms-templates/form-imagens";
+import { FormMensagem } from "../components/forms-templates/form-mensagem";
+import type { PreviewCarrosselProps } from "../../../schema/preview";
 
 // ---------------------- COMPONENTE PRINCIPAL ----------------------
 export function CriadorDeclaracao() {
@@ -43,28 +49,6 @@ export function CriadorDeclaracao() {
     thumbnail: string;
     channelTitle: string;
   } | null>(null);
-
-  const textosAutomaticos = [
-    `Desde que você entrou na minha vida tudo ficou mais bonito.
-Cada momento ao seu lado é especial e cada memória nossa é um tesouro que guardo com carinho.`,
-
-    `Eu nunca imaginei que alguém pudesse mudar minha vida de uma forma tão linda.
-Você trouxe alegria, paz e amor para meus dias.`,
-
-    `Nosso amor é feito de momentos simples, risadas, carinho e cumplicidade.
-Cada dia que passa eu tenho mais certeza de que quero viver muitos capítulos dessa história com você.`,
-
-    `Você é a melhor parte dos meus dias.
-Com você tudo faz mais sentido, tudo fica mais leve.`,
-
-    `Se eu pudesse escolher mil vezes, escolheria você em todas elas.
-Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
-  ];
-
-  function gerarMensagemAutomatica() {
-    const index = Math.floor(Math.random() * textosAutomaticos.length);
-    setMensagem(textosAutomaticos[index]);
-  }
 
   function proximaEtapa() {
     setEtapa((prev) => prev + 1);
@@ -147,14 +131,6 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
               tamanhoMensagem={tamanhoMensagem}
               setTamanhoMensagem={setTamanhoMensagem}
             />
-
-            <button
-              onClick={gerarMensagemAutomatica}
-              className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-md"
-            >
-              <FaRandom />
-              Gerar mensagem automática
-            </button>
           </>
         )}
 
@@ -338,331 +314,6 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
     </div>
   );
 }
-// ---------------------- COMPONENTE TÍTULO ----------------------
-interface FormTituloProps {
-  titulo: string;
-  setTitulo: (value: string) => void;
-  corTitulo: string;
-  setCorTitulo: (value: string) => void;
-  fonteTitulo: string;
-  setFonteTitulo: (value: string) => void;
-  tamanhoTitulo: number;
-  setTamanhoTitulo: (value: number) => void;
-}
-
-function FormTitulo({
-  titulo,
-  setTitulo,
-  corTitulo,
-  setCorTitulo,
-  fonteTitulo,
-  setFonteTitulo,
-  tamanhoTitulo,
-  setTamanhoTitulo,
-}: FormTituloProps) {
-  const fontes = [
-    { name: "Alex Brush", value: "Alex Brush, cursive" },
-    { name: "Dancing Script", value: "Dancing Script, cursive" },
-    { name: "DM Serif Text", value: "DM Serif Text, serif" },
-    { name: "Playfair Display", value: "Playfair Display, serif" },
-    { name: "Lora", value: "Lora, serif" },
-  ];
-
-  return (
-    <div className="space-y-2">
-      <h2 className="text-lg font-bold">
-        Como vai se chamar a história de vocês?
-      </h2>
-      <input
-        type="text"
-        maxLength={30}
-        placeholder="Digite o título"
-        value={titulo}
-        onChange={(e) => setTitulo(e.target.value)}
-        className="w-full p-2 rounded-md text-white bg-gray-800"
-      />
-      <div className="flex items-center gap-2">
-        <label>Cor:</label>
-        <input
-          type="color"
-          value={corTitulo}
-          onChange={(e) => setCorTitulo(e.target.value)}
-          className="w-10 h-8 cursor-pointer"
-        />
-      </div>
-      <div className="flex items-center gap-2">
-        <label>Fonte:</label>
-        <select
-          value={fonteTitulo}
-          onChange={(e) => setFonteTitulo(e.target.value)}
-          className="p-1 rounded-md text-white bg-black"
-        >
-          {fontes.map((f, i) => (
-            <option key={i} value={f.value}>
-              {f.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="flex items-center gap-2">
-        <label>Tamanho:</label>
-        <input
-          type="number"
-          min={10}
-          max={60}
-          value={tamanhoTitulo}
-          onChange={(e) => setTamanhoTitulo(Number(e.target.value))}
-          className="w-20 p-1 rounded-md text-white bg-gray-800"
-        />
-      </div>
-    </div>
-  );
-}
-
-// ---------------------- COMPONENTE MENSAGEM ----------------------
-interface FormMensagemProps {
-  mensagem: string;
-  setMensagem: (value: string) => void;
-  tamanhoMensagem: number;
-  setTamanhoMensagem: (value: number) => void;
-}
-
-function FormMensagem({
-  mensagem,
-  setMensagem,
-  tamanhoMensagem,
-  setTamanhoMensagem,
-}: FormMensagemProps) {
-  return (
-    <div className="space-y-2">
-      <h2 className="text-lg font-bold">
-        O que você quer dizer pra pessoa que vc ama? 💌
-      </h2>
-      <textarea
-        placeholder="Digite sua mensagem"
-        maxLength={700}
-        value={mensagem}
-        onChange={(e) => setMensagem(e.target.value)}
-        className="w-full p-2 rounded-md h-24 text-white bg-gray-800 resize-none"
-      />
-      <div className="flex items-center gap-2 text-sm text-gray-400">
-        <span>{mensagem.length}/700</span>
-        <label className="ml-auto">Tamanho:</label>
-        <input
-          min={12}
-          max={20}
-          value={tamanhoMensagem}
-          onChange={(e) => setTamanhoMensagem(Number(e.target.value))}
-          className="w-16 p-1 rounded-md text-white bg-gray-800"
-        />
-      </div>
-    </div>
-  );
-}
-
-// ---------------------- COMPONENTE IMAGENS ----------------------
-interface FormImagensProps {
-  imagens: string[];
-  setImagens: (value: string[]) => void;
-}
-
-function FormImagens({ imagens, setImagens }: FormImagensProps) {
-  const handleAdicionarImagem = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-
-    if (!files) return;
-
-    const novasImagens: string[] = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      if (!file.type.startsWith("image/")) {
-        alert("Selecione apenas imagens!");
-        return;
-      }
-
-      if (imagens.length + novasImagens.length >= 8) {
-        alert("Você pode adicionar no máximo 8 imagens!");
-        break;
-      }
-
-      novasImagens.push(URL.createObjectURL(file));
-    }
-
-    setImagens([...imagens, ...novasImagens]);
-  };
-
-  const removerImagem = (index: number) => {
-    setImagens(imagens.filter((_, i) => i !== index));
-  };
-
-  return (
-    <div className="space-y-2">
-      <h2 className="text-lg font-bold">Imagens</h2>
-      {imagens.length < 5 && (
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={handleAdicionarImagem}
-          className="mb-2 p-2 rounded-md text-black bg-gray-200 cursor-pointer"
-        />
-      )}
-      <div className="flex flex-wrap gap-2">
-        {imagens.map((img, i) => (
-          <div key={i} className="relative">
-            <img
-              src={img}
-              alt={`Imagem ${i + 1}`}
-              className="w-14 h-14 object-cover rounded-md"
-            />
-            <button
-              onClick={() => removerImagem(i)}
-              className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white rounded-full text-xs flex items-center justify-center"
-            >
-              ×
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------------------- COMPONENTE MODO IMAGEM ----------------------
-interface FormModoImagemProps {
-  modoImagem: string;
-  setModoImagem: (value: string) => void;
-}
-
-function FormModoImagem({ modoImagem, setModoImagem }: FormModoImagemProps) {
-  const opcoes = [
-    { label: "Carrossel", value: "carrossel" },
-    { label: "Grade", value: "grid" },
-    { label: "Slideshow", value: "slideshow" },
-  ];
-
-  return (
-    <div className="space-y-2">
-      <h2 className="text-lg font-bold">Modo de exibir imagens</h2>
-      <div className="flex gap-4">
-        {opcoes.map((op) => (
-          <label
-            key={op.value}
-            className={`cursor-pointer p-1 rounded-md border text-sm ${
-              modoImagem === op.value
-                ? "border-red-500 bg-gray-800"
-                : "border-gray-600"
-            }`}
-          >
-            <input
-              type="radio"
-              name="modoImagem"
-              value={op.value}
-              checked={modoImagem === op.value}
-              onChange={(e) => setModoImagem(e.target.value)}
-              className="mr-2"
-            />
-            {op.label}
-          </label>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------------------- COMPONENTE TEMPO DE CONHECIMENTO ----------------------
-interface FormTempoConhecimentoProps {
-  dataConhecimento: string;
-  setDataConhecimento: (value: string) => void;
-}
-
-function FormTempoConhecimento({
-  dataConhecimento,
-  setDataConhecimento,
-}: FormTempoConhecimentoProps) {
-  return (
-    <div className="space-y-2">
-      <h2 className="text-lg font-bold">Quando se conheceram?</h2>
-      <input
-        type="date"
-        value={dataConhecimento}
-        onChange={(e) => {
-          console.log(dataConhecimento);
-          setDataConhecimento(e.target.value);
-        }}
-        className="w-full p-2 rounded-md text-white bg-gray-800"
-      />
-    </div>
-  );
-}
-
-// ---------------------- COMPONENTE MODO DE EXIBIÇÃO ----------------------
-interface FormModoExibicaoProps {
-  modoExibicao: string;
-  setModoExibicao: (value: string) => void;
-}
-
-function FormModoExibicao({
-  modoExibicao,
-  setModoExibicao,
-}: FormModoExibicaoProps) {
-  const opcoes = [
-    { label: "Padrão", value: "padrao" },
-    { label: "Clássico", value: "classico" },
-    { label: "Simples", value: "simples" },
-  ];
-
-  return (
-    <div className="space-y-2">
-      <h2 className="text-lg font-bold">Modo de mostrar tempo</h2>
-      <div className="flex gap-4">
-        {opcoes.map((op) => (
-          <label
-            key={op.value}
-            className={`cursor-pointer p-1 rounded-md border text-sm ${
-              modoExibicao === op.value
-                ? "border-red-500 bg-gray-800"
-                : "border-gray-600"
-            }`}
-          >
-            <input
-              type="radio"
-              name="modoExibicao"
-              value={op.value}
-              checked={modoExibicao === op.value}
-              onChange={(e) => setModoExibicao(e.target.value)}
-              className="mr-2"
-            />
-            {op.label}
-          </label>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------------------- COMPONENTE PREVIEW ----------------------
-interface PreviewCarrosselProps {
-  titulo: string;
-  mensagem: string;
-  corTitulo: string;
-  fonteTitulo: string;
-  tamanhoTitulo: number;
-  tamanhoMensagem: number;
-  musicaSelecionada?: {
-    id: string;
-    title: string;
-    thumbnail: string;
-    channelTitle: string;
-  } | null;
-  imagens: string[];
-  dataConhecimento: string;
-  modoExibicao: string;
-  modoImagem: string;
-  efeitoFundo: string;
-}
 
 function PreviewCarrossel({
   titulo,
@@ -676,7 +327,7 @@ function PreviewCarrossel({
   dataConhecimento,
   modoExibicao,
   modoImagem,
-  efeitoFundo,
+  //efeitoFundo,
 }: PreviewCarrosselProps) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempoDetalhado, setTempoDetalhado] = useState({
@@ -859,7 +510,7 @@ function PreviewCarrossel({
       </h1>
 
       <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center relative overflow-hidden">
-        <BackgroundEffects effect={efeitoFundo} />
+        {/* <BackgroundEffects effect={efeitoFundo} /> */}
 
         <div className="relative z-10">
           <h1

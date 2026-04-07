@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-import type { LovePageData } from "../../../schema/schemas"
-import LovePagePresente from "../components/tela-presente/LovePagePresente"
+import type { LovePageData } from "../../../../schema/schemas"
+import LovePagePresente from "./LovePagePresente"
 
 export default function LovePage() {
 

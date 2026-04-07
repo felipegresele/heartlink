@@ -15,7 +15,7 @@ import { Privacidade } from './components/regras/route'
 import EscolherTemplate from './components/criar-declaracao'
 import { CriadorDeclaracao } from './components/criar-declaracao/templates/template-basico'
 import { TemplateNetflix } from './components/criar-declaracao/templates/template-netflix'
-import LovePage from './components/criar-declaracao/pagina-criada/LovePage'
+import LovePage from './components/criar-declaracao/components/tela-presente/LovePage'
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

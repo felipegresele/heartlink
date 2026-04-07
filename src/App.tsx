@@ -14,6 +14,7 @@ import { Privacidade } from './components/regras/route'
 import EscolherTemplate from './components/criar-declaracao'
 import { CriadorDeclaracao } from './components/criar-declaracao/templates/template-basico'
 import { TemplateNetflix } from './components/criar-declaracao/templates/template-netflix'
+import LovePage from './components/criar-declaracao/pagina-criada/LovePage'
 
 function App() {
 
@@ -35,6 +36,11 @@ function App() {
             </>
           }
         />
+
+        <Route 
+  path="/p/:slug"
+  element={<LovePage />}
+/>
 
         {/* Página de Termos de Uso */}
         <Route

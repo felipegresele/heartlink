@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import ContentEscolherMusica from "../components/escolher-musica";
+import EmojiParticles from "../components/emoji-particles";
+import { QRCodeCanvas } from "qrcode.react";
 
 // ---------------------- COMPONENTE PRINCIPAL ----------------------
 export function CriadorDeclaracao() {
@@ -16,6 +19,35 @@ export function CriadorDeclaracao() {
   const [primeiraEtapa, setPrimeiraEtapa] = useState(true);
   const [segundaEtapa, setSegundaEtapa] = useState(false);
 
+  const [pageLink, setPageLink] = useState("");
+
+  async function criarPagina() {
+    const response = await fetch("http://localhost:8080/api/love-pages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        receiverName: titulo,
+        senderName: "Felipe",
+        message: mensagem,
+        photos: imagens,
+        relationshipStartDate: dataConhecimento,
+        musicUrl: "",
+        theme: modoExibicao,
+        planType: "premium",
+      }),
+    });
+
+    const data = await response.json();
+
+    console.log("Página criada:", data);
+
+    const linkPagina = `http://localhost:5173/p/${data.slug}`;
+
+    setPageLink(linkPagina);
+  }
+
   function mostrarSegundaEtapa() {
     setPrimeiraEtapa(false);
 
@@ -23,9 +55,9 @@ export function CriadorDeclaracao() {
   }
 
   function voltarPrimeiraEtapa() {
-    setPrimeiraEtapa(true)
+    setPrimeiraEtapa(true);
 
-    return setSegundaEtapa(false)
+    return setSegundaEtapa(false);
   }
 
   return (
@@ -74,14 +106,18 @@ export function CriadorDeclaracao() {
         </>
       )}
 
-      {segundaEtapa && ( 
+      {segundaEtapa && (
         <>
-        <h1>teste</h1>
-        <button 
+          <ContentEscolherMusica />
+          <button
             className="bg-red-500 rounded-md h-[50px] w-[150px]"
-            onClick={() => voltarPrimeiraEtapa()}>Voltar</button>
-      </>)}
-      
+            onClick={() => voltarPrimeiraEtapa()}
+          >
+            Voltar
+          </button>
+        </>
+      )}
+
       <div className="flex-1">
         <PreviewCarrossel
           titulo={titulo}
@@ -96,6 +132,25 @@ export function CriadorDeclaracao() {
           modoImagem={modoImagem}
         />
       </div>
+
+      <button
+        onClick={criarPagina}
+        className="bg-pink-600 rounded-md h-[50px] w-[150px]"
+      >
+        Criar página
+      </button>
+
+      {pageLink && (
+        <div className="flex flex-col items-center gap-4 mt-6">
+          <h2 className="text-xl font-bold">Seu QR Code</h2>
+
+          <QRCodeCanvas value={pageLink} size={220} />
+
+          <p className="text-sm text-gray-400">Escaneie para abrir a página</p>
+
+          <p className="text-pink-400">{pageLink}</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -333,7 +388,10 @@ function FormTempoConhecimento({
       <input
         type="date"
         value={dataConhecimento}
-        onChange={(e) => setDataConhecimento(e.target.value)}
+        onChange={(e) => {
+          console.log(dataConhecimento);
+          setDataConhecimento(e.target.value);
+        }}
         className="w-full p-2 rounded-md text-white bg-gray-800"
       />
     </div>
@@ -591,6 +649,9 @@ function PreviewCarrossel({
         Preview do seu site
       </h1>
       <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center">
+        <div>
+          <EmojiParticles emoji="❤️" />
+        </div>
         <h1
           className="mb-4"
           style={{

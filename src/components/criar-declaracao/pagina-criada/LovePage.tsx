@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 import type { LovePageData } from "../../../schema/schemas"
-import LovePagePresente from "../components/tela-presente/LovePageTemplate"
+import LovePagePresente from "../components/tela-presente/LovePagePresente"
 
 export default function LovePage() {
 
@@ -33,6 +33,8 @@ export default function LovePage() {
       titulo={page.receiverName}
       mensagem={page.message}
       imagens={page.photos}
+      musicaId={page.musicId}
+      musicaTitulo={page.musicaTitulo}
       dataConhecimento={page.relationshipStartDate}
     />
 

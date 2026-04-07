@@ -3,4 +3,8 @@ export interface LovePageData {
   message: string,
   photos: string[],
   relationshipStartDate: string,
+
+  musicId?: string,
+  musicaTitulo?: string,
 }
+

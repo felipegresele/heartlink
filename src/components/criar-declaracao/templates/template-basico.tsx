@@ -14,6 +14,8 @@ import {
 import StepHeader from "../components/ui/StepHeader";
 import { Alert } from "@mantine/core";
 import { FiAlertCircle } from "react-icons/fi";
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import MusicPlayerFooter from "../components/music/exibir-musica";
 
 // ---------------------- COMPONENTE PRINCIPAL ----------------------
 export function CriadorDeclaracao() {
@@ -34,6 +36,13 @@ export function CriadorDeclaracao() {
   const [modoImagem, setModoImagem] = useState("carrossel");
 
   const [pageLink, setPageLink] = useState("");
+
+  const [musicaSelecionada, setMusicaSelecionada] = useState<{
+    id: string;
+    title: string;
+    thumbnail: string;
+    channelTitle: string;
+  } | null>(null);
 
   const textosAutomaticos = [
     `Desde que você entrou na minha vida tudo ficou mais bonito.
@@ -77,13 +86,16 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
         message: mensagem,
         photos: imagens,
         relationshipStartDate: dataConhecimento,
-        musicUrl: "",
+        musicId: musicaSelecionada?.id,
+        musicTitle: musicaSelecionada?.title,
         theme: modoExibicao,
-        planType: "premium",
+        //planType: "premium",
       }),
     });
 
     const data = await response.json();
+
+    console.log(data);
 
     const linkPagina = `http://localhost:5173/p/${data.slug}`;
 
@@ -177,7 +189,33 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
               totalEtapas={totalEtapas}
             />
 
-            <ContentEscolherMusica />
+            <ContentEscolherMusica
+              onMusicSelect={setMusicaSelecionada}
+              videoSelecionado={musicaSelecionada}
+            />
+
+            {musicaSelecionada && (
+              <div className="flex items-center gap-3 mt-3 bg-gray-800 p-2 rounded-md">
+                <img
+                  src={musicaSelecionada.thumbnail}
+                  className="w-12 h-12 object-cover rounded"
+                />
+                <div className="text-left">
+                  <p className="text-sm font-medium line-clamp-1">
+                    {musicaSelecionada.title}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {musicaSelecionada.channelTitle}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setMusicaSelecionada(null)}
+                  className="ml-auto text-red-400 text-xs"
+                >
+                  Remover
+                </button>
+              </div>
+            )}
           </>
         )}
 
@@ -193,8 +231,8 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
             />
 
             <p className="text-sm font-medium flex items-center gap-2 text-orange-400">
-              <FiAlertCircle /> A exibição da data poderá ser personalizada
-              na etapa 6.
+              <FiAlertCircle /> A exibição da data poderá ser personalizada na
+              etapa 6.
             </p>
 
             <FormTempoConhecimento
@@ -252,18 +290,18 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
           {etapa > 1 && (
             <button
               onClick={voltarEtapa}
-              className="bg-gray-700 px-4 py-2 rounded-md"
+              className="flex bg-gray-800 text-white border border-gray-500 px-4 py-2 rounded-md gap-2 items-center w-90 h-12 justify-center cursor-pointer"
             >
-              Voltar
+              <SlArrowLeft /> Voltar Etapa
             </button>
           )}
 
           {etapa < totalEtapas && (
             <button
               onClick={proximaEtapa}
-              className="bg-green-600 px-4 py-2 rounded-md"
+              className="flex bg-white text-black px-4 py-2 rounded-md gap-2 items-center w-90 h-12 justify-center cursor-pointer"
             >
-              Próxima
+              Próxima Etapa <SlArrowRight />
             </button>
           )}
         </div>
@@ -277,6 +315,7 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
           fonteTitulo={fonteTitulo}
           tamanhoTitulo={tamanhoTitulo}
           tamanhoMensagem={tamanhoMensagem}
+          musicaSelecionada={musicaSelecionada}
           imagens={imagens}
           dataConhecimento={dataConhecimento}
           modoExibicao={modoExibicao}
@@ -331,7 +370,9 @@ function FormTitulo({
 
   return (
     <div className="space-y-2">
-      <h2 className="text-lg font-bold">Título da página</h2>
+      <h2 className="text-lg font-bold">
+        Como vai se chamar a história de vocês?
+      </h2>
       <input
         type="text"
         maxLength={30}
@@ -610,6 +651,12 @@ interface PreviewCarrosselProps {
   fonteTitulo: string;
   tamanhoTitulo: number;
   tamanhoMensagem: number;
+  musicaSelecionada?: {
+    id: string;
+    title: string;
+    thumbnail: string;
+    channelTitle: string;
+  } | null;
   imagens: string[];
   dataConhecimento: string;
   modoExibicao: string;
@@ -623,6 +670,7 @@ function PreviewCarrossel({
   corTitulo,
   fonteTitulo,
   tamanhoTitulo,
+  musicaSelecionada,
   tamanhoMensagem,
   imagens,
   dataConhecimento,
@@ -807,7 +855,7 @@ function PreviewCarrossel({
   return (
     <>
       <h1 className="font-bold text-center text-[20px] mb-5">
-        Preview do seu site
+        Pré-visualização do seu site
       </h1>
 
       <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center relative overflow-hidden">
@@ -835,6 +883,10 @@ function PreviewCarrossel({
           </p>
 
           {renderTempo()}
+        </div>
+
+        <div className="mt-20">
+          <MusicPlayerFooter musica={musicaSelecionada ?? null} />
         </div>
       </div>
     </>

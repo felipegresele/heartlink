@@ -1,8 +1,9 @@
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
+
 import { Header } from './components/header'
 import { Footer } from './components/footer/route'
+
 import BoasVindas from './components/boasvindas'
 import Recursos from './components/recursos'
 import Faqs from './components/faqs'
@@ -16,55 +17,89 @@ import { CriadorDeclaracao } from './components/criar-declaracao/templates/templ
 import { TemplateNetflix } from './components/criar-declaracao/templates/template-netflix'
 import LovePage from './components/criar-declaracao/pagina-criada/LovePage'
 
+function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  )
+}
+
 function App() {
 
  return (
     <BrowserRouter>
-      <Header />
+
       <Routes>
-        {/* Página principal com todos os componentes */}
+
+        <Route path="/p/:slug" element={<LovePage />} />
+
+        {/* Páginas normais */}
         <Route
           path="/"
           element={
-            <>
-              <BoasVindas />
-              <Recursos />
-              <EscolhaTema />
-              <RegrasComoFunciona />
-              <Planos />
-              <Faqs />
-            </>
+            <Layout>
+              <>
+                <BoasVindas />
+                <Recursos />
+                <EscolhaTema />
+                <RegrasComoFunciona />
+                <Planos />
+                <Faqs />
+              </>
+            </Layout>
           }
         />
 
-        <Route 
-  path="/p/:slug"
-  element={<LovePage />}
-/>
-
-        {/* Página de Termos de Uso */}
         <Route
           path="/termos-de-uso"
-          element={<TermosDeUso />}
+          element={
+            <Layout>
+              <TermosDeUso />
+            </Layout>
+          }
         />
-        <Route 
+
+        <Route
           path="/privacidade"
-          element={<Privacidade />}
+          element={
+            <Layout>
+              <Privacidade />
+            </Layout>
+          }
         />
-        <Route 
+
+        <Route
           path="/criar"
-          element={<EscolherTemplate />}
+          element={
+            <Layout>
+              <EscolherTemplate />
+            </Layout>
+          }
         />
-        <Route 
+
+        <Route
           path="/padrao"
-          element={<CriadorDeclaracao />}
+          element={
+            <Layout>
+              <CriadorDeclaracao />
+            </Layout>
+          }
         />
-        <Route 
+
+        <Route
           path="/netflix"
-          element={<TemplateNetflix />}
+          element={
+            <Layout>
+              <TemplateNetflix />
+            </Layout>
+          }
         />
+
       </Routes>
-      <Footer />
+
     </BrowserRouter>
   )
 }

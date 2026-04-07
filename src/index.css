@@ -9,3 +9,76 @@
 
 /* MENSAGEM */
 @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=DM+Serif+Text:ital@0;1&family=Dancing+Script:wght@400..700&display=swap');
+
+/* ===================== */
+/* ANIMAÇÕES CUSTOMIZADAS */
+/* ===================== */
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+.animate-fall {
+  animation: fall 5s linear infinite;
+}
+
+
+/* METEORO */
+
+.meteor {
+  position: absolute;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(white, transparent);
+  animation: meteor 2s linear forwards;
+}
+
+@keyframes meteor {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-200px, 200px);
+    opacity: 0;
+  }
+}
+
+
+/* GRADIENTE ROMANTICO */
+
+.romantic-bg {
+  background: linear-gradient(
+    45deg,
+    #000000,
+    #120000,
+    #200000,
+    #000000
+  );
+
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}

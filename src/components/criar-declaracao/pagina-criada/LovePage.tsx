@@ -2,10 +2,14 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
+import type { LovePageData } from "../../../schema/schemas"
+import LovePagePresente from "../components/tela-presente/LovePageTemplate"
+
 export default function LovePage() {
 
   const { slug } = useParams()
-  const [page, setPage] = useState(null)
+
+  const [page, setPage] = useState<LovePageData | null>(null)
 
   useEffect(() => {
 
@@ -19,20 +23,18 @@ export default function LovePage() {
 
   }, [slug])
 
+
   if (!page) return <h1>Carregando...</h1>
 
+
   return (
-    <div>
 
-      <h1>{page.receiverName}</h1>
-      <h2>De: {page.senderName}</h2>
+    <LovePagePresente
+      titulo={page.receiverName}
+      mensagem={page.message}
+      imagens={page.photos}
+      dataConhecimento={page.relationshipStartDate}
+    />
 
-      <p>{page.message}</p>
-
-      {page.photos?.map((photo, index) => (
-        <img key={index} src={photo} width="300"/>
-      ))}
-
-    </div>
   )
 }

@@ -1,25 +1,69 @@
 import React, { useState, useEffect } from "react";
-import ContentEscolherMusica from "../components/escolher-musica";
-import EmojiParticles from "../components/emoji-particles";
+import ContentEscolherMusica from "../components/music/escolher-musica";
 import { QRCodeCanvas } from "qrcode.react";
+import BackgroundEffects from "../components/effects/BackgroundEffects";
+import {
+  FaRandom,
+  FaFont,
+  FaImages,
+  FaMusic,
+  FaCalendar,
+  FaPalette,
+  FaCommentDots,
+} from "react-icons/fa";
+import StepHeader from "../components/ui/StepHeader";
+import { Alert } from "@mantine/core";
+import { FiAlertCircle } from "react-icons/fi";
 
 // ---------------------- COMPONENTE PRINCIPAL ----------------------
 export function CriadorDeclaracao() {
+  const totalEtapas = 7;
+  const [etapa, setEtapa] = useState(1);
+
   const [titulo, setTitulo] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [corTitulo, setCorTitulo] = useState("#ffffff");
   const [fonteTitulo, setFonteTitulo] = useState("Alex Brush, cursive");
   const [tamanhoTitulo, setTamanhoTitulo] = useState(24);
   const [tamanhoMensagem, setTamanhoMensagem] = useState(16);
+
   const [imagens, setImagens] = useState<string[]>([]);
   const [dataConhecimento, setDataConhecimento] = useState("");
-  const [modoExibicao, setModoExibicao] = useState("padrao");
-  const [modoImagem, setModoImagem] = useState("carrossel"); // NOVO
 
-  const [primeiraEtapa, setPrimeiraEtapa] = useState(true);
-  const [segundaEtapa, setSegundaEtapa] = useState(false);
+  const [modoExibicao, setModoExibicao] = useState("padrao");
+  const [modoImagem, setModoImagem] = useState("carrossel");
 
   const [pageLink, setPageLink] = useState("");
+
+  const textosAutomaticos = [
+    `Desde que você entrou na minha vida tudo ficou mais bonito.
+Cada momento ao seu lado é especial e cada memória nossa é um tesouro que guardo com carinho.`,
+
+    `Eu nunca imaginei que alguém pudesse mudar minha vida de uma forma tão linda.
+Você trouxe alegria, paz e amor para meus dias.`,
+
+    `Nosso amor é feito de momentos simples, risadas, carinho e cumplicidade.
+Cada dia que passa eu tenho mais certeza de que quero viver muitos capítulos dessa história com você.`,
+
+    `Você é a melhor parte dos meus dias.
+Com você tudo faz mais sentido, tudo fica mais leve.`,
+
+    `Se eu pudesse escolher mil vezes, escolheria você em todas elas.
+Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
+  ];
+
+  function gerarMensagemAutomatica() {
+    const index = Math.floor(Math.random() * textosAutomaticos.length);
+    setMensagem(textosAutomaticos[index]);
+  }
+
+  function proximaEtapa() {
+    setEtapa((prev) => prev + 1);
+  }
+
+  function voltarEtapa() {
+    setEtapa((prev) => prev - 1);
+  }
 
   async function criarPagina() {
     const response = await fetch("http://localhost:8080/api/love-pages", {
@@ -41,31 +85,26 @@ export function CriadorDeclaracao() {
 
     const data = await response.json();
 
-    console.log("Página criada:", data);
-
     const linkPagina = `http://localhost:5173/p/${data.slug}`;
 
     setPageLink(linkPagina);
   }
 
-  function mostrarSegundaEtapa() {
-    setPrimeiraEtapa(false);
-
-    return setSegundaEtapa(true);
-  }
-
-  function voltarPrimeiraEtapa() {
-    setPrimeiraEtapa(true);
-
-    return setSegundaEtapa(false);
-  }
-
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4 bg-gray-900 text-white min-h-screen">
-      {/* Formulário */}
-      {primeiraEtapa && (
-        <>
-          <div className="flex-1 space-y-4">
+    <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
+      {/* FORMULÁRIO */}
+      <div className="flex-1 space-y-6">
+        {/* ETAPA 1 */}
+        {etapa === 1 && (
+          <>
+            <StepHeader
+              icon={FaFont}
+              titulo="Título da página"
+              descricao="Escolha um título especial para sua declaração."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+
             <FormTitulo
               titulo={titulo}
               setTitulo={setTitulo}
@@ -76,47 +115,159 @@ export function CriadorDeclaracao() {
               tamanhoTitulo={tamanhoTitulo}
               setTamanhoTitulo={setTamanhoTitulo}
             />
+          </>
+        )}
+
+        {/* ETAPA 2 */}
+        {etapa === 2 && (
+          <>
+            <StepHeader
+              icon={FaCommentDots}
+              titulo="Declaração"
+              descricao="Escreva uma mensagem especial ou gere automaticamente."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+
             <FormMensagem
               mensagem={mensagem}
               setMensagem={setMensagem}
               tamanhoMensagem={tamanhoMensagem}
               setTamanhoMensagem={setTamanhoMensagem}
             />
-            <FormImagens imagens={imagens} setImagens={setImagens} />
-            <FormModoImagem
-              modoImagem={modoImagem}
-              setModoImagem={setModoImagem}
+
+            <button
+              onClick={gerarMensagemAutomatica}
+              className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-md"
+            >
+              <FaRandom />
+              Gerar mensagem automática
+            </button>
+          </>
+        )}
+
+        {/* ETAPA 3 */}
+        {etapa === 3 && (
+          <>
+            <StepHeader
+              icon={FaImages}
+              titulo="Fotos"
+              descricao="Adicione fotos especiais do relacionamento."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
             />
+
+            <p className="text-sm font-medium flex items-center gap-2 text-orange-400">
+              <FiAlertCircle /> A exibição das imagens poderá ser personalizada
+              na etapa 6.
+            </p>
+
+            <FormImagens imagens={imagens} setImagens={setImagens} />
+          </>
+        )}
+
+        {/* ETAPA 4 */}
+        {etapa === 4 && (
+          <>
+            <StepHeader
+              icon={FaMusic}
+              titulo="Escolher música"
+              descricao="Escolha uma música que represente vocês."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+
+            <ContentEscolherMusica />
+          </>
+        )}
+
+        {/* ETAPA 5 */}
+        {etapa === 5 && (
+          <>
+            <StepHeader
+              icon={FaCalendar}
+              titulo="Data do relacionamento"
+              descricao="Informe quando vocês se conheceram."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+
+            <p className="text-sm font-medium flex items-center gap-2 text-orange-400">
+              <FiAlertCircle /> A exibição da data poderá ser personalizada
+              na etapa 6.
+            </p>
+
             <FormTempoConhecimento
               dataConhecimento={dataConhecimento}
               setDataConhecimento={setDataConhecimento}
             />
+          </>
+        )}
+
+        {/* ETAPA 6 */}
+        {etapa === 6 && (
+          <>
+            <StepHeader
+              icon={FaPalette}
+              titulo="Personalização"
+              descricao="Escolha como a página será exibida."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+
+            <FormModoImagem
+              modoImagem={modoImagem}
+              setModoImagem={setModoImagem}
+            />
+
             <FormModoExibicao
               modoExibicao={modoExibicao}
               setModoExibicao={setModoExibicao}
             />
-          </div>
+          </>
+        )}
 
-          <button
-            className="bg-green-500 h-[50px] w-[150px] rounded-md"
-            onClick={() => mostrarSegundaEtapa()}
-          >
-            Próxima Etapa
-          </button>
-        </>
-      )}
+        {/* ETAPA FINAL */}
+        {etapa === 7 && (
+          <>
+            <StepHeader
+              icon={FaFont}
+              titulo="Finalizar"
+              descricao="Clique para gerar sua página."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
 
-      {segundaEtapa && (
-        <>
-          <ContentEscolherMusica />
-          <button
-            className="bg-red-500 rounded-md h-[50px] w-[150px]"
-            onClick={() => voltarPrimeiraEtapa()}
-          >
-            Voltar
-          </button>
-        </>
-      )}
+            <button
+              onClick={criarPagina}
+              className="bg-pink-600 hover:bg-pink-700 p-3 rounded-md w-full"
+            >
+              Criar página ❤️
+            </button>
+          </>
+        )}
+
+        {/* BOTÕES */}
+        <div className="flex gap-4 pt-6">
+          {etapa > 1 && (
+            <button
+              onClick={voltarEtapa}
+              className="bg-gray-700 px-4 py-2 rounded-md"
+            >
+              Voltar
+            </button>
+          )}
+
+          {etapa < totalEtapas && (
+            <button
+              onClick={proximaEtapa}
+              className="bg-green-600 px-4 py-2 rounded-md"
+            >
+              Próxima
+            </button>
+          )}
+        </div>
+      </div>
 
       <div className="flex-1">
         <PreviewCarrossel
@@ -133,28 +284,21 @@ export function CriadorDeclaracao() {
         />
       </div>
 
-      <button
-        onClick={criarPagina}
-        className="bg-pink-600 rounded-md h-[50px] w-[150px]"
-      >
-        Criar página
-      </button>
-
+      {/* QR CODE */}
       {pageLink && (
-        <div className="flex flex-col items-center gap-4 mt-6">
+        <div className="flex flex-col items-center gap-4">
           <h2 className="text-xl font-bold">Seu QR Code</h2>
 
           <QRCodeCanvas value={pageLink} size={220} />
 
-          <p className="text-sm text-gray-400">Escaneie para abrir a página</p>
+          <p className="text-gray-400 text-sm">Escaneie para abrir</p>
 
-          <p className="text-pink-400">{pageLink}</p>
+          <p className="text-pink-400 text-sm break-all">{pageLink}</p>
         </div>
       )}
     </div>
   );
 }
-
 // ---------------------- COMPONENTE TÍTULO ----------------------
 interface FormTituloProps {
   titulo: string;
@@ -250,7 +394,9 @@ function FormMensagem({
 }: FormMensagemProps) {
   return (
     <div className="space-y-2">
-      <h2 className="text-lg font-bold">Declaração</h2>
+      <h2 className="text-lg font-bold">
+        O que você quer dizer pra pessoa que vc ama? 💌
+      </h2>
       <textarea
         placeholder="Digite sua mensagem"
         maxLength={700}
@@ -281,17 +427,29 @@ interface FormImagensProps {
 
 function FormImagens({ imagens, setImagens }: FormImagensProps) {
   const handleAdicionarImagem = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      alert("Selecione apenas imagens!");
-      return;
+    const files = e.target.files;
+
+    if (!files) return;
+
+    const novasImagens: string[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      if (!file.type.startsWith("image/")) {
+        alert("Selecione apenas imagens!");
+        return;
+      }
+
+      if (imagens.length + novasImagens.length >= 8) {
+        alert("Você pode adicionar no máximo 8 imagens!");
+        break;
+      }
+
+      novasImagens.push(URL.createObjectURL(file));
     }
-    if (imagens.length >= 5) {
-      alert("Você só pode adicionar até 5 imagens!");
-      return;
-    }
-    setImagens([...imagens, URL.createObjectURL(file)]);
+
+    setImagens([...imagens, ...novasImagens]);
   };
 
   const removerImagem = (index: number) => {
@@ -304,6 +462,7 @@ function FormImagens({ imagens, setImagens }: FormImagensProps) {
       {imagens.length < 5 && (
         <input
           type="file"
+          multiple
           accept="image/*"
           onChange={handleAdicionarImagem}
           className="mb-2 p-2 rounded-md text-black bg-gray-200 cursor-pointer"
@@ -455,6 +614,7 @@ interface PreviewCarrosselProps {
   dataConhecimento: string;
   modoExibicao: string;
   modoImagem: string;
+  efeitoFundo: string;
 }
 
 function PreviewCarrossel({
@@ -468,6 +628,7 @@ function PreviewCarrossel({
   dataConhecimento,
   modoExibicao,
   modoImagem,
+  efeitoFundo,
 }: PreviewCarrosselProps) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempoDetalhado, setTempoDetalhado] = useState({
@@ -614,7 +775,7 @@ function PreviewCarrossel({
                 </div>
               ))}
             </div>
-            <p className="text-gray-400 mt-2 text-sm">
+            <p className="text-gray-400 mt-4 text-sm">
               Desde {new Date(dataConhecimento).toLocaleDateString("pt-BR")}
             </p>
           </div>
@@ -648,28 +809,33 @@ function PreviewCarrossel({
       <h1 className="font-bold text-center text-[20px] mb-5">
         Preview do seu site
       </h1>
-      <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center">
-        <div>
-          <EmojiParticles emoji="❤️" />
+
+      <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center relative overflow-hidden">
+        <BackgroundEffects effect={efeitoFundo} />
+
+        <div className="relative z-10">
+          <h1
+            className="mb-4"
+            style={{
+              color: corTitulo,
+              fontFamily: fonteTitulo,
+              fontSize: `${tamanhoTitulo}px`,
+            }}
+          >
+            {titulo || "Seu título aqui"}
+          </h1>
+
+          {renderImagens()}
+
+          <p
+            className="max-w-full break-words whitespace-pre-wrap overflow-hidden p-2"
+            style={{ fontSize: `${tamanhoMensagem}px` }}
+          >
+            {mensagem || "Sua mensagem aqui"}
+          </p>
+
+          {renderTempo()}
         </div>
-        <h1
-          className="mb-4"
-          style={{
-            color: corTitulo,
-            fontFamily: fonteTitulo,
-            fontSize: `${tamanhoTitulo}px`,
-          }}
-        >
-          {titulo || "Seu título aqui"}
-        </h1>
-        {renderImagens()}
-        <p
-          className="max-w-full break-words whitespace-pre-wrap overflow-hidden p-2"
-          style={{ fontSize: `${tamanhoMensagem}px` }}
-        >
-          {mensagem || "Sua mensagem aqui"}
-        </p>
-        {renderTempo()}
       </div>
     </>
   );

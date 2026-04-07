@@ -8,8 +8,6 @@ export function FormTitulo({
   setCorTitulo,
   fonteTitulo,
   setFonteTitulo,
-  tamanhoTitulo,
-  setTamanhoTitulo,
 }: FormTituloProps) {
   const fontes = [
     { name: "Alex Brush", value: "Alex Brush, cursive" },
@@ -54,17 +52,6 @@ export function FormTitulo({
             </option>
           ))}
         </select>
-      </div>
-      <div className="flex items-center gap-2">
-        <label>Tamanho:</label>
-        <input
-          type="number"
-          min={10}
-          max={60}
-          value={tamanhoTitulo}
-          onChange={(e) => setTamanhoTitulo(Number(e.target.value))}
-          className="w-20 p-1 rounded-md text-white bg-gray-800"
-        />
       </div>
     </div>
   );

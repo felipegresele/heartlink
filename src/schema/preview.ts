@@ -16,4 +16,5 @@ export interface PreviewCarrosselProps {
   modoExibicao: string;
   modoImagem: string;
   efeitoFundo: string;
+  customEmojis: string[];
 }

@@ -43,14 +43,6 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
       />
       <div className="flex items-center gap-2 text-sm text-gray-400">
         <span>{mensagem.length}/700</span>
-        <label className="ml-auto">Tamanho:</label>
-        <input
-          min={12}
-          max={20}
-          value={tamanhoMensagem}
-          onChange={(e) => setTamanhoMensagem(Number(e.target.value))}
-          className="w-16 p-1 rounded-md text-white bg-gray-800"
-        />
       </div>
       <button
         onClick={gerarMensagemAutomatica}

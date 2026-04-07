@@ -15,5 +15,5 @@ export interface PreviewCarrosselProps {
   dataConhecimento: string;
   modoExibicao: string;
   modoImagem: string;
-  //efeitoFundo: string;
+  efeitoFundo: string;
 }

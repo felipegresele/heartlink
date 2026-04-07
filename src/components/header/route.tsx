@@ -35,6 +35,8 @@ export function Header() {
 
   const abrirModal = () => setExibirModal(true);
   const fecharModal = () => setExibirModal(false);
+
+  const abrirModalLogin = () => setExibirModalLogin(true);
   
   const fecharModalLogin = () => {
     setExibirModalLogin(false);

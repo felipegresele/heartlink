@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ContentEscolherMusica from "../components/music/escolher-musica";
 import { QRCodeCanvas } from "qrcode.react";
-import BackgroundEffects from "../components/effects/BackgroundEffects";
+import BackgroundEffects, {
+  type EffectType,
+} from "../components/effects/BackgroundEffects";
 import {
   FaRandom,
   FaFont,
@@ -25,7 +27,7 @@ import type { PreviewCarrosselProps } from "../../../schema/preview";
 
 // ---------------------- COMPONENTE PRINCIPAL ----------------------
 export function CriadorDeclaracao() {
-  const totalEtapas = 7;
+  const totalEtapas = 8;
   const [etapa, setEtapa] = useState(1);
 
   const [titulo, setTitulo] = useState("");
@@ -40,6 +42,8 @@ export function CriadorDeclaracao() {
 
   const [modoExibicao, setModoExibicao] = useState("padrao");
   const [modoImagem, setModoImagem] = useState("carrossel");
+
+  const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");
 
   const [pageLink, setPageLink] = useState("");
 
@@ -241,8 +245,39 @@ export function CriadorDeclaracao() {
           </>
         )}
 
-        {/* ETAPA FINAL */}
         {etapa === 7 && (
+          <>
+            <StepHeader
+              icon={FaPalette}
+              titulo="Personalização"
+              descricao="Efeitos e Modos"
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+
+            <div className="mt-6">
+              <label className="block mb-2 font-bold text-sm">
+                Efeito de Fundo Especial
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {["none", "coracoes", "estrelas", "gradiente", "grid"].map(
+                  (eff) => (
+                    <button
+                      key={eff}
+                      onClick={() => setEfeitoFundo(eff as EffectType)}
+                      className={`p-2 text-xs rounded border ${efeitoFundo === eff ? "border-pink-500 bg-pink-500/20" : "border-gray-600"}`}
+                    >
+                      {eff.toUpperCase()}
+                    </button>
+                  ),
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ETAPA FINAL */}
+        {etapa === 8 && (
           <>
             <StepHeader
               icon={FaFont}
@@ -296,6 +331,7 @@ export function CriadorDeclaracao() {
           dataConhecimento={dataConhecimento}
           modoExibicao={modoExibicao}
           modoImagem={modoImagem}
+          efeitoFundo={efeitoFundo}
         />
       </div>
 
@@ -327,8 +363,8 @@ function PreviewCarrossel({
   dataConhecimento,
   modoExibicao,
   modoImagem,
-  //efeitoFundo,
-}: PreviewCarrosselProps) {
+  efeitoFundo,
+}: PreviewCarrosselProps & { efeitoFundo: EffectType }) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempoDetalhado, setTempoDetalhado] = useState({
     anos: 0,
@@ -510,7 +546,8 @@ function PreviewCarrossel({
       </h1>
 
       <div className="bg-gray-800 p-4 rounded-md text-center flex flex-col items-center relative overflow-hidden">
-        {/* <BackgroundEffects effect={efeitoFundo} /> */}
+
+        <BackgroundEffects effect={efeitoFundo} />
 
         <div className="relative z-10">
           <h1

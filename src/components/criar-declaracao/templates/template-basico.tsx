@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ContentEscolherMusica from "../components/music/escolher-musica";
 import { QRCodeCanvas } from "qrcode.react";
 import {
@@ -35,8 +35,8 @@ export function CriadorDeclaracao() {
   const [imagens, setImagens] = useState<string[]>([]);
   const [dataConhecimento, setDataConhecimento] = useState("");
 
-  const [modoExibicao, setModoExibicao] = useState("padrao");
-  const [modoImagem, setModoImagem] = useState("carrossel");
+  const [modoExibicao, setModoExibicao] = useState<"padrao" | "classico" | "simples">("padrao");
+  const [modoImagem, setModoImagem] = useState<"carrossel" | "grid" | "slideshow">("carrossel");
 
   const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");
 
@@ -361,7 +361,6 @@ export function CriadorDeclaracao() {
           dataConhecimento={dataConhecimento}
           modoExibicao={modoExibicao}
           modoImagem={modoImagem}
-          _
           efeitoFundo={efeitoFundo}
           customEmojis={customEmojis}
         />

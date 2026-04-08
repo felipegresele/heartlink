@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { QRCodeCanvas } from "qrcode.react";
-import BackgroundEffects, { type EffectType } from "../effects/BackgroundEffects";
+import { useState, useEffect } from "react";
 import MusicPlayerFooter from "../music/exibir-musica";
 import type { PreviewCarrosselProps } from "../../../../schema/preview";
-
-interface Props extends PreviewCarrosselProps {
-  efeitoFundo?: EffectType;
-  customEmojis?: string[];
-  modoImagem?: "carrossel" | "grid" | "slideshow";
-  modoExibicao?: "padrao" | "classico" | "simples";
-}
 
 export default function PreviewCarrossel({
   titulo = "Seu título aqui",
@@ -23,9 +14,7 @@ export default function PreviewCarrossel({
   dataConhecimento = "",
   modoExibicao = "padrao",
   modoImagem = "carrossel",
-  efeitoFundo = "none",
-  customEmojis = ["✨", "🌸", "☁️"],
-}: Props) {
+}: PreviewCarrosselProps) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempoDetalhado, setTempoDetalhado] = useState({
     anos: 0,
@@ -183,7 +172,7 @@ export default function PreviewCarrossel({
 
   return (
     <div className="bg-gray-900 p-8 rounded-xl text-center flex flex-col items-center relative overflow-hidden min-h-[700px] border border-white/5 shadow-2xl transition-all duration-500">
-      <BackgroundEffects effect={efeitoFundo} />
+      {/* <BackgroundEffects effect={efeitoFundo} /> */}
       <div className="relative z-10 flex flex-col items-center w-full">
         <h1 style={{ color: corTitulo, fontFamily: fonteTitulo, fontSize: `${tamanhoTitulo}px` }} className="mb-6 drop-shadow-md">{titulo}</h1>
         {renderImagens()}

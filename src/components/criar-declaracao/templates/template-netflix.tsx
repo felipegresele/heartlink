@@ -84,7 +84,6 @@ interface FormImagemProps {
   setImagemPrincipal: (value: string) => void;
 }
 function FormImagemPrincipal({
-  imagemPrincipal,
   setImagemPrincipal,
 }: FormImagemProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -28,7 +28,7 @@ export function FormModoExibicao({
               name="modoExibicao"
               value={op.value}
               checked={modoExibicao === op.value}
-              onChange={(e) => setModoExibicao(e.target.value)}
+              onChange={(e) => setModoExibicao(e.target.value as "padrao" | "classico" | "simples")}
               className="mr-2"
             />
             {op.label}

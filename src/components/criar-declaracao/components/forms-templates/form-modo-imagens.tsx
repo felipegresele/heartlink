@@ -26,7 +26,7 @@ export function FormModoImagem({ modoImagem, setModoImagem }: FormModoImagemProp
               name="modoImagem"
               value={op.value}
               checked={modoImagem === op.value}
-              onChange={(e) => setModoImagem(e.target.value)}
+              onChange={(e) => setModoImagem(e.target.value as "carrossel" | "grid" | "slideshow")}
               className="mr-2"
             />
             {op.label}

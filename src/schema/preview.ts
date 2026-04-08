@@ -1,3 +1,5 @@
+import type { ModoExibicao, ModoImagem } from "./form-templates";
+
 export interface PreviewCarrosselProps {
   titulo: string;
   mensagem: string;
@@ -13,8 +15,8 @@ export interface PreviewCarrosselProps {
   } | null;
   imagens: string[];
   dataConhecimento: string;
-  modoExibicao: string;
-  modoImagem: string;
+  modoExibicao?: ModoExibicao;
+  modoImagem?: ModoImagem;
   efeitoFundo: string;
   customEmojis: string[];
 }

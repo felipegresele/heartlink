@@ -21,17 +21,21 @@ export interface FormImagensProps {
   setImagens: (value: string[]) => void;
 }
 
-export interface FormModoImagemProps {
-  modoImagem: string;
-  setModoImagem: (value: string) => void;
-}
 
 export interface FormTempoConhecimentoProps {
   dataConhecimento: string;
   setDataConhecimento: (value: string) => void;
 }
 
+export type ModoExibicao = "padrao" | "classico" | "simples";
+export type ModoImagem = "carrossel" | "grid" | "slideshow";
+
 export interface FormModoExibicaoProps {
-  modoExibicao: string;
-  setModoExibicao: (value: string) => void;
+  modoExibicao: ModoExibicao;
+  setModoExibicao: React.Dispatch<React.SetStateAction<ModoExibicao>>;
+}
+
+export interface FormModoImagemProps {
+  modoImagem: ModoImagem;
+  setModoImagem: React.Dispatch<React.SetStateAction<ModoImagem>>;
 }

@@ -19,8 +19,8 @@ import { FormImagens } from "../components/forms-templates/form-imagens";
 import { FormMensagem } from "../components/forms-templates/form-mensagem";
 import PreviewCarrossel from "../components/preview/preview-carrosel";
 import { EscolherPlano } from "../components/forms-templates/escolher-plano";
+import type { EffectType } from "../components/effects/BackgroundEffects";
 
-// ---------------------- COMPONENTE PRINCIPAL ----------------------
 export function CriadorDeclaracao() {
   const totalEtapas = 9;
   const [etapa, setEtapa] = useState(1);
@@ -56,6 +56,7 @@ export function CriadorDeclaracao() {
   } | null>(null);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  
 
   function proximaEtapa() {
     setEtapa((prev) => prev + 1);
@@ -100,6 +101,23 @@ export function CriadorDeclaracao() {
     const linkPagina = `http://localhost:5173/p/${data.slug}`;
 
     setPageLink(linkPagina);
+
+    localStorage.removeItem("criadorDeclaracao");
+    setTitulo("");
+    setMensagem("");
+    setCorTitulo("#ffffff");
+    setFonteTitulo("Alex Brush, cursive");
+    setTamanhoTitulo(24);
+    setTamanhoMensagem(16);
+    setImagens([]);
+    setDataConhecimento("");
+    setModoExibicao("padrao");
+    setModoImagem("carrossel");
+    setEfeitoFundo("none");
+    setCustomEmojis(["✨", "🌸", "☁️"]);
+    setMusicaSelecionada(null);
+    setSelectedPlan(null);
+    setEtapa(1);
   }
 
   return (
@@ -165,7 +183,7 @@ export function CriadorDeclaracao() {
             <StepHeader
               icon={FaMusic}
               titulo="Escolher música"
-              descricao="Trilha sonora do casal."
+              descricao="Escolha uma musíca que lembra esta pessoa."
               etapa={etapa}
               totalEtapas={totalEtapas}
             />

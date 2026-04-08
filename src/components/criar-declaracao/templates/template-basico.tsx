@@ -56,7 +56,6 @@ export function CriadorDeclaracao() {
   } | null>(null);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-  
 
   function proximaEtapa() {
     setEtapa((prev) => prev + 1);
@@ -96,11 +95,17 @@ export function CriadorDeclaracao() {
 
     const data = await response.json();
 
-    console.log(data);
+    const paymentRes = await fetch("http://localhost:8080/api/payment/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pageId: data.id,
+        planType: selectedPlan,
+      }),
+    });
 
-    const linkPagina = `http://localhost:5173/p/${data.slug}`;
-
-    setPageLink(linkPagina);
+    const initPoint = await paymentRes.json(); // retorna a URL do MP
+    window.location.href = initPoint;
 
   }
 

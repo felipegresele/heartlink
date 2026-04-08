@@ -57,7 +57,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
       <h2 className="text-xl md:text-2xl font-bold text-white text-center mb-1">
         Escolha seu plano
       </h2>
-      <p className="text-gray-400 text-center text-sm md:text-sm mb-4">
+      <p className="text-gray-400 text-center text-sm md:text-sm mb-2">
         Escolha o que melhor se encaixa para você.
       </p>
 
@@ -108,7 +108,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
 
             <button
               onClick={() => setSelectedPlan(plano.planType)}
-              className="mt-auto bg-red-500 hover:bg-red-600 text-white py-1.5 rounded-lg font-semibold text-sm"
+              className="mt-2 bg-red-500 hover:bg-red-600 text-white py-1.5 rounded-lg font-semibold text-sm"
             >
               Quero esse
             </button>

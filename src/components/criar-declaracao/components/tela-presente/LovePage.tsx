@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 import type { LovePageData } from "../../../../schema/schemas"
-import LovePagePresente from "./LovePagePresente"
+import PageReady from "./page-ready"
 
 export default function LovePage() {
 
@@ -29,7 +29,7 @@ export default function LovePage() {
 
   return (
 
-    <LovePagePresente
+    <PageReady
       titulo={page.receiverName}
       mensagem={page.message}
       imagens={page.photos}

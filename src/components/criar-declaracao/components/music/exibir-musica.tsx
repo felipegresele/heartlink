@@ -2,25 +2,9 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import {
   BsFillPlayFill,
   BsFillPauseFill,
-  BsChevronDown,
-  BsChevronUp,
 } from "react-icons/bs";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-interface Musica {
-  id: string;
-  title: string;
-  channelTitle: string;
-  thumbnail: string;
-  duration?: number;
-}
-
-interface MusicPlayerFooterProps {
-  musica: Musica | null;
-}
+import type { MusicPlayerFooterProps } from "../../../../schema/music";
 
 declare global {
   interface Window {
@@ -29,9 +13,6 @@ declare global {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 function fmt(s: number) {
   const m = Math.floor(s / 60);
   const sec = Math.floor(s % 60);
@@ -64,9 +45,6 @@ function loadYTScript(): Promise<void> {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
 export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
@@ -79,9 +57,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentIdRef = useRef<string | null>(null);
 
-  // ---------------------------------------------------------------------------
-  // Timer
-  // ---------------------------------------------------------------------------
   const startTick = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
 
@@ -99,9 +74,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     }
   }, []);
 
-  // ---------------------------------------------------------------------------
-  // Init Player
-  // ---------------------------------------------------------------------------
   const initPlayer = useCallback(
     (videoId: string) => {
       loadYTScript().then(() => {
@@ -148,9 +120,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     [startTick, stopTick]
   );
 
-  // ---------------------------------------------------------------------------
-  // Change Music
-  // ---------------------------------------------------------------------------
   useEffect(() => {
     if (!musica) return;
 
@@ -164,9 +133,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     initPlayer(musica.id);
   }, [musica, initPlayer]);
 
-  // ---------------------------------------------------------------------------
-  // Cleanup
-  // ---------------------------------------------------------------------------
   useEffect(() => {
     return () => {
       stopTick();
@@ -217,12 +183,10 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
 
   return (
     <>
-      {/* PLAYER VISUAL */}
       <div
         className="absolute bottom-0 left-0 w-full bg-[#111111] border-t border-white/10"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        {/* Progress */}
         <div
           className="relative w-full h-[3px] bg-white/10 cursor-pointer group"
           onClick={handleSeek}
@@ -233,7 +197,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
           />
         </div>
 
-        {/* Main */}
         <div className="flex items-center gap-3 px-4 py-3">
           <img
             src={musica.thumbnail}
@@ -250,7 +213,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
             </p>
           </div>
 
-          {/* Controls */}
           <div className="flex items-center gap-2">
             <button
               onClick={handlePlayPause}
@@ -274,7 +236,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
         </div>
       </div>
 
-      {/* YOUTUBE PLAYER HIDDEN */}
       <div
         ref={playerContainerRef}
         className="hidden"

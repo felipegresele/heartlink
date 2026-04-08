@@ -102,22 +102,6 @@ export function CriadorDeclaracao() {
 
     setPageLink(linkPagina);
 
-    localStorage.removeItem("criadorDeclaracao");
-    setTitulo("");
-    setMensagem("");
-    setCorTitulo("#ffffff");
-    setFonteTitulo("Alex Brush, cursive");
-    setTamanhoTitulo(24);
-    setTamanhoMensagem(16);
-    setImagens([]);
-    setDataConhecimento("");
-    setModoExibicao("padrao");
-    setModoImagem("carrossel");
-    setEfeitoFundo("none");
-    setCustomEmojis(["✨", "🌸", "☁️"]);
-    setMusicaSelecionada(null);
-    setSelectedPlan(null);
-    setEtapa(1);
   }
 
   return (

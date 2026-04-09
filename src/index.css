@@ -82,3 +82,13 @@
     background-position: 0% 50%;
   }
 }
+
+/* espaço btns voltar e próximo mobile etapa 8*/
+
+@media(max-width: 768px) {
+  .mobile-spancing-step8 {
+    margin-top: 3rem;
+  }
+}
+
+

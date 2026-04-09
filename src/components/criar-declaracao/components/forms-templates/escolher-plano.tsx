@@ -53,7 +53,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
   ];
 
   return (
-    <div className="bg-black flex flex-col items-center p-4 gap-4 min-h-screen">
+    <div className="bg-black flex flex-col items-center p-4 gap-4">
       <h2 className="text-xl md:text-2xl font-bold text-white text-center mb-1">
         Escolha seu plano
       </h2>

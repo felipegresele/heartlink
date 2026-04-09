@@ -118,42 +118,12 @@ export function CriadorDeclaracao() {
     const rawResponse = await paymentRes.text();
     const paymentLink = rawResponse.replace(/^"|"$/g, "");
 
-    setPageLink(paymentLink)
+    setPageLink(paymentLink);
   }
-
-  function exibirLinkPagamento() {
-    if (!pageLink) return null;
-
-    const storedUser = localStorage.getItem("user");
-    const usuario: User = storedUser ? JSON.parse(storedUser) : null;
-
-     return (
-      <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg text-center space-y-4">
-      <h1 className="text-2xl font-bold text-gray-800">
-        Acesse o link de pagamento
-      </h1>
-      <p className="text-gray-500">
-        Atenção: o QR code será enviado no seu email cadastrado na sua conta: <span className="text-gray-300">{usuario.email}</span>
-      </p>
-      <a
-        href={pageLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-200"
-      >
-        Ir para pagamento
-      </a>
-
-      <p>Link: {pageLink}</p>
-    </div>
-     )
-  }
-
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
-      
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 space-y-6 min-h-[calc(100vh-160px)] md:min-h-auto">
         {etapa === 1 && (
           <>
             <StepHeader
@@ -363,11 +333,39 @@ export function CriadorDeclaracao() {
             >
               Criar página ❤️
             </button>
+            {pageLink && (
+              <div className="mt-6 p-6 bg-white rounded-xl shadow-lg flex flex-col items-center gap-4 text-black animate-in zoom-in-95 max-w-md mx-auto">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Acesse o link de pagamento
+                </h2>
+                <p className="text-gray-500 text-center">
+                  Atenção: o QR code será enviado no seu email cadastrado na sua
+                  conta:{" "}
+                  <span className="text-gray-700 font-medium">
+                    {JSON.parse(localStorage.getItem("user") || "{}").email}
+                  </span>
+                </p>
+                <a
+                  href={pageLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-200"
+                >
+                  Ir para pagamento 💳
+                </a>
+
+                <QRCodeCanvas value={pageLink} size={180} />
+
+                <p className="text-xs text-gray-400 break-all text-center">
+                  {pageLink}
+                </p>
+              </div>
+            )}
           </>
         )}
 
-        {/* CONTROLES DE NAVEGAÇÃO (CORRIGIDO) */}
-        <div className="flex justify-between items-center pt-6 border-t border-white/10">
+        <div className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}>
+
           <button
             onClick={voltarEtapa}
             disabled={etapa === 1}
@@ -387,32 +385,31 @@ export function CriadorDeclaracao() {
         </div>
       </div>
 
-      {/* COLUNA DE PREVIEW */}
-      <div className="flex-1">
-        <PreviewCarrossel
-          titulo={titulo}
-          mensagem={mensagem}
-          corTitulo={corTitulo}
-          fonteTitulo={fonteTitulo}
-          tamanhoTitulo={tamanhoTitulo}
-          tamanhoMensagem={tamanhoMensagem}
-          musicaSelecionada={musicaSelecionada}
-          imagens={imagens}
-          dataConhecimento={dataConhecimento}
-          modoExibicao={modoExibicao}
-          modoImagem={modoImagem}
-          efeitoFundo={efeitoFundo}
-          customEmojis={customEmojis}
-        />
-      </div>
-
-      {/* QR CODE (Abaixo do Preview) */}
-      {pageLink && (
-        <div className="mt-6 p-6 bg-white rounded-xl flex flex-col items-center gap-4 text-black animate-in zoom-in-95">
-          <h2 className="text-xl font-bold">Página Criada!</h2>
-          <QRCodeCanvas value={pageLink} size={180} />
-          <p className="text-xs text-gray-500 break-all">{pageLink}</p>
+      {etapa !== 8 ? (
+        <div>
+          <h1 className="text-xl font-bold text-center">
+            Pré Visualização do seu site:
+          </h1>
+          <div className="flex-1">
+            <PreviewCarrossel
+              titulo={titulo}
+              mensagem={mensagem}
+              corTitulo={corTitulo}
+              fonteTitulo={fonteTitulo}
+              tamanhoTitulo={tamanhoTitulo}
+              tamanhoMensagem={tamanhoMensagem}
+              musicaSelecionada={musicaSelecionada}
+              imagens={imagens}
+              dataConhecimento={dataConhecimento}
+              modoExibicao={modoExibicao}
+              modoImagem={modoImagem}
+              efeitoFundo={efeitoFundo}
+              customEmojis={customEmojis}
+            />
+          </div>
         </div>
+      ) : (
+        ""
       )}
     </div>
   );

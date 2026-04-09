@@ -35,8 +35,12 @@ export function CriadorDeclaracao() {
   const [imagens, setImagens] = useState<string[]>([]);
   const [dataConhecimento, setDataConhecimento] = useState("");
 
-  const [modoExibicao, setModoExibicao] = useState<"padrao" | "classico" | "simples">("padrao");
-  const [modoImagem, setModoImagem] = useState<"carrossel" | "grid" | "slideshow">("carrossel");
+  const [modoExibicao, setModoExibicao] = useState<
+    "padrao" | "classico" | "simples"
+  >("padrao");
+  const [modoImagem, setModoImagem] = useState<
+    "carrossel" | "grid" | "slideshow"
+  >("carrossel");
 
   const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");
 
@@ -74,39 +78,46 @@ export function CriadorDeclaracao() {
       alert("Você precisa estar logado para criar uma página!");
     }
 
-    const response = await fetch("https://lovepage-backend.onrender.com/api/love-pages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://lovepage-backend.onrender.com/api/love-pages",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: usuario.id,
+          receiverName: titulo,
+          senderName: "Felipe",
+          message: mensagem,
+          photos: imagens,
+          relationshipStartDate: dataConhecimento,
+          musicId: musicaSelecionada?.id,
+          musicTitle: musicaSelecionada?.title,
+          theme: modoExibicao,
+          planType: selectedPlan,
+        }),
       },
-      body: JSON.stringify({
-        userId: usuario.id,
-        receiverName: titulo,
-        senderName: "Felipe",
-        message: mensagem,
-        photos: imagens,
-        relationshipStartDate: dataConhecimento,
-        musicId: musicaSelecionada?.id,
-        musicTitle: musicaSelecionada?.title,
-        theme: modoExibicao,
-        planType: selectedPlan,
-      }),
-    });
+    );
 
     const data = await response.json();
 
-    const paymentRes = await fetch("https://lovepage-backend.onrender.com/api/payment/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        pageId: data.id,
-        planType: selectedPlan,
-      }),
-    });
+    const paymentRes = await fetch(
+      "https://lovepage-backend.onrender.com/api/payment/create",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pageId: data.id,
+          planType: selectedPlan,
+        }),
+      },
+    );
 
-    const initPoint = await paymentRes.json(); // retorna a URL do MP
-    window.location.href = initPoint;
+    const rawResponse = await paymentRes.text();
+    const paymentLink = rawResponse.replace(/^"|"$/g, "");
 
+    console.log("✅ Link de pagamento Mercado Pago:", paymentLink);
   }
 
   return (

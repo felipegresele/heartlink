@@ -13,7 +13,7 @@ export default function LovePage() {
 
   useEffect(() => {
 
-    axios.get(`http://localhost:8080/api/love-pages/${slug}`)
+    axios.get(`https://lovepage-backend.onrender.com/api/love-pages/${slug}`)
       .then(res => {
         setPage(res.data)
       })

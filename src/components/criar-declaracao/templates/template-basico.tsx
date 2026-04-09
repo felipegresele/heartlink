@@ -74,7 +74,7 @@ export function CriadorDeclaracao() {
       alert("Você precisa estar logado para criar uma página!");
     }
 
-    const response = await fetch("http://localhost:8080/api/love-pages", {
+    const response = await fetch("https://lovepage-backend.onrender.com/api/love-pages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export function CriadorDeclaracao() {
 
     const data = await response.json();
 
-    const paymentRes = await fetch("http://localhost:8080/api/payment/create", {
+    const paymentRes = await fetch("https://lovepage-backend.onrender.com/api/payment/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

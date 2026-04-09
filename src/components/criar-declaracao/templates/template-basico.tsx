@@ -20,6 +20,7 @@ import { FormMensagem } from "../components/forms-templates/form-mensagem";
 import PreviewCarrossel from "../components/preview/preview-carrosel";
 import { EscolherPlano } from "../components/forms-templates/escolher-plano";
 import type { EffectType } from "../components/effects/BackgroundEffects";
+import type { User } from "../../../schema/user";
 
 export function CriadorDeclaracao() {
   const totalEtapas = 9;
@@ -117,14 +118,42 @@ export function CriadorDeclaracao() {
     const rawResponse = await paymentRes.text();
     const paymentLink = rawResponse.replace(/^"|"$/g, "");
 
-    console.log("✅ Link de pagamento Mercado Pago:", paymentLink);
+    setPageLink(paymentLink)
   }
+
+  function exibirLinkPagamento() {
+    if (!pageLink) return null;
+
+    const storedUser = localStorage.getItem("user");
+    const usuario: User = storedUser ? JSON.parse(storedUser) : null;
+
+     return (
+      <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg text-center space-y-4">
+      <h1 className="text-2xl font-bold text-gray-800">
+        Acesse o link de pagamento
+      </h1>
+      <p className="text-gray-500">
+        Atenção: o QR code será enviado no seu email cadastrado na sua conta: <span className="text-gray-300">{usuario.email}</span>
+      </p>
+      <a
+        href={pageLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-200"
+      >
+        Ir para pagamento
+      </a>
+
+      <p>Link: {pageLink}</p>
+    </div>
+     )
+  }
+
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
-      {/* COLUNA DO FORMULÁRIO */}
+      
       <div className="flex-1 space-y-6">
-        {/* ETAPAS 1 a 5 (TÍTULO, MENSAGEM, FOTOS, MÚSICA, DATA) */}
         {etapa === 1 && (
           <>
             <StepHeader

@@ -84,7 +84,7 @@ export default function PageReady({
   }, [dataConhecimento]);
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
+    <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
       <h1 className="text-3xl font-bold text-red-500 tracking-wide bg-black p-2 rounded mb-6">
         LovePages
       </h1>

@@ -34,7 +34,7 @@ export default function LovePage() {
       mensagem={page.message}
       imagens={page.photos}
       musicaId={page.musicId}
-      musicaTitulo={page.musicaTitulo}
+      musicaTitulo={page.musicTitle}
       dataConhecimento={page.relationshipStartDate}
     />
 

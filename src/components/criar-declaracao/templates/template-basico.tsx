@@ -103,6 +103,11 @@ export function CriadorDeclaracao() {
 
     const data = await response.json();
 
+    await fetch(
+      `https://lovepage-backend.onrender.com/api/love-pages/${data.id}/send-qr`,
+      { method: "POST" },
+    );
+
     const paymentRes = await fetch(
       "https://lovepage-backend.onrender.com/api/payment/create",
       {
@@ -351,7 +356,7 @@ export function CriadorDeclaracao() {
                   rel="noopener noreferrer"
                   className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-200"
                 >
-                  Ir para pagamento 💳
+                  Ir para pagamento
                 </a>
 
                 <QRCodeCanvas value={pageLink} size={180} />
@@ -364,8 +369,9 @@ export function CriadorDeclaracao() {
           </>
         )}
 
-        <div className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}>
-
+        <div
+          className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}
+        >
           <button
             onClick={voltarEtapa}
             disabled={etapa === 1}

@@ -392,7 +392,7 @@ export function CriadorDeclaracao() {
                   Acesse o link de pagamento
                 </h2>
                 <p className="text-gray-500 text-center">
-                  Atenção: o QR code será enviado no seu email cadastrado na sua
+                  Atenção: o QR code do seu presente será enviado no seu email cadastrado na sua
                   conta:{" "}
                   <span className="text-gray-700 font-medium">
                     {JSON.parse(localStorage.getItem("user") || "{}").email}

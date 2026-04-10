@@ -69,7 +69,7 @@ export default function PreviewCarrossel({
     switch (modoImagem) {
       case "carrossel":
         return (
-          <div className="w-full max-w-[400px] aspect-square overflow-hidden rounded-md mb-4 shadow-lg">
+          <div className="mt-4 w-full max-w-[300px] aspect-square overflow-hidden rounded-md mb-4 shadow-lg">
             <img
               src={imagens[indiceAtual]}
               alt="Carrossel"
@@ -174,8 +174,10 @@ export default function PreviewCarrossel({
     <div className="bg-gray-900 p-8 rounded-xl text-center flex flex-col items-center relative overflow-hidden min-h-[700px] border border-white/5 shadow-2xl transition-all duration-500">
       {/* <BackgroundEffects effect={efeitoFundo} /> */}
       <div className="relative z-10 flex flex-col items-center w-full">
-        <h1 style={{ color: corTitulo, fontFamily: fonteTitulo, fontSize: `${tamanhoTitulo}px` }} className="mb-6 drop-shadow-md">{titulo}</h1>
+        <div className="bg-white w-[400px] flex flex-col items-center justify-center p-4"> 
         {renderImagens()}
+        <h1 style={{ color: "black", fontFamily: fonteTitulo, fontSize: `${tamanhoTitulo}px` }} className="mb-6 drop-shadow-md">{titulo}</h1>
+        </div>
         <p style={{ fontSize: `${tamanhoMensagem}px` }} className="max-w-[500px] break-words whitespace-pre-wrap overflow-hidden p-4 text-gray-200 leading-relaxed">{mensagem}</p>
         {renderTempo()}
       </div>

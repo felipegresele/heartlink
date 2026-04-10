@@ -385,7 +385,7 @@ export function CriadorDeclaracao() {
             >
                Criar página ❤️
             </button>
-            {isCreating ? <span className="text-md text-gray-200">Pagamento sendo criado, aguarde...</span> : ""}
+            {isCreating ? <span className="text-md text-gray-200">Pagamento sendo criado, aguarde isso pode levar alguns segundos...</span> : ""}
             {paymentPageLink && (
               <div className="mt-6 p-6 bg-white rounded-xl shadow-lg flex flex-col items-center gap-4 text-black animate-in zoom-in-95 max-w-md mx-auto">
                 <h2 className="text-2xl font-bold text-gray-800">

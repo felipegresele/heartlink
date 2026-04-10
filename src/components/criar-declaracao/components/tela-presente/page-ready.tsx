@@ -90,7 +90,6 @@ export default function PageReady({
       </h1>
 
       <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
-        {/* Carrossel / Imagem */}
         {imagens.length > 0 && (
           <div className="w-full max-w-md mb-4 relative">
             <img
@@ -109,13 +108,10 @@ export default function PageReady({
           </div>
         )}
 
-        {/* Título */}
         <p className="text-xl font-semibold text-yellow-300 mb-4 text-center">{titulo}</p>
 
-        {/* Mensagem */}
         <p className="mb-6 whitespace-pre-wrap text-gray-200 text-center">{mensagem}</p>
 
-        {/* Contador */}
         {dataConhecimento && (
           <div className="w-full text-center">
             <h3 className="mb-3 text-lg text-gray-200">Compartilhando momentos há</h3>
@@ -134,7 +130,6 @@ export default function PageReady({
         )}
       </div>
 
-      {/* Player */}
       {musica && <MusicPlayerFooter musica={musica} />}
     </div>
   );

@@ -21,6 +21,7 @@ import PreviewCarrossel from "../components/preview/preview-carrosel";
 import { EscolherPlano } from "../components/forms-templates/escolher-plano";
 import type { EffectType } from "../components/effects/BackgroundEffects";
 import type { User } from "../../../schema/user";
+import { FiAlertCircle } from "react-icons/fi";
 
 export function CriadorDeclaracao() {
   const totalEtapas = 9;
@@ -45,7 +46,7 @@ export function CriadorDeclaracao() {
 
   const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");
 
-  const [pageLink, setPageLink] = useState("");
+  const [paymentPageLink, setPaymentPageLink] = useState("");
 
   const [customEmojis, setCustomEmojis] = useState<string[]>([
     "✨",
@@ -62,7 +63,13 @@ export function CriadorDeclaracao() {
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
+  const [isCreating, setIsCreating] = useState(false);
+
   function proximaEtapa() {
+    if (!validarEtapaAtual()) {
+      alert("Preencha os campos antes de continuar")
+      return;
+    }
     setEtapa((prev) => prev + 1);
   }
 
@@ -71,12 +78,16 @@ export function CriadorDeclaracao() {
   }
 
   async function criarPagina() {
+
+    setIsCreating(true);
+
     const storedUser = localStorage.getItem("user");
     const usuario = storedUser ? JSON.parse(storedUser) : null;
-    console.log(usuario);
 
     if (!usuario) {
       alert("Você precisa estar logado para criar uma página!");
+      setIsCreating(false);
+      return;
     }
 
     const response = await fetch(
@@ -123,8 +134,39 @@ export function CriadorDeclaracao() {
     const rawResponse = await paymentRes.text();
     const paymentLink = rawResponse.replace(/^"|"$/g, "");
 
-    setPageLink(paymentLink);
+    setPaymentPageLink(paymentLink);
   }
+
+  function validarEtapaAtual() {
+  switch (etapa) {
+    case 1:
+      return titulo.trim().length > 0;
+
+    case 2:
+      return mensagem.trim().length > 0;
+
+    case 3:
+      return imagens.length > 0;
+
+    case 4:
+      return musicaSelecionada !== null;
+
+    case 5:
+      return dataConhecimento !== "";
+
+    case 6:
+      return true;
+
+    case 7:
+      return true;
+
+    case 8:
+      return selectedPlan !== null;
+
+    default:
+      return true;
+  }
+}
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
@@ -322,23 +364,29 @@ export function CriadorDeclaracao() {
           />
         )}
 
-        {/* ETAPA 8 - FINALIZAR */}
         {etapa === 9 && (
           <>
             <StepHeader
               icon={FaFont}
               titulo="Finalizar"
-              descricao="Gere seu link e QR Code."
+              descricao="Gere seu link e QR Code de pagamento."
               etapa={etapa}
               totalEtapas={totalEtapas}
             />
+            <p className="text-sm text-orange-300 flex items-center gap-2 border border-orange-300 p-4 rounded-xl">
+              <FiAlertCircle /> Importante: o QR Code para acessar a sua pagína personalizada será
+              enviado pela nossa equipe para o seu email após o pagamento ser
+              efetuado com sucesso
+            </p>
             <button
               onClick={criarPagina}
-              className="bg-pink-600 hover:bg-pink-700 p-4 rounded-xl w-full font-bold shadow-lg transition-all"
+              disabled={isCreating}
+              className="p-4 rounded-xl w-full font-bold shadow-lg transition-all bg-pink-600 hover:bg-pink-700 cursor-pointer"
             >
-              Criar página ❤️
+               Criar página ❤️
             </button>
-            {pageLink && (
+            {isCreating ? <span className="text-md text-gray-200">Pagamento sendo criado, aguarde...</span> : ""}
+            {paymentPageLink && (
               <div className="mt-6 p-6 bg-white rounded-xl shadow-lg flex flex-col items-center gap-4 text-black animate-in zoom-in-95 max-w-md mx-auto">
                 <h2 className="text-2xl font-bold text-gray-800">
                   Acesse o link de pagamento
@@ -351,7 +399,7 @@ export function CriadorDeclaracao() {
                   </span>
                 </p>
                 <a
-                  href={pageLink}
+                  href={paymentPageLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-200"
@@ -359,10 +407,10 @@ export function CriadorDeclaracao() {
                   Ir para pagamento
                 </a>
 
-                <QRCodeCanvas value={pageLink} size={180} />
+                <QRCodeCanvas value={paymentPageLink} size={180} />
 
                 <p className="text-xs text-gray-400 break-all text-center">
-                  {pageLink}
+                  {paymentPageLink}
                 </p>
               </div>
             )}

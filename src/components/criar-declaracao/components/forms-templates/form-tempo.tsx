@@ -10,6 +10,7 @@ export function FormTempoConhecimento({
       <input
         type="date"
         value={dataConhecimento}
+        max={new Date().toISOString().split("T")[0]} //data de hoje
         onChange={(e) => {
           console.log(dataConhecimento);
           setDataConhecimento(e.target.value);

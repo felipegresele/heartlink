@@ -2,41 +2,31 @@ import type { FormImagensProps } from "../../../../schema/form-templates";
 
 
 export function FormImagens({ imagens, setImagens }: FormImagensProps) {
-  
-  const handleAdicionarImagem = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const files = e.target.files;
-  if (!files) return;
+  const handleAdicionarImagem = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
 
-  const novasImagens: string[] = [];
+    if (!files) return;
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
+    const novasImagens: string[] = [];
 
-    if (!file.type.startsWith("image/")) {
-      alert("Selecione apenas imagens!");
-      return;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      if (!file.type.startsWith("image/")) {
+        alert("Selecione apenas imagens!");
+        return;
+      }
+
+      if (imagens.length + novasImagens.length >= 8) {
+        alert("Você pode adicionar no máximo 8 imagens!");
+        break;
+      }
+
+      novasImagens.push(URL.createObjectURL(file));
     }
 
-    if (imagens.length + novasImagens.length >= 8) {
-      alert("Você pode adicionar no máximo 8 imagens!");
-      break;
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "SEU_UPLOAD_PRESET"); // criar no Cloudinary
-    formData.append("cloud_name", "SEU_CLOUD_NAME");
-
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/SEU_CLOUD_NAME/image/upload`,
-      { method: "POST", body: formData }
-    );
-    const data = await res.json();
-    novasImagens.push(data.secure_url); // URL permanente ✅
-  }
-
-  setImagens([...imagens, ...novasImagens]);
-};
+    setImagens([...imagens, ...novasImagens]);
+  };
 
   const removerImagem = (index: number) => {
     setImagens(imagens.filter((_, i) => i !== index));
@@ -45,7 +35,7 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
   return (
     <div className="space-y-2">
       <h2 className="text-lg font-bold">Imagens</h2>
-      {imagens.length < 5 && (
+      {imagens.length < 8 && (
         <input
           type="file"
           multiple

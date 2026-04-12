@@ -36,7 +36,7 @@ export default function LovePage() {
       musicaId={page.musicId}
       musicaTitulo={page.musicTitle}
       dataConhecimento={page.relationshipStartDate}
-      usuarioNome={page.usuario?.username as string}
+      usuarioNome={page.senderName}
     />
 
   )

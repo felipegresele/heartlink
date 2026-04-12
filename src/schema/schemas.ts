@@ -7,6 +7,6 @@ export interface LovePageData {
   relationshipStartDate: string,
   musicId?: string,
   musicTitle?: string,
-  usuario?: User
+  senderName: string,
 }
 

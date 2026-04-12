@@ -14,12 +14,6 @@ export default function ModalPresente({
  
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black px-8 text-white text-center">
-      {/* Badge tipo "Wrapped" no topo */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2">
-        <span className="bg-green-500 text-black text-xs font-bold px-4 py-1 rounded-full tracking-wide uppercase">
-          Wrapped
-        </span>
-      </div>
  
       <div className="flex flex-col items-center gap-4 max-w-xs w-full">
         <h1 className="text-3xl font-extrabold leading-tight">

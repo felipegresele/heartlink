@@ -93,7 +93,7 @@ export default function PageReady({
       {mostrarModal && (
       <ModalPresente
         usuarioNome={usuarioNome}
-        corBotao="#c0274b"
+        corBotao="#c92921"
         onClose={() => setMostrarModal(false)}
       />
     )}

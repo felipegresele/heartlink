@@ -51,30 +51,26 @@ export function Header() {
   };
 
   return (
-    // Alterado para bg-black sólido para evitar transparência indesejada
     <header className="bg-black sticky top-0 z-[999] border-b border-white/10 p-4 flex justify-between items-center h-[72px]">
       
-      {/* Logo */}
       <div className="flex items-center gap-2 z-[1001]">
         <Link to="/" className="text-white text-2xl font-black tracking-tighter">
           <img src={imgLogo} className="max-w-50" />
         </Link>
       </div>
 
-      {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-8 text-sm font-bold">
         {["Início", "Dicas", "Temas", "Planos", "Help"].map((item) => (
           <Link 
             key={item} 
             to={item === "Início" ? "/" : `/${item.toLowerCase()}`} 
-            className="text-gray-300 hover:text-white transition-colors"
+            className="text-gray-300 hover:text-white transition-colors text-xl"
           >
             {item === "Help" ? "F.A.Q" : item}
           </Link>
         ))}
       </nav>
 
-      {/* Auth / User Section Desktop */}
       <div className="hidden md:flex items-center gap-4">
         {usuario ? (
           <div className="relative group">
@@ -103,13 +99,13 @@ export function Header() {
           <div className="flex gap-2">
             <button
               onClick={abrirModalLogin}
-              className="text-white text-sm font-bold px-4 py-2 hover:bg-white/10 rounded-lg transition-all"
+              className="cursor-pointer text-white text-sm font-bold px-4 py-2 hover:bg-white/10 rounded-lg transition-all"
             >
               Entrar
             </button>
             <button
               onClick={abrirModal}
-              className="bg-red-600 hover:bg-red-500 text-white text-sm font-bold py-2 px-6 rounded-full shadow-lg shadow-red-600/20 transition-all"
+              className="cursor-pointer bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-2 px-6 rounded-full shadow-lg shadow-red-600/20 transition-all"
             >
               Cadastrar
             </button>

@@ -3,37 +3,42 @@ import type { ModalPresenteProps } from "../../../../schema/presente-pronto/ver-
 
 export default function ModalPresente({
   usuarioNome,
-  corBotao = "bg-red-600",
   onClose,
 }: ModalPresenteProps) {
-  // trava scroll
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
-
+ 
   return (
-    <div className="fixed inset-0 bg-black flex items-center justify-center z-50 px-6">
-      <div className="bg-gray-900 text-white rounded-2xl p-6 max-w-md w-full text-center shadow-2xl border border-white/10">
-        <h2 className="text-2xl font-bold mb-3">
-          💌 Você recebeu um presente!
-        </h2>
-        <p className="text-gray-300 mb-2">
-          <span className="text-red-400 font-bold">{usuarioNome}</span> preparou
-          algo especial para você ❤️
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black px-8 text-white text-center">
+      {/* Badge tipo "Wrapped" no topo */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2">
+        <span className="bg-green-500 text-black text-xs font-bold px-4 py-1 rounded-full tracking-wide uppercase">
+          Wrapped
+        </span>
+      </div>
+ 
+      <div className="flex flex-col items-center gap-4 max-w-xs w-full">
+        <h1 className="text-3xl font-extrabold leading-tight">
+          {usuarioNome} separou um{" "}
+          <span className="text-green-400">presente</span> especial!
+        </h1>
+ 
+        <p className="text-gray-400 text-sm leading-relaxed">
+          Um momento único feito com carinho para celebrar a jornada de vocês
         </p>
-        <p className="text-gray-500 text-sm mb-6">
-          Toque no botão abaixo para descobrir...
-        </p>
+ 
         <button
           onClick={onClose}
-          className={`${corBotao} hover:opacity-90 transition px-8 py-3 rounded-full font-bold text-white text-lg shadow-lg`}
+          className="mt-4 bg-green-500 hover:bg-green-400 active:scale-95 transition-all text-black font-bold text-base px-10 py-3 rounded-full shadow-lg"
         >
-          Ver meu presente
+          Ver Presente
         </button>
       </div>
     </div>
   );
 }
+ 

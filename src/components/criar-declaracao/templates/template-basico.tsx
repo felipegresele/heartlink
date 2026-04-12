@@ -22,6 +22,7 @@ import { EscolherPlano } from "../components/forms-templates/escolher-plano";
 import type { EffectType } from "../components/effects/BackgroundEffects";
 import type { User } from "../../../schema/user";
 import { FiAlertCircle } from "react-icons/fi";
+import { PagamentoStep } from "../components/forms-templates/carrinho-pagamento";
 
 export function CriadorDeclaracao() {
   const totalEtapas = 9;
@@ -46,8 +47,6 @@ export function CriadorDeclaracao() {
 
   const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");
 
-  const [paymentPageLink, setPaymentPageLink] = useState("");
-
   const [customEmojis, setCustomEmojis] = useState<string[]>([
     "✨",
     "🌸",
@@ -63,11 +62,11 @@ export function CriadorDeclaracao() {
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
-  const [isCreating, setIsCreating] = useState(false);
+  const [pageId, setPageId] = useState<string | null>(null);
 
   function proximaEtapa() {
     if (!validarEtapaAtual()) {
-      alert("Preencha os campos antes de continuar")
+      alert("Preencha os campos antes de continuar");
       return;
     }
     setEtapa((prev) => prev + 1);
@@ -78,15 +77,11 @@ export function CriadorDeclaracao() {
   }
 
   async function criarPagina() {
-
-    setIsCreating(true);
-
     const storedUser = localStorage.getItem("user");
     const usuario = storedUser ? JSON.parse(storedUser) : null;
 
     if (!usuario) {
       alert("Você precisa estar logado para criar uma página!");
-      setIsCreating(false);
       return;
     }
 
@@ -94,9 +89,7 @@ export function CriadorDeclaracao() {
       "https://lovepage-backend.onrender.com/api/love-pages",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: usuario.id,
           receiverName: titulo,
@@ -113,60 +106,40 @@ export function CriadorDeclaracao() {
     );
 
     const data = await response.json();
-
-    // await fetch(
-    //   `https://lovepage-backend.onrender.com/api/love-pages/${data.id}/send-qr`,
-    //   { method: "POST" },
-    // );
-
-    const paymentRes = await fetch(
-      "https://lovepage-backend.onrender.com/api/payment/create",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          pageId: data.id,
-          planType: selectedPlan,
-        }),
-      },
-    );
-
-    const rawResponse = await paymentRes.text();
-    const paymentLink = rawResponse.replace(/^"|"$/g, "");
-
-    setPaymentPageLink(paymentLink);
+    setPageId(data.id); // <- salva o ID e avança
+    setEtapa(9);
   }
 
   function validarEtapaAtual() {
-  switch (etapa) {
-    case 1:
-      return titulo.trim().length > 0;
+    switch (etapa) {
+      case 1:
+        return titulo.trim().length > 0;
 
-    case 2:
-      return mensagem.trim().length > 0;
+      case 2:
+        return mensagem.trim().length > 0;
 
-    case 3:
-      return imagens.length > 0;
+      case 3:
+        return imagens.length > 0;
 
-    case 4:
-      return musicaSelecionada !== null;
+      case 4:
+        return musicaSelecionada !== null;
 
-    case 5:
-      return dataConhecimento !== "";
+      case 5:
+        return dataConhecimento !== "";
 
-    case 6:
-      return true;
+      case 6:
+        return true;
 
-    case 7:
-      return true;
+      case 7:
+        return true;
 
-    case 8:
-      return selectedPlan !== null;
+      case 8:
+        return selectedPlan !== null;
 
-    default:
-      return true;
+      default:
+        return true;
+    }
   }
-}
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
@@ -365,56 +338,7 @@ export function CriadorDeclaracao() {
         )}
 
         {etapa === 9 && (
-          <>
-            <StepHeader
-              icon={FaFont}
-              titulo="Finalizar"
-              descricao="Gere seu link e QR Code de pagamento."
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <p className="text-sm text-orange-300 flex items-center gap-2 border border-orange-300 p-4 rounded-xl">
-              <FiAlertCircle /> Importante: o QR Code para acessar a sua pagína personalizada será
-              enviado pela nossa equipe para o seu email após o pagamento ser
-              efetuado com sucesso
-            </p>
-            <button
-              onClick={criarPagina}
-              disabled={isCreating}
-              className="p-4 rounded-xl w-full font-bold shadow-lg transition-all bg-pink-600 hover:bg-pink-700 cursor-pointer"
-            >
-               Criar página ❤️
-            </button>
-            {isCreating ? <span className="text-md text-gray-200">Pagamento sendo criado, aguarde isso pode levar alguns segundos...</span> : ""}
-            {paymentPageLink && (
-              <div className="mt-6 p-6 bg-white rounded-xl shadow-lg flex flex-col items-center gap-4 text-black animate-in zoom-in-95 max-w-md mx-auto">
-                <h2 className="text-2xl font-bold text-gray-800">
-                  Acesse o link de pagamento
-                </h2>
-                <p className="text-gray-500 text-center">
-                  Atenção: o QR code do seu presente será enviado no seu email cadastrado na sua
-                  conta:{" "}
-                  <span className="text-gray-700 font-medium">
-                    {JSON.parse(localStorage.getItem("user") || "{}").email}
-                  </span>
-                </p>
-                <a
-                  href={paymentPageLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-200"
-                >
-                  Ir para pagamento
-                </a>
-
-                <QRCodeCanvas value={paymentPageLink} size={180} />
-
-                <p className="text-xs text-gray-400 break-all text-center">
-                  {paymentPageLink}
-                </p>
-              </div>
-            )}
-          </>
+          <PagamentoStep pageId={pageId} selectedPlan={selectedPlan} />
         )}
 
         <div
@@ -430,10 +354,11 @@ export function CriadorDeclaracao() {
 
           {etapa < totalEtapas && (
             <button
-              onClick={proximaEtapa}
+              onClick={etapa === 8 ? criarPagina : proximaEtapa}
               className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
             >
-              Próximo <SlArrowRight size={12} />
+              {etapa === 8 ? "Criar página ❤️" : "Próximo"}{" "}
+              <SlArrowRight size={12} />
             </button>
           )}
         </div>

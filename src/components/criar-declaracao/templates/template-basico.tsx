@@ -114,10 +114,10 @@ export function CriadorDeclaracao() {
 
     const data = await response.json();
 
-    await fetch(
-      `https://lovepage-backend.onrender.com/api/love-pages/${data.id}/send-qr`,
-      { method: "POST" },
-    );
+    // await fetch(
+    //   `https://lovepage-backend.onrender.com/api/love-pages/${data.id}/send-qr`,
+    //   { method: "POST" },
+    // );
 
     const paymentRes = await fetch(
       "https://lovepage-backend.onrender.com/api/payment/create",

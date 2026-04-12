@@ -19,7 +19,7 @@ export function LoginModal({ fecharModal }: LoginModalProps) {
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
       <div className="bg-gray-900 border border-gray-700 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">Heartlink</h1>
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">HeartCode</h1>
           <button
             onClick={fecharModal}
             className="p-1 hover:bg-gray-700 rounded-full transition-colors"

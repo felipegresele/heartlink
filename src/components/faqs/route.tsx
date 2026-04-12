@@ -41,13 +41,13 @@ export function Faqs() {
 const perguntas = [
     {
         id: 1,
-        value: "O que é a HeartLink?",
+        value: "O que é a HeartCode?",
         description:
-            "A HeartLink é uma plataforma que permite criar páginas personalizadas para pessoas especiais. Você pode adicionar fotos, uma mensagem e também o tempo da união.",
+            "A HeartCode é uma plataforma que permite criar páginas personalizadas para pessoas especiais. Você pode adicionar fotos, uma mensagem e também o tempo da união.",
     },
     {
         id: 2,
-        value: "Como posso criar uma página personalizada na Heartlink?",
+        value: "Como posso criar uma página personalizada na HeartCode?",
         description:
             "Você pode acessar nosso formulário, preencher com as informações desejadas e escolher o plano mais adequado. O processo é rápido e intuitivo.",
     },
@@ -89,7 +89,7 @@ const perguntas = [
         id: 9,
         value: "Como posso entrar em contato com o suporte ao cliente?",
         description:
-            "Você pode entrar em contato com o suporte ao cliente pelo nosso Instagram: @heartlink_",
+            "Você pode entrar em contato com o suporte ao cliente pelo nosso Instagram: @heartcode_",
     },
 ];
 

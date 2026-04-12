@@ -5,6 +5,7 @@ import { AuthModal } from "../auth/AuthModal";
 import { LoginModal } from "../auth/LoginModal";
 import { SlArrowDown } from "react-icons/sl";
 import { FiMenu, FiX, FiLogOut, FiUser } from "react-icons/fi";
+import imgLogo from "../../img/logo-heartcode.webp"
 
 interface Usuario {
   nome: string | null;
@@ -55,9 +56,8 @@ export function Header() {
       
       {/* Logo */}
       <div className="flex items-center gap-2 z-[1001]">
-        <img src={img} className="w-10 h-10 object-cover rounded-full" alt="Logo" />
         <Link to="/" className="text-white text-2xl font-black tracking-tighter">
-          HEART<span className="text-red-600">LINK</span>
+          <img src={imgLogo} className="max-w-50" />
         </Link>
       </div>
 

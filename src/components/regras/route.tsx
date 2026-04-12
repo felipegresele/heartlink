@@ -9,7 +9,7 @@ export function TermosDeUso() {
         {
             title: "2. Descrição do Serviço",
             description:
-                "A HeartLink oferece um serviço que permite aos casais criar uma página personalizada, preenchendo um formulário com nomes, data de início do relacionamento, uma mensagem especial e até 8 mídias. Após o preenchimento, o casal é direcionado ao pagamento e, uma vez confirmado, recebe um link com QR Code enviado por e-mail."
+                "A HeartCode oferece um serviço que permite aos casais criar uma página personalizada, preenchendo um formulário com nomes, data de início do relacionamento, uma mensagem especial e até 8 mídias. Após o preenchimento, o casal é direcionado ao pagamento e, uma vez confirmado, recebe um link com QR Code enviado por e-mail."
         },
         {
             title: "3. Cadastro e Segurança",
@@ -29,12 +29,12 @@ export function TermosDeUso() {
         {
             title: "6. Pagamentos e Política de Reembolso",
             description:
-                "Os pagamentos são processados via Stripe e Pagar.me/Stone. Após a confirmação do pagamento, o casal receberá o link da página personalizada por e-mail. Reembolsos não são oferecidos, exceto em situações excepcionais, a critério exclusivo da HeartLink."
+                "Os pagamentos são processados via Mercado Pago. Após a confirmação do pagamento, o casal receberá o link da página personalizada por e-mail. Reembolsos não são oferecidos, exceto em situações excepcionais, a critério exclusivo da HeartCode."
         },
         {
             title: "7. Alterações no Serviço",
             description:
-                "Nos esforçamos para manter o serviço disponível durante o período contratado (1 ano no plano básico ou vitalício no plano avançado). Entretanto, em situações extraordinárias, como problemas técnicos, legais ou financeiros, reservamo-nos o direito de alterar ou descontinuar o serviço. Em caso de descontinuação, notificaremos os usuários com antecedência e buscaremos fornecer alternativas sempre que possível. A HeartLink não se responsabiliza por perdas decorrentes de alterações ou interrupções em situações excepcionais, mas envidará esforços para minimizar impactos."
+                "Nos esforçamos para manter o serviço disponível durante o período contratado (1 ano no plano básico ou vitalício no plano avançado). Entretanto, em situações extraordinárias, como problemas técnicos, legais ou financeiros, reservamo-nos o direito de alterar ou descontinuar o serviço. Em caso de descontinuação, notificaremos os usuários com antecedência e buscaremos fornecer alternativas sempre que possível. A HeartCode não se responsabiliza por perdas decorrentes de alterações ou interrupções em situações excepcionais, mas envidará esforços para minimizar impactos."
         },
         {
             title: "8. Limitação de Responsabilidade",
@@ -49,14 +49,14 @@ export function TermosDeUso() {
         {
             title: "10. Contato",
             description:
-                "Se tiver dúvidas sobre estes Termos de Uso, entre em contato conosco pelo Instagram: @heartlink_"
+                "Se tiver dúvidas sobre estes Termos de Uso, entre em contato conosco pelo Instagram: @HeartCode_"
         }
     ];
 
     return (
         <div className="bg-black min-h-screen text-white px-6 py-12">
             <h1 className="text-4xl font-bold text-red-600 mb-8 text-center">
-                <span className="text-white">Termos de Uso</span> - HeartLink
+                <span className="text-white">Termos de Uso</span> - HeartCode
             </h1>
             <div className="max-w-4xl mx-auto space-y-6">
                 {termos.map((item, index) => (
@@ -83,7 +83,7 @@ export function Privacidade() {
     {
       title: "2. Informações que Coletamos",
       description:
-        "Coletamos as seguintes informações ao usar a HeartLink:\n\n• Informações de Cadastro: Nome, data de início do relacionamento, mensagem personalizada, fotos do casal e endereço de e-mail.\n• Informações de Pagamento: E-mail registrado no Stripe ou Pagar.me/Stone, utilizado para processar o pagamento e enviar o link da página personalizada."
+        "Coletamos as seguintes informações ao usar a HeartCode:\n\n• Informações de Cadastro: Nome, data de início do relacionamento, mensagem personalizada, fotos do casal e endereço de e-mail.\n• Informações de Pagamento: E-mail registrado no Stripe ou Pagar.me/Stone, utilizado para processar o pagamento e enviar o link da página personalizada."
     },
     {
       title: "3. Como Utilizamos Suas Informações",
@@ -108,7 +108,7 @@ export function Privacidade() {
     {
       title: "7. Seus Direitos",
       description:
-        "Você pode acessar, corrigir ou excluir suas informações pessoais a qualquer momento. Para isso, entre em contato conosco pelo Instagram: @heartlink_"
+        "Você pode acessar, corrigir ou excluir suas informações pessoais a qualquer momento. Para isso, entre em contato conosco pelo Instagram: @heartcode_"
     },
     {
       title: "8. Alterações nesta Política",
@@ -118,14 +118,14 @@ export function Privacidade() {
     {
       title: "9. Contato",
       description:
-        "Se tiver dúvidas sobre esta Política de Privacidade, entre em contato pelo Instagram: @heartlink_"
+        "Se tiver dúvidas sobre esta Política de Privacidade, entre em contato pelo Instagram: @heartcode_"
     }
   ];
 
   return (
     <div className="bg-black min-h-screen text-white px-6 py-12">
       <h1 className="text-4xl font-bold text-red-600 mb-8 text-center">
-        <span className="text-white">Política de Privacidade</span> - HeartLink
+        <span className="text-white">Política de Privacidade</span> - HeartCode
       </h1>
       <div className="max-w-4xl mx-auto space-y-6">
         {politicas.map((item, index) => (

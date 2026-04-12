@@ -179,7 +179,7 @@ function PreviewNetflix({
   return (
     <div className="bg-gray-800 rounded-md overflow-hidden text-white">
       <h1 className="bg-black text-red-500 font-bold text-[20px] p-4 justify-center text-center">
-        Heartlink
+        HeartCode
       </h1>
       {/* Imagem principal com sombra na parte inferior */}
       <div className="relative w-full h-120 bg-gray-700">

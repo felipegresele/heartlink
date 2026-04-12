@@ -25,11 +25,11 @@ export function FooterContent() {
             </h1>
           </div>
           <p className="text-gray-300 text-sm mb-2">
-            A HeartLink é uma plataforma que permite criar páginas personalizadas
+            A HeartCode é uma plataforma que permite criar páginas personalizadas
             para pessoas especiais.
           </p>
           <p className="text-gray-400 text-xs mt-6">
-            Copyright © 2025 - Heartlink.com
+            Copyright © 2025 - HeartCode.com
           </p>
         </div>
 

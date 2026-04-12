@@ -20,8 +20,6 @@ import { FormMensagem } from "../components/forms-templates/form-mensagem";
 import PreviewCarrossel from "../components/preview/preview-carrosel";
 import { EscolherPlano } from "../components/forms-templates/escolher-plano";
 import type { EffectType } from "../components/effects/BackgroundEffects";
-import type { User } from "../../../schema/user";
-import { FiAlertCircle } from "react-icons/fi";
 import { PagamentoStep } from "../components/forms-templates/carrinho-pagamento";
 
 export function CriadorDeclaracao() {
@@ -42,7 +40,7 @@ export function CriadorDeclaracao() {
     "padrao" | "classico" | "simples"
   >("padrao");
   const [modoImagem, setModoImagem] = useState<
-    "carrossel" | "grid" | "slideshow"
+    "carrossel" | "slideshow"
   >("carrossel");
 
   const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");

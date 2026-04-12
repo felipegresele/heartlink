@@ -85,12 +85,12 @@ export default function PageReady({
 
   return (
     <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
-      <h1 className="text-3xl  max-w-full font-bold text-red-500 tracking-wide bg-black p-2 rounded mb-6">
-        LovePages
+      <h1 className="w-full text-center text-3xl font-bold text-red-500 tracking-wide bg-black py-3 mb-6">
+        HeartCode
       </h1>
 
       <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
-        <div className="bg-white w-[400px] flex flex-col items-center justify-center p-4">
+        <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">
           {imagens.length > 0 && (
             <div className="w-full max-w-md mb-4 relative">
               <img

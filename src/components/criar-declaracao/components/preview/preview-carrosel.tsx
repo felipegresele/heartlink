@@ -86,23 +86,9 @@ export default function PreviewCarrossel({
           </div>
         );
 
-      case "grid":
-        return (
-          <div className="grid grid-cols-2 gap-2 mb-4 w-full max-w-[400px]">
-            {imagens.map((img, i) => (
-              <img
-                key={i}
-                src={img}
-                alt={`Imagem ${i}`}
-                className="w-full h-32 object-cover rounded-md shadow-md"
-              />
-            ))}
-          </div>
-        );
-
       case "slideshow":
         return (
-          <div className="relative w-full max-w-[400px] aspect-square overflow-hidden rounded-md mb-4 shadow-lg">
+          <div className="relative w-full max-w-[300px] aspect-square overflow-hidden rounded-md mb-4 shadow-lg">
             <img
               src={imagens[indiceAtual]}
               alt="Slideshow"

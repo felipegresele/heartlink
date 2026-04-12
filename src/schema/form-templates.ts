@@ -28,7 +28,7 @@ export interface FormTempoConhecimentoProps {
 }
 
 export type ModoExibicao = "padrao" | "classico" | "simples";
-export type ModoImagem = "carrossel" | "grid" | "slideshow";
+export type ModoImagem = "carrossel" | "slideshow";
 
 export interface FormModoExibicaoProps {
   modoExibicao: ModoExibicao;

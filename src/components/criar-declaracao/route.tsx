@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { LoginModal } from "../auth/LoginModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function EscolherTemplate() {
   const [abrirModal, setAbrirModal] = useState(false);
@@ -23,10 +23,11 @@ export function EscolherTemplate() {
   const storedUser = localStorage.getItem("user");
   const usuario = storedUser ? JSON.parse(storedUser) : null;
 
-  if (!usuario) {
-      setAbrirModal(true);
-      return;
-    }
+  useEffect(() => {
+      if (!usuario) {
+        setAbrirModal(true)
+      }
+  }, [usuario])
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-start text-white p-6">

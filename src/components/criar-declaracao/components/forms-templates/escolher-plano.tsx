@@ -13,8 +13,8 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
       descricao: "Plano vitalício, sem necessidade de renovação.",
       planType: "VITALICIO",
       recomendado: true,
-      precoAntigo: "R$ 54,00",
-      precoAtual: "R$ 28,00",
+      precoAntigo: "R$ 50,00",
+      precoAtual: "R$ 25,00",
       periodo: "uma vez",
       recursos: [
         { text: "Texto dedicado", ativo: true },
@@ -34,8 +34,8 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
       descricao: "Plano com duração de 1 ano.",
       planType: "PADRAO",
       recomendado: false,
-      precoAntigo: "R$ 42,00",
-      precoAtual: "R$ 24,00",
+      precoAntigo: "R$ 40,00",
+      precoAtual: "R$ 20,00",
       periodo: "por ano",
       recursos: [
         { text: "Texto dedicado", ativo: true },

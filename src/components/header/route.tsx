@@ -51,7 +51,7 @@ export function Header() {
   };
 
   return (
-    <header className="bg-black sticky top-0 z-[999] border-b border-white/10 p-4 flex justify-between items-center h-[72px]">
+    <header className="bg-black sticky top-0 z-[999] border-b border-white/10 p-8 flex justify-between items-center h-[72px]">
       
       <div className="flex items-center gap-2 z-[1001]">
         <Link to="/" className="text-white text-2xl font-black tracking-tighter">
@@ -99,13 +99,13 @@ export function Header() {
           <div className="flex gap-2">
             <button
               onClick={abrirModalLogin}
-              className="cursor-pointer text-white text-sm font-bold px-4 py-2 hover:bg-white/10 rounded-lg transition-all"
+              className="cursor-pointer text-white text-xl font-bold px-4 py-2 hover:bg-white/10 rounded-lg transition-all"
             >
               Entrar
             </button>
             <button
               onClick={abrirModal}
-              className="cursor-pointer bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-2 px-6 rounded-full shadow-lg shadow-red-600/20 transition-all"
+              className="cursor-pointer bg-red-600 hover:bg-red-700 text-white text-xl font-bold py-2 px-6 rounded-full shadow-lg shadow-red-600/20 transition-all"
             >
               Cadastrar
             </button>

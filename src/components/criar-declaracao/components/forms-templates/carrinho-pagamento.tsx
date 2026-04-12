@@ -298,7 +298,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                   >
                     Ir para pagamento →
                   </a>
-                  <p className="text-xs text-gray-600 break-all text-center">{paymentLink}</p>
+                  <p className="text-xs text-gray-300 break-all text-center">{paymentLink}</p>
                 </div>
               )}
 

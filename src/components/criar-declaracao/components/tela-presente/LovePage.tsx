@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 import type { LovePageData } from "../../../../schema/schemas"
-import PageReady from "./page-ready"
+import PageReady from "./template-padrao/page-ready-template-padrao"
 
 export default function LovePage() {
 
@@ -36,6 +36,7 @@ export default function LovePage() {
       musicaId={page.musicId}
       musicaTitulo={page.musicTitle}
       dataConhecimento={page.relationshipStartDate}
+      usuarioNome={page.usuario?.username as string}
     />
 
   )

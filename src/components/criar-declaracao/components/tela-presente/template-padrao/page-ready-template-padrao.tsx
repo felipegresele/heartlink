@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import MusicPlayerFooter from "../music/exibir-musica";
 import imgLogo from "../../../../img/logo-heartcode.webp"
+import MusicPlayerFooter from "../../music/exibir-musica";
+import ModalPresente from "../modal-ver-presente";
 
 export default function PageReady({
   titulo,
@@ -9,6 +10,7 @@ export default function PageReady({
   dataConhecimento,
   musicaId,
   musicaTitulo,
+  usuarioNome,
 }: {
   titulo: string;
   mensagem: string;
@@ -16,6 +18,7 @@ export default function PageReady({
   dataConhecimento: string;
   musicaId?: string;
   musicaTitulo?: string;
+  usuarioNome: string
 }) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempo, setTempo] = useState({
@@ -35,6 +38,8 @@ export default function PageReady({
     duration: number;
   }>(null);
 
+  const [mostrarModal, setMostrarModal] = useState(true);
+
   // Inicializa música
   useEffect(() => {
     if (musicaId && musicaTitulo) {
@@ -48,7 +53,6 @@ export default function PageReady({
     }
   }, [musicaId, musicaTitulo]);
 
-  // Carrossel automático
   useEffect(() => {
     if (imagens.length === 0) return;
     const timer = setInterval(() => {
@@ -86,6 +90,13 @@ export default function PageReady({
 
   return (
     <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
+      {mostrarModal && (
+      <ModalPresente
+        usuarioNome={usuarioNome}
+        corBotao="#c0274b"
+        onClose={() => setMostrarModal(false)}
+      />
+    )}
       <img src={imgLogo}/>
 
       <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">

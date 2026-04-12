@@ -1,3 +1,5 @@
+import type { User } from "./user";
+
 export interface LovePageData {
   receiverName: string,
   message: string,
@@ -5,5 +7,6 @@ export interface LovePageData {
   relationshipStartDate: string,
   musicId?: string,
   musicTitle?: string,
+  usuario?: User
 }
 

@@ -1,9 +1,15 @@
-import { useState } from "react";
-import { FiChevronDown, FiChevronUp, FiShoppingBag, FiAlertCircle, FiCheck } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import {
+  FiChevronDown,
+  FiChevronUp,
+  FiShoppingBag,
+  FiAlertCircle,
+  FiCheck,
+} from "react-icons/fi";
 import { MdQrCode2 } from "react-icons/md";
 
 // Importa as imagens das molduras
-import molduraPadrao from "../../../../img/qr-code-padrao.png"
+import molduraPadrao from "../../../../img/qr-code-padrao.png";
 import moldura1 from "../../../../img/escaneie-e-se-surprenda-com-qr.webp";
 import moldura2 from "../../../../img/juntos-para-sempre-com-qr.webp";
 import moldura3 from "../../../../img/spotify-com-qr.webp";
@@ -21,7 +27,12 @@ const PLANO_INFO: Record<string, { nome: string; preco: number }> = {
 
 const MOLDURAS = [
   { id: "NONE", label: "Sem moldura", preco: 0, preview: molduraPadrao },
-  { id: "ESCANEIE", label: "Escaneie e se Surpreenda", preco: 2.9, preview: moldura1 },
+  {
+    id: "ESCANEIE",
+    label: "Escaneie e se Surpreenda",
+    preco: 2.9,
+    preview: moldura1,
+  },
   { id: "JUNTOS", label: "Juntos Para Sempre", preco: 2.9, preview: moldura2 },
   { id: "SPOTIFY", label: "Spotify", preco: 2.9, preview: moldura3 },
   { id: "SURPRESA", label: "Surpresa pra Você", preco: 2.9, preview: moldura4 },
@@ -37,14 +48,16 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
 
   const plano = selectedPlan ? PLANO_INFO[selectedPlan] : null;
   const precoPlan = plano?.preco ?? 0;
-  const precoMoldura = MOLDURAS.find((m) => m.id === molduraSelecionada)?.preco ?? 0;
+  const precoMoldura =
+    MOLDURAS.find((m) => m.id === molduraSelecionada)?.preco ?? 0;
   const total = precoPlan + precoMoldura;
 
   const moldurasSelecionaveis = MOLDURAS;
   // Itens visíveis no carrossel (3 por vez em telas maiores)
   const visiveis = moldurasSelecionaveis.slice(carrosselIdx, carrosselIdx + 3);
 
-  const userEmail = JSON.parse(localStorage.getItem("user") || "{}").email ?? "";
+  const userEmail =
+    JSON.parse(localStorage.getItem("user") || "{}").email ?? "";
 
   async function gerarPagamento() {
     if (!pageId || !selectedPlan) return;
@@ -63,7 +76,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
             qrCodeFrame: molduraSelecionada,
             totalAmount: total,
           }),
-        }
+        },
       );
 
       if (!res.ok) throw new Error("Erro ao criar pagamento");
@@ -77,24 +90,56 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
     }
   }
 
+  const mensagem = `Tudo pronto para o grande momento! 
+
+Nós da HeartCode estamos ansiosos para ver a reação dela(e).`;
+
+  const [textoDigitado, setTextoDigitado] = useState("");
+
+  useEffect(() => {
+    let i = 0;
+
+    const interval = setInterval(() => {
+      setTextoDigitado((prev) => prev + mensagem.charAt(i));
+      i++;
+
+      if (i >= mensagem.length) {
+        clearInterval(interval);
+      }
+    }, 30); // velocidade da digitação
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
-
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <FiShoppingBag size={22} className="text-red-500" />
           <h1 className="text-xl font-bold">Finalizar pedido</h1>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="mb-10 text-center max-w-2xl mx-auto">
+          <h2 className="text-sm md:text-xl font-semibold text-white leading-snug">
+            {textoDigitado}
+            <span className="animate-pulse text-red-500">|</span>
+          </h2>
 
+          <p className="mt-4 text-sm md:text-base text-gray-400">
+            Finalize os detalhes abaixo e prepare-se para criar um momento
+            inesquecível.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* ── COLUNA ESQUERDA ── */}
           <div className="lg:col-span-3 space-y-4">
-
             {/* Card: Resumo do pedido */}
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-              <h2 className="font-bold text-base mb-4 text-gray-100">Resumo do pedido</h2>
+              <h2 className="font-bold text-base mb-4 text-gray-100">
+                Resumo do pedido
+              </h2>
 
               <div className="flex justify-between items-center text-sm text-gray-300 mb-3">
                 <div className="flex items-center gap-2">
@@ -141,19 +186,26 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                     </span>
                   )}
                 </div>
-                {qrAberto ? <FiChevronUp size={16} /> : <FiChevronDown size={16} />}
+                {qrAberto ? (
+                  <FiChevronUp size={16} />
+                ) : (
+                  <FiChevronDown size={16} />
+                )}
               </button>
 
               {qrAberto && (
                 <div className="px-5 pb-5">
                   <p className="text-xs text-gray-500 mb-4">
-                    Escolha uma moldura especial para o QR Code que será enviado no email. A primeira opção é gratuita.
+                    Escolha uma moldura especial para o QR Code que será enviado
+                    no email. A primeira opção é gratuita.
                   </p>
 
                   {/* Carrossel */}
                   <div className="flex items-center gap-2 mb-4">
                     <button
-                      onClick={() => setCarrosselIdx(Math.max(0, carrosselIdx - 1))}
+                      onClick={() =>
+                        setCarrosselIdx(Math.max(0, carrosselIdx - 1))
+                      }
                       disabled={carrosselIdx === 0}
                       className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:bg-gray-800 disabled:opacity-30 transition-all flex-shrink-0"
                     >
@@ -188,12 +240,16 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                           )}
 
                           {/* Badge preço */}
-                          <div className={`absolute bottom-0 left-0 right-0 py-1.5 text-center text-[11px] font-bold ${
-                            moldura.preco === 0
-                              ? "bg-green-600 text-white"
-                              : "bg-black/80 text-white"
-                          }`}>
-                            {moldura.preco === 0 ? "GRÁTIS" : `R$ ${moldura.preco.toFixed(2).replace(".", ",")}`}
+                          <div
+                            className={`absolute bottom-0 left-0 right-0 py-1.5 text-center text-[11px] font-bold ${
+                              moldura.preco === 0
+                                ? "bg-green-600 text-white"
+                                : "bg-black/80 text-white"
+                            }`}
+                          >
+                            {moldura.preco === 0
+                              ? "GRÁTIS"
+                              : `R$ ${moldura.preco.toFixed(2).replace(".", ",")}`}
                           </div>
 
                           {/* Check selecionado */}
@@ -207,8 +263,17 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                     </div>
 
                     <button
-                      onClick={() => setCarrosselIdx(Math.min(moldurasSelecionaveis.length - 3, carrosselIdx + 1))}
-                      disabled={carrosselIdx >= moldurasSelecionaveis.length - 3}
+                      onClick={() =>
+                        setCarrosselIdx(
+                          Math.min(
+                            moldurasSelecionaveis.length - 3,
+                            carrosselIdx + 1,
+                          ),
+                        )
+                      }
+                      disabled={
+                        carrosselIdx >= moldurasSelecionaveis.length - 3
+                      }
                       className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:bg-gray-800 disabled:opacity-30 transition-all flex-shrink-0"
                     >
                       ›
@@ -230,17 +295,19 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
             <div className="flex items-start gap-3 text-xs text-orange-300 border border-orange-900/50 bg-orange-950/20 p-4 rounded-xl">
               <FiAlertCircle size={16} className="flex-shrink-0 mt-0.5" />
               <span>
-                O QR Code para acessar sua página será enviado pela nossa equipe para o seu email após confirmação do pagamento.
+                O QR Code para acessar sua página será enviado pela nossa equipe
+                para o seu email após confirmação do pagamento.
               </span>
             </div>
           </div>
 
           {/* ── COLUNA DIREITA ── */}
           <div className="lg:col-span-2 space-y-4">
-
             {/* Card: Seus dados */}
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-              <h2 className="font-bold text-base mb-4 text-gray-100">Seus dados</h2>
+              <h2 className="font-bold text-base mb-4 text-gray-100">
+                Seus dados
+              </h2>
               <div className="space-y-3">
                 <div className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-gray-300">
                   {userEmail || "Email não encontrado"}
@@ -253,7 +320,9 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
 
             {/* Card: Pagamento */}
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-              <h2 className="font-bold text-base mb-4 text-gray-100">Forma de pagamento</h2>
+              <h2 className="font-bold text-base mb-4 text-gray-100">
+                Forma de pagamento
+              </h2>
 
               <div className="bg-gray-800 rounded-xl p-4 mb-4 border border-gray-700">
                 <div className="flex items-center justify-between mb-1">
@@ -262,7 +331,9 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                     Instantâneo
                   </span>
                 </div>
-                <p className="text-xs text-gray-500">Pix, cartão de crédito ou boleto</p>
+                <p className="text-xs text-gray-500">
+                  Pix, cartão de crédito ou boleto
+                </p>
               </div>
 
               {/* Botão gerar pagamento */}
@@ -274,9 +345,24 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                 >
                   {isCreating ? (
                     <span className="flex items-center justify-center gap-2">
-                      <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                      <svg
+                        className="animate-spin w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v8z"
+                        />
                       </svg>
                       Gerando...
                     </span>
@@ -298,7 +384,9 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                   >
                     Ir para pagamento →
                   </a>
-                  <p className="text-xs text-gray-300 break-all text-center">{paymentLink}</p>
+                  <p className="text-xs text-gray-300 break-all text-center">
+                    {paymentLink}
+                  </p>
                 </div>
               )}
 

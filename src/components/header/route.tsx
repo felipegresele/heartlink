@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import img from "../../assets/img.jpg";
 import { useEffect, useState } from "react";
 import { AuthModal } from "../auth/AuthModal";
 import { LoginModal } from "../auth/LoginModal";

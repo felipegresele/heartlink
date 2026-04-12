@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MusicPlayerFooter from "../music/exibir-musica";
-import imgLogo from "../../../../img/logo.png"
+import imgLogo from "../../../../img/logo-heartcode.webp"
 
 export default function PageReady({
   titulo,

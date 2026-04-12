@@ -113,7 +113,7 @@ export default function PageReady({
           </p>
         </div>
 
-        <p className="mb-6 whitespace-pre-wrap text-gray-200 text-center">
+        <p className="mb-6 mt-6 whitespace-pre-wrap text-gray-200 text-center">
           {mensagem}
         </p>
 

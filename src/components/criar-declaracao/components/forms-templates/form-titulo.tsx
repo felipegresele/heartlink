@@ -31,15 +31,6 @@ export function FormTitulo({
         className="w-full p-2 rounded-md text-white bg-gray-800"
       />
       <div className="flex items-center gap-2">
-        <label>Cor:</label>
-        <input
-          type="color"
-          value={corTitulo}
-          onChange={(e) => setCorTitulo(e.target.value)}
-          className="w-10 h-8 cursor-pointer"
-        />
-      </div>
-      <div className="flex items-center gap-2">
         <label>Fonte:</label>
         <select
           value={fonteTitulo}

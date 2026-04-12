@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MusicPlayerFooter from "../music/exibir-musica";
+import imgLogo from "../../../../img/logo.png"
 
 export default function PageReady({
   titulo,
@@ -85,9 +86,7 @@ export default function PageReady({
 
   return (
     <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
-      <h1 className="w-full text-center text-3xl font-bold text-red-500 tracking-wide bg-black py-3 mb-6">
-        HeartCode
-      </h1>
+      <img src={imgLogo}/>
 
       <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
         <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">
@@ -109,7 +108,7 @@ export default function PageReady({
             </div>
           )}
 
-          <p className="text-xl font-semibold text-yellow-300 mb-4 text-center mt-2">
+          <p className="text-xl font-semibold text-black mb-4 text-center mt-2">
             {titulo}
           </p>
         </div>

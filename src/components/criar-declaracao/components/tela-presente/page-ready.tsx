@@ -109,7 +109,7 @@ export default function PageReady({
             </div>
           )}
 
-          <p className="text-xl font-semibold text-yellow-300 mb-4 text-center">
+          <p className="text-xl font-semibold text-yellow-300 mb-4 text-center mt-2">
             {titulo}
           </p>
         </div>

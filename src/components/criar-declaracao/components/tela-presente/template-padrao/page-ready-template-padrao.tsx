@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import imgLogo from "../../../../img/logo-heartcode.webp"
+import imgLogo from "../../../../../img/logo-heartcode.webp"
 import MusicPlayerFooter from "../../music/exibir-musica";
 import ModalPresente from "../modal-ver-presente";
 

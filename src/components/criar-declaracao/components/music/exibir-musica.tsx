@@ -121,17 +121,15 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   );
 
   useEffect(() => {
-    if (!musica) return;
+  if (!musica) return;
+  if (currentIdRef.current === musica.id) return;
 
-    if (currentIdRef.current === musica.id) return;
+  currentIdRef.current = musica.id;
+  setElapsed(0);
+  setDuration(musica.duration ?? 0);
+  setPlaying(false);
 
-    currentIdRef.current = musica.id;
-
-    setElapsed(0);
-    setDuration(musica.duration ?? 0);
-
-    initPlayer(musica.id);
-  }, [musica, initPlayer]);
+}, [musica]);
 
   useEffect(() => {
     return () => {
@@ -152,12 +150,15 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const progress = duration > 0 ? Math.min((elapsed / duration) * 100, 100) : 0;
 
   const handlePlayPause = () => {
-    if (!playerRef.current) return;
+  if (!playerRef.current) {
+    initPlayer(musica.id);
+    return;
+  }
 
-    playing
-      ? playerRef.current.pauseVideo()
-      : playerRef.current.playVideo();
-  };
+  playing
+    ? playerRef.current.pauseVideo()
+    : playerRef.current.playVideo();
+};
 
   const handleMute = () => {
     if (!playerRef.current) return;

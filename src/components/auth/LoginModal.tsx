@@ -1,7 +1,9 @@
 import { Controller, useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiPost } from "../../api/auth/api";
+import { AuthModal } from "./AuthModal";
+import { useState } from "react";
 
 type LoginFormProps = { email: string; password: string };
 interface LoginModalProps { fecharModal: () => void }
@@ -31,6 +33,8 @@ function LoginForm({ fecharModal }: LoginModalProps) {
     defaultValues: { email: "", password: "" }
   });
   const navigate = useNavigate();
+
+  const [modoCadastro, setModoCadastro] = useState(false);
 
   const onSubmit = async (data: LoginFormProps) => {
     try {
@@ -98,6 +102,34 @@ function LoginForm({ fecharModal }: LoginModalProps) {
       >
         Entrar na conta
       </button>
+      {modoCadastro ? (
+          <AuthModal fecharModal={fecharModal} />
+        ) : (
+          <>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-extrabold text-white">Heartlink</h1>
+
+              <button onClick={fecharModal}>
+                <IoClose size={24} />
+              </button>
+            </div>
+
+            <LoginForm fecharModal={fecharModal} />
+
+            {/* 👇 BOTÃO NOVO */}
+            <p className="text-sm text-center mt-4 text-gray-400">
+              Não tem conta?{" "}
+              <button
+                onClick={() => setModoCadastro(true)}
+                className="text-red-500 hover:underline"
+              >
+                Criar conta
+              </button>
+            </p>
+          </>
+        )}
+
+      {/* <Link to="/" onClick={() => <AuthModal />}>Não tem conta? Cadastre-se aqui</Link> */}
     </form>
   );
 }

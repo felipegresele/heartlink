@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { LoginModal } from "../auth/LoginModal";
+import { useState } from "react";
 
 export function EscolherTemplate() {
+  const [abrirModal, setAbrirModal] = useState(false);
+
   const templates = [
     {
       id: 1,
@@ -16,9 +20,19 @@ export function EscolherTemplate() {
     },
   ];
 
+  const storedUser = localStorage.getItem("user");
+  const usuario = storedUser ? JSON.parse(storedUser) : null;
+
+  if (!usuario) {
+      setAbrirModal(true);
+      return;
+    }
+
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-start text-white p-6">
-      <h1 className="font-bold text-3xl mt-6 mb-2">Modelos de templates disponíveis</h1>
+      <h1 className="font-bold text-3xl mt-6 mb-2">
+        Modelos de templates disponíveis
+      </h1>
       <p className="text-sm text-gray-400 mb-10 text-center">
         Escolha qual você deseja para surpreender alguém
       </p>
@@ -41,6 +55,10 @@ export function EscolherTemplate() {
       </div>
 
       <p className="text-sm text-gray-400 mt-16">Em breve mais disponíveis</p>
+
+      {abrirModal && (
+        <LoginModal fecharModal={() => setAbrirModal(false)} />
+      )}
     </div>
   );
 }

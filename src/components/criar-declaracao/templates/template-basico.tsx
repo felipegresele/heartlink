@@ -439,7 +439,7 @@ export function CriadorDeclaracao() {
         </div>
       </div>
 
-      {etapa !== 8 ? (
+      {etapa !== 8 && etapa !== 9 ? (
         <div>
           <h1 className="text-xl font-bold text-center">
             Pré Visualização do seu site:

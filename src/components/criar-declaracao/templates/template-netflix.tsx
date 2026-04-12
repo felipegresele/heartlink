@@ -27,7 +27,6 @@ export function TemplateNetflix() {
         <FormEpisodios episodios={episodios} setEpisodios={setEpisodios} />
       </div>
 
-      {/* Preview */}
       <div className="flex-1">
         <PreviewNetflix
           titulo={titulo}

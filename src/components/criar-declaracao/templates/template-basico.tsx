@@ -21,10 +21,101 @@ import PreviewCarrossel from "../components/preview/preview-carrosel";
 import { EscolherPlano } from "../components/forms-templates/escolher-plano";
 import type { EffectType } from "../components/effects/BackgroundEffects";
 import { PagamentoStep } from "../components/forms-templates/carrinho-pagamento";
+import { FormRetrospectivaSecoes } from "../components/forms-templates/form-retrospectiva";
+import {
+  RetrospectiveProvider,
+  useRetrospective,
+} from "../components/forms-templates/retrospectiva/restrospective-context";
+import { TimelineSection } from "../components/forms-templates/retrospectiva/timeline-section";
+import { WheelSection } from "../components/forms-templates/retrospectiva/roleta";
+import { GallerySection } from "../components/forms-templates/retrospectiva/galeria-sessao";
+import { EnigmaSection } from "../components/forms-templates/retrospectiva/enigma-sessao";
 
+// Sub-etapas dentro da etapa 7
+// "selecao"    → cards de escolha das seções
+// "formulario" → forms de preenchimento das seções selecionadas
+type SubEtapaRetrospectiva = "selecao" | "formulario";
+
+// ─────────────────────────────────────────────────────────────
+// Formulários das seções — componente separado pois precisa
+// estar dentro do RetrospectiveProvider para acessar o contexto
+// ─────────────────────────────────────────────────────────────
+function FormsSecoesSelecionadas({
+  onVoltar,
+  onContinuar,
+}: {
+  onVoltar: () => void;
+  onContinuar: () => void;
+}) {
+  const { data } = useRetrospective();
+  const selecionadas = data.secoesSelecionadas;
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h3 className="text-white font-bold text-base mb-1">
+          Personalize suas seções
+        </h3>
+        <p className="text-white/40 text-xs">
+          Preencha os dados de cada seção que você escolheu.
+        </p>
+      </div>
+
+      {/* Seções selecionadas */}
+      <div className="space-y-8">
+        {selecionadas.includes("timeline") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <TimelineSection />
+          </div>
+        )}
+
+        {selecionadas.includes("wheel") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <WheelSection />
+          </div>
+        )}
+
+        {selecionadas.includes("gallery") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <GallerySection />
+          </div>
+        )}
+
+        {selecionadas.includes("enigma") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <EnigmaSection />
+          </div>
+        )}
+      </div>
+
+      {/* Navegação */}
+      <div className="flex justify-between items-center pt-4 border-t border-white/10 gap-2">
+        <button
+          onClick={onVoltar}
+          className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
+        >
+          <SlArrowLeft size={12} /> Voltar
+        </button>
+        <button
+          onClick={onContinuar}
+          className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
+        >
+          Próximo <SlArrowRight size={12} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Componente principal
+// ─────────────────────────────────────────────────────────────
 export function CriadorDeclaracao() {
   const totalEtapas = 9;
   const [etapa, setEtapa] = useState(1);
+  const [subEtapaRetro, setSubEtapaRetro] =
+    useState<SubEtapaRetrospectiva>("selecao");
 
   const [titulo, setTitulo] = useState("");
   const [mensagem, setMensagem] = useState("");
@@ -39,12 +130,11 @@ export function CriadorDeclaracao() {
   const [modoExibicao, setModoExibicao] = useState<
     "padrao" | "classico" | "simples"
   >("padrao");
-  const [modoImagem, setModoImagem] = useState<
-    "carrossel" | "slideshow"
-  >("carrossel");
+  const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
+    "carrossel"
+  );
 
   const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");
-
   const [customEmojis, setCustomEmojis] = useState<string[]>([
     "✨",
     "🌸",
@@ -59,18 +149,25 @@ export function CriadorDeclaracao() {
   } | null>(null);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-
   const [pageId, setPageId] = useState<string | null>(null);
+
+  // ── Navegação ──────────────────────────────────────────────
 
   function proximaEtapa() {
     if (!validarEtapaAtual()) {
       alert("Preencha os campos antes de continuar");
       return;
     }
+    if (etapa + 1 === 7) setSubEtapaRetro("selecao");
     setEtapa((prev) => prev + 1);
   }
 
   function voltarEtapa() {
+    // Na sub-etapa formulário, volta para seleção (não sai da etapa 7)
+    if (etapa === 7 && subEtapaRetro === "formulario") {
+      setSubEtapaRetro("selecao");
+      return;
+    }
     setEtapa((prev) => prev - 1);
   }
 
@@ -100,294 +197,232 @@ export function CriadorDeclaracao() {
           theme: modoExibicao,
           planType: selectedPlan,
         }),
-      },
+      }
     );
 
     const data = await response.json();
-    setPageId(data.id); // <- salva o ID e avança
+    setPageId(data.id);
     setEtapa(9);
   }
 
   function validarEtapaAtual() {
     switch (etapa) {
-      case 1:
-        return titulo.trim().length > 0;
-
-      case 2:
-        return mensagem.trim().length > 0;
-
-      case 3:
-        return imagens.length > 0;
-
-      case 4:
-        return musicaSelecionada !== null;
-
-      case 5:
-        return dataConhecimento !== "";
-
-      case 6:
-        return true;
-
-      case 7:
-        return true;
-
-      case 8:
-        return selectedPlan !== null;
-
-      default:
-        return true;
+      case 1: return titulo.trim().length > 0;
+      case 2: return mensagem.trim().length > 0;
+      case 3: return imagens.length > 0;
+      case 4: return musicaSelecionada !== null;
+      case 5: return dataConhecimento !== "";
+      case 6: return true;
+      case 7: return true;
+      case 8: return selectedPlan !== null;
+      default: return true;
     }
   }
 
+  // A etapa 7 tem navegação própria dentro dos sub-componentes
+  const etapa7Ativa = etapa === 7;
+
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
-      <div className="flex-1 space-y-6 min-h-[calc(100vh-160px)] md:min-h-auto">
-        {etapa === 1 && (
-          <>
-            <StepHeader
-              icon={FaFont}
-              titulo="Título da página"
-              descricao="Escolha um título especial."
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <FormTitulo
-              titulo={titulo}
-              setTitulo={setTitulo}
-              corTitulo={corTitulo}
-              setCorTitulo={setCorTitulo}
-              fonteTitulo={fonteTitulo}
-              setFonteTitulo={setFonteTitulo}
-              tamanhoTitulo={tamanhoTitulo}
-              setTamanhoTitulo={setTamanhoTitulo}
-            />
-          </>
-        )}
+    <RetrospectiveProvider>
+      <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
+        <div className="flex-1 space-y-6 min-h-[calc(100vh-160px)] md:min-h-auto">
 
-        {etapa === 2 && (
-          <>
-            <StepHeader
-              icon={FaCommentDots}
-              titulo="Declaração"
-              descricao="Escreva sua mensagem."
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <FormMensagem
-              mensagem={mensagem}
-              setMensagem={setMensagem}
-              tamanhoMensagem={tamanhoMensagem}
-              setTamanhoMensagem={setTamanhoMensagem}
-            />
-          </>
-        )}
+          {/* ETAPA 1 — Título */}
+          {etapa === 1 && (
+            <>
+              <StepHeader
+                icon={FaFont}
+                titulo="Título da página"
+                descricao="Escolha um título especial."
+                etapa={etapa}
+                totalEtapas={totalEtapas}
+              />
+              <FormTitulo
+                titulo={titulo}
+                setTitulo={setTitulo}
+                corTitulo={corTitulo}
+                setCorTitulo={setCorTitulo}
+                fonteTitulo={fonteTitulo}
+                setFonteTitulo={setFonteTitulo}
+                tamanhoTitulo={tamanhoTitulo}
+                setTamanhoTitulo={setTamanhoTitulo}
+              />
+            </>
+          )}
 
-        {etapa === 3 && (
-          <>
-            <StepHeader
-              icon={FaImages}
-              titulo="Fotos"
-              descricao="Adicione suas fotos."
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <FormImagens imagens={imagens} setImagens={setImagens} />
-          </>
-        )}
+          {/* ETAPA 2 — Declaração */}
+          {etapa === 2 && (
+            <>
+              <StepHeader
+                icon={FaCommentDots}
+                titulo="Declaração"
+                descricao="Escreva sua mensagem."
+                etapa={etapa}
+                totalEtapas={totalEtapas}
+              />
+              <FormMensagem
+                mensagem={mensagem}
+                setMensagem={setMensagem}
+                tamanhoMensagem={tamanhoMensagem}
+                setTamanhoMensagem={setTamanhoMensagem}
+              />
+            </>
+          )}
 
-        {etapa === 4 && (
-          <>
-            <StepHeader
-              icon={FaMusic}
-              titulo="Escolher música"
-              descricao="Escolha uma musíca que lembra esta pessoa."
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <ContentEscolherMusica
-              onMusicSelect={setMusicaSelecionada}
-              videoSelecionado={musicaSelecionada}
-            />
-          </>
-        )}
+          {/* ETAPA 3 — Fotos */}
+          {etapa === 3 && (
+            <>
+              <StepHeader
+                icon={FaImages}
+                titulo="Fotos"
+                descricao="Adicione suas fotos."
+                etapa={etapa}
+                totalEtapas={totalEtapas}
+              />
+              <FormImagens imagens={imagens} setImagens={setImagens} />
+            </>
+          )}
 
-        {etapa === 5 && (
-          <>
-            <StepHeader
-              icon={FaCalendar}
-              titulo="Data"
-              descricao="Quando tudo começou?"
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <FormTempoConhecimento
-              dataConhecimento={dataConhecimento}
-              setDataConhecimento={setDataConhecimento}
-            />
-          </>
-        )}
+          {/* ETAPA 4 — Música */}
+          {etapa === 4 && (
+            <>
+              <StepHeader
+                icon={FaMusic}
+                titulo="Escolher música"
+                descricao="Escolha uma música que lembra esta pessoa."
+                etapa={etapa}
+                totalEtapas={totalEtapas}
+              />
+              <ContentEscolherMusica
+                onMusicSelect={setMusicaSelecionada}
+                videoSelecionado={musicaSelecionada}
+              />
+            </>
+          )}
 
-        {/* ETAPA 6 - LAYOUT (ORGANIZADO) */}
-        {etapa === 6 && (
-          <>
-            <StepHeader
-              icon={FaPalette}
-              titulo="Layout"
-              descricao="Como as fotos e o tempo aparecem."
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <FormModoImagem
-              modoImagem={modoImagem}
-              setModoImagem={setModoImagem}
-            />
-            <FormModoExibicao
-              modoExibicao={modoExibicao}
-              setModoExibicao={setModoExibicao}
-            />
-          </>
-        )}
+          {/* ETAPA 5 — Data */}
+          {etapa === 5 && (
+            <>
+              <StepHeader
+                icon={FaCalendar}
+                titulo="Data"
+                descricao="Quando tudo começou?"
+                etapa={etapa}
+                totalEtapas={totalEtapas}
+              />
+              <FormTempoConhecimento
+                dataConhecimento={dataConhecimento}
+                setDataConhecimento={setDataConhecimento}
+              />
+            </>
+          )}
 
-        {/* ETAPA 7 - EFEITOS (ORGANIZADO) */}
-        {etapa === 7 && (
-          <>
-            <StepHeader
-              icon={FaPalette}
-              titulo="Efeitos Visuais"
-              descricao="Animações de fundo."
-              etapa={etapa}
-              totalEtapas={totalEtapas}
-            />
-            <div className="mt-6 space-y-6">
-              <div>
-                <label className="block mb-2 font-bold text-sm text-gray-300">
-                  Estilo do Efeito
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    "none",
-                    "coracoes",
-                    "estrelas",
-                    "pontinhos",
-                    "aurora",
-                    "custom",
-                  ].map((eff) => (
-                    <button
-                      key={eff}
-                      onClick={() => setEfeitoFundo(eff as EffectType)}
-                      className={`p-2 text-xs rounded border transition-all ${
-                        efeitoFundo === eff
-                          ? "border-white-500 bg-white-500/20"
-                          : "border-gray-600"
-                      }`}
-                    >
-                      {eff.toUpperCase()}
-                    </button>
-                  ))}
-                </div>
-              </div>
+          {/* ETAPA 6 — Layout */}
+          {etapa === 6 && (
+            <>
+              <StepHeader
+                icon={FaPalette}
+                titulo="Layout"
+                descricao="Como as fotos e o tempo aparecem."
+                etapa={etapa}
+                totalEtapas={totalEtapas}
+              />
+              <FormModoImagem
+                modoImagem={modoImagem}
+                setModoImagem={setModoImagem}
+              />
+              <FormModoExibicao
+                modoExibicao={modoExibicao}
+                setModoExibicao={setModoExibicao}
+              />
+            </>
+          )}
 
-              {efeitoFundo === "custom" && (
-                <div className="p-4 bg-gray-900 rounded-xl border border-gray-800">
-                  <label className="block mb-3 font-bold text-sm text-pink-400">
-                    Escolha até 3 emojis
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      "✨",
-                      "🌸",
-                      "☁️",
-                      "🚀",
-                      "🔥",
-                      "🐱",
-                      "🌈",
-                      "💎",
-                      "🌙",
-                      "🍀",
-                    ].map((emoji) => (
-                      <button
-                        key={emoji}
-                        onClick={() => {
-                          if (customEmojis.includes(emoji)) {
-                            setCustomEmojis(
-                              customEmojis.filter((e) => e !== emoji),
-                            );
-                          } else if (customEmojis.length < 3) {
-                            setCustomEmojis([...customEmojis, emoji]);
-                          }
-                        }}
-                        className={`text-2xl p-2 rounded-md ${customEmojis.includes(emoji) ? "bg-pink-500/40 border border-pink-500" : "bg-black/40"}`}
-                      >
-                        {emoji}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+          {/* ETAPA 7 — Sub-etapa: seleção de seções */}
+          {etapa === 7 && subEtapaRetro === "selecao" && (
+            <FormRetrospectivaSecoes
+              onContinuar={() => setSubEtapaRetro("formulario")}
+              onPular={() => setEtapa((prev) => prev + 1)}
+            />
+          )}
+
+          {/* ETAPA 7 — Sub-etapa: preenchimento das seções */}
+          {etapa === 7 && subEtapaRetro === "formulario" && (
+            <FormsSecoesSelecionadas
+              onVoltar={() => setSubEtapaRetro("selecao")}
+              onContinuar={() => setEtapa((prev) => prev + 1)}
+            />
+          )}
+
+          {/* ETAPA 8 — Plano */}
+          {etapa === 8 && (
+            <EscolherPlano
+              selectedPlan={selectedPlan}
+              setSelectedPlan={setSelectedPlan}
+            />
+          )}
+
+          {/* ETAPA 9 — Pagamento */}
+          {etapa === 9 && (
+            <PagamentoStep pageId={pageId} selectedPlan={selectedPlan} />
+          )}
+
+          {/* Barra de navegação global — oculta na etapa 7 (tem navegação própria) */}
+          {!etapa7Ativa && (
+            <div
+              className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${
+                etapa === 8 ? "mt-12 md:mt-6" : ""
+              }`}
+            >
+              <button
+                onClick={voltarEtapa}
+                disabled={etapa === 1}
+                className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500 disabled:opacity-40"
+              >
+                <SlArrowLeft size={12} /> Voltar
+              </button>
+
+              {etapa < totalEtapas && (
+                <button
+                  onClick={etapa === 8 ? criarPagina : proximaEtapa}
+                  className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
+                >
+                  {etapa === 8 ? "Criar página ❤️" : "Próximo"}{" "}
+                  <SlArrowRight size={12} />
+                </button>
               )}
             </div>
-          </>
-        )}
-
-        {etapa === 8 && (
-          <EscolherPlano
-            selectedPlan={selectedPlan}
-            setSelectedPlan={setSelectedPlan}
-          />
-        )}
-
-        {etapa === 9 && (
-          <PagamentoStep pageId={pageId} selectedPlan={selectedPlan} />
-        )}
-
-        <div
-          className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}
-        >
-          <button
-            onClick={voltarEtapa}
-            disabled={etapa === 1}
-            className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
-          >
-            <SlArrowLeft size={12} /> Voltar
-          </button>
-
-          {etapa < totalEtapas && (
-            <button
-              onClick={etapa === 8 ? criarPagina : proximaEtapa}
-              className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
-            >
-              {etapa === 8 ? "Criar página ❤️" : "Próximo"}{" "}
-              <SlArrowRight size={12} />
-            </button>
           )}
         </div>
-      </div>
 
-      {etapa !== 8 && etapa !== 9 ? (
-        <div>
-          <h1 className="text-xl font-bold text-center">
-            Pré Visualização do seu site:
-          </h1>
-          <div className="flex-1">
-            <PreviewCarrossel
-              titulo={titulo}
-              mensagem={mensagem}
-              corTitulo={corTitulo}
-              fonteTitulo={fonteTitulo}
-              tamanhoTitulo={tamanhoTitulo}
-              tamanhoMensagem={tamanhoMensagem}
-              musicaSelecionada={musicaSelecionada}
-              imagens={imagens}
-              dataConhecimento={dataConhecimento}
-              modoExibicao={modoExibicao}
-              modoImagem={modoImagem}
-              efeitoFundo={efeitoFundo}
-              customEmojis={customEmojis}
-            />
+        {/* Preview lateral */}
+        {etapa !== 8 && etapa !== 9 ? (
+          <div>
+            <h1 className="text-xl font-bold text-center">
+              Pré Visualização do seu site:
+            </h1>
+            <div className="flex-1">
+              <PreviewCarrossel
+                titulo={titulo}
+                mensagem={mensagem}
+                corTitulo={corTitulo}
+                fonteTitulo={fonteTitulo}
+                tamanhoTitulo={tamanhoTitulo}
+                tamanhoMensagem={tamanhoMensagem}
+                musicaSelecionada={musicaSelecionada}
+                imagens={imagens}
+                dataConhecimento={dataConhecimento}
+                modoExibicao={modoExibicao}
+                modoImagem={modoImagem}
+                efeitoFundo={efeitoFundo}
+                customEmojis={customEmojis}
+              />
+            </div>
           </div>
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </RetrospectiveProvider>
   );
 }

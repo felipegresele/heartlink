@@ -26,7 +26,6 @@ export default function LovePage() {
 
   if (!page) return <h1>Carregando...</h1>
 
-
   return (
 
     <PageReady

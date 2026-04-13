@@ -1,5 +1,5 @@
 export interface ModalPresenteProps {
   usuarioNome: string;
-  corBotao?: string;
+  corTextos?: string;
   onClose: () => void;
 };

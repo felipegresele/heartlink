@@ -3,6 +3,7 @@ import type { ModalPresenteProps } from "../../../../schema/presente-pronto/ver-
 
 export default function ModalPresente({
   usuarioNome,
+  corTextos,
   onClose,
 }: ModalPresenteProps) {
   useEffect(() => {
@@ -17,8 +18,8 @@ export default function ModalPresente({
  
       <div className="flex flex-col items-center gap-4 max-w-xs w-full">
         <h1 className="text-3xl font-extrabold leading-tight">
-          {usuarioNome} separou um{" "}
-          <span className="text-green-400">presente</span> especial!
+          <span className={corTextos}>{usuarioNome}</span> separou um{" "}
+          <span className={corTextos}>presente</span> especial!
         </h1>
  
         <p className="text-gray-400 text-sm leading-relaxed">

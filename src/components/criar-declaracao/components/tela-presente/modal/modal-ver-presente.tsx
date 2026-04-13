@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { ModalPresenteProps } from "../../../../schema/presente-pronto/ver-presente";
+import type { ModalPresenteProps } from "../../../../../schema/presente-pronto/ver-presente";
 
 export default function ModalPresente({
   usuarioNome,

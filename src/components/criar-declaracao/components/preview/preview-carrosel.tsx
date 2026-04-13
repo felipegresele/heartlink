@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import MusicPlayerFooter from "../music/exibir-musica";
 import type { PreviewCarrosselProps } from "../../../../schema/preview";
+import { RetrospectiveBtn } from "../forms-templates/retrospectiva/botao-retrospectiva";
 
 export default function PreviewCarrossel({
   titulo = "Seu título aqui",
@@ -157,7 +158,8 @@ export default function PreviewCarrossel({
   };
 
   return (
-    <div className="bg-gray-900 p-8 rounded-xl text-center flex flex-col items-center relative overflow-hidden min-h-[700px] border border-white/5 shadow-2xl transition-all duration-500">
+    <div className="border border-gray-400 rounded-md">
+ <div className="bg-gray-900 p-8 rounded-xl text-center flex flex-col items-center relative overflow-hidden min-h-[700px] border border-white/5 shadow-2xl transition-all duration-500">
       {/* <BackgroundEffects effect={efeitoFundo} /> */}
       <div className="relative z-10 flex flex-col items-center w-full">
         <div className="bg-white w-[400px] flex flex-col items-center justify-center p-4"> 
@@ -167,7 +169,10 @@ export default function PreviewCarrossel({
         <p style={{ fontSize: `${tamanhoMensagem}px` }} className="max-w-[500px] break-words whitespace-pre-wrap overflow-hidden p-4 text-gray-200 leading-relaxed">{mensagem}</p>
         {renderTempo()}
       </div>
-      <div className="mt-30 w-full relative z-10">
+      
+    </div>
+    <div className=" w-full relative z-10">
+        <RetrospectiveBtn isVisible={() => console.log("clicou")} />
         <MusicPlayerFooter musica={musicaSelecionada ?? null} />
       </div>
     </div>

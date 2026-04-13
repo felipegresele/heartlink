@@ -11,8 +11,8 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
     const files = e.target.files;
     if (!files) return;
 
-    if (imagens.length >= 8) {
-      alert("Você pode adicionar no máximo 8 imagens!");
+    if (imagens.length >= 3) {
+      alert("Você pode adicionar no máximo 3 imagens!");
       return;
     }
 
@@ -27,8 +27,8 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
         continue;
       }
 
-      if (imagens.length + novasImagens.length >= 8) {
-        alert("Você pode adicionar no máximo 8 imagens!");
+      if (imagens.length + novasImagens.length >= 3) {
+        alert("Você pode adicionar no máximo 3 imagens!");
         break;
       }
 

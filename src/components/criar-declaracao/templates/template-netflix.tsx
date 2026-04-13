@@ -12,7 +12,6 @@ export function TemplateNetflix() {
 
   return (
     <div className="flex flex-col md:flex-row gap-4 p-4 bg-gray-900 text-white min-h-screen">
-      {/* Formulário */}
       <div className="flex-1 space-y-4">
         <FormTitulo titulo={titulo} setTitulo={setTitulo} />
         <FormMensagem mensagem={mensagem} setMensagem={setMensagem} />

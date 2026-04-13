@@ -134,13 +134,6 @@ export function CriadorDeclaracao() {
     "carrossel"
   );
 
-  const [efeitoFundo, setEfeitoFundo] = useState<EffectType>("none");
-  const [customEmojis, setCustomEmojis] = useState<string[]>([
-    "✨",
-    "🌸",
-    "☁️",
-  ]);
-
   const [musicaSelecionada, setMusicaSelecionada] = useState<{
     id: string;
     title: string;
@@ -150,8 +143,6 @@ export function CriadorDeclaracao() {
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [pageId, setPageId] = useState<string | null>(null);
-
-  // ── Navegação ──────────────────────────────────────────────
 
   function proximaEtapa() {
     if (!validarEtapaAtual()) {
@@ -287,23 +278,6 @@ export function CriadorDeclaracao() {
           {etapa === 4 && (
             <>
               <StepHeader
-                icon={FaMusic}
-                titulo="Escolher música"
-                descricao="Escolha uma música que lembra esta pessoa."
-                etapa={etapa}
-                totalEtapas={totalEtapas}
-              />
-              <ContentEscolherMusica
-                onMusicSelect={setMusicaSelecionada}
-                videoSelecionado={musicaSelecionada}
-              />
-            </>
-          )}
-
-          {/* ETAPA 5 — Data */}
-          {etapa === 5 && (
-            <>
-              <StepHeader
                 icon={FaCalendar}
                 titulo="Data"
                 descricao="Quando tudo começou?"
@@ -313,6 +287,23 @@ export function CriadorDeclaracao() {
               <FormTempoConhecimento
                 dataConhecimento={dataConhecimento}
                 setDataConhecimento={setDataConhecimento}
+              />
+            </>
+          )}
+
+          {/* ETAPA 5 — Data */}
+          {etapa === 5 && (
+            <>
+              <StepHeader
+                icon={FaMusic}
+                titulo="Escolher música"
+                descricao="Escolha uma música que lembra esta pessoa."
+                etapa={etapa}
+                totalEtapas={totalEtapas}
+              />
+              <ContentEscolherMusica
+                onMusicSelect={setMusicaSelecionada}
+                videoSelecionado={musicaSelecionada}
               />
             </>
           )}
@@ -346,7 +337,6 @@ export function CriadorDeclaracao() {
             />
           )}
 
-          {/* ETAPA 7 — Sub-etapa: preenchimento das seções */}
           {etapa === 7 && subEtapaRetro === "formulario" && (
             <FormsSecoesSelecionadas
               onVoltar={() => setSubEtapaRetro("selecao")}
@@ -396,7 +386,7 @@ export function CriadorDeclaracao() {
         </div>
 
         {/* Preview lateral */}
-        {etapa !== 8 && etapa !== 9 ? (
+        {etapa !== 7 && etapa !== 8 && etapa !== 9 ? (
           <div>
             <h1 className="text-xl font-bold text-center">
               Pré Visualização do seu site:
@@ -414,8 +404,6 @@ export function CriadorDeclaracao() {
                 dataConhecimento={dataConhecimento}
                 modoExibicao={modoExibicao}
                 modoImagem={modoImagem}
-                efeitoFundo={efeitoFundo}
-                customEmojis={customEmojis}
               />
             </div>
           </div>

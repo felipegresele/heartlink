@@ -14,6 +14,7 @@ import moldura1 from "../../../../img/escaneie-e-se-surprenda-com-qr.webp";
 import moldura2 from "../../../../img/juntos-para-sempre-com-qr.webp";
 import moldura3 from "../../../../img/spotify-com-qr.webp";
 import moldura4 from "../../../../img/supresa-para-vc-com-qr.webp";
+import moldura5 from "../../../../img/carta-com-qr.webp";
 
 interface PagamentoStepProps {
   pageId: string | null;
@@ -36,6 +37,7 @@ const MOLDURAS = [
   { id: "JUNTOS", label: "Juntos Para Sempre", preco: 2.9, preview: moldura2 },
   { id: "SPOTIFY", label: "Spotify", preco: 2.9, preview: moldura3 },
   { id: "SURPRESA", label: "Surpresa pra Você", preco: 2.9, preview: moldura4 },
+  { id: "CARTA", label: "Carta de Amor", preco: 2.9, preview: moldura4 },
 ];
 
 export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
@@ -91,8 +93,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
   }
 
   const mensagem = `Tudo pronto para o grande momento! 
-
-Nós da HeartCode estamos ansiosos para ver a reação dela(e).`;
+  Nós da HeartCode estamos ansiosos para ver a reação dela(e).`;
 
   const [textoDigitado, setTextoDigitado] = useState("");
 

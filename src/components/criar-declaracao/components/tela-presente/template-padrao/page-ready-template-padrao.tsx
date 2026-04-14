@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronRight, FaHeart, FaLock, FaLockOpen, FaRedo, FaTimes } from "react-icons/fa";
+import { FaChevronRight, FaHeart, FaLock, FaLockOpen, FaRandom, FaRedo, FaTimes } from "react-icons/fa";
 
 import imgLogo from "../../../../../img/logo-heartcode.webp";
 import imgBgRetro from "../../../../../img/bg-retrospectiva.png";
@@ -8,13 +8,15 @@ import MusicPlayerFooter from "../../music/exibir-musica";
 import ModalPresente from "../modal/modal-ver-presente";
 import { WHEEL_COLORS, type RetrospectiveData, type SectionType } from "../../../../../schema/retrospectiva";
 import { RetrospectiveBtn } from "../../forms-templates/retrospectiva/botao-retrospectiva";
+import { IoExtensionPuzzleSharp } from "react-icons/io5";
+import { FiClock, FiImage } from "react-icons/fi";
 
 // ── Label e emoji de cada seção ──────────────────────────────────────────────
-const SECTION_META: Record<SectionType, { label: string; emoji: string }> = {
-  timeline: { label: "Nossa Linha do Tempo", emoji: "🕰️" },
-  wheel:    { label: "Roleta de Aventuras",  emoji: "🎡" },
-  gallery:  { label: "Nossa Galeria",        emoji: "🖼️" },
-  enigma:   { label: "O que eu amo em você", emoji: "💌" },
+const SECTION_META: Record<SectionType, { label: string; emoji: React.ReactNode }> = {
+  timeline: { label: "Nossa Linha do Tempo", emoji: <FiClock /> },
+  wheel:    { label: "Roleta de Aventuras",  emoji: <FaRandom /> },
+  gallery:  { label: "Nossa Galeria",        emoji: <FiImage /> },
+  enigma:   { label: "O que eu amo em você", emoji: <IoExtensionPuzzleSharp /> },
 };
 
 const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];

@@ -14,7 +14,7 @@ import { FormTitulo } from "../components/forms-templates/form-titulo";
 import { FormModoExibicao } from "../components/forms-templates/form-modo-exibicao";
 import { FormModoImagem } from "../components/forms-templates/form-modo-imagens";
 import { FormTempoConhecimento } from "../components/forms-templates/form-tempo";
-import { FormImagens } from "../components/forms-templates/form-imagens";
+import { FormImagens } from "../components/forms-templates/img-cloudnary/form-imagens";
 import { FormMensagem } from "../components/forms-templates/form-mensagem";
 import PreviewCarrossel from "../components/preview/preview-carrosel";
 import { EscolherPlano } from "../components/forms-templates/escolher-plano";

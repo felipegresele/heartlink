@@ -8,7 +8,7 @@ import { FaPlus, FaTrash, FaTimes, FaPencilAlt, FaCheck } from "react-icons/fa";
 import { useRetrospective } from "./restrospective-context";
 import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
-import { UploadImagem } from "./upload-imagem";
+import { UploadImagemGallery } from "../img-cloudnary/upload-imagem-gallery";
 
 export function GallerySection() {
   const { data, addGalleryItem, updateGalleryItem, removeGalleryItem } =
@@ -75,7 +75,7 @@ export function GallerySection() {
             exit={{ opacity: 0, height: 0 }}
             className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-3 overflow-hidden"
           >
-            <UploadImagem
+            <UploadImagemGallery
               value={form.imagem}
               onChange={(v) => setForm((f) => ({ ...f, imagem: v }))}
               className="h-40 w-full"

@@ -6,9 +6,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaTrash, FaPencilAlt, FaCheck, FaTimes } from "react-icons/fa";
 import { LIMITS } from "../../../../../schema/retrospectiva";
-import { UploadImagem } from "./upload-imagem";
 import { LimiteBadge } from "./limit-bagde";
 import { useRetrospective } from "./restrospective-context";
+import { UploadImagemTimeline } from "../img-cloudnary/upload-imagem-timeline";
 
 // ── Formulário de item ────────────────────────────────────────
 interface ItemFormState {
@@ -74,7 +74,7 @@ export function TimelineSection() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-3"
         >
-          <UploadImagem
+          <UploadImagemTimeline
             value={form.imagem}
             onChange={(v) => setForm((f) => ({ ...f, imagem: v }))}
             className="h-36 w-full"
@@ -132,7 +132,7 @@ export function TimelineSection() {
               {editandoId === item.id ? (
                 /* Modo edição */
                 <div className="flex-1 bg-white/5 border border-pink-400/40 rounded-2xl p-3 space-y-2">
-                  <UploadImagem
+                  <UploadImagemTimeline
                     value={editForm.imagem}
                     onChange={(v) => setEditForm((f) => ({ ...f, imagem: v }))}
                     className="h-28 w-full"

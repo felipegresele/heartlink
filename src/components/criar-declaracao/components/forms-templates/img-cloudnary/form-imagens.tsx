@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { FormImagensProps } from "../../../../schema/form-templates";
+import type { FormImagensProps } from "../../../../../schema/form-templates";
 
 const CLOUD_NAME = "dsqzqfga2";
 const UPLOAD_PRESET = "heartlink";

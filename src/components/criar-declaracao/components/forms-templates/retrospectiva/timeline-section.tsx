@@ -1,8 +1,3 @@
-// ============================================================
-// SEÇÃO — TimelineSection
-// Linha do tempo vertical com até 6 momentos importantes
-// Imagens alternam esquerda/direita
-// ============================================================
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaTrash, FaPencilAlt, FaCheck, FaTimes } from "react-icons/fa";
@@ -52,19 +47,23 @@ export function TimelineSection() {
     setEditandoId(null);
   }
 
-  // Card reutilizável para modo visualização
-  function CardView({ item }: { item: typeof data.timeline[0] }) {
+  // Card reutilizável para modo visualização — layout polaroid alternado
+  function CardView({ item, isLeft }: { item: typeof data.timeline[0]; isLeft: boolean }) {
     return (
-      <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+      <div className={`flex items-center gap-3 ${isLeft ? "flex-row" : "flex-row-reverse"}`}>
+        {/* Foto estilo polaroid */}
         {item.imagem && (
-          <img src={item.imagem} alt={item.titulo} className="w-full h-28 object-cover" />
+          <div className="flex-shrink-0 bg-white p-1.5 pb-5 shadow-lg rotate-[-2deg] hover:rotate-0 transition-transform duration-300 w-[90px]">
+            <img src={item.imagem} alt={item.titulo} className="w-full h-[70px] object-cover" />
+          </div>
         )}
-        <div className="p-2">
-          <p className="text-white font-semibold text-xs">{item.titulo}</p>
+        {/* Info */}
+        <div className={`flex-1 min-w-0 ${isLeft ? "text-left" : "text-right"}`}>
+          <p className="text-white font-semibold text-xs leading-tight">{item.titulo}</p>
           {item.descricao && (
-            <p className="text-white/50 text-xs mt-0.5">{item.descricao}</p>
+            <p className="text-white/50 text-xs mt-0.5 leading-tight">{item.descricao}</p>
           )}
-          <div className="flex gap-2 mt-1.5">
+          <div className={`flex gap-2 mt-1.5 ${isLeft ? "justify-start" : "justify-end"}`}>
             <button onClick={() => iniciarEdicao(item.id)} className="text-white/40 hover:text-blue-400 transition-colors">
               <FaPencilAlt size={10} />
             </button>
@@ -193,7 +192,7 @@ export function TimelineSection() {
                   <>
                     {/* Conteúdo na ESQUERDA */}
                     <div className="w-[calc(50%-20px)] pr-3">
-                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} />}
+                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} isLeft={true} />}
                     </div>
                     {/* Espaço vazio direita */}
                     <div className="w-[calc(50%+20px)]" />
@@ -204,7 +203,7 @@ export function TimelineSection() {
                     <div className="w-[calc(50%+20px)]" />
                     {/* Conteúdo na DIREITA */}
                     <div className="w-[calc(50%-20px)] pl-3">
-                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} />}
+                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} isLeft={false} />}
                     </div>
                   </>
                 )}

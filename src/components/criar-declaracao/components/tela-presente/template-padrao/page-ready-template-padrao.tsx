@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronRight, FaHeart, FaLock, FaLockOpen, FaRandom, FaRedo, FaTimes } from "react-icons/fa";
 
 import imgLogo from "../../../../../img/logo-heartcode.webp";
-import imgBgRetro from "../../../../../img/bg-retrospectiva.png";
 import MusicPlayerFooter from "../../music/exibir-musica";
 import ModalPresente from "../modal/modal-ver-presente";
 import { WHEEL_COLORS, type RetrospectiveData, type SectionType } from "../../../../../schema/retrospectiva";
@@ -143,34 +142,63 @@ function RetrospectiveModal({
 function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
   if (!items.length) return null;
   return (
-    <div className="relative pt-2">
-      <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500 to-transparent" />
-      {items.map((item, idx) => (
-        <motion.div
-          key={item.id}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: idx * 0.1 }}
-          className="relative pl-14 mb-8"
-        >
-          <div className="absolute left-3 top-3 w-4 h-4 rounded-full bg-pink-500 border-2 border-gray-950 shadow-lg shadow-pink-500/50" />
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/5">
-            {item.imagem && (
-              <img
-                src={item.imagem}
-                alt={item.titulo}
-                className="w-full h-48 object-cover"
-              />
+    <div className="relative pt-4 pb-2">
+      {/* Linha central */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500 to-transparent" />
+
+      {items.map((item, idx) => {
+        const isLeft = idx % 2 === 0;
+        return (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: idx * 0.1 }}
+            className="relative flex mb-10 items-center"
+          >
+            {/* Bolinha central */}
+            <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-pink-500 border-2 border-gray-950 shadow-lg shadow-pink-500/50 z-10" />
+
+            {isLeft ? (
+              <>
+                {/* ESQUERDA: foto polaroid */}
+                <div className="w-[calc(50%-20px)] flex justify-end pr-5">
+                  {item.imagem && (
+                    <div className="bg-white p-2 pb-6 shadow-xl rotate-[-3deg] hover:rotate-0 transition-transform duration-300 max-w-[120px]">
+                      <img src={item.imagem} alt={item.titulo} className="w-full h-[90px] object-cover" />
+                    </div>
+                  )}
+                </div>
+                {/* DIREITA: info */}
+                <div className="w-[calc(50%-20px)] pl-5">
+                  <p className="text-pink-400 font-bold text-sm leading-tight">{item.titulo}</p>
+                  {item.descricao && (
+                    <p className="text-white/60 text-xs mt-1 leading-relaxed">{item.descricao}</p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* ESQUERDA: info */}
+                <div className="w-[calc(50%-20px)] pr-5 text-right">
+                  <p className="text-pink-400 font-bold text-sm leading-tight">{item.titulo}</p>
+                  {item.descricao && (
+                    <p className="text-white/60 text-xs mt-1 leading-relaxed">{item.descricao}</p>
+                  )}
+                </div>
+                {/* DIREITA: foto polaroid */}
+                <div className="w-[calc(50%-20px)] flex justify-start pl-5">
+                  {item.imagem && (
+                    <div className="bg-white p-2 pb-6 shadow-xl rotate-[3deg] hover:rotate-0 transition-transform duration-300 max-w-[120px]">
+                      <img src={item.imagem} alt={item.titulo} className="w-full h-[90px] object-cover" />
+                    </div>
+                  )}
+                </div>
+              </>
             )}
-            <div className="p-4">
-              <h3 className="text-white font-bold">{item.titulo}</h3>
-              {item.descricao && (
-                <p className="text-white/50 text-sm mt-1">{item.descricao}</p>
-              )}
-            </div>
-          </div>
-        </motion.div>
-      ))}
+          </motion.div>
+        );
+      })}
     </div>
   );
 }
@@ -285,7 +313,7 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
 }
 
 function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
-  const [modal, setModal] = useState<string | null>(null);
+  const [modalItem, setModalItem] = useState<{ imagem: string; descricao?: string } | null>(null);
   if (!items.length) return null;
 
   return (
@@ -298,7 +326,7 @@ function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.07 }}
             className="relative group rounded-xl overflow-hidden cursor-zoom-in border border-white/10"
-            onClick={() => setModal(item.imagem)}
+            onClick={() => setModalItem({ imagem: item.imagem, descricao: item.descricao })}
           >
             <img
               src={item.imagem}
@@ -315,23 +343,32 @@ function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
       </div>
 
       <AnimatePresence>
-        {modal && (
+        {modalItem && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4"
-            onClick={() => setModal(null)}
+            onClick={() => setModalItem(null)}
           >
-            <motion.img
+            <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              src={modal}
-              alt="Ampliado"
-              className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
+              className="flex flex-col items-center gap-3 max-w-full"
               onClick={(e) => e.stopPropagation()}
-            />
+            >
+              <img
+                src={modalItem.imagem}
+                alt="Ampliado"
+                className="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl"
+              />
+              {modalItem.descricao && (
+                <p className="text-white/80 text-sm text-center px-4 leading-relaxed">
+                  {modalItem.descricao}
+                </p>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -9,6 +9,7 @@ import { useRetrospective } from "./restrospective-context";
 import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
 import { UploadImagemGallery } from "../img-cloudnary/upload-imagem-gallery";
+import { FiImage } from "react-icons/fi";
 
 export function GallerySection() {
   const { data, addGalleryItem, updateGalleryItem, removeGalleryItem } =
@@ -47,7 +48,7 @@ export function GallerySection() {
     <div className="space-y-6">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl">📸</span>
+        <span className="text-2xl"><FiImage /></span>
         <div>
           <h3 className="text-white font-bold text-lg leading-tight">Galeria de Fotos</h3>
           <p className="text-white/40 text-xs">Momentos capturados para sempre</p>

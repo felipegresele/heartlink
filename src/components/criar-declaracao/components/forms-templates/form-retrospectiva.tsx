@@ -5,6 +5,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import type { SectionType } from "../../../../schema/retrospectiva";
 import { useRetrospective } from "./retrospectiva/restrospective-context";
+import { FiCalendar, FiClock, FiImage } from "react-icons/fi";
+import { FaRandom } from "react-icons/fa";
+import { IoExtensionPuzzleSharp } from "react-icons/io5";
 
 interface Props {
   onContinuar: () => void; // avança para os formulários das seções
@@ -16,8 +19,8 @@ const SECOES_DISPONIVEIS: {
   id: SectionType;
   titulo: string;
   descricao: string;
-  badge: string;
-  icone: string;
+  badge: React.ReactNode;
+  icone:  React.ReactNode;
   preview: React.ReactNode;
   gradiente: string;
   badgeColor: string;
@@ -26,8 +29,8 @@ const SECOES_DISPONIVEIS: {
     id: "timeline",
     titulo: "Linha do Tempo",
     descricao: "Momentos especiais com foto e história",
-    badge: "📅",
-    icone: "🕐",
+    badge: <FiCalendar />,
+    icone: <FiClock />,
     gradiente: "from-pink-900/60 to-rose-900/60",
     badgeColor: "bg-pink-500/20 text-pink-300 border-pink-500/30",
     preview: (
@@ -46,8 +49,8 @@ const SECOES_DISPONIVEIS: {
     id: "wheel",
     titulo: "Roleta",
     descricao: "Sorteie a próxima aventura do casal",
-    badge: "🎡",
-    icone: "🎡",
+    badge: <FaRandom />,
+    icone: <FaRandom />,
     gradiente: "from-purple-900/60 to-violet-900/60",
     badgeColor: "bg-purple-500/20 text-purple-300 border-purple-500/30",
     preview: (
@@ -78,8 +81,8 @@ const SECOES_DISPONIVEIS: {
     id: "gallery",
     titulo: "Galeria de Fotos",
     descricao: "Grid com fotos e legendas especiais",
-    badge: "📸",
-    icone: "📸",
+    badge: <FiImage />,
+    icone: <FiImage />,
     gradiente: "from-blue-900/60 to-cyan-900/60",
     badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/30",
     preview: (
@@ -99,8 +102,8 @@ const SECOES_DISPONIVEIS: {
     id: "enigma",
     titulo: "Jogo de Palavras",
     descricao: "Cartões que revelam o que você ama",
-    badge: "🎮",
-    icone: "🔮",
+    badge: <IoExtensionPuzzleSharp />,
+    icone: <IoExtensionPuzzleSharp />,
     gradiente: "from-amber-900/60 to-orange-900/60",
     badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/30",
     preview: (

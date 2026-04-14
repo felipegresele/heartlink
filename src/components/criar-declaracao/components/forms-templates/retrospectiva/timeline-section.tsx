@@ -9,6 +9,7 @@ import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
 import { useRetrospective } from "./restrospective-context";
 import { UploadImagemTimeline } from "../img-cloudnary/upload-imagem-timeline";
+import { FiClock } from "react-icons/fi";
 
 // ── Formulário de item ────────────────────────────────────────
 interface ItemFormState {
@@ -57,7 +58,7 @@ export function TimelineSection() {
     <div className="space-y-6">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl">🕐</span>
+        <span className="text-2xl"><FiClock /></span>
         <div>
           <h3 className="text-white font-bold text-lg leading-tight">Linha do Tempo</h3>
           <p className="text-white/40 text-xs">Os momentos mais especiais de vocês</p>

@@ -8,6 +8,7 @@ import { FaPlus, FaTrash, FaHeart, FaLock, FaLockOpen } from "react-icons/fa";
 import { useRetrospective } from "./restrospective-context";
 import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
+import { IoExtensionPuzzleSharp } from "react-icons/io5";
 
 // Emojis decorativos para os cards
 const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
@@ -39,7 +40,7 @@ export function EnigmaSection() {
     <div className="space-y-6">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl">🔮</span>
+        <span className="text-2xl"><IoExtensionPuzzleSharp /></span>
         <div>
           <h3 className="text-white font-bold text-lg leading-tight">Enigma</h3>
           <p className="text-white/40 text-xs">O que você ama nessa pessoa — revelado aos poucos</p>

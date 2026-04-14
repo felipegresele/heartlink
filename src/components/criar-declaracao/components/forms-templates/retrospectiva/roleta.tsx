@@ -4,7 +4,7 @@
 // ============================================================
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPlus, FaTrash, FaRedo } from "react-icons/fa";
+import { FaPlus, FaTrash, FaRedo, FaRandom } from "react-icons/fa";
 import { useRetrospective } from "./restrospective-context";
 import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
@@ -103,7 +103,7 @@ export function WheelSection() {
     <div className="space-y-6">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl">🎡</span>
+        <span className="text-2xl"><FaRandom /></span>
         <div>
           <h3 className="text-white font-bold text-lg leading-tight">Roleta</h3>
           <p className="text-white/40 text-xs">Sorteie a próxima aventura de vocês</p>

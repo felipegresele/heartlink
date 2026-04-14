@@ -56,3 +56,40 @@ export const WHEEL_COLORS = [
   "#88D8B0", "#6EC6FF", "#B39DDB", "#F48FB1",
   "#FFCC80", "#80DEEA",
 ];
+
+export interface BackendRetrospectiva {
+  selectedSections: string[];
+  timeline: {
+    id: string;
+    titulo: string;
+    descricao: string;
+    imagem: string;
+  }[];
+  wheel: {
+    id: string;
+    texto: string;
+    cor: string;
+  }[];
+  gallery: {
+    id: string;
+    imagem: string;
+    descricao: string;
+  }[];
+  enigma: {
+    id: string;
+    texto: string;
+    revelado: boolean;
+  }[];
+}
+
+export function mapBackendRetrospectiva(
+  backend: BackendRetrospectiva
+): RetrospectiveData {
+  return {
+    secoesSelecionadas: backend.selectedSections as any,
+    timeline: backend.timeline ?? [],
+    wheel: backend.wheel ?? [],
+    gallery: backend.gallery ?? [],
+    enigma: backend.enigma ?? [],
+  };
+}

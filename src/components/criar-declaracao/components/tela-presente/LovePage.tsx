@@ -1,33 +1,30 @@
-import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-import type { LovePageData } from "../../../../schema/schemas"
-import PageReady from "./template-padrao/page-ready-template-padrao"
+import type { LovePageData } from "../../../../schema/schemas";
+import PageReady from "./template-padrao/page-ready-template-padrao";
+import { mapBackendRetrospectiva } from "../../../../schema/retrospectiva";
 
 export default function LovePage() {
+  const { slug } = useParams();
 
-  const { slug } = useParams()
-
-  const [page, setPage] = useState<LovePageData | null>(null)
+  const [page, setPage] = useState<LovePageData | null>(null);
 
   useEffect(() => {
-
-    axios.get(`https://lovepage-backend.onrender.com/api/love-pages/${slug}`)
-      .then(res => {
-        setPage(res.data)
+    axios
+      .get(`https://lovepage-backend.onrender.com/api/love-pages/${slug}`)
+      .then((res) => {
+        setPage(res.data);
       })
-      .catch(err => {
-        console.error(err)
-      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [slug]);
 
-  }, [slug])
-
-
-  if (!page) return <h1>Carregando...</h1>
+  if (!page) return <h1>Carregando...</h1>;
 
   return (
-
     <PageReady
       titulo={page.receiverName}
       mensagem={page.message}
@@ -36,7 +33,11 @@ export default function LovePage() {
       musicaTitulo={page.musicTitle}
       dataConhecimento={page.relationshipStartDate}
       usuarioNome={page.senderName}
+      retrospectiva={
+        page.retrospectiva
+          ? mapBackendRetrospectiva(page.retrospectiva)
+          : undefined
+      }
     />
-
-  )
+  );
 }

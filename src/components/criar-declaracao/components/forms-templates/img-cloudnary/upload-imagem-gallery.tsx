@@ -3,6 +3,9 @@ import { FaCamera } from "react-icons/fa";
 
 const CLOUD_NAME = "dsqzqfga2";
 const UPLOAD_PRESET = "heartlink";
+const FOLDER = "heartlink/gallery";
+
+const TIPOS_ACEITOS = ["image/jpeg", "image/png", "image/webp"];
 
 interface UploadImagemGalleryProps {
   value: string;
@@ -19,11 +22,17 @@ export function UploadImagemGallery({ value, onChange, className = "", label }: 
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (!TIPOS_ACEITOS.includes(file.type)) {
+      alert("Formato não permitido! Use JPG, PNG ou WebP (GIF não é aceito).");
+      return;
+    }
+
     setUploading(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", UPLOAD_PRESET);
+      formData.append("folder", FOLDER);
 
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
@@ -71,7 +80,7 @@ export function UploadImagemGallery({ value, onChange, className = "", label }: 
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         className="hidden"
         onChange={handleFile}
       />

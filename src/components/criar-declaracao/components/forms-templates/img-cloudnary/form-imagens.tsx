@@ -3,6 +3,9 @@ import type { FormImagensProps } from "../../../../../schema/form-templates";
 
 const CLOUD_NAME = "dsqzqfga2";
 const UPLOAD_PRESET = "heartlink";
+const FOLDER = "heartlink/profile";
+
+const TIPOS_ACEITOS = ["image/jpeg", "image/png", "image/webp"];
 
 export function FormImagens({ imagens, setImagens }: FormImagensProps) {
   const [uploading, setUploading] = useState(false);
@@ -22,8 +25,8 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
-      if (!file.type.startsWith("image/")) {
-        alert("Selecione apenas imagens!");
+      if (!TIPOS_ACEITOS.includes(file.type)) {
+        alert("Formato não permitido! Use JPG, PNG ou WebP (GIF não é aceito).");
         continue;
       }
 
@@ -36,6 +39,7 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", UPLOAD_PRESET);
+        formData.append("folder", FOLDER);
 
         const res = await fetch(
           `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
@@ -45,7 +49,7 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
         const data = await res.json();
 
         if (data.secure_url) {
-          novasImagens.push(data.secure_url); // URL permanente ✅
+          novasImagens.push(data.secure_url);
         } else {
           alert("Erro ao fazer upload de uma imagem.");
         }
@@ -67,12 +71,12 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
     <div className="space-y-2">
       <h2 className="text-lg font-bold">Imagens</h2>
 
-      {imagens.length < 8 && (
+      {imagens.length < 3 && (
         <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="file"
             multiple
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp"
             onChange={handleAdicionarImagem}
             disabled={uploading}
             className="mb-2 p-2 rounded-md text-black bg-gray-200 cursor-pointer disabled:opacity-50"

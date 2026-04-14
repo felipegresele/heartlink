@@ -71,7 +71,7 @@ export function TimelineSection() {
   }
 
   // ── Polaroid card (view mode) ─────────────────────────────────────────────
-  function PolaroidCard({
+  function PolaroidCardImgEsquerda({
     item,
     rotation,
   }: {
@@ -87,8 +87,8 @@ export function TimelineSection() {
           <img
             src={item.imagem}
             alt={item.titulo}
-            className="w-full object-cover"
-            style={{ height: "100px" }}
+            className="w-full object-cover mt-2"
+            style={{ height: "120px" }}
           />
         )}
         {item.descricao && (
@@ -96,7 +96,44 @@ export function TimelineSection() {
             className="text-gray-700 text-center mt-2 leading-tight"
             style={{
               fontFamily: "'Caveat', cursive",
-              fontSize: "11px",
+              fontSize: "14px",
+              fontWeight: "bold"
+            }}
+          >
+            {item.descricao}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+   function PolaroidCardImgDireita({
+    item,
+    rotation,
+  }: {
+    item: (typeof data.timeline)[0];
+    rotation: string;
+  }) {
+    return (
+      <div
+        className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105 ml-15"
+        style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
+      >
+        {item.imagem && (
+          <img
+            src={item.imagem}
+            alt={item.titulo}
+            className="w-full object-cover mt-2"
+            style={{ height: "120px"}}
+          />
+        )}
+        {item.descricao && (
+          <p
+            className="text-gray-700 text-center mt-2 leading-tight"
+            style={{
+              fontFamily: "'Caveat', cursive",
+              fontSize: "14px",
+              fontWeight: "bold"
             }}
           >
             {item.descricao}
@@ -117,29 +154,28 @@ export function TimelineSection() {
     return (
       <div className={`flex flex-col gap-1 ${align === "right" ? "items-start text-left" : "items-end text-right"}`}>
         <div className={`flex items-center gap-1.5 ${align === "right" ? "flex-row" : "flex-row-reverse"}`}>
-          <FaHeart size={10} className="text-pink-400 flex-shrink-0" />
           <p
-            className="font-bold text-sm"
-            style={{ color: "#ff4d88", fontFamily: "'Playfair Display', serif" }}
+            className="font-bold"
+            style={{ color: "#ff4d88", fontFamily: "'Playfair Display', serif", marginLeft: 30, fontSize: 20 }}
           >
             {item.titulo}
           </p>
         </div>
         {item.descricao && (
-          <p className="text-white/50 text-xs leading-snug max-w-[110px]">
+          <p className="text-white/50 text-xs leading-snug max-w-[110px] text-[20px] ml-5">
             {item.descricao}
           </p>
         )}
         <div className={`flex gap-2 mt-1 ${align === "right" ? "justify-start" : "justify-end"}`}>
           <button
             onClick={() => iniciarEdicao(item.id)}
-            className="text-white/30 hover:text-blue-400 transition-colors"
+            className="text-white/30 ml-4 hover:text-gray-400 transition-colors cursor-pointer"
           >
             <FaPencilAlt size={10} />
           </button>
           <button
             onClick={() => removeTimelineItem(item.id)}
-            className="text-white/30 hover:text-red-400 transition-colors"
+            className="text-white/30 ml-4 hover:text-red-400 transition-colors cursor-pointer"
           >
             <FaTrash size={10} />
           </button>
@@ -191,7 +227,7 @@ export function TimelineSection() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl text-pink-400">
+        <span className="text-2xl text-white">
           <FiClock />
         </span>
         <div>
@@ -289,8 +325,7 @@ export function TimelineSection() {
                 >
                   <FaHeart
                     size={12}
-                    className="text-white drop-shadow"
-                    style={{ filter: "drop-shadow(0 0 4px #ec4899)" }}
+                    className="text-pink-400 drop-shadow"
                   />
                 </div>
 
@@ -301,7 +336,7 @@ export function TimelineSection() {
                       {editandoId === item.id ? (
                         <CardEdit />
                       ) : (
-                        <PolaroidCard item={item} rotation={rotation} />
+                        <PolaroidCardImgEsquerda item={item} rotation={rotation} />
                       )}
                     </div>
                     {/* RIGHT: text */}
@@ -324,7 +359,7 @@ export function TimelineSection() {
                       {editandoId === item.id ? (
                         <CardEdit />
                       ) : (
-                        <PolaroidCard item={item} rotation={rotation} />
+                        <PolaroidCardImgDireita item={item} rotation={rotation} />
                       )}
                     </div>
                   </>

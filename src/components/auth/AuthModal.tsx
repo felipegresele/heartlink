@@ -108,7 +108,7 @@ function AuthForm({ fecharModal }: AuthModalProps) {
 
       <button 
         type="submit" 
-        className="w-full py-3 px-4 mt-6 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-emerald-900/20"
+        className="w-full cursor-pointer py-3 px-4 mt-6 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-emerald-900/20"
       >
         Cadastrar agora
       </button>

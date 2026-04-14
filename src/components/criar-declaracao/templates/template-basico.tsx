@@ -29,6 +29,7 @@ import { WheelSection } from "../components/forms-templates/retrospectiva/roleta
 import { GallerySection } from "../components/forms-templates/retrospectiva/galeria-sessao";
 import { EnigmaSection } from "../components/forms-templates/retrospectiva/enigma-sessao";
 import { saveRetrospective } from "../../../api/retrospectiva";
+import { FaGift } from "react-icons/fa6";
 
 type SubEtapaRetrospectiva = "selecao" | "formulario";
 
@@ -45,9 +46,13 @@ function FormsSecoesSelecionadas({
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-white font-bold text-base mb-1">
-          Personalize suas seções
-        </h3>
+        <div className="flex justify-center">
+          <FaGift />
+          <h3 className="text-white font-bold text-base mb-1">
+            Personalize suas seções
+          </h3>
+        </div>
+
         <p className="text-white/40 text-xs">
           Preencha os dados de cada seção que você escolheu.
         </p>
@@ -118,7 +123,7 @@ function CriadorDeclaracaoInner() {
     "padrao" | "classico" | "simples"
   >("padrao");
   const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
-    "carrossel"
+    "carrossel",
   );
 
   const [musicaSelecionada, setMusicaSelecionada] = useState<{
@@ -178,11 +183,11 @@ function CriadorDeclaracaoInner() {
           theme: modoExibicao,
           planType: selectedPlan,
         }),
-      }
+      },
     );
 
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     const createdPageId: string = data.id;
     setPageId(createdPageId);
 
@@ -205,21 +210,30 @@ function CriadorDeclaracaoInner() {
       }
     }
 
-    console.log(removeEventListener)
+    console.log(removeEventListener);
     setEtapa(9);
   }
 
   function validarEtapaAtual() {
     switch (etapa) {
-      case 1: return titulo.trim().length > 0;
-      case 2: return mensagem.trim().length > 0;
-      case 3: return imagens.length > 0;
-      case 4: return dataConhecimento !== "";
-      case 5: return musicaSelecionada !== null;
-      case 6: return true;
-      case 7: return true;
-      case 8: return selectedPlan !== null;
-      default: return true;
+      case 1:
+        return titulo.trim().length > 0;
+      case 2:
+        return mensagem.trim().length > 0;
+      case 3:
+        return imagens.length > 0;
+      case 4:
+        return dataConhecimento !== "";
+      case 5:
+        return musicaSelecionada !== null;
+      case 6:
+        return true;
+      case 7:
+        return true;
+      case 8:
+        return selectedPlan !== null;
+      default:
+        return true;
     }
   }
 
@@ -228,47 +242,108 @@ function CriadorDeclaracaoInner() {
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
       <div className="flex-1 space-y-6 min-h-[calc(100vh-160px)] md:min-h-auto">
-
         {etapa === 1 && (
           <>
-            <StepHeader icon={FaFont} titulo="Título da página" descricao="Escolha um título especial." etapa={etapa} totalEtapas={totalEtapas} />
-            <FormTitulo titulo={titulo} setTitulo={setTitulo} corTitulo={corTitulo} setCorTitulo={setCorTitulo} fonteTitulo={fonteTitulo} setFonteTitulo={setFonteTitulo} tamanhoTitulo={tamanhoTitulo} setTamanhoTitulo={setTamanhoTitulo} />
+            <StepHeader
+              icon={FaFont}
+              titulo="Título da página"
+              descricao="Escolha um título especial."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+            <FormTitulo
+              titulo={titulo}
+              setTitulo={setTitulo}
+              corTitulo={corTitulo}
+              setCorTitulo={setCorTitulo}
+              fonteTitulo={fonteTitulo}
+              setFonteTitulo={setFonteTitulo}
+              tamanhoTitulo={tamanhoTitulo}
+              setTamanhoTitulo={setTamanhoTitulo}
+            />
           </>
         )}
 
         {etapa === 2 && (
           <>
-            <StepHeader icon={FaCommentDots} titulo="Declaração" descricao="Escreva sua mensagem." etapa={etapa} totalEtapas={totalEtapas} />
-            <FormMensagem mensagem={mensagem} setMensagem={setMensagem} tamanhoMensagem={tamanhoMensagem} setTamanhoMensagem={setTamanhoMensagem} />
+            <StepHeader
+              icon={FaCommentDots}
+              titulo="Declaração"
+              descricao="Escreva sua mensagem."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+            <FormMensagem
+              mensagem={mensagem}
+              setMensagem={setMensagem}
+              tamanhoMensagem={tamanhoMensagem}
+              setTamanhoMensagem={setTamanhoMensagem}
+            />
           </>
         )}
 
         {etapa === 3 && (
           <>
-            <StepHeader icon={FaImages} titulo="Fotos" descricao="Adicione suas fotos." etapa={etapa} totalEtapas={totalEtapas} />
+            <StepHeader
+              icon={FaImages}
+              titulo="Fotos"
+              descricao="Adicione suas fotos."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
             <FormImagens imagens={imagens} setImagens={setImagens} />
           </>
         )}
 
         {etapa === 4 && (
           <>
-            <StepHeader icon={FaCalendar} titulo="Data" descricao="Quando tudo começou?" etapa={etapa} totalEtapas={totalEtapas} />
-            <FormTempoConhecimento dataConhecimento={dataConhecimento} setDataConhecimento={setDataConhecimento} />
+            <StepHeader
+              icon={FaCalendar}
+              titulo="Data"
+              descricao="Quando tudo começou?"
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+            <FormTempoConhecimento
+              dataConhecimento={dataConhecimento}
+              setDataConhecimento={setDataConhecimento}
+            />
           </>
         )}
 
         {etapa === 5 && (
           <>
-            <StepHeader icon={FaMusic} titulo="Escolher música" descricao="Escolha uma música que lembra esta pessoa." etapa={etapa} totalEtapas={totalEtapas} />
-            <ContentEscolherMusica onMusicSelect={setMusicaSelecionada} videoSelecionado={musicaSelecionada} />
+            <StepHeader
+              icon={FaMusic}
+              titulo="Escolher música"
+              descricao="Escolha uma música que lembra esta pessoa."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+            <ContentEscolherMusica
+              onMusicSelect={setMusicaSelecionada}
+              videoSelecionado={musicaSelecionada}
+            />
           </>
         )}
 
         {etapa === 6 && (
           <>
-            <StepHeader icon={FaPalette} titulo="Layout" descricao="Como as fotos e o tempo aparecem." etapa={etapa} totalEtapas={totalEtapas} />
-            <FormModoImagem modoImagem={modoImagem} setModoImagem={setModoImagem} />
-            <FormModoExibicao modoExibicao={modoExibicao} setModoExibicao={setModoExibicao} />
+            <StepHeader
+              icon={FaPalette}
+              titulo="Layout"
+              descricao="Como as fotos e o tempo aparecem."
+              etapa={etapa}
+              totalEtapas={totalEtapas}
+            />
+            <FormModoImagem
+              modoImagem={modoImagem}
+              setModoImagem={setModoImagem}
+            />
+            <FormModoExibicao
+              modoExibicao={modoExibicao}
+              setModoExibicao={setModoExibicao}
+            />
           </>
         )}
 
@@ -287,7 +362,10 @@ function CriadorDeclaracaoInner() {
         )}
 
         {etapa === 8 && (
-          <EscolherPlano selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
+          <EscolherPlano
+            selectedPlan={selectedPlan}
+            setSelectedPlan={setSelectedPlan}
+          />
         )}
 
         {etapa === 9 && (
@@ -295,7 +373,9 @@ function CriadorDeclaracaoInner() {
         )}
 
         {!etapa7Ativa && (
-          <div className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}>
+          <div
+            className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}
+          >
             <button
               onClick={voltarEtapa}
               disabled={etapa === 1}

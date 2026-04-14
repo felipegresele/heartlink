@@ -237,9 +237,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             exit={{ opacity: 0 }}
             className="text-center text-white/30 text-xs"
           >
-            {selecionadas.length} seção
-            {selecionadas.length > 1 ? "ões" : ""} selecionada
-            {selecionadas.length > 1 ? "s" : ""}
+            {selecionadas.length} selecionada(s)
           </motion.p>
         )}
       </AnimatePresence>

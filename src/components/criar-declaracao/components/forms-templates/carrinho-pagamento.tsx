@@ -37,7 +37,7 @@ const MOLDURAS = [
   { id: "JUNTOS", label: "Juntos Para Sempre", preco: 2.9, preview: moldura2 },
   { id: "SPOTIFY", label: "Spotify", preco: 2.9, preview: moldura3 },
   { id: "SURPRESA", label: "Surpresa pra Você", preco: 2.9, preview: moldura4 },
-  { id: "CARTA", label: "Carta de Amor", preco: 2.9, preview: moldura4 },
+  { id: "CARTA", label: "Carta de Amor", preco: 2.9, preview: moldura5 },
 ];
 
 export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {

@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPlus, FaTrash, FaPencilAlt, FaCheck, FaTimes } from "react-icons/fa";
+import {
+  FaPlus,
+  FaTrash,
+  FaPencilAlt,
+  FaCheck,
+  FaTimes,
+  FaHeart,
+} from "react-icons/fa";
 import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
 import { useRetrospective } from "./restrospective-context";
@@ -15,6 +22,9 @@ interface ItemFormState {
 
 const EMPTY_FORM: ItemFormState = { titulo: "", descricao: "", imagem: "" };
 
+// Alternates rotation for polaroid feel
+const ROTATIONS = ["-3deg", "2.5deg", "-2deg", "3deg", "-1.5deg", "2deg"];
+
 export function TimelineSection() {
   const { data, addTimelineItem, updateTimelineItem, removeTimelineItem } =
     useRetrospective();
@@ -27,10 +37,19 @@ export function TimelineSection() {
   const cheio = data.timeline.length >= LIMITS.timeline;
 
   function handleAdd() {
-    if (!form.titulo.trim()) { setErro("O título é obrigatório."); return; }
-    if (!form.imagem) { setErro("Adicione uma imagem."); return; }
+    if (!form.titulo.trim()) {
+      setErro("O título é obrigatório.");
+      return;
+    }
+    if (!form.imagem) {
+      setErro("Adicione uma imagem.");
+      return;
+    }
     const ok = addTimelineItem(form);
-    if (!ok) { setErro("Limite de 6 momentos atingido."); return; }
+    if (!ok) {
+      setErro("Limite de 6 momentos atingido.");
+      return;
+    }
     setForm(EMPTY_FORM);
     setErro("");
   }
@@ -38,7 +57,11 @@ export function TimelineSection() {
   function iniciarEdicao(id: string) {
     const item = data.timeline.find((t) => t.id === id)!;
     setEditandoId(id);
-    setEditForm({ titulo: item.titulo, descricao: item.descricao, imagem: item.imagem });
+    setEditForm({
+      titulo: item.titulo,
+      descricao: item.descricao,
+      imagem: item.imagem,
+    });
   }
 
   function salvarEdicao() {
@@ -47,39 +70,88 @@ export function TimelineSection() {
     setEditandoId(null);
   }
 
-  // Card reutilizável para modo visualização — layout polaroid alternado
-  function CardView({ item, isLeft }: { item: typeof data.timeline[0]; isLeft: boolean }) {
+  // ── Polaroid card (view mode) ─────────────────────────────────────────────
+  function PolaroidCard({
+    item,
+    rotation,
+  }: {
+    item: (typeof data.timeline)[0];
+    rotation: string;
+  }) {
     return (
-      <div className={`flex items-center gap-3 ${isLeft ? "flex-row" : "flex-row-reverse"}`}>
-        {/* Foto estilo polaroid */}
+      <div
+        className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105"
+        style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
+      >
         {item.imagem && (
-          <div className="flex-shrink-0 bg-white p-1.5 pb-5 shadow-lg rotate-[-2deg] hover:rotate-0 transition-transform duration-300 w-[90px]">
-            <img src={item.imagem} alt={item.titulo} className="w-full h-[70px] object-cover" />
-          </div>
+          <img
+            src={item.imagem}
+            alt={item.titulo}
+            className="w-full object-cover"
+            style={{ height: "100px" }}
+          />
         )}
-        {/* Info */}
-        <div className={`flex-1 min-w-0 ${isLeft ? "text-left" : "text-right"}`}>
-          <p className="text-white font-semibold text-xs leading-tight">{item.titulo}</p>
-          {item.descricao && (
-            <p className="text-white/50 text-xs mt-0.5 leading-tight">{item.descricao}</p>
-          )}
-          <div className={`flex gap-2 mt-1.5 ${isLeft ? "justify-start" : "justify-end"}`}>
-            <button onClick={() => iniciarEdicao(item.id)} className="text-white/40 hover:text-blue-400 transition-colors">
-              <FaPencilAlt size={10} />
-            </button>
-            <button onClick={() => removeTimelineItem(item.id)} className="text-white/40 hover:text-red-400 transition-colors">
-              <FaTrash size={10} />
-            </button>
-          </div>
+        {item.descricao && (
+          <p
+            className="text-gray-700 text-center mt-2 leading-tight"
+            style={{
+              fontFamily: "'Caveat', cursive",
+              fontSize: "11px",
+            }}
+          >
+            {item.descricao}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  // ── Text block (view mode) ────────────────────────────────────────────────
+  function TextBlock({
+    item,
+    align,
+  }: {
+    item: (typeof data.timeline)[0];
+    align: "left" | "right";
+  }) {
+    return (
+      <div className={`flex flex-col gap-1 ${align === "right" ? "items-start text-left" : "items-end text-right"}`}>
+        <div className={`flex items-center gap-1.5 ${align === "right" ? "flex-row" : "flex-row-reverse"}`}>
+          <FaHeart size={10} className="text-pink-400 flex-shrink-0" />
+          <p
+            className="font-bold text-sm"
+            style={{ color: "#ff4d88", fontFamily: "'Playfair Display', serif" }}
+          >
+            {item.titulo}
+          </p>
+        </div>
+        {item.descricao && (
+          <p className="text-white/50 text-xs leading-snug max-w-[110px]">
+            {item.descricao}
+          </p>
+        )}
+        <div className={`flex gap-2 mt-1 ${align === "right" ? "justify-start" : "justify-end"}`}>
+          <button
+            onClick={() => iniciarEdicao(item.id)}
+            className="text-white/30 hover:text-blue-400 transition-colors"
+          >
+            <FaPencilAlt size={10} />
+          </button>
+          <button
+            onClick={() => removeTimelineItem(item.id)}
+            className="text-white/30 hover:text-red-400 transition-colors"
+          >
+            <FaTrash size={10} />
+          </button>
         </div>
       </div>
     );
   }
 
-  // Card reutilizável para modo edição
+  // ── Edit card ─────────────────────────────────────────────────────────────
   function CardEdit() {
     return (
-      <div className="bg-white/5 border border-red-400/40 rounded-2xl p-3 space-y-2">
+      <div className="bg-white/5 border border-pink-400/40 rounded-2xl p-3 space-y-2 w-full">
         <UploadImagemTimeline
           value={editForm.imagem}
           onChange={(v) => setEditForm((f) => ({ ...f, imagem: v }))}
@@ -89,19 +161,25 @@ export function TimelineSection() {
           type="text"
           value={editForm.titulo}
           onChange={(e) => setEditForm((f) => ({ ...f, titulo: e.target.value }))}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-red-600"
+          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-pink-400"
         />
         <textarea
           value={editForm.descricao}
           onChange={(e) => setEditForm((f) => ({ ...f, descricao: e.target.value }))}
           rows={2}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-red-400 resize-none"
+          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-pink-400 resize-none"
         />
         <div className="flex gap-2">
-          <button onClick={salvarEdicao} className="flex items-center gap-1 bg-green-500/20 text-green-400 text-xs px-3 py-1.5 rounded-lg hover:bg-green-500/30 transition-colors">
+          <button
+            onClick={salvarEdicao}
+            className="flex items-center gap-1 bg-green-500/20 text-green-400 text-xs px-3 py-1.5 rounded-lg hover:bg-green-500/30 transition-colors"
+          >
             <FaCheck size={10} /> Salvar
           </button>
-          <button onClick={() => setEditandoId(null)} className="flex items-center gap-1 bg-white/5 text-white/50 text-xs px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors">
+          <button
+            onClick={() => setEditandoId(null)}
+            className="flex items-center gap-1 bg-white/5 text-white/50 text-xs px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors"
+          >
             <FaTimes size={10} /> Cancelar
           </button>
         </div>
@@ -111,19 +189,28 @@ export function TimelineSection() {
 
   return (
     <div className="space-y-6">
-      {/* Cabeçalho */}
+      {/* Header */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl"><FiClock /></span>
+        <span className="text-2xl text-pink-400">
+          <FiClock />
+        </span>
         <div>
-          <h3 className="text-white font-bold text-lg leading-tight">Linha do Tempo</h3>
-          <p className="text-white/40 text-xs">Os momentos mais especiais de vocês</p>
+          <h3
+            className="text-white font-bold text-lg leading-tight"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Linha do Tempo
+          </h3>
+          <p className="text-white/40 text-xs">
+            Os momentos mais especiais de vocês
+          </p>
         </div>
         <div className="ml-auto">
           <LimiteBadge atual={data.timeline.length} maximo={LIMITS.timeline} />
         </div>
       </div>
 
-      {/* Formulário de adição */}
+      {/* Add form */}
       {!cheio && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -138,22 +225,24 @@ export function TimelineSection() {
           />
           <input
             type="text"
-            placeholder="Título (ex: Nossa primeira viagem)"
+            placeholder="Título (ex: Junho 2022)"
             value={form.titulo}
             onChange={(e) => setForm((f) => ({ ...f, titulo: e.target.value }))}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-red-400"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-pink-400"
           />
           <textarea
             placeholder="Descrição do momento…"
             value={form.descricao}
-            onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, descricao: e.target.value }))
+            }
             rows={2}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-red-400 resize-none"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-pink-400 resize-none"
           />
           {erro && <p className="text-red-400 text-xs">{erro}</p>}
           <button
             onClick={handleAdd}
-            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors"
+            className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:opacity-90 text-white text-sm font-bold px-4 py-2 rounded-xl transition-opacity"
           >
             <FaPlus size={12} /> Adicionar momento
           </button>
@@ -166,44 +255,77 @@ export function TimelineSection() {
         </p>
       )}
 
-      {/* Lista de itens — alternando esquerda/direita */}
+      {/* Timeline list */}
       <div className="relative">
-        {/* Linha central */}
+        {/* Central line */}
         {data.timeline.length > 0 && (
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-red-500 via-purple-500 to-transparent" />
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500/60 to-transparent" />
         )}
 
         <AnimatePresence>
           {data.timeline.map((item, idx) => {
             const isLeft = idx % 2 === 0;
+            const rotation = ROTATIONS[idx % ROTATIONS.length];
+
             return (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: isLeft ? -30 : 30 }}
-                transition={{ delay: idx * 0.05 }}
-                className="relative flex mb-8 items-start"
+                transition={{ delay: idx * 0.06 }}
+                className="relative flex mb-10 items-center"
               >
-                {/* Bolinha central */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-4 w-4 h-4 rounded-full bg-pink-500 border-2 border-gray-900 shadow-lg shadow-pink-500/50 z-10" />
+                {/* Heart connector */}
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center"
+                  style={{
+                    width: "24px",
+                    height: "24px",
+                    background:
+                      "radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 70%)",
+                    borderRadius: "50%",
+                  }}
+                >
+                  <FaHeart
+                    size={12}
+                    className="text-white drop-shadow"
+                    style={{ filter: "drop-shadow(0 0 4px #ec4899)" }}
+                  />
+                </div>
 
                 {isLeft ? (
                   <>
-                    {/* Conteúdo na ESQUERDA */}
-                    <div className="w-[calc(50%-20px)] pr-3">
-                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} isLeft={true} />}
+                    {/* LEFT: polaroid image */}
+                    <div className="w-[calc(50%-20px)] flex justify-end pr-4">
+                      {editandoId === item.id ? (
+                        <CardEdit />
+                      ) : (
+                        <PolaroidCard item={item} rotation={rotation} />
+                      )}
                     </div>
-                    {/* Espaço vazio direita */}
-                    <div className="w-[calc(50%+20px)]" />
+                    {/* RIGHT: text */}
+                    <div className="w-[calc(50%-20px)] pl-5">
+                      {editandoId !== item.id && (
+                        <TextBlock item={item} align="right" />
+                      )}
+                    </div>
                   </>
                 ) : (
                   <>
-                    {/* Espaço vazio esquerda */}
-                    <div className="w-[calc(50%+20px)]" />
-                    {/* Conteúdo na DIREITA */}
-                    <div className="w-[calc(50%-20px)] pl-3">
-                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} isLeft={false} />}
+                    {/* LEFT: text */}
+                    <div className="w-[calc(50%-20px)] pr-5 flex justify-end">
+                      {editandoId !== item.id && (
+                        <TextBlock item={item} align="left" />
+                      )}
+                    </div>
+                    {/* RIGHT: polaroid image */}
+                    <div className="w-[calc(50%-20px)] flex justify-start pl-4">
+                      {editandoId === item.id ? (
+                        <CardEdit />
+                      ) : (
+                        <PolaroidCard item={item} rotation={rotation} />
+                      )}
                     </div>
                   </>
                 )}

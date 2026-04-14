@@ -139,60 +139,66 @@ function RetrospectiveModal({
 // SEÇÕES INTERNAS
 // ════════════════════════════════════════════════════════════════════════════
 
+const ROTATIONS = ["-3deg", "2.5deg", "-2deg", "3deg", "-1.5deg", "2deg"];
+ 
 function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
   if (!items.length) return null;
+ 
   return (
     <div className="relative pt-4 pb-2">
-      {/* Linha central */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500 to-transparent" />
-
+      {/* Linha central gradiente */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500/50 to-transparent" />
+ 
       {items.map((item, idx) => {
         const isLeft = idx % 2 === 0;
+        const rotation = ROTATIONS[idx % ROTATIONS.length];
+ 
         return (
           <motion.div
             key={item.id}
-            initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
+            initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: idx * 0.1 }}
-            className="relative flex mb-10 items-center"
+            transition={{ delay: idx * 0.1, duration: 0.4 }}
+            className="relative flex mb-14 items-center"
           >
-            {/* Bolinha central */}
-            <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-pink-500 border-2 border-gray-950 shadow-lg shadow-pink-500/50 z-10" />
-
+            {/* ── Coração central ── */}
+            <div
+              className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center"
+              style={{
+                width: "28px",
+                height: "28px",
+                background:
+                  "radial-gradient(circle, rgba(236,72,153,0.25) 0%, transparent 70%)",
+                borderRadius: "50%",
+              }}
+            >
+              <FaHeart
+                size={13}
+                className="text-white"
+                style={{ filter: "drop-shadow(0 0 5px #ec4899)" }}
+              />
+            </div>
+ 
             {isLeft ? (
               <>
-                {/* ESQUERDA: foto polaroid */}
+                {/* ESQUERDA → Polaroid */}
                 <div className="w-[calc(50%-20px)] flex justify-end pr-5">
-                  {item.imagem && (
-                    <div className="bg-white p-2 pb-6 shadow-xl rotate-[-3deg] hover:rotate-0 transition-transform duration-300 max-w-[120px]">
-                      <img src={item.imagem} alt={item.titulo} className="w-full h-[90px] object-cover" />
-                    </div>
-                  )}
+                  <Polaroid item={item} rotation={rotation} />
                 </div>
-                {/* DIREITA: info */}
+                {/* DIREITA → Texto */}
                 <div className="w-[calc(50%-20px)] pl-5">
-                  <p className="text-pink-400 font-bold text-sm leading-tight">{item.titulo}</p>
-                  {item.descricao && (
-                    <p className="text-white/60 text-xs mt-1 leading-relaxed">{item.descricao}</p>
-                  )}
+                  <EventText item={item} align="left" />
                 </div>
               </>
             ) : (
               <>
-                {/* ESQUERDA: info */}
-                <div className="w-[calc(50%-20px)] pr-5 text-right">
-                  <p className="text-pink-400 font-bold text-sm leading-tight">{item.titulo}</p>
-                  {item.descricao && (
-                    <p className="text-white/60 text-xs mt-1 leading-relaxed">{item.descricao}</p>
-                  )}
+                {/* ESQUERDA → Texto */}
+                <div className="w-[calc(50%-20px)] pr-5 flex justify-end">
+                  <EventText item={item} align="right" />
                 </div>
-                {/* DIREITA: foto polaroid */}
+                {/* DIREITA → Polaroid */}
                 <div className="w-[calc(50%-20px)] flex justify-start pl-5">
-                  {item.imagem && (
-                    <div className="bg-white p-2 pb-6 shadow-xl rotate-[3deg] hover:rotate-0 transition-transform duration-300 max-w-[120px]">
-                      <img src={item.imagem} alt={item.titulo} className="w-full h-[90px] object-cover" />
-                    </div>
-                  )}
+                  <Polaroid item={item} rotation={rotation} />
                 </div>
               </>
             )}
@@ -202,6 +208,86 @@ function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
     </div>
   );
 }
+ 
+// ── Foto estilo polaroid ──────────────────────────────────────────────────────
+function Polaroid({
+  item,
+  rotation,
+}: {
+  item: RetrospectiveData["timeline"][0];
+  rotation: string;
+}) {
+  return (
+    <div
+      className="bg-white shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105 cursor-default"
+      style={{
+        transform: `rotate(${rotation})`,
+        padding: "8px 8px 28px 8px",
+        maxWidth: "130px",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)",
+      }}
+    >
+      {item.imagem && (
+        <img
+          src={item.imagem}
+          alt={item.titulo}
+          className="w-full object-cover"
+          style={{ height: "95px" }}
+        />
+      )}
+      {item.descricao && (
+        <p
+          className="text-gray-600 text-center mt-2 leading-tight px-1"
+          style={{
+            fontFamily: "'Caveat', cursive",
+            fontSize: "11px",
+          }}
+        >
+          {item.descricao}
+        </p>
+      )}
+    </div>
+  );
+}
+ 
+function EventText({
+  item,
+  align,
+}: {
+  item: RetrospectiveData["timeline"][0];
+  align: "left" | "right";
+}) {
+  const isLeft = align === "left";
+  return (
+    <div
+      className={`flex flex-col gap-1 max-w-[120px] ${
+        isLeft ? "items-start text-left" : "items-end text-right"
+      }`}
+    >
+      <div
+        className={`flex items-center gap-1.5 ${
+          isLeft ? "flex-row" : "flex-row-reverse"
+        }`}
+      >
+        <FaHeart size={9} className="text-pink-400 flex-shrink-0" />
+        <p
+          className="font-bold text-sm leading-tight"
+          style={{
+            color: "#ff4d88",
+            fontFamily: "'Playfair Display', serif",
+          }}
+        >
+          {item.titulo}
+        </p>
+      </div>
+      {item.descricao && (
+        <p className="text-white/55 text-xs leading-snug">{item.descricao}</p>
+      )}
+    </div>
+  );
+}
+ 
+export { TimelineView };
 
 function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
   const [anguloAtual, setAnguloAtual] = useState(0);

@@ -85,7 +85,7 @@ export function FormImagens({ imagens, setImagens }: FormImagensProps) {
       )}
 
       {uploading && (
-        <p className="text-sm text-pink-400 animate-pulse">Enviando imagens...</p>
+        <p className="text-sm text-gray-400 animate-pulse">Enviando imagens...</p>
       )}
 
       <div className="flex flex-wrap gap-2">

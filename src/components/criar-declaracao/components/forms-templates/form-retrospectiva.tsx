@@ -8,6 +8,7 @@ import { useRetrospective } from "./retrospectiva/restrospective-context";
 import { FiCalendar, FiClock, FiImage } from "react-icons/fi";
 import { FaRandom } from "react-icons/fa";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
+import { FaGift } from "react-icons/fa6";
 
 interface Props {
   onContinuar: () => void; // avança para os formulários das seções
@@ -140,9 +141,12 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
     <div className="flex flex-col gap-5">
       {/* Header */}
       <div>
-        <h3 className="text-white font-bold text-base mb-1">
+        <div className="flex gap-2">
+          <FaGift />
+          <h3 className="text-white font-bold text-base mb-1">
           Seções da Retrospectiva
         </h3>
+        </div>
         <p className="text-white/40 text-xs leading-relaxed">
           Escolha os blocos que aparecerão na sua página. Personalize cada um
           depois.

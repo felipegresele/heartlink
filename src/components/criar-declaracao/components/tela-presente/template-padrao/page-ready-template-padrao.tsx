@@ -7,6 +7,7 @@ import imgBgRetro from "../../../../../img/bg-retrospectiva.png";
 import MusicPlayerFooter from "../../music/exibir-musica";
 import ModalPresente from "../modal/modal-ver-presente";
 import { WHEEL_COLORS, type RetrospectiveData, type SectionType } from "../../../../../schema/retrospectiva";
+import { RetrospectiveBtn } from "../../forms-templates/retrospectiva/botao-retrospectiva";
 
 // ── Label e emoji de cada seção ──────────────────────────────────────────────
 const SECTION_META: Record<SectionType, { label: string; emoji: string }> = {
@@ -132,35 +133,6 @@ function RetrospectiveModal({
   );
 }
 
-// ════════════════════════════════════════════════════════════════════════════
-// BOTÃO DE RETROSPECTIVA
-// ════════════════════════════════════════════════════════════════════════════
-function RetrospectiveBtn({ onClick }: { onClick: () => void }) {
-  return (
-    <div className="w-full max-w-2xl mt-6">
-      <button
-        onClick={onClick}
-        className="w-full relative overflow-hidden rounded-2xl border border-pink-500/30 bg-gradient-to-br from-pink-950/60 to-purple-950/60 p-6 text-left group hover:border-pink-500/60 transition-all duration-300"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-        <div className="relative flex items-center justify-between">
-          <div>
-            <p className="text-pink-300 text-xs font-bold uppercase tracking-widest mb-1">
-              ✨ Surpresa especial
-            </p>
-            <p className="text-white font-bold text-lg">Ver Retrospectiva</p>
-            <p className="text-white/40 text-sm mt-1">
-              Reviva os melhores momentos juntos
-            </p>
-          </div>
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-pink-500/20 border border-pink-500/30 group-hover:bg-pink-500/30 transition-colors">
-            <FaHeart className="text-pink-400" size={18} />
-          </div>
-        </div>
-      </button>
-    </div>
-  );
-}
 
 // ════════════════════════════════════════════════════════════════════════════
 // SEÇÕES INTERNAS
@@ -540,7 +512,7 @@ export default function PageReady({
         )}
       </AnimatePresence>
 
-      <img src={imgLogo} />
+      <img src={imgLogo} className="h-30"/>
 
       <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
         <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">
@@ -600,7 +572,7 @@ export default function PageReady({
 
       {/* Botão de retrospectiva — só aparece se houver seções configuradas */}
       {temRetrospectiva && (
-        <RetrospectiveBtn onClick={() => setMostrarRetrospectiva(true)} />
+        <RetrospectiveBtn isVisible={() => setMostrarRetrospectiva(true)} />
       )}
 
       {musica && <MusicPlayerFooter musica={musica} />}

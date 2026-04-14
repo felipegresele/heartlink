@@ -21,8 +21,8 @@ function PlanoPageContent() {
       titulo: "Para sempre",
       descricao: "Esse plano é vitalício, não precisa renovar.",
       recomendado: true,
-      precoAntigo: "R$ 54,00",
-      precoAtual: "R$ 28,00",
+      precoAntigo: "R$ 50,00",
+      precoAtual: "R$ 25,00",
       periodo: "uma vez",
       recursos: [
         { text: "Texto dedicado", ativo: true },
@@ -41,9 +41,9 @@ function PlanoPageContent() {
       titulo: "Anual",
       descricao: "Esse plano possui um período de 1 ano.",
       recomendado: false,
-      precoAntigo: "R$ 42,00",
-      precoAtual: "R$ 24,00",
-      periodo: "por ano",
+      precoAntigo: "R$ 40,00",
+      precoAtual: "R$ 20,00",
+      periodo: "uma vez",
       recursos: [
         { text: "Texto dedicado", ativo: true },
         { text: "Contador em tempo real", ativo: true, destaque: true },

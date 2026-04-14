@@ -59,11 +59,11 @@ export function EnigmaSection() {
               value={novoItem}
               onChange={(e) => setNovoItem(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-pink-400"
+              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-red-400"
             />
             <button
               onClick={handleAdd}
-              className="bg-pink-500 hover:bg-pink-400 text-white px-4 py-2 rounded-xl transition-colors"
+              className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl transition-colors"
             >
               <FaPlus size={14} />
             </button>
@@ -78,7 +78,7 @@ export function EnigmaSection() {
           onClick={() => setModoVisualizacao((v) => !v)}
           className={`w-full text-xs font-bold py-2 rounded-xl transition-all border ${
             modoVisualizacao
-              ? "border-pink-500 bg-pink-500/10 text-pink-400"
+              ? "border-red-500 bg-red-500/10 text-red-400"
               : "border-white/10 bg-white/5 text-white/50 hover:border-white/20"
           }`}
         >
@@ -113,10 +113,10 @@ export function EnigmaSection() {
                         animate={{ rotateY: 0 }}
                         exit={{ rotateY: -90 }}
                         transition={{ duration: 0.3 }}
-                        className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-pink-500/30 bg-gradient-to-br from-pink-900/40 to-purple-900/40"
+                        className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-red-500/30 bg-gradient-to-br from-red-900/40 to-purple-900/40"
                       >
-                        <FaLock className="text-pink-400" size={20} />
-                        <p className="text-pink-300 text-xs font-bold">Toque para revelar</p>
+                        <FaLock className="text-red-400" size={20} />
+                        <p className="text-red-300 text-xs font-bold">Toque para revelar</p>
                         <p className="text-white/20 text-xs"># {idx + 1}</p>
                       </motion.div>
                     ) : (
@@ -158,7 +158,7 @@ export function EnigmaSection() {
                   type="text"
                   value={item.texto}
                   onChange={(e) => updateEnigmaItem(item.id, e.target.value)}
-                  className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm outline-none focus:border-pink-400"
+                  className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm outline-none focus:border-red-400"
                 />
                 <button
                   onClick={() => removeEnigmaItem(item.id)}

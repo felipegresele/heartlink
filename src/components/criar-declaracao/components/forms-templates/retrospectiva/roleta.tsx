@@ -126,7 +126,7 @@ export function WheelSection() {
           />
           <button
             onClick={handleAdd}
-            className="bg-pink-500 hover:bg-pink-400 text-white px-4 py-2 rounded-xl transition-colors"
+            className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl transition-colors"
           >
             <FaPlus size={14} />
           </button>
@@ -163,7 +163,7 @@ export function WheelSection() {
             className={`flex items-center gap-2 font-bold px-8 py-3 rounded-full transition-all ${
               girando
                 ? "bg-white/10 text-white/40 cursor-not-allowed"
-                : "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:opacity-90 shadow-lg shadow-pink-500/30"
+                : "bg-gradient-to-r from-red-500 to-purple-500 text-white hover:opacity-90 shadow-lg shadow-red-500/30"
             }`}
           >
             <motion.span

@@ -60,7 +60,7 @@ export function GallerySection() {
       {!cheio && !adicionando && (
         <button
           onClick={() => setAdicionando(true)}
-          className="flex items-center gap-2 w-full justify-center border border-dashed border-white/20 hover:border-pink-400 text-white/40 hover:text-pink-400 rounded-2xl py-4 transition-all text-sm"
+          className="flex items-center gap-2 w-full justify-center border border-dashed border-white/20 hover:border-red-400 text-white/40 hover:text-red-400 rounded-2xl py-4 transition-all text-sm"
         >
           <FaPlus size={12} /> Adicionar foto
         </button>
@@ -86,11 +86,11 @@ export function GallerySection() {
               placeholder="Legenda (opcional)"
               value={form.descricao}
               onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-pink-400"
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-red-400"
             />
             {erro && <p className="text-red-400 text-xs">{erro}</p>}
             <div className="flex gap-2">
-              <button onClick={handleAdd} className="flex items-center gap-1 bg-pink-500 hover:bg-pink-400 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors">
+              <button onClick={handleAdd} className="flex items-center gap-1 bg-red-500 hover:bg-red-400 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors">
                 <FaCheck size={12} /> Adicionar
               </button>
               <button onClick={() => { setAdicionando(false); setErro(""); }} className="text-white/40 hover:text-white text-sm px-4 py-2 rounded-xl transition-colors">

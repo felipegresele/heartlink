@@ -36,7 +36,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
       recomendado: false,
       precoAntigo: "R$ 40,00",
       precoAtual: "R$ 20,00",
-      periodo: "por ano",
+      periodo: "uma vez",
       recursos: [
         { text: "Texto dedicado", ativo: true },
         { text: "Contador em tempo real", ativo: true, destaque: true },

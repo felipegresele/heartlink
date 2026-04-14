@@ -1,10 +1,11 @@
 // ============================================================
 // SEÇÃO — GallerySection
-// Galeria de fotos com grid responsivo e modal de ampliação
+// Galeria de fotos: abre na primeira foto em destaque,
+// scroll horizontal entre fotos com texto embaixo
 // ============================================================
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPlus, FaTrash, FaTimes, FaPencilAlt, FaCheck } from "react-icons/fa";
+import { FaPlus, FaTrash, FaTimes, FaPencilAlt, FaCheck, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRetrospective } from "./restrospective-context";
 import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
@@ -18,7 +19,11 @@ export function GallerySection() {
   const [form, setForm] = useState({ imagem: "", descricao: "" });
   const [adicionando, setAdicionando] = useState(false);
   const [erro, setErro] = useState("");
-  const [modalImg, setModalImg] = useState<string | null>(null);
+
+  // Foto em destaque (viewer)
+  const [fotoAtiva, setFotoAtiva] = useState<number>(0);
+
+  // Edição inline de descrição
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [editDescricao, setEditDescricao] = useState("");
 
@@ -28,9 +33,15 @@ export function GallerySection() {
     if (!form.imagem) { setErro("Selecione uma imagem."); return; }
     const ok = addGalleryItem(form);
     if (!ok) { setErro("Limite de 6 fotos atingido."); return; }
+    // Abrir na foto recém-adicionada
+    setFotoAtiva(data.gallery.length); // antes de rerender o novo index é length
     setForm({ imagem: "", descricao: "" });
     setAdicionando(false);
     setErro("");
+  }
+
+  function irParaFoto(idx: number) {
+    setFotoAtiva(Math.max(0, Math.min(idx, data.gallery.length - 1)));
   }
 
   function iniciarEdicaoDescricao(id: string, desc: string) {
@@ -43,6 +54,8 @@ export function GallerySection() {
     updateGalleryItem(editandoId, { descricao: editDescricao });
     setEditandoId(null);
   }
+
+  const fotoAtivaItem = data.gallery[fotoAtiva] ?? null;
 
   return (
     <div className="space-y-6">
@@ -58,6 +71,7 @@ export function GallerySection() {
         </div>
       </div>
 
+      {/* Botão adicionar */}
       {!cheio && !adicionando && (
         <button
           onClick={() => setAdicionando(true)}
@@ -108,99 +122,131 @@ export function GallerySection() {
         </p>
       )}
 
-      {/* Grid de fotos */}
-      <div className="grid grid-cols-2 gap-3">
-        <AnimatePresence>
-          {data.gallery.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ delay: idx * 0.05 }}
-              className="relative group rounded-xl overflow-hidden border border-white/10"
-            >
-              {/* Imagem clicável */}
-              <img
-                src={item.imagem}
-                alt={item.descricao || `Foto ${idx + 1}`}
-                className="w-full h-32 object-cover cursor-zoom-in"
-                onClick={() => setModalImg(item.imagem)}
+      {/* ── Viewer principal ── */}
+      {data.gallery.length > 0 && (
+        <div className="space-y-3">
+          {/* Foto em destaque */}
+          <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/30">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={fotoAtivaItem?.id}
+                src={fotoAtivaItem?.imagem}
+                alt={fotoAtivaItem?.descricao || "Foto"}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.25 }}
+                className="w-full h-56 object-cover"
               />
+            </AnimatePresence>
 
-              {/* Legenda */}
-              <div className="bg-black/60 p-2">
-                {editandoId === item.id ? (
-                  <div className="flex gap-1">
-                    <input
-                      type="text"
-                      value={editDescricao}
-                      onChange={(e) => setEditDescricao(e.target.value)}
-                      className="flex-1 bg-white/10 text-white text-xs rounded px-2 py-1 outline-none"
-                      autoFocus
-                    />
-                    <button onClick={salvarDescricao} className="text-green-400 hover:text-green-300">
-                      <FaCheck size={10} />
-                    </button>
-                  </div>
-                ) : (
-                  <p
-                    className="text-white/60 text-xs truncate cursor-pointer hover:text-white transition-colors"
-                    onClick={() => iniciarEdicaoDescricao(item.id, item.descricao)}
-                  >
-                    {item.descricao || <span className="italic opacity-40">Adicionar legenda…</span>}
-                  </p>
-                )}
-              </div>
-
-              {/* Ações overlay */}
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            {/* Setas de navegação */}
+            {data.gallery.length > 1 && (
+              <>
                 <button
-                  onClick={() => iniciarEdicaoDescricao(item.id, item.descricao)}
-                  className="bg-black/60 text-white/70 hover:text-blue-400 p-1.5 rounded-lg"
+                  onClick={() => irParaFoto(fotoAtiva - 1)}
+                  disabled={fotoAtiva === 0}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 disabled:opacity-20 text-white p-2 rounded-full transition-all"
                 >
-                  <FaPencilAlt size={10} />
+                  <FaChevronLeft size={12} />
                 </button>
                 <button
-                  onClick={() => removeGalleryItem(item.id)}
-                  className="bg-black/60 text-white/70 hover:text-red-400 p-1.5 rounded-lg"
+                  onClick={() => irParaFoto(fotoAtiva + 1)}
+                  disabled={fotoAtiva === data.gallery.length - 1}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 disabled:opacity-20 text-white p-2 rounded-full transition-all"
                 >
-                  <FaTrash size={10} />
+                  <FaChevronRight size={12} />
                 </button>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+              </>
+            )}
 
-      {/* Modal de ampliação */}
-      <AnimatePresence>
-        {modalImg && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-            onClick={() => setModalImg(null)}
-          >
-            <motion.img
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              src={modalImg}
-              alt="Ampliado"
-              className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
+            {/* Indicador de posição */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {data.gallery.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => irParaFoto(i)}
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${
+                    i === fotoAtiva ? "bg-white scale-125" : "bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Botão remover */}
             <button
-              onClick={() => setModalImg(null)}
-              className="absolute top-4 right-4 text-white/70 hover:text-white bg-white/10 p-2 rounded-full"
+              onClick={() => {
+                if (fotoAtivaItem) {
+                  removeGalleryItem(fotoAtivaItem.id);
+                  irParaFoto(Math.max(0, fotoAtiva - 1));
+                }
+              }}
+              className="absolute top-2 right-2 bg-black/60 text-white/70 hover:text-red-400 p-1.5 rounded-lg transition-colors"
             >
-              <FaTimes size={16} />
+              <FaTrash size={10} />
             </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+
+          {/* Legenda da foto ativa */}
+          {fotoAtivaItem && (
+            <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2">
+              {editandoId === fotoAtivaItem.id ? (
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={editDescricao}
+                    onChange={(e) => setEditDescricao(e.target.value)}
+                    className="flex-1 bg-white/10 text-white text-sm rounded px-2 py-1 outline-none"
+                    autoFocus
+                    onKeyDown={(e) => e.key === "Enter" && salvarDescricao()}
+                  />
+                  <button onClick={salvarDescricao} className="text-green-400 hover:text-green-300">
+                    <FaCheck size={12} />
+                  </button>
+                  <button onClick={() => setEditandoId(null)} className="text-white/40 hover:text-white">
+                    <FaTimes size={12} />
+                  </button>
+                </div>
+              ) : (
+                <div
+                  className="flex items-center gap-2 cursor-pointer group"
+                  onClick={() => iniciarEdicaoDescricao(fotoAtivaItem.id, fotoAtivaItem.descricao)}
+                >
+                  <p className="text-white/60 text-sm flex-1 group-hover:text-white transition-colors">
+                    {fotoAtivaItem.descricao || (
+                      <span className="italic opacity-40">Clique para adicionar legenda…</span>
+                    )}
+                  </p>
+                  <FaPencilAlt size={10} className="text-white/20 group-hover:text-white/60 transition-colors shrink-0" />
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── Miniaturas com scroll horizontal ── */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {data.gallery.map((item, idx) => (
+              <motion.button
+                key={item.id}
+                onClick={() => irParaFoto(idx)}
+                whileTap={{ scale: 0.95 }}
+                className={`shrink-0 relative rounded-xl overflow-hidden border-2 transition-all ${
+                  idx === fotoAtiva
+                    ? "border-pink-500 shadow-lg shadow-pink-500/30"
+                    : "border-white/10 opacity-60 hover:opacity-90"
+                }`}
+                style={{ width: 64, height: 64 }}
+              >
+                <img
+                  src={item.imagem}
+                  alt={item.descricao || `Foto ${idx + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

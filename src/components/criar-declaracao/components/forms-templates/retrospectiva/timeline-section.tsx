@@ -1,6 +1,7 @@
 // ============================================================
 // SEÇÃO — TimelineSection
 // Linha do tempo vertical com até 6 momentos importantes
+// Imagens alternam esquerda/direita
 // ============================================================
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +12,6 @@ import { useRetrospective } from "./restrospective-context";
 import { UploadImagemTimeline } from "../img-cloudnary/upload-imagem-timeline";
 import { FiClock } from "react-icons/fi";
 
-// ── Formulário de item ────────────────────────────────────────
 interface ItemFormState {
   titulo: string;
   descricao: string;
@@ -31,7 +31,6 @@ export function TimelineSection() {
 
   const cheio = data.timeline.length >= LIMITS.timeline;
 
-  // --- Adicionar ---
   function handleAdd() {
     if (!form.titulo.trim()) { setErro("O título é obrigatório."); return; }
     if (!form.imagem) { setErro("Adicione uma imagem."); return; }
@@ -41,7 +40,6 @@ export function TimelineSection() {
     setErro("");
   }
 
-  // --- Editar ---
   function iniciarEdicao(id: string) {
     const item = data.timeline.find((t) => t.id === id)!;
     setEditandoId(id);
@@ -52,6 +50,64 @@ export function TimelineSection() {
     if (!editandoId) return;
     updateTimelineItem(editandoId, editForm);
     setEditandoId(null);
+  }
+
+  // Card reutilizável para modo visualização
+  function CardView({ item }: { item: typeof data.timeline[0] }) {
+    return (
+      <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+        {item.imagem && (
+          <img src={item.imagem} alt={item.titulo} className="w-full h-28 object-cover" />
+        )}
+        <div className="p-2">
+          <p className="text-white font-semibold text-xs">{item.titulo}</p>
+          {item.descricao && (
+            <p className="text-white/50 text-xs mt-0.5">{item.descricao}</p>
+          )}
+          <div className="flex gap-2 mt-1.5">
+            <button onClick={() => iniciarEdicao(item.id)} className="text-white/40 hover:text-blue-400 transition-colors">
+              <FaPencilAlt size={10} />
+            </button>
+            <button onClick={() => removeTimelineItem(item.id)} className="text-white/40 hover:text-red-400 transition-colors">
+              <FaTrash size={10} />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Card reutilizável para modo edição
+  function CardEdit() {
+    return (
+      <div className="bg-white/5 border border-red-400/40 rounded-2xl p-3 space-y-2">
+        <UploadImagemTimeline
+          value={editForm.imagem}
+          onChange={(v) => setEditForm((f) => ({ ...f, imagem: v }))}
+          className="h-28 w-full"
+        />
+        <input
+          type="text"
+          value={editForm.titulo}
+          onChange={(e) => setEditForm((f) => ({ ...f, titulo: e.target.value }))}
+          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-red-600"
+        />
+        <textarea
+          value={editForm.descricao}
+          onChange={(e) => setEditForm((f) => ({ ...f, descricao: e.target.value }))}
+          rows={2}
+          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-red-400 resize-none"
+        />
+        <div className="flex gap-2">
+          <button onClick={salvarEdicao} className="flex items-center gap-1 bg-green-500/20 text-green-400 text-xs px-3 py-1.5 rounded-lg hover:bg-green-500/30 transition-colors">
+            <FaCheck size={10} /> Salvar
+          </button>
+          <button onClick={() => setEditandoId(null)} className="flex items-center gap-1 bg-white/5 text-white/50 text-xs px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors">
+            <FaTimes size={10} /> Cancelar
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -111,82 +167,50 @@ export function TimelineSection() {
         </p>
       )}
 
-      {/* Lista de itens — linha do tempo */}
+      {/* Lista de itens — alternando esquerda/direita */}
       <div className="relative">
+        {/* Linha central */}
         {data.timeline.length > 0 && (
-          <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-red-500 via-purple-500 to-transparent" />
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-red-500 via-purple-500 to-transparent" />
         )}
 
         <AnimatePresence>
-          {data.timeline.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ delay: idx * 0.05 }}
-              className="relative flex gap-4 mb-6 pl-12"
-            >
-              {/* Bolinha da timeline */}
-              <div className="absolute left-3 top-3 w-4 h-4 rounded-full bg-pink-500 border-2 border-gray-900 shadow-lg shadow-pink-500/50" />
+          {data.timeline.map((item, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: isLeft ? -30 : 30 }}
+                transition={{ delay: idx * 0.05 }}
+                className="relative flex mb-8 items-start"
+              >
+                {/* Bolinha central */}
+                <div className="absolute left-1/2 -translate-x-1/2 top-4 w-4 h-4 rounded-full bg-pink-500 border-2 border-gray-900 shadow-lg shadow-pink-500/50 z-10" />
 
-              {editandoId === item.id ? (
-                /* Modo edição */
-                <div className="flex-1 bg-white/5 border border-red-400/40 rounded-2xl p-3 space-y-2">
-                  <UploadImagemTimeline
-                    value={editForm.imagem}
-                    onChange={(v) => setEditForm((f) => ({ ...f, imagem: v }))}
-                    className="h-28 w-full"
-                  />
-                  <input
-                    type="text"
-                    value={editForm.titulo}
-                    onChange={(e) => setEditForm((f) => ({ ...f, titulo: e.target.value }))}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-red-600"
-                  />
-                  <textarea
-                    value={editForm.descricao}
-                    onChange={(e) => setEditForm((f) => ({ ...f, descricao: e.target.value }))}
-                    rows={2}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-red-400 resize-none"
-                  />
-                  <div className="flex gap-2">
-                    <button onClick={salvarEdicao} className="flex items-center gap-1 bg-green-500/20 text-green-400 text-xs px-3 py-1.5 rounded-lg hover:bg-green-500/30 transition-colors">
-                      <FaCheck size={10} /> Salvar
-                    </button>
-                    <button onClick={() => setEditandoId(null)} className="flex items-center gap-1 bg-white/5 text-white/50 text-xs px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors">
-                      <FaTimes size={10} /> Cancelar
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                /* Modo visualização */
-                <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-                  {item.imagem && (
-                    <img
-                      src={item.imagem}
-                      alt={item.titulo}
-                      className="w-full h-32 object-cover"
-                    />
-                  )}
-                  <div className="p-3">
-                    <p className="text-white font-semibold text-sm">{item.titulo}</p>
-                    {item.descricao && (
-                      <p className="text-white/50 text-xs mt-1">{item.descricao}</p>
-                    )}
-                    <div className="flex gap-2 mt-2">
-                      <button onClick={() => iniciarEdicao(item.id)} className="text-white/40 hover:text-blue-400 transition-colors">
-                        <FaPencilAlt size={12} />
-                      </button>
-                      <button onClick={() => removeTimelineItem(item.id)} className="text-white/40 hover:text-red-400 transition-colors">
-                        <FaTrash size={12} />
-                      </button>
+                {isLeft ? (
+                  <>
+                    {/* Conteúdo na ESQUERDA */}
+                    <div className="w-[calc(50%-20px)] pr-3">
+                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} />}
                     </div>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          ))}
+                    {/* Espaço vazio direita */}
+                    <div className="w-[calc(50%+20px)]" />
+                  </>
+                ) : (
+                  <>
+                    {/* Espaço vazio esquerda */}
+                    <div className="w-[calc(50%+20px)]" />
+                    {/* Conteúdo na DIREITA */}
+                    <div className="w-[calc(50%-20px)] pl-3">
+                      {editandoId === item.id ? <CardEdit /> : <CardView item={item} />}
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            );
+          })}
         </AnimatePresence>
       </div>
     </div>

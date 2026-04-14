@@ -98,7 +98,7 @@ export function RetrospectivePage({ data }: RetrospectivePageProps) {
 
       {/* Rodapé */}
       <div className="text-center pb-8 text-white/20 text-xs flex items-center justify-center gap-1">
-        Feito com <FaHeart className="text-pink-500" size={10} /> no HeartLink
+        Feito com <FaHeart className="text-pink-500" size={10} /> no HeartCode
       </div>
     </div>
   );

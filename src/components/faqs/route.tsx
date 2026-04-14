@@ -17,7 +17,7 @@ export function Faqs() {
                     <p className="text-gray-300 mt-4">
                         Aqui estão algumas perguntas frequentes para ajudar você a entender
                         melhor a{" "}
-                        <span className="font-semibold text-white">Heart<span className="text-red-500">link</span></span>. Caso
+                        <span className="font-semibold text-white">Heart<span className="text-red-500">Code</span></span>. Caso
                         tenha alguma dúvida, entre em contato conosco.
                     </p>
 

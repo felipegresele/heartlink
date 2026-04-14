@@ -28,7 +28,7 @@ import { TimelineSection } from "../components/forms-templates/retrospectiva/tim
 import { WheelSection } from "../components/forms-templates/retrospectiva/roleta";
 import { GallerySection } from "../components/forms-templates/retrospectiva/galeria-sessao";
 import { EnigmaSection } from "../components/forms-templates/retrospectiva/enigma-sessao";
-import { saveRetrospective } from "../../../api/auth/retrospectiva";
+import { saveRetrospective } from "../../../api/retrospectiva";
 
 type SubEtapaRetrospectiva = "selecao" | "formulario";
 

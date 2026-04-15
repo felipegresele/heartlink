@@ -8,8 +8,15 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { LIMITS, RETROSPECTIVE_INITIAL_STATE, WHEEL_COLORS, type GalleryItem, type RetrospectiveData, type SectionType, type TimelineItem } from "../../../../../schema/retrospectiva";
-
+import {
+  LIMITS,
+  RETROSPECTIVE_INITIAL_STATE,
+  WHEEL_COLORS,
+  type GalleryItem,
+  type RetrospectiveData,
+  type SectionType,
+  type TimelineItem,
+} from "../../../../../schema/retrospectiva";
 
 // ── Helpers ──────────────────────────────────────────────────
 function uid() {
@@ -22,6 +29,10 @@ interface RetrospectiveContextType {
 
   // Seções selecionadas
   toggleSection: (section: SectionType) => void;
+
+  // Efeito Time (intro animada)
+  toggleEfeitoTime: () => void;
+  setEfeitoTime: (value: boolean) => void;
 
   // Timeline
   addTimelineItem: (item: Omit<TimelineItem, "id">) => boolean;
@@ -69,6 +80,15 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
         : [...prev.secoesSelecionadas, section];
       return { ...prev, secoesSelecionadas: selecionadas };
     });
+  }, []);
+
+  // --- Efeito Time ---
+  const toggleEfeitoTime = useCallback(() => {
+    setData((prev) => ({ ...prev, efeitoTime: !prev.efeitoTime }));
+  }, []);
+
+  const setEfeitoTime = useCallback((value: boolean) => {
+    setData((prev) => ({ ...prev, efeitoTime: value }));
   }, []);
 
   // --- Timeline ---
@@ -225,6 +245,8 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
       value={{
         data,
         toggleSection,
+        toggleEfeitoTime,
+        setEfeitoTime,
         addTimelineItem,
         updateTimelineItem,
         removeTimelineItem,

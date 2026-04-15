@@ -11,17 +11,17 @@ import { IoExtensionPuzzleSharp } from "react-icons/io5";
 import { FaGift, FaTimeline } from "react-icons/fa6";
 
 interface Props {
-  onContinuar: () => void; // avança para os formulários das seções
-  onPular: () => void;     // pula sem selecionar nada
+  onContinuar: () => void;
+  onPular: () => void;
 }
 
-// ── Dados visuais de cada seção ───────────────────────────────
+// ── Dados visuais de cada seção (sem "time" — tratado separadamente) ──────
 const SECOES_DISPONIVEIS: {
   id: SectionType;
   titulo: string;
   descricao: string;
   badge: React.ReactNode;
-  icone:  React.ReactNode;
+  icone: React.ReactNode;
   preview: React.ReactNode;
   gradiente: string;
   badgeColor: string;
@@ -127,50 +127,32 @@ const SECOES_DISPONIVEIS: {
             />
           ))}
         </div>
-        <p className="text-center text-[8px] text-white/30 mt-0.5">Adivinhe a palavra ✨</p>
-      </div>
-    ),
-  },
-  {
-    id: "time",
-    titulo: "Tempo de casal animado",
-    descricao: "Seu tempo de casal animado e fotos com efeitos animados. 100% personalizada para esse amor tão especial de vocês dois!",
-    badge: <FaTimeline />,
-    icone: <FaTimeline />,
-    gradiente: "from-amber-900/60 to-orange-900/60",
-    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/30",
-    preview: (
-      <div className="flex flex-col gap-1.5 w-full">
-        <div className="flex gap-1 justify-center">
-              Tempo Animado
-        </div>
-        <div className="flex gap-1 justify-center">
-          {["_", "_", "_", "_", "_", "_"].map((_, i) => (
-            <div
-              key={i}
-              className="w-5 h-5 rounded bg-white/5 border border-white/10"
-            />
-          ))}
-        </div>
-        <p className="text-center text-[8px] text-white/30 mt-0.5">Adivinhe a palavra ✨</p>
+        <p className="text-center text-[8px] text-white/30 mt-0.5">
+          Adivinhe a palavra ✨
+        </p>
       </div>
     ),
   },
 ];
 
+// ── Componente principal ──────────────────────────────────────
 export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
-  const { data, toggleSection } = useRetrospective();
+  const { data, toggleSection, toggleEfeitoTime } = useRetrospective();
   const selecionadas = data.secoesSelecionadas;
+  const efeitoTimeAtivo = data.efeitoTime;
+
+  // Conta como selecionada para habilitar o botão de continuar
+  const temAlgoSelecionado = selecionadas.length > 0 || efeitoTimeAtivo;
 
   return (
     <div className="flex flex-col gap-5">
       {/* Header */}
       <div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <FaGift />
           <h3 className="text-white font-bold text-base mb-1">
-          Seções da Retrospectiva
-        </h3>
+            Seções da Retrospectiva
+          </h3>
         </div>
         <p className="text-white/40 text-xs leading-relaxed">
           Escolha os blocos que aparecerão na sua página. Personalize cada um
@@ -178,7 +160,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
         </p>
       </div>
 
-      {/* Grid de cards */}
+      {/* Grid de cards de seções normais */}
       <div className="grid grid-cols-2 gap-3">
         {SECOES_DISPONIVEIS.map((secao, idx) => {
           const selecionada = selecionadas.includes(secao.id);
@@ -229,7 +211,6 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
 
               {/* Conteúdo */}
               <div className="relative z-10 p-3 flex flex-col gap-2.5">
-                {/* Badge tipo / ícone */}
                 <div className="flex items-center gap-2">
                   <span
                     className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${secao.badgeColor}`}
@@ -238,7 +219,6 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                   </span>
                 </div>
 
-                {/* Preview visual */}
                 <div
                   className={`w-full rounded-xl p-2.5 transition-colors ${
                     selecionada ? "bg-black/30" : "bg-black/20"
@@ -247,7 +227,6 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                   {secao.preview}
                 </div>
 
-                {/* Descrição */}
                 <p className="text-[10px] text-white/40 leading-tight">
                   {secao.descricao}
                 </p>
@@ -257,16 +236,185 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
         })}
       </div>
 
+      {/* ── Card especial: Tempo Animado (efeitoTime) ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: SECOES_DISPONIVEIS.length * 0.07 }}
+        className={`relative rounded-2xl border overflow-hidden transition-all cursor-pointer ${
+          efeitoTimeAtivo
+            ? "border-pink-400/60 shadow-lg shadow-pink-500/10 ring-1 ring-pink-400/30"
+            : "border-white/10 hover:border-white/20"
+        }`}
+        onClick={toggleEfeitoTime}
+      >
+        {/* Fundo gradiente especial */}
+        <div
+          className={`absolute inset-0 bg-gradient-to-br from-pink-900/60 via-purple-900/50 to-violet-900/60 transition-opacity ${
+            efeitoTimeAtivo ? "opacity-100" : "opacity-50"
+          }`}
+        />
+
+        {/* Partículas decorativas */}
+        {efeitoTimeAtivo && (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {["#ec4899", "#a855f7", "#8b5cf6", "#f472b6"].map((cor, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 rounded-sm opacity-60"
+                style={{
+                  background: cor,
+                  top: `${20 + i * 18}%`,
+                  right: `${8 + i * 5}%`,
+                  transform: `rotate(${i * 30}deg)`,
+                  animation: `pulse ${1 + i * 0.3}s ease-in-out infinite alternate`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Toggle check */}
+        <AnimatePresence>
+          {efeitoTimeAtivo && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              className="absolute top-3 right-3 w-6 h-6 rounded-full bg-pink-500 flex items-center justify-center z-10 shadow-lg shadow-pink-500/40"
+            >
+              <svg
+                viewBox="0 0 12 12"
+                className="w-3 h-3"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="2.5"
+              >
+                <polyline points="2,6 5,9 10,3" />
+              </svg>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Conteúdo */}
+        <div className="relative z-10 p-4 flex gap-4 items-center">
+          {/* Ícone animado */}
+          <div
+            className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all ${
+              efeitoTimeAtivo
+                ? "bg-gradient-to-br from-pink-500 to-purple-600 shadow-lg shadow-pink-500/30"
+                : "bg-white/10"
+            }`}
+          >
+            <FaTimeline
+              size={22}
+              className={efeitoTimeAtivo ? "text-white" : "text-white/40"}
+            />
+          </div>
+
+          {/* Texto */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-0.5">
+              <span
+                className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                  efeitoTimeAtivo
+                    ? "bg-pink-500/30 text-pink-200 border-pink-400/40"
+                    : "bg-white/10 text-white/40 border-white/10"
+                }`}
+              >
+                ✨ Exclusivo
+              </span>
+            </div>
+            <h4
+              className={`font-bold text-sm leading-tight ${
+                efeitoTimeAtivo ? "text-white" : "text-white/70"
+              }`}
+            >
+              Intro Animada do Casal
+            </h4>
+            <p className="text-[11px] text-white/40 mt-1 leading-snug">
+              Uma intro estilo Spotify Wrapped com o tempo de vocês, fotos
+              caindo e efeitos de pixel. Aparece primeiro ao abrir a página.
+            </p>
+          </div>
+        </div>
+
+        {/* Preview da animação (mini) */}
+        <div className="relative z-10 mx-4 mb-4 rounded-xl bg-black/40 p-3 flex items-center justify-center gap-3 border border-white/5">
+          <div className="flex gap-1">
+            {["#ec4899", "#a855f7", "#8b5cf6"].map((cor, i) => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-sm"
+                style={{ background: cor, opacity: efeitoTimeAtivo ? 1 : 0.3 }}
+              />
+            ))}
+          </div>
+          <span className="text-[10px] text-white/50 font-mono">pixels</span>
+          <span className="text-[11px] font-bold text-white/60">→</span>
+          <span
+            className={`text-[11px] font-extrabold ${
+              efeitoTimeAtivo
+                ? "bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent"
+                : "text-white/30"
+            }`}
+          >
+            Nome do Casal
+          </span>
+          <span className="text-[11px] font-bold text-white/60">→</span>
+          <span
+            className={`text-[13px] font-black ${
+              efeitoTimeAtivo ? "text-pink-400" : "text-white/30"
+            }`}
+          >
+            365d
+          </span>
+          <span className="text-[11px] font-bold text-white/60">→</span>
+          <span
+            className={`text-[13px] font-black ${
+              efeitoTimeAtivo ? "text-purple-400" : "text-white/30"
+            }`}
+          >
+            8760h
+          </span>
+        </div>
+
+        {/* Indicador de estado */}
+        <div className="relative z-10 px-4 pb-3">
+          <div
+            className={`w-full h-1.5 rounded-full overflow-hidden ${
+              efeitoTimeAtivo ? "bg-pink-900/50" : "bg-white/5"
+            }`}
+          >
+            <motion.div
+              className="h-full bg-gradient-to-r from-pink-500 to-purple-500 rounded-full"
+              animate={{ width: efeitoTimeAtivo ? "100%" : "0%" }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            />
+          </div>
+          <p
+            className={`text-[9px] mt-1.5 text-center font-medium ${
+              efeitoTimeAtivo ? "text-pink-400" : "text-white/20"
+            }`}
+          >
+            {efeitoTimeAtivo ? "✓ Ativado — aparece ao abrir a página" : "Clique para ativar"}
+          </p>
+        </div>
+      </motion.div>
+
       {/* Contador */}
       <AnimatePresence>
-        {selecionadas.length > 0 && (
+        {temAlgoSelecionado && (
           <motion.p
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             className="text-center text-white/30 text-xs"
           >
-            {selecionadas.length} selecionada(s)
+            {selecionadas.length > 0 && `${selecionadas.length} seção(ões)`}
+            {selecionadas.length > 0 && efeitoTimeAtivo && " + "}
+            {efeitoTimeAtivo && "Intro animada"}
+            {" selecionada(s)"}
           </motion.p>
         )}
       </AnimatePresence>
@@ -274,7 +422,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
       {/* Botões de ação */}
       <div className="flex flex-col gap-2 pt-1">
         <AnimatePresence>
-          {selecionadas.length > 0 && (
+          {temAlgoSelecionado && (
             <motion.button
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -282,7 +430,9 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
               onClick={onContinuar}
               className="w-full py-3 rounded-xl bg-white text-black font-bold text-sm hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
             >
-              Personalizar seções →
+              {selecionadas.length > 0
+                ? "Personalizar seções →"
+                : "Continuar →"}
             </motion.button>
           )}
         </AnimatePresence>

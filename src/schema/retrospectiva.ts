@@ -31,6 +31,7 @@ export interface RetrospectiveData {
   gallery: GalleryItem[];
   enigma: EnigmaItem[];
   secoesSelecionadas: SectionType[];
+  efeitoTime: boolean;
 }
  
 // Estado inicial vazio
@@ -40,6 +41,7 @@ export const RETROSPECTIVE_INITIAL_STATE: RetrospectiveData = {
   gallery: [],
   enigma: [],
   secoesSelecionadas: [],
+  efeitoTime: false,
 };
  
 // Limites máximos por seção
@@ -59,6 +61,7 @@ export const WHEEL_COLORS = [
 
 export interface BackendRetrospectiva {
   selectedSections: string[];
+  efeitoTime: boolean,
   timeline: {
     id: string;
     titulo: string;
@@ -86,7 +89,8 @@ export function mapBackendRetrospectiva(
   backend: BackendRetrospectiva
 ): RetrospectiveData {
   return {
-    secoesSelecionadas: backend.selectedSections as any,
+    secoesSelecionadas: backend.selectedSections as SectionType[],
+    efeitoTime: backend.efeitoTime ?? false,
     timeline: backend.timeline ?? [],
     wheel: backend.wheel ?? [],
     gallery: backend.gallery ?? [],

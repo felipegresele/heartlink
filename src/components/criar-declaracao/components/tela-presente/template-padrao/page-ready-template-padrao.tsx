@@ -23,6 +23,9 @@ import { IoExtensionPuzzleSharp } from "react-icons/io5";
 import { FiClock, FiImage } from "react-icons/fi";
 import { FaTimeline } from "react-icons/fa6";
 
+// ── Importa a intro animada ───────────────────────────────────
+import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
+
 // ── Label e emoji de cada seção ──────────────────────────────────────────────
 const SECTION_META: Record<
   SectionType,
@@ -37,6 +40,16 @@ const SECTION_META: Record<
 
 const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
 
+// ── Helper: calcula dias e horas desde uma data ───────────────
+function calcularTempoDesdeData(dataConhecimento: string) {
+  const inicio = new Date(dataConhecimento);
+  const agora = new Date();
+  const diffMs = agora.getTime() - inicio.getTime();
+  const totalHoras = Math.floor(diffMs / (1000 * 60 * 60));
+  const totalDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  return { totalDias, totalHoras };
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // RETROSPECTIVA STORIES MODAL
 // ════════════════════════════════════════════════════════════════════════════
@@ -47,9 +60,15 @@ function RetrospectiveModal({
   data: RetrospectiveData;
   onClose: () => void;
 }) {
-  const secoes = data.secoesSelecionadas;
+  // Filtra a seção "time" pois ela não tem conteúdo de stories
+  const secoes = data.secoesSelecionadas.filter((s) => s !== "time");
   const [secaoAtual, setSecaoAtual] = useState(0);
   const total = secoes.length;
+
+  if (total === 0) {
+    onClose();
+    return null;
+  }
 
   const isUltima = secaoAtual === total - 1;
 
@@ -166,7 +185,6 @@ function RetrospectiveModal({
 
 const ROTATIONS = ["-3deg", "2.5deg", "-2deg", "3deg", "-1.5deg", "2deg"];
 
-// ── Polaroid lado esquerdo (igual ao timeline-section) ────────────────────
 function PolaroidCardImgEsquerda({
   item,
   rotation,
@@ -203,7 +221,6 @@ function PolaroidCardImgEsquerda({
   );
 }
 
-// ── Polaroid lado direito (igual ao timeline-section) ─────────────────────
 function PolaroidCardImgDireita({
   item,
   rotation,
@@ -240,7 +257,6 @@ function PolaroidCardImgDireita({
   );
 }
 
-// ── Bloco de texto (igual ao timeline-section) ────────────────────────────
 function TextBlock({
   item,
   align,
@@ -285,7 +301,6 @@ function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
 
   return (
     <div className="relative pt-4 pb-2">
-      {/* Linha central gradiente */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500/60 to-transparent" />
 
       {items.map((item, idx) => {
@@ -300,7 +315,6 @@ function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
             transition={{ delay: idx * 0.06 }}
             className="relative flex mb-10 items-center"
           >
-            {/* Coração central */}
             <div
               className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center"
               style={{
@@ -316,22 +330,18 @@ function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
 
             {isLeft ? (
               <>
-                {/* ESQUERDA → Polaroid */}
                 <div className="w-[calc(50%-20px)] flex justify-end pr-4">
                   <PolaroidCardImgEsquerda item={item} rotation={rotation} />
                 </div>
-                {/* DIREITA → Texto */}
                 <div className="w-[calc(50%-20px)] pl-5">
                   <TextBlock item={item} align="right" />
                 </div>
               </>
             ) : (
               <>
-                {/* ESQUERDA → Texto */}
                 <div className="w-[calc(50%-20px)] pr-5 flex justify-end">
                   <TextBlock item={item} align="left" />
                 </div>
-                {/* DIREITA → Polaroid */}
                 <div className="w-[calc(50%-20px)] flex justify-start pl-4">
                   <PolaroidCardImgDireita item={item} rotation={rotation} />
                 </div>
@@ -654,6 +664,12 @@ export default function PageReady({
   const [mostrarModal, setMostrarModal] = useState(true);
   const [mostrarRetrospectiva, setMostrarRetrospectiva] = useState(false);
 
+  // Controla se a intro animada (SpotifySingleScreen) está visível
+  // Só aparece se efeitoTime === true E ainda não foi finalizado
+  const [mostrarEfeitoTime, setMostrarEfeitoTime] = useState(
+    () => retrospectiva?.efeitoTime === true
+  );
+
   useEffect(() => {
     if (musicaId && musicaTitulo) {
       setMusica({
@@ -700,91 +716,113 @@ export default function PageReady({
     return () => clearInterval(intervalo);
   }, [dataConhecimento]);
 
-  const temRetrospectiva =
-    retrospectiva && retrospectiva.secoesSelecionadas.length > 0;
+  // Seções visíveis no modal de stories (exclui "time")
+  const secoesStories = retrospectiva
+    ? retrospectiva.secoesSelecionadas.filter((s) => s !== "time")
+    : [];
+  const temRetrospectiva = secoesStories.length > 0;
+
+  // Calcula totalDias e totalHoras para o SpotifySingleScreen
+  const { totalDias, totalHoras } = dataConhecimento
+    ? calcularTempoDesdeData(dataConhecimento)
+    : { totalDias: 0, totalHoras: 0 };
 
   return (
-    <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
-      {mostrarModal && (
-        <ModalPresente
-          usuarioNome={usuarioNome}
-          corTextos="#df1836"
-          onClose={() => setMostrarModal(false)}
+    <>
+      {/* ── Intro animada estilo Spotify Wrapped ── */}
+      {mostrarEfeitoTime && retrospectiva?.efeitoTime && (
+        <SpotifySingleScreen
+          senderName={usuarioNome}
+          totalDias={totalDias}
+          totalHoras={totalHoras}
+          fotos={imagens}
+          onFinish={() => setMostrarEfeitoTime(false)}
         />
       )}
 
-      <AnimatePresence>
-        {mostrarRetrospectiva && temRetrospectiva && (
-          <RetrospectiveModal
-            data={retrospectiva!}
-            onClose={() => setMostrarRetrospectiva(false)}
+      {/* ── Conteúdo principal da página ── */}
+      <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
+        {mostrarModal && (
+          <ModalPresente
+            usuarioNome={usuarioNome}
+            corTextos="#df1836"
+            onClose={() => setMostrarModal(false)}
           />
         )}
-      </AnimatePresence>
 
-      <img src={imgLogo} className="h-30" />
-
-      <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
-        <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">
-          {imagens.length > 0 && (
-            <div className="w-full max-w-md mb-4 relative">
-              <img
-                src={imagens[indiceAtual]}
-                alt="Presente"
-                className="w-full h-72 object-cover rounded-md shadow-lg"
-              />
-              <div className="flex justify-center mt-2 gap-2">
-                {imagens.map((_, i) => (
-                  <span
-                    key={i}
-                    className={`w-2 h-2 rounded-full ${
-                      i === indiceAtual ? "bg-white" : "bg-gray-500"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
+        <AnimatePresence>
+          {mostrarRetrospectiva && temRetrospectiva && (
+            <RetrospectiveModal
+              data={retrospectiva!}
+              onClose={() => setMostrarRetrospectiva(false)}
+            />
           )}
+        </AnimatePresence>
 
-          <p className="text-xl font-semibold text-black mb-4 text-center mt-2">
-            {titulo}
-          </p>
-        </div>
+        <img src={imgLogo} className="h-30" />
 
-        <p className="mb-6 mt-6 whitespace-pre-wrap text-gray-200 text-center">
-          {mensagem}
-        </p>
-
-        {dataConhecimento && (
-          <div className="w-full text-center">
-            <h3 className="mb-3 text-lg text-gray-200">
-              Compartilhando momentos há
-            </h3>
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              {Object.entries(tempo).map(([label, value]) => (
-                <div
-                  key={label}
-                  className="bg-black/60 rounded-md p-3 flex flex-col items-center border border-white/10"
-                >
-                  <span className="text-2xl font-bold">
-                    {String(value).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm text-gray-400">{label}</span>
+        <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
+          <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">
+            {imagens.length > 0 && (
+              <div className="w-full max-w-md mb-4 relative">
+                <img
+                  src={imagens[indiceAtual]}
+                  alt="Presente"
+                  className="w-full h-72 object-cover rounded-md shadow-lg"
+                />
+                <div className="flex justify-center mt-2 gap-2">
+                  {imagens.map((_, i) => (
+                    <span
+                      key={i}
+                      className={`w-2 h-2 rounded-full ${
+                        i === indiceAtual ? "bg-white" : "bg-gray-500"
+                      }`}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
-            <p className="text-gray-400 text-sm">
-              Desde {new Date(dataConhecimento).toLocaleDateString("pt-BR")}
+              </div>
+            )}
+
+            <p className="text-xl font-semibold text-black mb-4 text-center mt-2">
+              {titulo}
             </p>
           </div>
+
+          <p className="mb-6 mt-6 whitespace-pre-wrap text-gray-200 text-center">
+            {mensagem}
+          </p>
+
+          {dataConhecimento && (
+            <div className="w-full text-center">
+              <h3 className="mb-3 text-lg text-gray-200">
+                Compartilhando momentos há
+              </h3>
+              <div className="grid grid-cols-3 gap-3 mb-4">
+                {Object.entries(tempo).map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="bg-black/60 rounded-md p-3 flex flex-col items-center border border-white/10"
+                  >
+                    <span className="text-2xl font-bold">
+                      {String(value).padStart(2, "0")}
+                    </span>
+                    <span className="text-sm text-gray-400">{label}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-gray-400 text-sm">
+                Desde {new Date(dataConhecimento).toLocaleDateString("pt-BR")}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {temRetrospectiva && (
+          <RetrospectiveBtn isVisible={() => setMostrarRetrospectiva(true)} />
         )}
+
+        {musica && <MusicPlayerFooter musica={musica} />}
       </div>
-
-      {temRetrospectiva && (
-        <RetrospectiveBtn isVisible={() => setMostrarRetrospectiva(true)} />
-      )}
-
-      {musica && <MusicPlayerFooter musica={musica} />}
-    </div>
+    </>
   );
 }

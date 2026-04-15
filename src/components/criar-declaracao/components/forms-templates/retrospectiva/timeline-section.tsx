@@ -117,7 +117,7 @@ export function TimelineSection() {
     return (
       <div className={`flex flex-col gap-1 ${align === "right" ? "items-start text-left" : "items-end text-right"}`}>
         <div className={`flex items-center gap-1.5 ${align === "right" ? "flex-row" : "flex-row-reverse"}`}>
-          <FaHeart size={10} className="text-pink-400 flex-shrink-0" />
+          <FaHeart size={10} className="text-white flex-shrink-0" />
           <p
             className="font-bold text-sm"
             style={{ color: "#ff4d88", fontFamily: "'Playfair Display', serif" }}

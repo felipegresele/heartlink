@@ -651,7 +651,7 @@ export default function PageReady({
       {mostrarModal && (
         <ModalPresente
           usuarioNome={usuarioNome}
-          corTextos="#2fc921"
+          corTextos="#df1836"
           onClose={() => setMostrarModal(false)}
         />
       )}

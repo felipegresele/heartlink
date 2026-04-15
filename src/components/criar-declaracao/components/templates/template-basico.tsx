@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ContentEscolherMusica from "../components/music/escolher-musica";
 import {
   FaFont,
   FaImages,
@@ -8,27 +7,26 @@ import {
   FaPalette,
   FaCommentDots,
 } from "react-icons/fa";
-import StepHeader from "../components/ui/StepHeader";
+import { RetrospectiveProvider, useRetrospective } from "../forms-templates/retrospectiva/restrospective-context";
+import { TimelineSection } from "../forms-templates/retrospectiva/timeline-section";
+import { WheelSection } from "../forms-templates/retrospectiva/roleta";
+import { GallerySection } from "../forms-templates/retrospectiva/galeria-sessao";
+import { EnigmaSection } from "../forms-templates/retrospectiva/enigma-sessao";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
-import { FormTitulo } from "../components/forms-templates/form-titulo";
-import { FormModoExibicao } from "../components/forms-templates/form-modo-exibicao";
-import { FormModoImagem } from "../components/forms-templates/form-modo-imagens";
-import { FormTempoConhecimento } from "../components/forms-templates/form-tempo";
-import { FormImagens } from "../components/forms-templates/img-cloudnary/form-imagens";
-import { FormMensagem } from "../components/forms-templates/form-mensagem";
-import PreviewCarrossel from "../components/preview/preview-carrosel";
-import { EscolherPlano } from "../components/forms-templates/escolher-plano";
-import { PagamentoStep } from "../components/forms-templates/carrinho-pagamento";
-import { FormRetrospectivaSecoes } from "../components/forms-templates/form-retrospectiva";
-import {
-  RetrospectiveProvider,
-  useRetrospective,
-} from "../components/forms-templates/retrospectiva/restrospective-context";
-import { TimelineSection } from "../components/forms-templates/retrospectiva/timeline-section";
-import { WheelSection } from "../components/forms-templates/retrospectiva/roleta";
-import { GallerySection } from "../components/forms-templates/retrospectiva/galeria-sessao";
-import { EnigmaSection } from "../components/forms-templates/retrospectiva/enigma-sessao";
-import { saveRetrospective } from "../../../api/retrospectiva";
+import { saveRetrospective } from "../../../../api/retrospectiva";
+import StepHeader from "../ui/StepHeader";
+import { FormTitulo } from "../forms-templates/form-titulo";
+import { FormMensagem } from "../forms-templates/form-mensagem";
+import { FormImagens } from "../forms-templates/img-cloudnary/form-imagens";
+import { FormTempoConhecimento } from "../forms-templates/form-tempo";
+import { FormModoImagem } from "../forms-templates/form-modo-imagens";
+import { FormModoExibicao } from "../forms-templates/form-modo-exibicao";
+import { FormRetrospectivaSecoes } from "../forms-templates/form-retrospectiva";
+import { EscolherPlano } from "../forms-templates/escolher-plano";
+import { PagamentoStep } from "../forms-templates/carrinho-pagamento";
+import PreviewCarrossel from "../preview/preview-carrosel";
+import ContentEscolherMusica from "../music/escolher-musica";
+
 
 type SubEtapaRetrospectiva = "selecao" | "formulario";
 

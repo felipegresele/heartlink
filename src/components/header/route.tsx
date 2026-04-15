@@ -74,7 +74,7 @@ export function Header() {
         {usuario ? (
           <div className="relative group">
             <button className="flex items-center gap-3 bg-white/10 py-2 px-4 rounded-full border border-white/10 text-white">
-              <div className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-[10px] font-bold">
+              <div className="w-6 h-6 bg-red-600 cursor-pointer rounded-full flex items-center justify-center text-[10px] font-bold">
                 {usuario.nome?.charAt(0).toUpperCase()}
               </div>
               <span className="text-sm font-bold">{usuario.nome}</span>
@@ -83,12 +83,12 @@ export function Header() {
 
             {/* Dropdown - z-50 aqui para garantir que apareça sobre o conteúdo */}
             <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-white/10 rounded-xl shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[1002]">
-              <button className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+              <button className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors cursor-pointer">
                 <FiUser /> Meu Perfil
               </button>
               <button
                 onClick={deslogar}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
               >
                 <FiLogOut /> Sair
               </button>

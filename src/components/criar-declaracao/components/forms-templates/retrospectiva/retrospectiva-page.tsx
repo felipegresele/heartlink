@@ -18,6 +18,7 @@ const SECTION_LABELS: Record<SectionType, string> = {
   wheel: "Roleta de Aventuras",
   gallery: "Nossa Galeria",
   enigma: "O que eu amo em você",
+  time: "Tempo de casal animado",
 };
 
 const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];

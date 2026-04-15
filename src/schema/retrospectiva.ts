@@ -23,7 +23,7 @@ export interface EnigmaItem {
   revelado: boolean; // controle de UI — não persiste
 }
  
-export type SectionType = "timeline" | "wheel" | "gallery" | "enigma";
+export type SectionType = "timeline" | "wheel" | "gallery" | "enigma" | "time" ;
  
 export interface RetrospectiveData {
   timeline: TimelineItem[];

@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronRight, FaHeart, FaLock, FaLockOpen, FaRandom, FaRedo, FaTimes } from "react-icons/fa";
+import {
+  FaChevronRight,
+  FaHeart,
+  FaLock,
+  FaLockOpen,
+  FaRandom,
+  FaRedo,
+  FaTimes,
+} from "react-icons/fa";
 
 import imgLogo from "../../../../../img/logo-heartcode.webp";
 import MusicPlayerFooter from "../../music/exibir-musica";
 import ModalPresente from "../modal/modal-ver-presente";
-import { WHEEL_COLORS, type RetrospectiveData, type SectionType } from "../../../../../schema/retrospectiva";
+import {
+  WHEEL_COLORS,
+  type RetrospectiveData,
+  type SectionType,
+} from "../../../../../schema/retrospectiva";
 import { RetrospectiveBtn } from "../../forms-templates/retrospectiva/botao-retrospectiva";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
 import { FiClock, FiImage } from "react-icons/fi";
+import { FaTimeline } from "react-icons/fa6";
 
 // ── Label e emoji de cada seção ──────────────────────────────────────────────
-const SECTION_META: Record<SectionType, { label: string; emoji: React.ReactNode }> = {
+const SECTION_META: Record<
+  SectionType,
+  { label: string; emoji: React.ReactNode }
+> = {
   timeline: { label: "Nossa Linha do Tempo", emoji: <FiClock /> },
-  wheel:    { label: "Roleta de Aventuras",  emoji: <FaRandom /> },
-  gallery:  { label: "Nossa Galeria",        emoji: <FiImage /> },
-  enigma:   { label: "O que eu amo em você", emoji: <IoExtensionPuzzleSharp /> },
+  wheel: { label: "Roleta de Aventuras", emoji: <FaRandom /> },
+  gallery: { label: "Nossa Galeria", emoji: <FiImage /> },
+  enigma: { label: "O que eu amo em você", emoji: <IoExtensionPuzzleSharp /> },
+  time: { label: "", emoji: <FaTimeline /> },
 };
 
 const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
@@ -61,11 +78,17 @@ function RetrospectiveModal({
       {/* ── Barra de progresso (stories) ── */}
       <div className="flex gap-1.5 px-4 pt-4 pb-2">
         {secoes.map((_, i) => (
-          <div key={i} className="flex-1 h-[3px] rounded-full bg-white/20 overflow-hidden">
+          <div
+            key={i}
+            className="flex-1 h-[3px] rounded-full bg-white/20 overflow-hidden"
+          >
             <motion.div
               className="h-full bg-pink-400 rounded-full"
               initial={{ width: i < secaoAtual ? "100%" : "0%" }}
-              animate={{ width: i < secaoAtual ? "100%" : i === secaoAtual ? "100%" : "0%" }}
+              animate={{
+                width:
+                  i < secaoAtual ? "100%" : i === secaoAtual ? "100%" : "0%",
+              }}
               transition={i === secaoAtual ? { duration: 0, delay: 0 } : {}}
             />
           </div>
@@ -97,9 +120,9 @@ function RetrospectiveModal({
             transition={{ duration: 0.25 }}
           >
             {secao === "timeline" && <TimelineView items={data.timeline} />}
-            {secao === "wheel"    && <WheelView items={data.wheel} />}
-            {secao === "gallery"  && <GalleryView items={data.gallery} />}
-            {secao === "enigma"   && <EnigmaView items={data.enigma} />}
+            {secao === "wheel" && <WheelView items={data.wheel} />}
+            {secao === "gallery" && <GalleryView items={data.gallery} />}
+            {secao === "enigma" && <EnigmaView items={data.enigma} />}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -123,16 +146,19 @@ function RetrospectiveModal({
           className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-lg shadow-pink-500/30 hover:opacity-90 transition-opacity"
         >
           {isUltima ? (
-            <>Finalizar <FaHeart size={12} /></>
+            <>
+              Finalizar <FaHeart size={12} />
+            </>
           ) : (
-            <>Próxima <FaChevronRight size={12} /></>
+            <>
+              Próxima <FaChevronRight size={12} />
+            </>
           )}
         </button>
       </div>
     </motion.div>
   );
 }
-
 
 // ════════════════════════════════════════════════════════════════════════════
 // SEÇÕES INTERNAS
@@ -342,7 +368,9 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
     }, 3600);
   }
 
-  const cx = 150, cy = 150, r = 140;
+  const cx = 150,
+    cy = 150,
+    r = 140;
   const fatia = (2 * Math.PI) / items.length;
 
   return (
@@ -372,22 +400,38 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
             const d = `M${cx},${cy} L${x1},${y1} A${r},${r},0,${largeArc},1,${x2},${y2} Z`;
             return (
               <g key={item.id}>
-                <path d={d} fill={WHEEL_COLORS[i % WHEEL_COLORS.length]} stroke="#030712" strokeWidth="2" />
+                <path
+                  d={d}
+                  fill={WHEEL_COLORS[i % WHEEL_COLORS.length]}
+                  stroke="#030712"
+                  strokeWidth="2"
+                />
                 <text
-                  x={tx} y={ty}
-                  textAnchor="middle" dominantBaseline="middle"
+                  x={tx}
+                  y={ty}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
                   fill="white"
                   fontSize={items.length > 6 ? "9" : "11"}
                   fontWeight="bold"
                   transform={`rotate(${(midAngle * 180) / Math.PI + 90}, ${tx}, ${ty})`}
                   style={{ pointerEvents: "none", userSelect: "none" }}
                 >
-                  {item.texto.length > 10 ? item.texto.slice(0, 10) + "…" : item.texto}
+                  {item.texto.length > 10
+                    ? item.texto.slice(0, 10) + "…"
+                    : item.texto}
                 </text>
               </g>
             );
           })}
-          <circle cx="150" cy="150" r="18" fill="#030712" stroke="white" strokeWidth="3" />
+          <circle
+            cx="150"
+            cy="150"
+            r="18"
+            fill="#030712"
+            stroke="white"
+            strokeWidth="3"
+          />
           <circle cx="150" cy="150" r="8" fill="white" />
         </motion.svg>
       </div>
@@ -403,7 +447,9 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
       >
         <motion.span
           animate={girando ? { rotate: 360 } : { rotate: 0 }}
-          transition={girando ? { repeat: Infinity, duration: 0.8, ease: "linear" } : {}}
+          transition={
+            girando ? { repeat: Infinity, duration: 0.8, ease: "linear" } : {}
+          }
         >
           <FaRedo size={14} />
         </motion.span>
@@ -430,7 +476,10 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
 }
 
 function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
-  const [modalItem, setModalItem] = useState<{ imagem: string; descricao?: string } | null>(null);
+  const [modalItem, setModalItem] = useState<{
+    imagem: string;
+    descricao?: string;
+  } | null>(null);
   if (!items.length) return null;
 
   return (
@@ -443,7 +492,9 @@ function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.07 }}
             className="relative group rounded-xl overflow-hidden cursor-zoom-in border border-white/10"
-            onClick={() => setModalItem({ imagem: item.imagem, descricao: item.descricao })}
+            onClick={() =>
+              setModalItem({ imagem: item.imagem, descricao: item.descricao })
+            }
           >
             <img
               src={item.imagem}
@@ -531,7 +582,9 @@ function EnigmaView({ items }: { items: RetrospectiveData["enigma"] }) {
                   className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-pink-500/30 bg-gradient-to-br from-pink-900/40 to-purple-900/40"
                 >
                   <FaLock className="text-pink-400" size={20} />
-                  <p className="text-pink-300 text-xs font-bold">Toque para revelar</p>
+                  <p className="text-pink-300 text-xs font-bold">
+                    Toque para revelar
+                  </p>
                 </motion.div>
               ) : (
                 <motion.div
@@ -541,8 +594,12 @@ function EnigmaView({ items }: { items: RetrospectiveData["enigma"] }) {
                   exit={{ opacity: 0 }}
                   className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-white/20 bg-white/5 p-3 text-center"
                 >
-                  <span className="text-xl">{CARD_EMOJIS[idx % CARD_EMOJIS.length]}</span>
-                  <p className="text-white text-xs font-semibold leading-tight">{item.texto}</p>
+                  <span className="text-xl">
+                    {CARD_EMOJIS[idx % CARD_EMOJIS.length]}
+                  </span>
+                  <p className="text-white text-xs font-semibold leading-tight">
+                    {item.texto}
+                  </p>
                   <FaLockOpen className="text-white/20" size={10} />
                 </motion.div>
               )}

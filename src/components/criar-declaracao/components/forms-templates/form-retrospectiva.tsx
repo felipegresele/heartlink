@@ -8,7 +8,7 @@ import { useRetrospective } from "./retrospectiva/restrospective-context";
 import { FiCalendar, FiClock, FiImage } from "react-icons/fi";
 import { FaRandom } from "react-icons/fa";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
-import { FaGift } from "react-icons/fa6";
+import { FaGift, FaTimeline } from "react-icons/fa6";
 
 interface Props {
   onContinuar: () => void; // avança para os formulários das seções
@@ -118,6 +118,31 @@ const SECOES_DISPONIVEIS: {
               {letra}
             </div>
           ))}
+        </div>
+        <div className="flex gap-1 justify-center">
+          {["_", "_", "_", "_", "_", "_"].map((_, i) => (
+            <div
+              key={i}
+              className="w-5 h-5 rounded bg-white/5 border border-white/10"
+            />
+          ))}
+        </div>
+        <p className="text-center text-[8px] text-white/30 mt-0.5">Adivinhe a palavra ✨</p>
+      </div>
+    ),
+  },
+  {
+    id: "time",
+    titulo: "Tempo de casal animado",
+    descricao: "Seu tempo de casal animado e fotos com efeitos animados. 100% personalizada para esse amor tão especial de vocês dois!",
+    badge: <FaTimeline />,
+    icone: <FaTimeline />,
+    gradiente: "from-amber-900/60 to-orange-900/60",
+    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+    preview: (
+      <div className="flex flex-col gap-1.5 w-full">
+        <div className="flex gap-1 justify-center">
+              Tempo Animado
         </div>
         <div className="flex gap-1 justify-center">
           {["_", "_", "_", "_", "_", "_"].map((_, i) => (

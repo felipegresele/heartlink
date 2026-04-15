@@ -22,7 +22,6 @@ const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
 
 // ════════════════════════════════════════════════════════════════════════════
 // RETROSPECTIVA STORIES MODAL
-// Exibe cada seção como um "story" com barra de progresso e botão próxima
 // ════════════════════════════════════════════════════════════════════════════
 function RetrospectiveModal({
   data,
@@ -140,65 +139,175 @@ function RetrospectiveModal({
 // ════════════════════════════════════════════════════════════════════════════
 
 const ROTATIONS = ["-3deg", "2.5deg", "-2deg", "3deg", "-1.5deg", "2deg"];
- 
+
+// ── Polaroid lado esquerdo (igual ao timeline-section) ────────────────────
+function PolaroidCardImgEsquerda({
+  item,
+  rotation,
+}: {
+  item: RetrospectiveData["timeline"][0];
+  rotation: string;
+}) {
+  return (
+    <div
+      className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105"
+      style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
+    >
+      {item.imagem && (
+        <img
+          src={item.imagem}
+          alt={item.titulo}
+          className="w-full object-cover mt-2"
+          style={{ height: "120px" }}
+        />
+      )}
+      {item.descricao && (
+        <p
+          className="text-gray-700 text-center mt-2 leading-tight"
+          style={{
+            fontFamily: "'Caveat', cursive",
+            fontSize: "14px",
+            fontWeight: "bold",
+          }}
+        >
+          {item.descricao}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ── Polaroid lado direito (igual ao timeline-section) ─────────────────────
+function PolaroidCardImgDireita({
+  item,
+  rotation,
+}: {
+  item: RetrospectiveData["timeline"][0];
+  rotation: string;
+}) {
+  return (
+    <div
+      className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105 ml-15"
+      style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
+    >
+      {item.imagem && (
+        <img
+          src={item.imagem}
+          alt={item.titulo}
+          className="w-full object-cover mt-2"
+          style={{ height: "120px" }}
+        />
+      )}
+      {item.descricao && (
+        <p
+          className="text-gray-700 text-center mt-2 leading-tight"
+          style={{
+            fontFamily: "'Caveat', cursive",
+            fontSize: "14px",
+            fontWeight: "bold",
+          }}
+        >
+          {item.descricao}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ── Bloco de texto (igual ao timeline-section) ────────────────────────────
+function TextBlock({
+  item,
+  align,
+}: {
+  item: RetrospectiveData["timeline"][0];
+  align: "left" | "right";
+}) {
+  return (
+    <div
+      className={`flex flex-col gap-1 ${
+        align === "right" ? "items-start text-left" : "items-end text-right"
+      }`}
+    >
+      <div
+        className={`flex items-center gap-1.5 ${
+          align === "right" ? "flex-row" : "flex-row-reverse"
+        }`}
+      >
+        <p
+          className="font-bold"
+          style={{
+            color: "#ff4d88",
+            fontFamily: "'Playfair Display', serif",
+            marginLeft: 30,
+            fontSize: 20,
+          }}
+        >
+          {item.titulo}
+        </p>
+      </div>
+      {item.descricao && (
+        <p className="text-white/50 text-xs leading-snug max-w-[110px] text-[20px] ml-5">
+          {item.descricao}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
   if (!items.length) return null;
- 
+
   return (
     <div className="relative pt-4 pb-2">
       {/* Linha central gradiente */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500/50 to-transparent" />
- 
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500/60 to-transparent" />
+
       {items.map((item, idx) => {
         const isLeft = idx % 2 === 0;
         const rotation = ROTATIONS[idx % ROTATIONS.length];
- 
+
         return (
           <motion.div
             key={item.id}
-            initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
+            initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: idx * 0.1, duration: 0.4 }}
-            className="relative flex mb-14 items-center"
+            transition={{ delay: idx * 0.06 }}
+            className="relative flex mb-10 items-center"
           >
-            {/* ── Coração central ── */}
+            {/* Coração central */}
             <div
               className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center"
               style={{
-                width: "28px",
-                height: "28px",
+                width: "24px",
+                height: "24px",
                 background:
-                  "radial-gradient(circle, rgba(236,72,153,0.25) 0%, transparent 70%)",
+                  "radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 70%)",
                 borderRadius: "50%",
               }}
             >
-              <FaHeart
-                size={13}
-                className="text-white"
-                style={{ filter: "drop-shadow(0 0 5px #ec4899)" }}
-              />
+              <FaHeart size={12} className="text-pink-400 drop-shadow" />
             </div>
- 
+
             {isLeft ? (
               <>
                 {/* ESQUERDA → Polaroid */}
-                <div className="w-[calc(50%-20px)] flex justify-end pr-5">
-                  <Polaroid item={item} rotation={rotation} />
+                <div className="w-[calc(50%-20px)] flex justify-end pr-4">
+                  <PolaroidCardImgEsquerda item={item} rotation={rotation} />
                 </div>
                 {/* DIREITA → Texto */}
                 <div className="w-[calc(50%-20px)] pl-5">
-                  <EventText item={item} align="left" />
+                  <TextBlock item={item} align="right" />
                 </div>
               </>
             ) : (
               <>
                 {/* ESQUERDA → Texto */}
                 <div className="w-[calc(50%-20px)] pr-5 flex justify-end">
-                  <EventText item={item} align="right" />
+                  <TextBlock item={item} align="left" />
                 </div>
                 {/* DIREITA → Polaroid */}
-                <div className="w-[calc(50%-20px)] flex justify-start pl-5">
-                  <Polaroid item={item} rotation={rotation} />
+                <div className="w-[calc(50%-20px)] flex justify-start pl-4">
+                  <PolaroidCardImgDireita item={item} rotation={rotation} />
                 </div>
               </>
             )}
@@ -208,85 +317,7 @@ function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
     </div>
   );
 }
- 
-// ── Foto estilo polaroid ──────────────────────────────────────────────────────
-function Polaroid({
-  item,
-  rotation,
-}: {
-  item: RetrospectiveData["timeline"][0];
-  rotation: string;
-}) {
-  return (
-    <div
-      className="bg-white shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105 cursor-default"
-      style={{
-        transform: `rotate(${rotation})`,
-        padding: "8px 8px 28px 8px",
-        maxWidth: "130px",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3)",
-      }}
-    >
-      {item.imagem && (
-        <img
-          src={item.imagem}
-          alt={item.titulo}
-          className="w-full object-cover"
-          style={{ height: "95px" }}
-        />
-      )}
-      {item.descricao && (
-        <p
-          className="text-gray-600 text-center mt-2 leading-tight px-1"
-          style={{
-            fontFamily: "'Caveat', cursive",
-            fontSize: "11px",
-          }}
-        >
-          {item.descricao}
-        </p>
-      )}
-    </div>
-  );
-}
- 
-function EventText({
-  item,
-  align,
-}: {
-  item: RetrospectiveData["timeline"][0];
-  align: "left" | "right";
-}) {
-  const isLeft = align === "left";
-  return (
-    <div
-      className={`flex flex-col gap-1 max-w-[120px] ${
-        isLeft ? "items-start text-left" : "items-end text-right"
-      }`}
-    >
-      <div
-        className={`flex items-center gap-1.5 ${
-          isLeft ? "flex-row" : "flex-row-reverse"
-        }`}
-      >
-        <FaHeart size={9} className="text-pink-400 flex-shrink-0" />
-        <p
-          className="font-bold text-sm leading-tight"
-          style={{
-            color: "#ff4d88",
-            fontFamily: "'Playfair Display', serif",
-          }}
-        >
-          {item.titulo}
-        </p>
-      </div>
-      {item.descricao && (
-        <p className="text-white/55 text-xs leading-snug">{item.descricao}</p>
-      )}
-    </div>
-  );
-}
- 
+
 export { TimelineView };
 
 function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
@@ -566,7 +597,6 @@ export default function PageReady({
   const [mostrarModal, setMostrarModal] = useState(true);
   const [mostrarRetrospectiva, setMostrarRetrospectiva] = useState(false);
 
-  // Inicializa música
   useEffect(() => {
     if (musicaId && musicaTitulo) {
       setMusica({
@@ -587,7 +617,6 @@ export default function PageReady({
     return () => clearInterval(timer);
   }, [imagens]);
 
-  // Contador de tempo
   useEffect(() => {
     if (!dataConhecimento) return;
     const intervalo = setInterval(() => {
@@ -622,12 +651,11 @@ export default function PageReady({
       {mostrarModal && (
         <ModalPresente
           usuarioNome={usuarioNome}
-          corTextos="#c92921"
+          corTextos="#2fc921"
           onClose={() => setMostrarModal(false)}
         />
       )}
 
-      {/* Modal de retrospectiva (stories) */}
       <AnimatePresence>
         {mostrarRetrospectiva && temRetrospectiva && (
           <RetrospectiveModal
@@ -637,7 +665,7 @@ export default function PageReady({
         )}
       </AnimatePresence>
 
-      <img src={imgLogo} className="h-30"/>
+      <img src={imgLogo} className="h-30" />
 
       <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
         <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">
@@ -695,7 +723,6 @@ export default function PageReady({
         )}
       </div>
 
-      {/* Botão de retrospectiva — só aparece se houver seções configuradas */}
       {temRetrospectiva && (
         <RetrospectiveBtn isVisible={() => setMostrarRetrospectiva(true)} />
       )}

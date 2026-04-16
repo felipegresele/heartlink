@@ -1,850 +1,353 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import {
-  FaChevronRight,
-  FaHeart,
-  FaLock,
-  FaLockOpen,
-  FaRandom,
-  FaRedo,
-  FaTimes,
+  FaFont,
+  FaImages,
+  FaMusic,
+  FaCalendar,
+  FaPalette,
+  FaCommentDots,
 } from "react-icons/fa";
+import { RetrospectiveProvider, useRetrospective } from "../forms-templates/retrospectiva/restrospective-context";
+import { TimelineSection } from "../forms-templates/retrospectiva/timeline-section";
+import { WheelSection } from "../forms-templates/retrospectiva/roleta";
+import { GallerySection } from "../forms-templates/retrospectiva/galeria-sessao";
+import { EnigmaSection } from "../forms-templates/retrospectiva/enigma-sessao";
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { saveRetrospective } from "../../../../api/retrospectiva";
+import StepHeader from "../ui/StepHeader";
+import { FormTitulo } from "../forms-templates/form-titulo";
+import { FormMensagem } from "../forms-templates/form-mensagem";
+import { FormImagens } from "../forms-templates/img-cloudnary/form-imagens";
+import { FormTempoConhecimento } from "../forms-templates/form-tempo";
+import { FormModoImagem } from "../forms-templates/form-modo-imagens";
+import { FormModoExibicao } from "../forms-templates/form-modo-exibicao";
+import { FormRetrospectivaSecoes } from "../forms-templates/form-retrospectiva";
+import { EscolherPlano } from "../forms-templates/escolher-plano";
+import { PagamentoStep } from "../forms-templates/carrinho-pagamento";
+import PreviewCarrossel from "../preview/preview-carrosel";
+import ContentEscolherMusica from "../music/escolher-musica";
 
-import imgLogo from "../../../../../img/logo-heartcode.webp";
-import MusicPlayerFooter from "../../music/exibir-musica";
-import ModalPresente from "../modal/modal-ver-presente";
-import {
-  WHEEL_COLORS,
-  type RetrospectiveData,
-  type SectionType,
-} from "../../../../../schema/retrospectiva";
-import { RetrospectiveBtn } from "../../forms-templates/retrospectiva/botao-retrospectiva";
-import { IoExtensionPuzzleSharp } from "react-icons/io5";
-import { FiClock, FiImage } from "react-icons/fi";
-import { FaTimeline } from "react-icons/fa6";
 
-// ── Importa a intro animada ───────────────────────────────────
-import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
+type SubEtapaRetrospectiva = "selecao" | "formulario";
 
-// ── Label e emoji de cada seção ──────────────────────────────────────────────
-const SECTION_META: Record<
-  SectionType,
-  { label: string; emoji: React.ReactNode }
-> = {
-  timeline: { label: "Nossa Linha do Tempo", emoji: <FiClock /> },
-  wheel: { label: "Roleta de Aventuras", emoji: <FaRandom /> },
-  gallery: { label: "Nossa Galeria", emoji: <FiImage /> },
-  enigma: { label: "O que eu amo em você", emoji: <IoExtensionPuzzleSharp /> },
-  time: { label: "", emoji: <FaTimeline /> },
-};
-
-const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
-
-// ── Helper: calcula dias e horas desde uma data ───────────────
-function calcularTempoDesdeData(dataConhecimento: string) {
-  const inicio = new Date(dataConhecimento);
-  const agora = new Date();
-  const diffMs = agora.getTime() - inicio.getTime();
-  const totalHoras = Math.floor(diffMs / (1000 * 60 * 60));
-  const totalDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  return { totalDias, totalHoras };
-}
-
-// ════════════════════════════════════════════════════════════════════════════
-// RETROSPECTIVA STORIES MODAL
-// ════════════════════════════════════════════════════════════════════════════
-function RetrospectiveModal({
-  data,
-  onClose,
+function FormsSecoesSelecionadas({
+  onVoltar,
+  onContinuar,
 }: {
-  data: RetrospectiveData;
-  onClose: () => void;
+  onVoltar: () => void;
+  onContinuar: () => void;
 }) {
-  // Filtra a seção "time" pois ela não tem conteúdo de stories
-  const secoes = data.secoesSelecionadas.filter((s) => s !== "time");
-  const [secaoAtual, setSecaoAtual] = useState(0);
-  const total = secoes.length;
-
-  if (total === 0) {
-    onClose();
-    return null;
-  }
-
-  const isUltima = secaoAtual === total - 1;
-
-  function proximo() {
-    if (isUltima) {
-      onClose();
-    } else {
-      setSecaoAtual((prev) => prev + 1);
-    }
-  }
-
-  function anterior() {
-    if (secaoAtual > 0) setSecaoAtual((prev) => prev - 1);
-  }
-
-  const secao = secoes[secaoAtual];
-  const meta = SECTION_META[secao];
+  const { data } = useRetrospective();
+  const selecionadas = data.secoesSelecionadas;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex flex-col bg-gray-950"
-    >
-      {/* ── Barra de progresso (stories) ── */}
-      <div className="flex gap-1.5 px-4 pt-4 pb-2">
-        {secoes.map((_, i) => (
-          <div
-            key={i}
-            className="flex-1 h-[3px] rounded-full bg-white/20 overflow-hidden"
-          >
-            <motion.div
-              className="h-full bg-pink-400 rounded-full"
-              initial={{ width: i < secaoAtual ? "100%" : "0%" }}
-              animate={{
-                width:
-                  i < secaoAtual ? "100%" : i === secaoAtual ? "100%" : "0%",
-              }}
-              transition={i === secaoAtual ? { duration: 0, delay: 0 } : {}}
-            />
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-white font-bold text-base mb-1">
+          Personalize suas seções
+        </h3>
+        <p className="text-white/40 text-xs">
+          Preencha os dados de cada seção que você escolheu.
+        </p>
+      </div>
+
+      <div className="space-y-8">
+        {selecionadas.includes("timeline") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <TimelineSection />
           </div>
-        ))}
-      </div>
-
-      {/* ── Header da seção ── */}
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl">{meta.emoji}</span>
-          <span className="text-white font-bold text-sm">{meta.label}</span>
-        </div>
-        <button
-          onClick={onClose}
-          className="text-white/50 hover:text-white transition-colors p-1"
-        >
-          <FaTimes size={18} />
-        </button>
-      </div>
-
-      {/* ── Conteúdo da seção ── */}
-      <div className="flex-1 overflow-y-auto px-4 pb-4">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={secao}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.25 }}
-          >
-            {secao === "timeline" && <TimelineView items={data.timeline} />}
-            {secao === "wheel" && <WheelView items={data.wheel} />}
-            {secao === "gallery" && <GalleryView items={data.gallery} />}
-            {secao === "enigma" && <EnigmaView items={data.enigma} />}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* ── Navegação ── */}
-      <div className="flex items-center justify-between px-4 py-4 border-t border-white/10">
-        <button
-          onClick={anterior}
-          disabled={secaoAtual === 0}
-          className="text-white/40 disabled:opacity-20 hover:text-white transition-colors px-4 py-2 rounded-xl text-sm font-semibold"
-        >
-          ← Anterior
-        </button>
-
-        <span className="text-white/30 text-xs font-medium">
-          {secaoAtual + 1} / {total}
-        </span>
-
-        <button
-          onClick={proximo}
-          className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-lg shadow-pink-500/30 hover:opacity-90 transition-opacity"
-        >
-          {isUltima ? (
-            <>
-              Finalizar <FaHeart size={12} />
-            </>
-          ) : (
-            <>
-              Próxima <FaChevronRight size={12} />
-            </>
-          )}
-        </button>
-      </div>
-    </motion.div>
-  );
-}
-
-// ════════════════════════════════════════════════════════════════════════════
-// SEÇÕES INTERNAS
-// ════════════════════════════════════════════════════════════════════════════
-
-const ROTATIONS = ["-3deg", "2.5deg", "-2deg", "3deg", "-1.5deg", "2deg"];
-
-function PolaroidCardImgEsquerda({
-  item,
-  rotation,
-}: {
-  item: RetrospectiveData["timeline"][0];
-  rotation: string;
-}) {
-  return (
-    <div
-      className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105"
-      style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
-    >
-      {item.imagem && (
-        <img
-          src={item.imagem}
-          alt={item.titulo}
-          className="w-full object-cover mt-2"
-          style={{ height: "120px" }}
-        />
-      )}
-      {item.descricao && (
-        <p
-          className="text-gray-700 text-center mt-2 leading-tight"
-          style={{
-            fontFamily: "'Caveat', cursive",
-            fontSize: "14px",
-            fontWeight: "bold",
-          }}
-        >
-          {item.descricao}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function PolaroidCardImgDireita({
-  item,
-  rotation,
-}: {
-  item: RetrospectiveData["timeline"][0];
-  rotation: string;
-}) {
-  return (
-    <div
-      className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105 ml-15"
-      style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
-    >
-      {item.imagem && (
-        <img
-          src={item.imagem}
-          alt={item.titulo}
-          className="w-full object-cover mt-2"
-          style={{ height: "120px" }}
-        />
-      )}
-      {item.descricao && (
-        <p
-          className="text-gray-700 text-center mt-2 leading-tight"
-          style={{
-            fontFamily: "'Caveat', cursive",
-            fontSize: "14px",
-            fontWeight: "bold",
-          }}
-        >
-          {item.descricao}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function TextBlock({
-  item,
-  align,
-}: {
-  item: RetrospectiveData["timeline"][0];
-  align: "left" | "right";
-}) {
-  return (
-    <div
-      className={`flex flex-col gap-1 ${
-        align === "right" ? "items-start text-left" : "items-end text-right"
-      }`}
-    >
-      <div
-        className={`flex items-center gap-1.5 ${
-          align === "right" ? "flex-row" : "flex-row-reverse"
-        }`}
-      >
-        <p
-          className="font-bold"
-          style={{
-            color: "#ff4d88",
-            fontFamily: "'Playfair Display', serif",
-            marginLeft: 30,
-            fontSize: 20,
-          }}
-        >
-          {item.titulo}
-        </p>
-      </div>
-      {item.descricao && (
-        <p className="text-white/50 text-xs leading-snug max-w-[110px] text-[20px] ml-5">
-          {item.descricao}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
-  if (!items.length)
-    return (
-      <div className="flex flex-col items-center justify-center py-12 text-white/30 gap-3">
-        <FiClock size={32} />
-        <p className="text-sm text-center">
-          Nenhum momento foi adicionado à linha do tempo ainda.
-        </p>
-      </div>
-    );
-
-  return (
-    <div className="relative pt-4 pb-2">
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500/60 to-transparent" />
-
-      {items.map((item, idx) => {
-        const isLeft = idx % 2 === 0;
-        const rotation = ROTATIONS[idx % ROTATIONS.length];
-
-        return (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: idx * 0.06 }}
-            className="relative flex mb-10 items-center"
-          >
-            <div
-              className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center"
-              style={{
-                width: "24px",
-                height: "24px",
-                background:
-                  "radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 70%)",
-                borderRadius: "50%",
-              }}
-            >
-              <FaHeart size={12} className="text-pink-400 drop-shadow" />
-            </div>
-
-            {isLeft ? (
-              <>
-                <div className="w-[calc(50%-20px)] flex justify-end pr-4">
-                  <PolaroidCardImgEsquerda item={item} rotation={rotation} />
-                </div>
-                <div className="w-[calc(50%-20px)] pl-5">
-                  <TextBlock item={item} align="right" />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="w-[calc(50%-20px)] pr-5 flex justify-end">
-                  <TextBlock item={item} align="left" />
-                </div>
-                <div className="w-[calc(50%-20px)] flex justify-start pl-4">
-                  <PolaroidCardImgDireita item={item} rotation={rotation} />
-                </div>
-              </>
-            )}
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
-
-export { TimelineView };
-
-function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
-  const [anguloAtual, setAnguloAtual] = useState(0);
-  const [girando, setGirando] = useState(false);
-  const [vencedor, setVencedor] = useState<string | null>(null);
-
-  if (!items.length) return null;
-
-  function girar() {
-    if (items.length < 2 || girando) return;
-    setGirando(true);
-    setVencedor(null);
-    const totalAngulo = anguloAtual + 5 * 360 + Math.random() * 360;
-    setAnguloAtual(totalAngulo);
-    setTimeout(() => {
-      const final = totalAngulo % 360;
-      const fatia = 360 / items.length;
-      const idx = Math.floor(((360 - final) % 360) / fatia) % items.length;
-      setVencedor(items[idx].texto);
-      setGirando(false);
-    }, 3600);
-  }
-
-  const cx = 150,
-    cy = 150,
-    r = 140;
-  const fatia = (2 * Math.PI) / items.length;
-
-  return (
-    <div className="flex flex-col items-center gap-6 pt-4">
-      <div className="relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-10">
-          <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-b-[22px] border-l-transparent border-r-transparent border-b-white drop-shadow-lg" />
-        </div>
-        <motion.svg
-          width="300"
-          height="300"
-          viewBox="0 0 300 300"
-          animate={{ rotate: anguloAtual }}
-          transition={{ duration: 3.5, ease: [0.15, 0.9, 0.3, 1] }}
-        >
-          {items.map((item, i) => {
-            const startAngle = i * fatia - Math.PI / 2;
-            const endAngle = startAngle + fatia;
-            const x1 = cx + r * Math.cos(startAngle);
-            const y1 = cy + r * Math.sin(startAngle);
-            const x2 = cx + r * Math.cos(endAngle);
-            const y2 = cy + r * Math.sin(endAngle);
-            const largeArc = fatia > Math.PI ? 1 : 0;
-            const midAngle = startAngle + fatia / 2;
-            const tx = cx + r * 0.65 * Math.cos(midAngle);
-            const ty = cy + r * 0.65 * Math.sin(midAngle);
-            const d = `M${cx},${cy} L${x1},${y1} A${r},${r},0,${largeArc},1,${x2},${y2} Z`;
-            return (
-              <g key={item.id}>
-                <path
-                  d={d}
-                  fill={WHEEL_COLORS[i % WHEEL_COLORS.length]}
-                  stroke="#030712"
-                  strokeWidth="2"
-                />
-                <text
-                  x={tx}
-                  y={ty}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fill="white"
-                  fontSize={items.length > 6 ? "9" : "11"}
-                  fontWeight="bold"
-                  transform={`rotate(${(midAngle * 180) / Math.PI + 90}, ${tx}, ${ty})`}
-                  style={{ pointerEvents: "none", userSelect: "none" }}
-                >
-                  {item.texto.length > 10
-                    ? item.texto.slice(0, 10) + "…"
-                    : item.texto}
-                </text>
-              </g>
-            );
-          })}
-          <circle
-            cx="150"
-            cy="150"
-            r="18"
-            fill="#030712"
-            stroke="white"
-            strokeWidth="3"
-          />
-          <circle cx="150" cy="150" r="8" fill="white" />
-        </motion.svg>
-      </div>
-
-      <button
-        onClick={girar}
-        disabled={girando || items.length < 2}
-        className={`flex items-center gap-2 font-bold px-8 py-3 rounded-full transition-all ${
-          girando
-            ? "bg-white/10 text-white/40 cursor-not-allowed"
-            : "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:opacity-90 shadow-lg shadow-pink-500/30"
-        }`}
-      >
-        <motion.span
-          animate={girando ? { rotate: 360 } : { rotate: 0 }}
-          transition={
-            girando ? { repeat: Infinity, duration: 0.8, ease: "linear" } : {}
-          }
-        >
-          <FaRedo size={14} />
-        </motion.span>
-        {girando ? "Girando…" : "Girar a Roleta"}
-      </button>
-
-      <AnimatePresence>
-        {vencedor && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            className="text-center"
-          >
-            <p className="text-white/50 text-xs mb-1">Sorteado!</p>
-            <p className="text-2xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-              {vencedor} 🎉
-            </p>
-          </motion.div>
         )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
-  const [modalItem, setModalItem] = useState<{
-    imagem: string;
-    descricao?: string;
-  } | null>(null);
-  if (!items.length) return null;
-
-  return (
-    <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-        {items.map((item, idx) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: idx * 0.07 }}
-            className="relative group rounded-xl overflow-hidden cursor-zoom-in border border-white/10"
-            onClick={() =>
-              setModalItem({ imagem: item.imagem, descricao: item.descricao })
-            }
-          >
-            <img
-              src={item.imagem}
-              alt={item.descricao}
-              className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            {item.descricao && (
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-                <p className="text-white text-xs">{item.descricao}</p>
-              </div>
-            )}
-          </motion.div>
-        ))}
+        {selecionadas.includes("wheel") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <WheelSection />
+          </div>
+        )}
+        {selecionadas.includes("gallery") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <GallerySection />
+          </div>
+        )}
+        {selecionadas.includes("enigma") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <EnigmaSection />
+          </div>
+        )}
       </div>
 
-      <AnimatePresence>
-        {modalItem && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4"
-            onClick={() => setModalItem(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              className="flex flex-col items-center gap-3 max-w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={modalItem.imagem}
-                alt="Ampliado"
-                className="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl"
-              />
-              {modalItem.descricao && (
-                <p className="text-white/80 text-sm text-center px-4 leading-relaxed">
-                  {modalItem.descricao}
-                </p>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
-
-function EnigmaView({ items }: { items: RetrospectiveData["enigma"] }) {
-  const [revelados, setRevelados] = useState<Set<string>>(new Set());
-
-  if (!items.length) return null;
-
-  function toggle(id: string) {
-    setRevelados((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  }
-
-  return (
-    <div className="grid grid-cols-2 gap-3 pt-2">
-      {items.map((item, idx) => {
-        const revelado = revelados.has(item.id);
-        return (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: idx * 0.08 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => toggle(item.id)}
-            className="cursor-pointer"
-          >
-            <AnimatePresence mode="wait">
-              {!revelado ? (
-                <motion.div
-                  key="locked"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-pink-500/30 bg-gradient-to-br from-pink-900/40 to-purple-900/40"
-                >
-                  <FaLock className="text-pink-400" size={20} />
-                  <p className="text-pink-300 text-xs font-bold">
-                    Toque para revelar
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="unlocked"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-white/20 bg-white/5 p-3 text-center"
-                >
-                  <span className="text-xl">
-                    {CARD_EMOJIS[idx % CARD_EMOJIS.length]}
-                  </span>
-                  <p className="text-white text-xs font-semibold leading-tight">
-                    {item.texto}
-                  </p>
-                  <FaLockOpen className="text-white/20" size={10} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        );
-      })}
+      <div className="flex justify-between items-center pt-4 border-t border-white/10 gap-2">
+        <button
+          onClick={onVoltar}
+          className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
+        >
+          <SlArrowLeft size={12} /> Voltar
+        </button>
+        <button
+          onClick={onContinuar}
+          className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
+        >
+          Próximo <SlArrowRight size={12} />
+        </button>
+      </div>
     </div>
   );
 }
 
-// ════════════════════════════════════════════════════════════════════════════
-// PAGE READY — COMPONENTE PRINCIPAL
-// ════════════════════════════════════════════════════════════════════════════
-export default function PageReady({
-  titulo,
-  mensagem,
-  imagens = [],
-  dataConhecimento,
-  musicaId,
-  musicaTitulo,
-  usuarioNome,
-  retrospectiva,
-}: {
-  titulo: string;
-  mensagem: string;
-  imagens: string[];
-  dataConhecimento: string;
-  musicaId?: string;
-  musicaTitulo?: string;
-  usuarioNome: string;
-  retrospectiva?: RetrospectiveData;
-}) {
-  const [indiceAtual, setIndiceAtual] = useState(0);
-  const [tempo, setTempo] = useState({
-    anos: 0,
-    meses: 0,
-    dias: 0,
-    horas: 0,
-    minutos: 0,
-    segundos: 0,
-  });
+// ─────────────────────────────────────────────────────────────
+// Componente interno que acessa o contexto da retrospectiva
+// (precisa estar dentro do RetrospectiveProvider)
+// ─────────────────────────────────────────────────────────────
+function CriadorDeclaracaoInner() {
+  const totalEtapas = 9;
+  const [etapa, setEtapa] = useState(1);
+  const [subEtapaRetro, setSubEtapaRetro] =
+    useState<SubEtapaRetrospectiva>("selecao");
 
-  const [musica, setMusica] = useState<null | {
+  const [titulo, setTitulo] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const [corTitulo, setCorTitulo] = useState("#ffffff");
+  const [fonteTitulo, setFonteTitulo] = useState("Alex Brush, cursive");
+  const [tamanhoTitulo, setTamanhoTitulo] = useState(24);
+  const [tamanhoMensagem, setTamanhoMensagem] = useState(16);
+
+  const [imagens, setImagens] = useState<string[]>([]);
+  const [dataConhecimento, setDataConhecimento] = useState("");
+
+  const [modoExibicao, setModoExibicao] = useState<
+    "padrao" | "classico" | "simples"
+  >("padrao");
+  const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
+    "carrossel"
+  );
+
+  const [musicaSelecionada, setMusicaSelecionada] = useState<{
     id: string;
     title: string;
-    channelTitle: string;
     thumbnail: string;
-    duration: number;
-  }>(null);
+    channelTitle: string;
+  } | null>(null);
 
-  const [mostrarModal, setMostrarModal] = useState(true);
-  const [mostrarRetrospectiva, setMostrarRetrospectiva] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [pageId, setPageId] = useState<string | null>(null);
 
-  // Controla se a intro animada (SpotifySingleScreen) está visível
-  // Inicia como false — só dispara quando o usuário abre a retrospectiva pela primeira vez
-  const [mostrarEfeitoTime, setMostrarEfeitoTime] = useState(false);
-  // Flag para garantir que o efeito rode apenas uma vez por sessão
-  const efeitoJaExibido = useRef(false);
+  // Acessa os dados da retrospectiva do contexto
+  const { data: retroData } = useRetrospective();
 
-  useEffect(() => {
-    if (musicaId && musicaTitulo) {
-      setMusica({
-        id: musicaId,
-        title: musicaTitulo,
-        channelTitle: "Youtube",
-        thumbnail: `https://img.youtube.com/vi/${musicaId}/hqdefault.jpg`,
-        duration: 0,
-      });
+  function proximaEtapa() {
+    if (!validarEtapaAtual()) {
+      alert("Preencha os campos antes de continuar");
+      return;
     }
-  }, [musicaId, musicaTitulo]);
+    if (etapa + 1 === 7) setSubEtapaRetro("selecao");
+    setEtapa((prev) => prev + 1);
+  }
 
-  useEffect(() => {
-    if (imagens.length === 0) return;
-    const timer = setInterval(() => {
-      setIndiceAtual((prev) => (prev + 1) % imagens.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [imagens]);
+  function voltarEtapa() {
+    if (etapa === 7 && subEtapaRetro === "formulario") {
+      setSubEtapaRetro("selecao");
+      return;
+    }
+    setEtapa((prev) => prev - 1);
+  }
 
-  useEffect(() => {
-    if (!dataConhecimento) return;
-    const intervalo = setInterval(() => {
-      const agora = new Date();
-      const inicio = new Date(dataConhecimento);
+  async function criarPagina() {
+    const storedUser = localStorage.getItem("user");
+    const usuario = storedUser ? JSON.parse(storedUser) : null;
 
-      let diff = agora.getTime() - inicio.getTime();
-      let segundos = Math.floor(diff / 1000);
-      let minutos = Math.floor(segundos / 60);
-      let horas = Math.floor(minutos / 60);
-      let dias = Math.floor(horas / 24);
-      let anos = Math.floor(dias / 365);
+    if (!usuario) {
+      alert("Você precisa estar logado para criar uma página!");
+      return;
+    }
 
-      segundos %= 60;
-      minutos %= 60;
-      horas %= 24;
-      dias %= 365;
-      const meses = Math.floor(dias / 30);
-      dias %= 30;
+    // 1. Cria a página principal
+    const response = await fetch(
+      "https://lovepage-backend.onrender.com/api/love-pages",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: usuario.id,
+          receiverName: titulo,
+          senderName: "Felipe",
+          message: mensagem,
+          photos: imagens,
+          relationshipStartDate: dataConhecimento,
+          musicId: musicaSelecionada?.id,
+          musicTitle: musicaSelecionada?.title,
+          theme: modoExibicao,
+          planType: selectedPlan,
+        }),
+      }
+    );
 
-      setTempo({ anos, meses, dias, horas, minutos, segundos });
-    }, 1000);
+    const data = await response.json();
+    console.log(data)
+    const createdPageId: string = data.id;
+    setPageId(createdPageId);
 
-    return () => clearInterval(intervalo);
-  }, [dataConhecimento]);
+    // 2. Se o usuário preencheu alguma seção de retrospectiva OU ativou o efeitoTime, salva no backend
+    if (retroData.secoesSelecionadas.length > 0 || retroData.efeitoTime) {
+      // Monta o JSON no formato esperado pelo backend
+      const retrospectivePayload = {
+        selectedSections: retroData.secoesSelecionadas,
+        efeitoTime: retroData.efeitoTime,  // ← Campo necessário para a Intro Animada do Casal
+        timeline: retroData.timeline,
+        wheel: retroData.wheel,
+        gallery: retroData.gallery,
+        enigma: retroData.enigma,
+      };
 
-  // Seções visíveis no modal de stories (exclui "time")
-  const secoesStories = retrospectiva
-    ? retrospectiva.secoesSelecionadas.filter((s) => s !== "time")
-    : [];
-  const temRetrospectiva = secoesStories.length > 0;
+      try {
+        await saveRetrospective(createdPageId, retrospectivePayload);
+      } catch (err) {
+        // Não bloqueia o fluxo — apenas loga o erro
+        console.error("Erro ao salvar retrospectiva:", err);
+      }
+    }
 
-  // Calcula totalDias e totalHoras para o SpotifySingleScreen
-  const { totalDias, totalHoras } = dataConhecimento
-    ? calcularTempoDesdeData(dataConhecimento)
-    : { totalDias: 0, totalHoras: 0 };
+    console.log(removeEventListener)
+    setEtapa(9);
+  }
+
+  function validarEtapaAtual() {
+    switch (etapa) {
+      case 1: return titulo.trim().length > 0;
+      case 2: return mensagem.trim().length > 0;
+      case 3: return imagens.length > 0;
+      case 4: return dataConhecimento !== "";
+      case 5: return musicaSelecionada !== null;
+      case 6: return true;
+      case 7: return true;
+      case 8: return selectedPlan !== null;
+      default: return true;
+    }
+  }
+
+  const etapa7Ativa = etapa === 7;
 
   return (
-    <>
-      {/* ── Intro animada estilo Spotify Wrapped ── */}
-      {mostrarEfeitoTime && retrospectiva?.efeitoTime && (
-        <SpotifySingleScreen
-          senderName={usuarioNome}
-          totalDias={totalDias}
-          totalHoras={totalHoras}
-          fotos={imagens}
-          onFinish={() => {
-            setMostrarEfeitoTime(false);
-            // Abre o modal de retrospectiva automaticamente após a intro
-            if (secoesStories.length > 0) {
-              setMostrarRetrospectiva(true);
-            }
-          }}
-        />
-      )}
+    <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
+      <div className="flex-1 space-y-6 min-h-[calc(100vh-160px)] md:min-h-auto">
 
-      {/* ── Conteúdo principal da página ── */}
-      <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
-        {mostrarModal && (
-          <ModalPresente
-            usuarioNome={usuarioNome}
-            corTextos="#df1836"
-            onClose={() => setMostrarModal(false)}
+        {etapa === 1 && (
+          <>
+            <StepHeader icon={FaFont} titulo="Título da página" descricao="Escolha um título especial." etapa={etapa} totalEtapas={totalEtapas} />
+            <FormTitulo titulo={titulo} setTitulo={setTitulo} corTitulo={corTitulo} setCorTitulo={setCorTitulo} fonteTitulo={fonteTitulo} setFonteTitulo={setFonteTitulo} tamanhoTitulo={tamanhoTitulo} setTamanhoTitulo={setTamanhoTitulo} />
+          </>
+        )}
+
+        {etapa === 2 && (
+          <>
+            <StepHeader icon={FaCommentDots} titulo="Declaração" descricao="Escreva sua mensagem." etapa={etapa} totalEtapas={totalEtapas} />
+            <FormMensagem mensagem={mensagem} setMensagem={setMensagem} tamanhoMensagem={tamanhoMensagem} setTamanhoMensagem={setTamanhoMensagem} />
+          </>
+        )}
+
+        {etapa === 3 && (
+          <>
+            <StepHeader icon={FaImages} titulo="Fotos" descricao="Adicione suas fotos." etapa={etapa} totalEtapas={totalEtapas} />
+            <FormImagens imagens={imagens} setImagens={setImagens} />
+          </>
+        )}
+
+        {etapa === 4 && (
+          <>
+            <StepHeader icon={FaCalendar} titulo="Data" descricao="Quando tudo começou?" etapa={etapa} totalEtapas={totalEtapas} />
+            <FormTempoConhecimento dataConhecimento={dataConhecimento} setDataConhecimento={setDataConhecimento} />
+          </>
+        )}
+
+        {etapa === 5 && (
+          <>
+            <StepHeader icon={FaMusic} titulo="Escolher música" descricao="Escolha uma música que lembra esta pessoa." etapa={etapa} totalEtapas={totalEtapas} />
+            <ContentEscolherMusica onMusicSelect={setMusicaSelecionada} videoSelecionado={musicaSelecionada} />
+          </>
+        )}
+
+        {etapa === 6 && (
+          <>
+            <StepHeader icon={FaPalette} titulo="Layout" descricao="Como as fotos e o tempo aparecem." etapa={etapa} totalEtapas={totalEtapas} />
+            <FormModoImagem modoImagem={modoImagem} setModoImagem={setModoImagem} />
+            <FormModoExibicao modoExibicao={modoExibicao} setModoExibicao={setModoExibicao} />
+          </>
+        )}
+
+        {etapa === 7 && subEtapaRetro === "selecao" && (
+          <FormRetrospectivaSecoes
+            onContinuar={() => setSubEtapaRetro("formulario")}
+            onPular={() => setEtapa((prev) => prev + 1)}
           />
         )}
 
-        <AnimatePresence>
-          {mostrarRetrospectiva && temRetrospectiva && (
-            <RetrospectiveModal
-              data={retrospectiva!}
-              onClose={() => setMostrarRetrospectiva(false)}
-            />
-          )}
-        </AnimatePresence>
-
-        <img src={imgLogo} className="h-30" />
-
-        <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
-          <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">
-            {imagens.length > 0 && (
-              <div className="w-full max-w-md mb-4 relative">
-                <img
-                  src={imagens[indiceAtual]}
-                  alt="Presente"
-                  className="w-full h-72 object-cover rounded-md shadow-lg"
-                />
-                <div className="flex justify-center mt-2 gap-2">
-                  {imagens.map((_, i) => (
-                    <span
-                      key={i}
-                      className={`w-2 h-2 rounded-full ${
-                        i === indiceAtual ? "bg-white" : "bg-gray-500"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <p className="text-xl font-semibold text-black mb-4 text-center mt-2">
-              {titulo}
-            </p>
-          </div>
-
-          <p className="mb-6 mt-6 whitespace-pre-wrap text-gray-200 text-center">
-            {mensagem}
-          </p>
-
-          {dataConhecimento && (
-            <div className="w-full text-center">
-              <h3 className="mb-3 text-lg text-gray-200">
-                Compartilhando momentos há
-              </h3>
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                {Object.entries(tempo).map(([label, value]) => (
-                  <div
-                    key={label}
-                    className="bg-black/60 rounded-md p-3 flex flex-col items-center border border-white/10"
-                  >
-                    <span className="text-2xl font-bold">
-                      {String(value).padStart(2, "0")}
-                    </span>
-                    <span className="text-sm text-gray-400">{label}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="text-gray-400 text-sm">
-                Desde {new Date(dataConhecimento).toLocaleDateString("pt-BR")}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {temRetrospectiva && (
-          <RetrospectiveBtn isVisible={() => {
-            // Se efeitoTime está ativo e ainda não foi exibido, mostra a intro primeiro
-            if (retrospectiva?.efeitoTime && !efeitoJaExibido.current) {
-              efeitoJaExibido.current = true;
-              setMostrarEfeitoTime(true);
-            } else {
-              setMostrarRetrospectiva(true);
-            }
-          }} />
+        {etapa === 7 && subEtapaRetro === "formulario" && (
+          <FormsSecoesSelecionadas
+            onVoltar={() => setSubEtapaRetro("selecao")}
+            onContinuar={() => setEtapa((prev) => prev + 1)}
+          />
         )}
 
-        {musica && <MusicPlayerFooter musica={musica} />}
+        {etapa === 8 && (
+          <EscolherPlano selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan} />
+        )}
+
+        {etapa === 9 && (
+          <PagamentoStep pageId={pageId} selectedPlan={selectedPlan} />
+        )}
+
+        {!etapa7Ativa && (
+          <div className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}>
+            <button
+              onClick={voltarEtapa}
+              disabled={etapa === 1}
+              className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500 disabled:opacity-40"
+            >
+              <SlArrowLeft size={12} /> Voltar
+            </button>
+
+            {etapa < totalEtapas && (
+              <button
+                onClick={etapa === 8 ? criarPagina : proximaEtapa}
+                className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
+              >
+                {etapa === 8 ? "Criar página ❤️" : "Próximo"}{" "}
+                <SlArrowRight size={12} />
+              </button>
+            )}
+          </div>
+        )}
       </div>
-    </>
+
+      {etapa !== 7 && etapa !== 8 && etapa !== 9 ? (
+        <div>
+          <h1 className="text-xl font-bold text-center">
+            Pré Visualização do seu site:
+          </h1>
+          <div className="flex-1">
+            <PreviewCarrossel
+              titulo={titulo}
+              mensagem={mensagem}
+              corTitulo={corTitulo}
+              fonteTitulo={fonteTitulo}
+              tamanhoTitulo={tamanhoTitulo}
+              tamanhoMensagem={tamanhoMensagem}
+              musicaSelecionada={musicaSelecionada}
+              imagens={imagens}
+              dataConhecimento={dataConhecimento}
+              modoExibicao={modoExibicao}
+              modoImagem={modoImagem}
+            />
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
+  );
+}
+
+export function CriadorDeclaracao() {
+  return (
+    <RetrospectiveProvider>
+      <CriadorDeclaracaoInner />
+    </RetrospectiveProvider>
   );
 }

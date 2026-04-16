@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaChevronRight,
@@ -673,10 +673,10 @@ export default function PageReady({
   const [mostrarRetrospectiva, setMostrarRetrospectiva] = useState(false);
 
   // Controla se a intro animada (SpotifySingleScreen) está visível
-  // Só aparece se efeitoTime === true E ainda não foi finalizado
-  const [mostrarEfeitoTime, setMostrarEfeitoTime] = useState(
-    () => retrospectiva?.efeitoTime === true
-  );
+  // Inicia como false — só dispara quando o usuário abre a retrospectiva pela primeira vez
+  const [mostrarEfeitoTime, setMostrarEfeitoTime] = useState(false);
+  // Flag para garantir que o efeito rode apenas uma vez por sessão
+  const efeitoJaExibido = useRef(false);
 
   useEffect(() => {
     if (musicaId && musicaTitulo) {
@@ -744,7 +744,13 @@ export default function PageReady({
           totalDias={totalDias}
           totalHoras={totalHoras}
           fotos={imagens}
-          onFinish={() => setMostrarEfeitoTime(false)}
+          onFinish={() => {
+            setMostrarEfeitoTime(false);
+            // Abre o modal de retrospectiva automaticamente após a intro
+            if (secoesStories.length > 0) {
+              setMostrarRetrospectiva(true);
+            }
+          }}
         />
       )}
 
@@ -826,7 +832,15 @@ export default function PageReady({
         </div>
 
         {temRetrospectiva && (
-          <RetrospectiveBtn isVisible={() => setMostrarRetrospectiva(true)} />
+          <RetrospectiveBtn isVisible={() => {
+            // Se efeitoTime está ativo e ainda não foi exibido, mostra a intro primeiro
+            if (retrospectiva?.efeitoTime && !efeitoJaExibido.current) {
+              efeitoJaExibido.current = true;
+              setMostrarEfeitoTime(true);
+            } else {
+              setMostrarRetrospectiva(true);
+            }
+          }} />
         )}
 
         {musica && <MusicPlayerFooter musica={musica} />}

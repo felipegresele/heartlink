@@ -16,11 +16,11 @@ type Props = {
 // ── Constantes do efeito de pixel ────────────────────────────
 const PIXEL_SIZE = 12;
 const PIXEL_COLORS = [
-  "#58ec48", // pink-500
-  "#4ea90d", // purple-500
-  "#5cf6ac", // violet-500
-  "#9bd78c", // pink-400
-  "#7ae4b4", // purple-400
+  "#58ec48",
+  "#4ea90d",
+  "#5cf6ac",
+  "#9bd78c",
+  "#7ae4b4",
   "#ffffff",
 ];
 
@@ -60,7 +60,7 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
         x: col * PIXEL_SIZE,
         y: row * PIXEL_SIZE,
         color: PIXEL_COLORS[Math.floor(stableRandom(i * 7) * PIXEL_COLORS.length)],
-        delay: stableRandom(i * 13) * 0.7, // 0-0.7s delay spread
+        delay: stableRandom(i * 13) * 0.7,
         progress: 0,
       };
     });
@@ -74,27 +74,22 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
       if (!ctx) return;
 
       if (startTimeRef.current === 0) startTimeRef.current = timestamp;
-      const elapsed = (timestamp - startTimeRef.current) / 1000; // seconds
-      const totalDuration = 1.2; // total animation time in seconds
+      const elapsed = (timestamp - startTimeRef.current) / 1000;
+      const totalDuration = 1.2;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       let allDone = true;
 
       for (const px of pixelsRef.current) {
-        // Normalize progress accounting for delay
         const remainingDuration = totalDuration - px.delay;
-        const t = remainingDuration <= 0
-          ? 1
-          : Math.min(Math.max((elapsed - px.delay) / remainingDuration, 0), 1);
+        const t =
+          remainingDuration <= 0
+            ? 1
+            : Math.min(Math.max((elapsed - px.delay) / remainingDuration, 0), 1);
 
         const isEntering = phaseRef.current === "enter";
-
-        // easeOutQuart
         const eased = isEntering ? 1 - Math.pow(1 - t, 4) : Math.pow(t, 4);
-
-        // For enter: alpha goes 0 → 1, size expands
-        // For exit:  alpha goes 1 → 0, size shrinks
         const alpha = isEntering ? eased : 1 - eased;
         const size = PIXEL_SIZE * (isEntering ? eased : 1 - eased);
 
@@ -113,7 +108,6 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
       if (!allDone) {
         animRef.current = requestAnimationFrame(draw);
       } else {
-        // Animation complete
         if (!callbackFiredRef.current) {
           callbackFiredRef.current = true;
           if (phaseRef.current === "enter") onEnterDone?.();
@@ -146,11 +140,9 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
     return () => cancelAnimationFrame(animRef.current);
   }, [phase, buildPixels, draw]);
 
-  // Resize observer
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -181,67 +173,79 @@ export default function SpotifySingleScreen({
   fotos,
   onFinish,
 }: Props) {
-  // step: 0 | 1 | 2 | 3 | "exiting" | "done"
   const [step, setStep] = useState<number | "exiting" | "done">(0);
-  // Inicia como "idle" — o efeito de entrada só dispara no useEffect de montagem
   const [pixelPhase, setPixelPhase] = useState<"enter" | "exit" | "idle">("idle");
   const [contentVisible, setContentVisible] = useState(false);
 
-  // Dispara o efeito de entrada apenas uma vez ao montar o componente
+  // ── NOVO: flag que autoriza o timer do step a rodar ──────────
+  // O timer só começa DEPOIS que onEnterDone for chamado,
+  // evitando que um novo ciclo de pixels seja disparado antes
+  // do step atual ter terminado de aparecer.
+  const [stepReady, setStepReady] = useState(false);
+
+  const STEP_DURATIONS = [2000, 2000, 3000, 3000];
+  const TOTAL_STEPS = 3; // steps 0, 1, 2, 3
+
+  // Dispara o efeito de entrada apenas uma vez ao montar
   useEffect(() => {
     setPixelPhase("enter");
   }, []);
 
-  // Step durations in ms
-  const STEP_DURATIONS = [2000, 2000, 3000, 3000];
-
-  // Called when pixel enter animation finishes → show content
+  // Pixels entraram → mostra conteúdo E marca step como pronto
   const handleEnterDone = useCallback(() => {
     setPixelPhase("idle");
     setContentVisible(true);
+    setStepReady(true); // ← libera o timer do step
   }, []);
 
-  // Called when pixel exit animation finishes → call onFinish
+  // Pixels saíram → chama onFinish
   const handleExitDone = useCallback(() => {
     setStep("done");
     onFinish?.();
   }, [onFinish]);
 
-  // Sequence controller
+  // Timer de duração do step — só executa quando stepReady === true
   useEffect(() => {
     if (typeof step !== "number") return;
+    if (!stepReady) return; // ← aguarda pixels terminarem de entrar
 
     const duration = STEP_DURATIONS[step] ?? 2000;
 
     const timer = setTimeout(() => {
+      // Reseta o flag antes de iniciar a próxima transição
+      setStepReady(false);
+      setContentVisible(false);
+
       const nextStep = step + 1;
 
-      if (nextStep > 3) {
-        // All steps done — trigger exit pixel animation
-        setContentVisible(false);
+      if (nextStep > TOTAL_STEPS) {
+        // Todos os steps exibidos — inicia animação de saída
         setStep("exiting");
         setPixelPhase("exit");
       } else {
-        // Transition to next step with pixel enter animation
-        setContentVisible(false);
-        setPixelPhase("enter");
-        // Small delay to let fade out, then switch step after pixels start
+        // Avança para o próximo step e dispara pixels de entrada
+        // O step muda ANTES dos pixels, para que o conteúdo correto
+        // seja renderizado quando onEnterDone for chamado.
+        setStep(nextStep);
+        // Pequeno delay para garantir que o React renderizou o novo step
+        // antes de iniciar a animação de entrada.
         setTimeout(() => {
-          setStep(nextStep);
-        }, 200);
+          setPixelPhase("enter");
+        }, 50);
       }
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, stepReady]);
 
   // Safety timeout: garante que onFinish é sempre chamado mesmo se a animação
-  // de saída travar ou não completar (ex: canvas invisível, foco perdido)
+  // de saída travar ou não completar
   useEffect(() => {
     if (step !== "exiting") return;
     const safetyTimer = setTimeout(() => {
       onFinish?.();
-    }, 2500); // espera 2.5s extra após início do exit
+    }, 2500);
     return () => clearTimeout(safetyTimer);
   }, [step, onFinish]);
 
@@ -249,14 +253,12 @@ export default function SpotifySingleScreen({
 
   return (
     <>
-      {/* Pixel Canvas overlay */}
       <PixelCanvas
         phase={pixelPhase}
         onEnterDone={handleEnterDone}
         onExitDone={handleExitDone}
       />
 
-      {/* Fullscreen container */}
       <div
         style={{
           position: "fixed",
@@ -277,7 +279,9 @@ export default function SpotifySingleScreen({
               textAlign: "center",
               padding: "0 2rem",
               opacity: contentVisible ? 1 : 0,
-              transform: contentVisible ? "translateY(0) scale(1)" : "translateY(24px) scale(0.95)",
+              transform: contentVisible
+                ? "translateY(0) scale(1)"
+                : "translateY(24px) scale(0.95)",
               transition: "opacity 0.6s ease, transform 0.6s ease",
             }}
           >
@@ -321,14 +325,16 @@ export default function SpotifySingleScreen({
           </div>
         )}
 
-        {/* STEP 1 — Dias + histórias e memórias */}
+        {/* STEP 1 — Dias */}
         {step === 1 && (
           <div
             style={{
               textAlign: "center",
               padding: "0 2rem",
               opacity: contentVisible ? 1 : 0,
-              transform: contentVisible ? "translateY(0) scale(1)" : "translateY(24px) scale(0.95)",
+              transform: contentVisible
+                ? "translateY(0) scale(1)"
+                : "translateY(24px) scale(0.95)",
               transition: "opacity 0.6s ease, transform 0.6s ease",
             }}
           >
@@ -383,7 +389,6 @@ export default function SpotifySingleScreen({
         {/* STEP 2 — Fotos caindo */}
         {step === 2 && (
           <>
-            {/* Overlay escuro */}
             <div
               style={{
                 position: "absolute",
@@ -393,7 +398,6 @@ export default function SpotifySingleScreen({
               }}
             />
 
-            {/* Fotos */}
             {fotos.length > 0 ? (
               fotos.map((foto, i) => (
                 <img
@@ -403,12 +407,14 @@ export default function SpotifySingleScreen({
                   style={{
                     position: "absolute",
                     top: "-12rem",
-                    left: `${(stableRandom(i * 17) * 80) + 5}%`,
+                    left: `${stableRandom(i * 17) * 80 + 5}%`,
                     width: "clamp(120px, 18vw, 180px)",
                     borderRadius: "0.75rem",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
                     opacity: contentVisible ? 0.85 : 0,
-                    animation: contentVisible ? `pixelFall ${2.5 + stableRandom(i * 3) * 1.5}s ease-in forwards` : "none",
+                    animation: contentVisible
+                      ? `pixelFall ${2.5 + stableRandom(i * 3) * 1.5}s ease-in forwards`
+                      : "none",
                     animationDelay: `${stableRandom(i * 11) * 0.8}s`,
                     zIndex: 0,
                     objectFit: "cover",
@@ -417,7 +423,6 @@ export default function SpotifySingleScreen({
                 />
               ))
             ) : (
-              // Fallback quando não há fotos
               <div
                 style={{
                   position: "absolute",
@@ -432,14 +437,19 @@ export default function SpotifySingleScreen({
               >
                 <div style={{ textAlign: "center" }}>
                   <span style={{ fontSize: "4rem" }}>📸</span>
-                  <p style={{ color: "rgba(255,255,255,0.5)", marginTop: "1rem", fontSize: "1.1rem" }}>
+                  <p
+                    style={{
+                      color: "rgba(255,255,255,0.5)",
+                      marginTop: "1rem",
+                      fontSize: "1.1rem",
+                    }}
+                  >
                     memórias guardadas no coração
                   </p>
                 </div>
               </div>
             )}
 
-            {/* Texto centralizado sobre as fotos */}
             <div
               style={{
                 position: "relative",
@@ -472,7 +482,8 @@ export default function SpotifySingleScreen({
               padding: "0 2rem",
               opacity: contentVisible ? 1 : 0,
               transform: contentVisible ? "scale(1)" : "scale(0.8)",
-              transition: "opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              transition:
+                "opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)",
             }}
           >
             <p
@@ -542,10 +553,9 @@ export default function SpotifySingleScreen({
         />
       </div>
 
-      {/* Keyframes para animação de queda das fotos */}
       <style>{`
         @keyframes pixelFall {
-          0%   { top: -14rem; opacity: 0; transform: rotate(${Math.random() * 10 - 5}deg); }
+          0%   { top: -14rem; opacity: 0; transform: rotate(-3deg); }
           10%  { opacity: 0.85; }
           90%  { opacity: 0.7; }
           100% { top: 110vh; opacity: 0; }

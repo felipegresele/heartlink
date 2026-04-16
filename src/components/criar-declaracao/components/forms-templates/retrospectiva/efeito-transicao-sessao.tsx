@@ -37,109 +37,41 @@ interface PixelCanvasProps {
   onExitDone?: () => void;
 }
 
+interface Pixel {
+  x: number;
+  y: number;
+  color: string;
+  delay: number;
+}
+
+// ── Canvas de Pixels ─────────────────────────────────────────
+interface PixelCanvasProps {
+  phase: "enter" | "exit" | "idle";
+  onEnterDone?: () => void;
+  onExitDone?: () => void;
+}
+
 function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
-  const pixelsRef = useRef<
-    { x: number; y: number; color: string; delay: number; progress: number }[]
-  >([]);
-  const startTimeRef = useRef<number>(0);
-  const phaseRef = useRef(phase);
-  const callbackFiredRef = useRef(false);
+  const startTimeRef = useRef<number>(-1);
+  const phaseRef = useRef<"enter" | "exit" | "idle">(phase);
+  const callbackFiredRef = useRef<boolean>(false);
+  const pixelsRef = useRef<Pixel[]>([]);
+  const onEnterDoneRef = useRef<(() => void) | undefined>(onEnterDone);
+  const onExitDoneRef = useRef<(() => void) | undefined>(onExitDone);
+  const drawRef = useRef<((timestamp: number) => void) | null>(null);
 
-  const buildPixels = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const cols = Math.ceil(canvas.width / PIXEL_SIZE);
-    const rows = Math.ceil(canvas.height / PIXEL_SIZE);
-    const total = cols * rows;
-    pixelsRef.current = Array.from({ length: total }, (_, i) => {
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      return {
-        x: col * PIXEL_SIZE,
-        y: row * PIXEL_SIZE,
-        color: PIXEL_COLORS[Math.floor(stableRandom(i * 7) * PIXEL_COLORS.length)],
-        delay: stableRandom(i * 13) * 0.7,
-        progress: 0,
-      };
-    });
-  }, []);
-
-  const draw = useCallback(
-    (timestamp: number) => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      if (startTimeRef.current === 0) startTimeRef.current = timestamp;
-      const elapsed = (timestamp - startTimeRef.current) / 1000;
-      const totalDuration = 1.2;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      let allDone = true;
-
-      for (const px of pixelsRef.current) {
-        const remainingDuration = totalDuration - px.delay;
-        const t =
-          remainingDuration <= 0
-            ? 1
-            : Math.min(Math.max((elapsed - px.delay) / remainingDuration, 0), 1);
-
-        const isEntering = phaseRef.current === "enter";
-        const eased = isEntering ? 1 - Math.pow(1 - t, 4) : Math.pow(t, 4);
-        const alpha = isEntering ? eased : 1 - eased;
-        const size = PIXEL_SIZE * (isEntering ? eased : 1 - eased);
-
-        if (t < 1) allDone = false;
-
-        if (alpha > 0.01 && size > 0.5) {
-          ctx.globalAlpha = alpha;
-          ctx.fillStyle = px.color;
-          const offset = (PIXEL_SIZE - size) / 2;
-          ctx.fillRect(px.x + offset, px.y + offset, size, size);
-        }
-      }
-
-      ctx.globalAlpha = 1;
-
-      if (!allDone) {
-        animRef.current = requestAnimationFrame(draw);
-      } else {
-        if (!callbackFiredRef.current) {
-          callbackFiredRef.current = true;
-          if (phaseRef.current === "enter") onEnterDone?.();
-          if (phaseRef.current === "exit") onExitDone?.();
-        }
-      }
-    },
-    [onEnterDone, onExitDone]
-  );
+  // Atualiza refs de callback sem recriar nada
+  useEffect(() => {
+    onEnterDoneRef.current = onEnterDone;
+  }, [onEnterDone]);
 
   useEffect(() => {
-    phaseRef.current = phase;
-    callbackFiredRef.current = false;
+    onExitDoneRef.current = onExitDone;
+  }, [onExitDone]);
 
-    if (phase === "idle") {
-      cancelAnimationFrame(animRef.current);
-      const canvas = canvasRef.current;
-      if (canvas) {
-        const ctx = canvas.getContext("2d");
-        ctx?.clearRect(0, 0, canvas.width, canvas.height);
-      }
-      return;
-    }
-
-    buildPixels();
-    startTimeRef.current = 0;
-    cancelAnimationFrame(animRef.current);
-    animRef.current = requestAnimationFrame(draw);
-
-    return () => cancelAnimationFrame(animRef.current);
-  }, [phase, buildPixels, draw]);
-
+  // Resize do canvas — roda apenas uma vez
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -151,6 +83,111 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
   }, []);
+
+  // Loop de animação — atribuído direto na ref, nunca recriado via useCallback
+  drawRef.current = (timestamp: number): void => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    if (startTimeRef.current < 0) startTimeRef.current = timestamp;
+
+    const elapsed = (timestamp - startTimeRef.current) / 1000;
+    const TOTAL_DURATION = 1.2;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const isEntering = phaseRef.current === "enter";
+    let allDone = true;
+
+    for (const px of pixelsRef.current) {
+      const availableTime = TOTAL_DURATION - px.delay;
+      const t =
+        availableTime <= 0
+          ? 1
+          : Math.min(1, Math.max(0, (elapsed - px.delay) / availableTime));
+
+      if (t < 1) allDone = false;
+
+      const eased = isEntering
+        ? 1 - Math.pow(1 - t, 3)
+        : Math.pow(t, 3);
+
+      const alpha = isEntering ? eased : 1 - eased;
+      const size = PIXEL_SIZE * (isEntering ? eased : 1 - eased);
+
+      if (alpha > 0.01 && size > 0.5) {
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = px.color;
+        const offset = (PIXEL_SIZE - size) / 2;
+        ctx.fillRect(px.x + offset, px.y + offset, size, size);
+      }
+    }
+
+    ctx.globalAlpha = 1;
+
+    if (!allDone) {
+      // Wrapper evita passar drawRef.current diretamente (poderia mudar entre frames)
+      animRef.current = requestAnimationFrame((ts) => drawRef.current?.(ts));
+    } else {
+      cancelAnimationFrame(animRef.current);
+      animRef.current = 0;
+
+      if (!callbackFiredRef.current) {
+        callbackFiredRef.current = true;
+        if (phaseRef.current === "enter") onEnterDoneRef.current?.();
+        if (phaseRef.current === "exit") onExitDoneRef.current?.();
+      }
+    }
+  };
+
+  // Reage a mudanças de phase — único efeito que controla o ciclo
+  useEffect(() => {
+    phaseRef.current = phase;
+
+    if (animRef.current) {
+      cancelAnimationFrame(animRef.current);
+      animRef.current = 0;
+    }
+
+    if (phase === "idle") {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      return;
+    }
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const cols = Math.ceil(canvas.width / PIXEL_SIZE);
+    const rows = Math.ceil(canvas.height / PIXEL_SIZE);
+
+    pixelsRef.current = Array.from<unknown, Pixel>(
+      { length: cols * rows },
+      (_, i) => ({
+        x: (i % cols) * PIXEL_SIZE,
+        y: Math.floor(i / cols) * PIXEL_SIZE,
+        color: PIXEL_COLORS[Math.floor(stableRandom(i * 7) * PIXEL_COLORS.length)],
+        delay: stableRandom(i * 13) * 0.7,
+      })
+    );
+
+    startTimeRef.current = -1;
+    callbackFiredRef.current = false;
+
+    animRef.current = requestAnimationFrame((ts) => drawRef.current?.(ts));
+
+    return () => {
+      if (animRef.current) {
+        cancelAnimationFrame(animRef.current);
+        animRef.current = 0;
+      }
+    };
+  }, [phase]);
 
   return (
     <canvas

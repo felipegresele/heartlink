@@ -229,6 +229,16 @@ export default function SpotifySingleScreen({
     return () => clearTimeout(timer);
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Safety timeout: garante que onFinish é sempre chamado mesmo se a animação
+  // de saída travar ou não completar (ex: canvas invisível, foco perdido)
+  useEffect(() => {
+    if (step !== "exiting") return;
+    const safetyTimer = setTimeout(() => {
+      onFinish?.();
+    }, 2500); // espera 2.5s extra após início do exit
+    return () => clearTimeout(safetyTimer);
+  }, [step, onFinish]);
+
   if (step === "done") return null;
 
   return (

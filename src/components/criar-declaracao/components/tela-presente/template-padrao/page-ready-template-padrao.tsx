@@ -297,7 +297,15 @@ function TextBlock({
 }
 
 function TimelineView({ items }: { items: RetrospectiveData["timeline"] }) {
-  if (!items.length) return null;
+  if (!items.length)
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-white/30 gap-3">
+        <FiClock size={32} />
+        <p className="text-sm text-center">
+          Nenhum momento foi adicionado à linha do tempo ainda.
+        </p>
+      </div>
+    );
 
   return (
     <div className="relative pt-4 pb-2">

@@ -5,7 +5,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaHeart, FaLock, FaLockOpen, FaRedo } from "react-icons/fa";
-import { WHEEL_COLORS, type RetrospectiveData, type SectionType } from "../../../../../schema/retrospectiva";
+import {
+  WHEEL_COLORS,
+  type RetrospectiveData,
+  type SectionType,
+} from "../../../../../schema/retrospectiva";
 
 // ── Props ─────────────────────────────────────────────────────
 interface RetrospectivePageProps {
@@ -73,7 +77,10 @@ export function RetrospectivePage({ data }: RetrospectivePageProps) {
 
       {/* Seções */}
       <div className="max-w-2xl mx-auto px-4 pb-16 space-y-12">
-        {data.secoesSelecionadas.map((section, idx) => (
+        {[
+          ...(data.efeitoTime ? ["time" as SectionType] : []),
+          ...data.secoesSelecionadas.filter((s) => s !== "time"),
+        ].map((section, idx) => (
           <motion.section
             key={section}
             initial={{ opacity: 0, y: 40 }}
@@ -164,7 +171,9 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
     }, 3600);
   }
 
-  const cx = 150, cy = 150, r = 140;
+  const cx = 150,
+    cy = 150,
+    r = 140;
   const fatia = (2 * Math.PI) / items.length;
 
   return (
@@ -189,22 +198,43 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
             const y2 = cy + r * Math.sin(endAngle);
             const largeArc = fatia > Math.PI ? 1 : 0;
             const midAngle = startAngle + fatia / 2;
-            const tx = cx + (r * 0.65) * Math.cos(midAngle);
-            const ty = cy + (r * 0.65) * Math.sin(midAngle);
+            const tx = cx + r * 0.65 * Math.cos(midAngle);
+            const ty = cy + r * 0.65 * Math.sin(midAngle);
             const d = `M${cx},${cy} L${x1},${y1} A${r},${r},0,${largeArc},1,${x2},${y2} Z`;
             return (
               <g key={item.id}>
-                <path d={d} fill={WHEEL_COLORS[i % WHEEL_COLORS.length]} stroke="#030712" strokeWidth="2" />
-                <text x={tx} y={ty} textAnchor="middle" dominantBaseline="middle" fill="white"
-                  fontSize={items.length > 6 ? "9" : "11"} fontWeight="bold"
+                <path
+                  d={d}
+                  fill={WHEEL_COLORS[i % WHEEL_COLORS.length]}
+                  stroke="#030712"
+                  strokeWidth="2"
+                />
+                <text
+                  x={tx}
+                  y={ty}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="white"
+                  fontSize={items.length > 6 ? "9" : "11"}
+                  fontWeight="bold"
                   transform={`rotate(${(midAngle * 180) / Math.PI + 90}, ${tx}, ${ty})`}
-                  style={{ pointerEvents: "none", userSelect: "none" }}>
-                  {item.texto.length > 10 ? item.texto.slice(0, 10) + "…" : item.texto}
+                  style={{ pointerEvents: "none", userSelect: "none" }}
+                >
+                  {item.texto.length > 10
+                    ? item.texto.slice(0, 10) + "…"
+                    : item.texto}
                 </text>
               </g>
             );
           })}
-          <circle cx="150" cy="150" r="18" fill="#030712" stroke="white" strokeWidth="3" />
+          <circle
+            cx="150"
+            cy="150"
+            r="18"
+            fill="#030712"
+            stroke="white"
+            strokeWidth="3"
+          />
           <circle cx="150" cy="150" r="8" fill="white" />
         </motion.svg>
       </div>
@@ -213,12 +243,17 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
         onClick={girar}
         disabled={girando || items.length < 2}
         className={`flex items-center gap-2 font-bold px-8 py-3 rounded-full transition-all ${
-          girando ? "bg-white/10 text-white/40 cursor-not-allowed"
-          : "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:opacity-90 shadow-lg shadow-pink-500/30"
+          girando
+            ? "bg-white/10 text-white/40 cursor-not-allowed"
+            : "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:opacity-90 shadow-lg shadow-pink-500/30"
         }`}
       >
-        <motion.span animate={girando ? { rotate: 360 } : { rotate: 0 }}
-          transition={girando ? { repeat: Infinity, duration: 0.8, ease: "linear" } : {}}>
+        <motion.span
+          animate={girando ? { rotate: 360 } : { rotate: 0 }}
+          transition={
+            girando ? { repeat: Infinity, duration: 0.8, ease: "linear" } : {}
+          }
+        >
           <FaRedo size={14} />
         </motion.span>
         {girando ? "Girando…" : "Girar a Roleta"}
@@ -226,8 +261,12 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
 
       <AnimatePresence>
         {vencedor && (
-          <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-            className="text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            className="text-center"
+          >
             <p className="text-white/50 text-xs mb-1">Sorteado!</p>
             <p className="text-2xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
               {vencedor} 🎉
@@ -255,7 +294,11 @@ function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
             className="relative group rounded-xl overflow-hidden cursor-zoom-in border border-white/10"
             onClick={() => setModal(item.imagem)}
           >
-            <img src={item.imagem} alt={item.descricao} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" />
+            <img
+              src={item.imagem}
+              alt={item.descricao}
+              className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300"
+            />
             {item.descricao && (
               <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-2">
                 <p className="text-white text-xs">{item.descricao}</p>
@@ -267,13 +310,22 @@ function GalleryView({ items }: { items: RetrospectiveData["gallery"] }) {
 
       <AnimatePresence>
         {modal && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-            onClick={() => setModal(null)}>
-            <motion.img initial={{ scale: 0.8 }} animate={{ scale: 1 }} exit={{ scale: 0.8 }}
-              src={modal} alt="Ampliado"
+            onClick={() => setModal(null)}
+          >
+            <motion.img
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              src={modal}
+              alt="Ampliado"
               className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
-              onClick={(e) => e.stopPropagation()} />
+              onClick={(e) => e.stopPropagation()}
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -311,16 +363,32 @@ function EnigmaView({ items }: { items: RetrospectiveData["enigma"] }) {
           >
             <AnimatePresence mode="wait">
               {!revelado ? (
-                <motion.div key="locked" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                  className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-pink-500/30 bg-gradient-to-br from-pink-900/40 to-purple-900/40">
+                <motion.div
+                  key="locked"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-pink-500/30 bg-gradient-to-br from-pink-900/40 to-purple-900/40"
+                >
                   <FaLock className="text-pink-400" size={20} />
-                  <p className="text-pink-300 text-xs font-bold">Toque para revelar</p>
+                  <p className="text-pink-300 text-xs font-bold">
+                    Toque para revelar
+                  </p>
                 </motion.div>
               ) : (
-                <motion.div key="unlocked" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                  className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-white/20 bg-white/5 p-3 text-center">
-                  <span className="text-xl">{CARD_EMOJIS[idx % CARD_EMOJIS.length]}</span>
-                  <p className="text-white text-xs font-semibold leading-tight">{item.texto}</p>
+                <motion.div
+                  key="unlocked"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-white/20 bg-white/5 p-3 text-center"
+                >
+                  <span className="text-xl">
+                    {CARD_EMOJIS[idx % CARD_EMOJIS.length]}
+                  </span>
+                  <p className="text-white text-xs font-semibold leading-tight">
+                    {item.texto}
+                  </p>
                   <FaLockOpen className="text-white/20" size={10} />
                 </motion.div>
               )}

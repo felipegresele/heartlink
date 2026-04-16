@@ -184,11 +184,12 @@ function CriadorDeclaracaoInner() {
     const createdPageId: string = data.id;
     setPageId(createdPageId);
 
-    // 2. Se o usuário preencheu alguma seção de retrospectiva, salva no backend
-    if (retroData.secoesSelecionadas.length > 0) {
+    // 2. Se o usuário preencheu alguma seção de retrospectiva OU ativou o efeitoTime, salva no backend
+    if (retroData.secoesSelecionadas.length > 0 || retroData.efeitoTime) {
       // Monta o JSON no formato esperado pelo backend
       const retrospectivePayload = {
         selectedSections: retroData.secoesSelecionadas,
+        efeitoTime: retroData.efeitoTime,  // ← Campo necessário para a Intro Animada do Casal
         timeline: retroData.timeline,
         wheel: retroData.wheel,
         gallery: retroData.gallery,

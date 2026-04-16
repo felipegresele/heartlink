@@ -16,11 +16,11 @@ type Props = {
 // ── Constantes do efeito de pixel ────────────────────────────
 const PIXEL_SIZE = 12;
 const PIXEL_COLORS = [
-  "#ec4899", // pink-500
-  "#a855f7", // purple-500
-  "#8b5cf6", // violet-500
-  "#f472b6", // pink-400
-  "#c084fc", // purple-400
+  "#58ec48", // pink-500
+  "#4ea90d", // purple-500
+  "#5cf6ac", // violet-500
+  "#9bd78c", // pink-400
+  "#7ae4b4", // purple-400
   "#ffffff",
 ];
 
@@ -83,10 +83,10 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
 
       for (const px of pixelsRef.current) {
         // Normalize progress accounting for delay
-        const t = Math.min(
-          Math.max((elapsed - px.delay) / (totalDuration - px.delay), 0),
-          1
-        );
+        const remainingDuration = totalDuration - px.delay;
+        const t = remainingDuration <= 0
+          ? 1
+          : Math.min(Math.max((elapsed - px.delay) / remainingDuration, 0), 1);
 
         const isEntering = phaseRef.current === "enter";
 
@@ -183,8 +183,14 @@ export default function SpotifySingleScreen({
 }: Props) {
   // step: 0 | 1 | 2 | 3 | "exiting" | "done"
   const [step, setStep] = useState<number | "exiting" | "done">(0);
-  const [pixelPhase, setPixelPhase] = useState<"enter" | "exit" | "idle">("enter");
+  // Inicia como "idle" — o efeito de entrada só dispara no useEffect de montagem
+  const [pixelPhase, setPixelPhase] = useState<"enter" | "exit" | "idle">("idle");
   const [contentVisible, setContentVisible] = useState(false);
+
+  // Dispara o efeito de entrada apenas uma vez ao montar o componente
+  useEffect(() => {
+    setPixelPhase("enter");
+  }, []);
 
   // Step durations in ms
   const STEP_DURATIONS = [2000, 2000, 3000, 3000];

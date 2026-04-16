@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <div className="bg-black flex flex-col justify-between text-white p-5">
       <FooterContent />
-      <h1 className="text-end p-4">Pagamento seguro com tal empresa</h1>
+      <h1 className="text-end p-4">Pagamento seguro com Mercado Pago</h1>
     </div>
   );
 }
@@ -21,7 +21,7 @@ export function FooterContent() {
           <div className="flex items-center gap-2 mb-2">
             <img src={img} alt="Logo" className="w-8 h-8" />
             <h1 className="text-xl font-bold">
-              Heart<span className="text-red-500">link.</span>
+              Heart<span className="text-red-500">Code.</span>
             </h1>
           </div>
           <p className="text-gray-300 text-sm mb-2">

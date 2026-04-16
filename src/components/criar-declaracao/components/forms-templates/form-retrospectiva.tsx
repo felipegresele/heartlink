@@ -8,7 +8,11 @@ import { useRetrospective } from "./retrospectiva/restrospective-context";
 import { FiCalendar, FiClock, FiImage } from "react-icons/fi";
 import { FaRandom } from "react-icons/fa";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
-import { FaGift, FaTimeline } from "react-icons/fa6";
+import { FaGift, FaMessage, FaTimeline } from "react-icons/fa6";
+import FaqsRetrospectiva from "../../../faqs-retrospectiva";
+import { ModalContatoAjuda } from "../../../modal-contato/modal-contato";
+import { useState } from "react";
+import { RiMessage2Line } from "react-icons/ri";
 
 interface Props {
   onContinuar: () => void;
@@ -57,20 +61,25 @@ const SECOES_DISPONIVEIS: {
     preview: (
       <div className="flex items-center justify-center w-full">
         <div className="relative w-14 h-14">
-          {["#FF6B9D", "#FFC857", "#6EC6FF", "#A8E6CF", "#B39DDB", "#FF8E53"].map(
-            (cor, i) => (
-              <div
-                key={i}
-                className="absolute inset-0 rounded-full border-4"
-                style={{
-                  borderColor: cor,
-                  transform: `rotate(${i * 60}deg)`,
-                  clipPath: "polygon(50% 50%, 100% 0%, 100% 50%)",
-                  opacity: 0.7,
-                }}
-              />
-            )
-          )}
+          {[
+            "#FF6B9D",
+            "#FFC857",
+            "#6EC6FF",
+            "#A8E6CF",
+            "#B39DDB",
+            "#FF8E53",
+          ].map((cor, i) => (
+            <div
+              key={i}
+              className="absolute inset-0 rounded-full border-4"
+              style={{
+                borderColor: cor,
+                transform: `rotate(${i * 60}deg)`,
+                clipPath: "polygon(50% 50%, 100% 0%, 100% 50%)",
+                opacity: 0.7,
+              }}
+            />
+          ))}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-3 h-3 rounded-full bg-white/80" />
           </div>
@@ -140,6 +149,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
   const { data, toggleSection, toggleEfeitoTime } = useRetrospective();
   const selecionadas = data.secoesSelecionadas;
   const efeitoTimeAtivo = data.efeitoTime;
+  const [modalContatoAberto, setModalContatoAberto] = useState(false);
 
   // Conta como selecionada para habilitar o botão de continuar
   const temAlgoSelecionado = selecionadas.length > 0 || efeitoTimeAtivo;
@@ -148,9 +158,9 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
     <div className="flex flex-col gap-5">
       {/* Header */}
       <div>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center mb-2">
           <FaGift />
-          <h3 className="text-white font-bold text-base mb-1">
+          <h3 className="text-white font-bold text-base">
             Seções da Retrospectiva
           </h3>
         </div>
@@ -397,7 +407,9 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
               efeitoTimeAtivo ? "text-pink-400" : "text-white/20"
             }`}
           >
-            {efeitoTimeAtivo ? "✓ Ativado — aparece ao abrir a página" : "Clique para ativar"}
+            {efeitoTimeAtivo
+              ? "✓ Ativado — aparece ao abrir a página"
+              : "Clique para ativar"}
           </p>
         </div>
       </motion.div>
@@ -444,6 +456,16 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
           Pular — sem retrospectiva
         </button>
       </div>
+      <RiMessage2Line
+        onClick={() => setModalContatoAberto(true)}
+        className="cursor-pointer bg-red-600 rounded-md w-5 h-5"
+      />
+
+      <ModalContatoAjuda
+        abrirModal={modalContatoAberto}
+        onClose={() => setModalContatoAberto(false)}
+      />
+      <FaqsRetrospectiva />
     </div>
   );
 }

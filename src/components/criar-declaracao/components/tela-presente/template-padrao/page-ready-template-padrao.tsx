@@ -740,7 +740,7 @@ export default function PageReady({
       {/* ── Intro animada estilo Spotify Wrapped ── */}
       {mostrarEfeitoTime && retrospectiva?.efeitoTime && (
         <SpotifySingleScreen
-          senderName={usuarioNome}
+          senderName={titulo}
           totalDias={totalDias}
           totalHoras={totalHoras}
           fotos={imagens}

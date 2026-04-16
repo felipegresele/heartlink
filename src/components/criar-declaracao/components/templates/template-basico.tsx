@@ -316,7 +316,7 @@ function CriadorDeclaracaoInner() {
         )}
       </div>
 
-      {etapa !== 7 && etapa !== 8 && etapa !== 9 ? (
+      {etapa !== 1 && etapa !== 2 && etapa !== 3 && etapa !== 7 && etapa !== 8 && etapa !== 9 ? (
         <div>
           <h1 className="text-xl font-bold text-center">
             Pré Visualização do seu site:

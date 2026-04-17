@@ -4,7 +4,7 @@ import { AuthModal } from "../auth/AuthModal";
 import { LoginModal } from "../auth/LoginModal";
 import { SlArrowDown } from "react-icons/sl";
 import { FiMenu, FiX, FiLogOut, FiUser } from "react-icons/fi";
-import imgLogo from "../../img/logo-heartcode.webp"
+import imgLogo from "../../img/logo-heartcode.webp";
 
 interface Usuario {
   nome: string | null;
@@ -18,7 +18,7 @@ export function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
 
   // Dentro do componente
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const carregarUsuario = () => {
     const storedUser = localStorage.getItem("user");
@@ -40,10 +40,10 @@ const navigate = useNavigate();
   const fecharModal = () => setExibirModal(false);
 
   const abrirModalLogin = () => setExibirModalLogin(true);
-  
+
   const fecharModalLogin = () => {
     setExibirModalLogin(false);
-    carregarUsuario(); 
+    carregarUsuario();
   };
 
   const deslogar = () => {
@@ -54,18 +54,20 @@ const navigate = useNavigate();
 
   return (
     <header className="bg-black sticky top-0 z-[999] border-b border-white/10 p-8 flex justify-between items-center h-[72px]">
-      
       <div className="flex items-center gap-2 z-[1001]">
-        <Link to="/" className="text-white text-2xl font-black tracking-tighter">
+        <Link
+          to="/"
+          className="text-white text-2xl font-black tracking-tighter"
+        >
           <img src={imgLogo} className="max-w-50" />
         </Link>
       </div>
 
       <nav className="hidden md:flex items-center gap-8 text-sm font-bold">
         {["Início", "Dicas", "Temas", "Planos", "Help"].map((item) => (
-          <Link 
-            key={item} 
-            to={item === "Início" ? "/" : `/${item.toLowerCase()}`} 
+          <Link
+            key={item}
+            to={item === "Início" ? "/" : `/${item.toLowerCase()}`}
             className="text-gray-300 hover:text-white transition-colors text-xl"
           >
             {item === "Help" ? "F.A.Q" : item}
@@ -81,14 +83,19 @@ const navigate = useNavigate();
                 {usuario.nome?.charAt(0).toUpperCase()}
               </div>
               <span className="text-sm font-bold">{usuario.nome}</span>
-              <SlArrowDown size={10} className="group-hover:rotate-180 transition-transform" />
+              <SlArrowDown
+                size={10}
+                className="group-hover:rotate-180 transition-transform"
+              />
             </button>
 
             {/* Dropdown - z-50 aqui para garantir que apareça sobre o conteúdo */}
             <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-white/10 rounded-xl shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[1002]">
-              <button 
-              className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors cursor-pointer"
-              onClick={() => {navigate("/perfil")}}
+              <button
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors cursor-pointer"
+                onClick={() => {
+                  navigate("/perfil");
+                }}
               >
                 <FiUser /> Meu Perfil
               </button>
@@ -119,18 +126,20 @@ const navigate = useNavigate();
       </div>
 
       {/* Mobile Toggle Button */}
-      <button 
-        className="md:hidden text-white z-[1001] p-2" 
+      <button
+        className="md:hidden text-white z-[1001] p-2"
         onClick={() => setMenuAberto(!menuAberto)}
       >
         {menuAberto ? <FiX size={30} /> : <FiMenu size={30} />}
       </button>
 
       {/* Mobile Menu - Corrigido visibilidade */}
-      <div className={`
+      <div
+        className={`
         fixed inset-0 bg-black flex flex-col p-6 pt-24 gap-8 transition-transform duration-300 md:hidden z-[1000]
-        ${menuAberto ? 'translate-x-0' : 'translate-x-full'}
-      `}>
+        ${menuAberto ? "translate-x-0" : "translate-x-full"}
+      `}
+      >
         {usuario && (
           <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
             <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-xl font-bold text-white uppercase">
@@ -142,22 +151,85 @@ const navigate = useNavigate();
             </div>
           </div>
         )}
-        
+
         <nav className="flex flex-col gap-6 text-2xl font-black text-white">
-          <Link to="/" onClick={() => setMenuAberto(false)} className="hover:text-red-500 transition-colors">Início</Link>
-          <Link to="/dicas" onClick={() => setMenuAberto(false)} className="hover:text-red-500 transition-colors">Como funciona?</Link>
-          <Link to="/temas" onClick={() => setMenuAberto(false)} className="hover:text-red-500 transition-colors">Temas</Link>
-          <Link to="/planos" onClick={() => setMenuAberto(false)} className="hover:text-red-500 transition-colors">Planos</Link>
-          <Link to="/help" onClick={() => setMenuAberto(false)} className="hover:text-red-500 transition-colors">F.A.Q</Link>
+          <Link
+            to="/"
+            onClick={() => setMenuAberto(false)}
+            className="hover:text-red-500 transition-colors"
+          >
+            Início
+          </Link>
+          <Link
+            to="/dicas"
+            onClick={() => setMenuAberto(false)}
+            className="hover:text-red-500 transition-colors"
+          >
+            Como funciona?
+          </Link>
+          <Link
+            to="/temas"
+            onClick={() => setMenuAberto(false)}
+            className="hover:text-red-500 transition-colors"
+          >
+            Temas
+          </Link>
+          <Link
+            to="/planos"
+            onClick={() => setMenuAberto(false)}
+            className="hover:text-red-500 transition-colors"
+          >
+            Planos
+          </Link>
+          <Link
+            to="/help"
+            onClick={() => setMenuAberto(false)}
+            className="hover:text-red-500 transition-colors"
+          >
+            F.A.Q
+          </Link>
         </nav>
 
         <div className="mt-auto flex flex-col gap-4 pb-8">
           {usuario ? (
-            <button onClick={deslogar} className="w-full bg-red-600/10 text-red-500 p-4 rounded-2xl font-bold border border-red-500/20">Sair da Conta</button>
+            <>
+              <button
+                onClick={() => {
+                  navigate("/perfil");
+                  setMenuAberto(false);
+                }}
+                className="w-full flex items-center justify-center gap-2 bg-white/10 text-white p-4 rounded-2xl font-bold border border-white/20"
+              >
+                <FiUser /> Meu Perfil
+              </button>
+
+              <button
+                onClick={deslogar}
+                className="w-full bg-red-600/10 text-red-500 p-4 rounded-2xl font-bold border border-red-500/20"
+              >
+                Sair da Conta
+              </button>
+            </>
           ) : (
             <>
-              <button onClick={() => {setExibirModalLogin(true); setMenuAberto(false)}} className="w-full border border-white/20 text-white p-4 rounded-2xl font-bold text-lg">Entrar</button>
-              <button onClick={() => {setExibirModal(true); setMenuAberto(false)}} className="w-full bg-red-600 text-white p-4 rounded-2xl font-bold text-lg">Cadastrar</button>
+              <button
+                onClick={() => {
+                  setExibirModalLogin(true);
+                  setMenuAberto(false);
+                }}
+                className="w-full border border-white/20 text-white p-4 rounded-2xl font-bold text-lg"
+              >
+                Entrar
+              </button>
+              <button
+                onClick={() => {
+                  setExibirModal(true);
+                  setMenuAberto(false);
+                }}
+                className="w-full bg-red-600 text-white p-4 rounded-2xl font-bold text-lg"
+              >
+                Cadastrar
+              </button>
             </>
           )}
         </div>

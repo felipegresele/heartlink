@@ -301,13 +301,13 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             className="cursor-pointer bg-red-600 rounded-md w-5 h-5"
           />
         </div>
-        <p className="text-white/40 text-xs leading-relaxed">
+        <p className="text-white/65 text-sm leading-relaxed">
           Navegue pelas seções e adicione as que quiser à sua página.
         </p>
       </div>
 
       {/* ── Layout showcase ── */}
-      <div className="flex flex-col md:flex-row gap-10 items-center justify-center min-h-[400px] w-full">
+      <div className="flex flex-col items-center gap-8 w-full">
         {/* Celular */}
         <div className="relative flex-shrink-0 flex items-center justify-center">
           {/* Corações decorativos */}
@@ -352,14 +352,14 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
           </div>
         </div>
 
-        {/* Info lateral */}
-        <div className="flex-1 min-w-0 flex flex-col gap-3">
+        {/* Info centralizada */}
+        <div className="w-full flex flex-col items-center gap-4 text-center">
           {/* Badge */}
           <div
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border w-fit text-[10px] font-semibold"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold"
             style={{
-              borderColor: secao.cor + "40",
-              background: secao.cor + "18",
+              borderColor: secao.cor + "60",
+              background: secao.cor + "22",
               color: secao.cor,
             }}
           >
@@ -375,7 +375,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.2 }}
-              className="text-white font-extrabold text-xl leading-tight"
+              className="text-white font-extrabold text-2xl leading-tight"
             >
               {secao.titulo}
             </motion.h2>
@@ -389,32 +389,32 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, delay: 0.05 }}
-              className="text-white/50 text-xs leading-relaxed max-w-full"
+              className="text-white/75 text-sm leading-relaxed max-w-sm"
             >
               {secao.descricao}
             </motion.p>
           </AnimatePresence>
 
           {/* Dots + setas */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={prev}
-              className="w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors text-base"
+              className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
             >
               ‹
             </button>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               {SECOES.map((s, i) => (
                 <button
                   key={s.id}
                   onClick={() => setCurrent(i)}
                   className="transition-all duration-200 rounded-full border-none"
                   style={{
-                    width: i === current ? "20px" : "7px",
-                    height: "7px",
+                    width: i === current ? "22px" : "8px",
+                    height: "8px",
                     background:
-                      i === current ? secao.cor : "rgba(255,255,255,0.2)",
+                      i === current ? secao.cor : "rgba(255,255,255,0.3)",
                     borderRadius: i === current ? "4px" : "50%",
                   }}
                 />
@@ -423,22 +423,22 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
 
             <button
               onClick={next}
-              className="w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/30 transition-colors text-base"
+              className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
             >
               ›
             </button>
           </div>
 
-          {/* Botão principal */}
+          {/* Botão adicionar seção */}
           <motion.button
             onClick={handleToggle}
             animate={{
               background: isSelected ? "#16a34a" : secao.cor,
             }}
             transition={{ duration: 0.25 }}
-            className="max-w-70 py-3 rounded-xl text-white font-bold text-sm flex flex-col items-center justify-center gap-0.5 border-none"
+            className="w-full max-w-xs py-3 rounded-xl text-white font-bold text-sm flex flex-col items-center justify-center gap-0.5 border-none"
           >
-            <span className="text-[10px] font-medium opacity-70">
+            <span className="text-[11px] font-medium opacity-80">
               {isSelected ? "Adicionado ✓" : "Experiência Completa"}
             </span>
             <span>
@@ -455,9 +455,9 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="text-center text-white text-xs"
+            className="text-center text-white/80 text-sm font-medium"
           >
-            {countLabel} selecionada(s)
+            ✅ {countLabel} selecionada(s)
           </motion.p>
         )}
       </AnimatePresence>
@@ -471,9 +471,8 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
       className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/3 p-4"
     >
       <div className="flex items-center gap-2 mb-1">
-        <span className="text-pink-400">✨</span>
         <p className="text-white font-semibold text-sm">Memórias especiais</p>
-        <span className="text-white/30 text-xs ml-auto">opcional</span>
+        <span className="text-white/30 text-xs ml-auto">Opcional</span>
       </div>
 
       <MemoriaInput
@@ -499,20 +498,42 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
 </AnimatePresence>
 
       {/* Botões de ação */}
-      <div className="flex flex-col gap-2 pt-1">
+      <div className="flex flex-col gap-3 pt-1">
         <AnimatePresence>
           {temAlgoSelecionado && (
-            <motion.button
+            <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
-              onClick={onContinuar}
-              className="w-full py-3 rounded-xl bg-white text-black font-bold text-sm hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+              className="flex flex-col items-center gap-2"
             >
-              {data.secoesSelecionadas.length > 0
-                ? "Personalizar seções →"
-                : "Continuar →"}
-            </motion.button>
+              {/* Dica visual para guiar o usuário */}
+              <p className="text-white/60 text-xs text-center flex items-center gap-1.5">
+                <span>👇</span>
+                Clique abaixo para personalizar cada seção e ver a prévia da página.
+              </p>
+              <motion.button
+                onClick={onContinuar}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 rounded-xl text-black font-extrabold text-base flex items-center justify-center gap-2 relative overflow-hidden"
+                style={{
+                  background: "linear-gradient(135deg, #fff 0%, #f0f0f0 100%)",
+                  boxShadow: "0 0 24px rgba(255,255,255,0.25), 0 4px 12px rgba(0,0,0,0.3)",
+                }}
+              >
+                {/* Shimmer effect */}
+                <motion.div
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)",
+                  }}
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                />
+                <span className="relative z-10">✨ Personalizar seções →</span>
+              </motion.button>
+            </motion.div>
           )}
         </AnimatePresence>
 

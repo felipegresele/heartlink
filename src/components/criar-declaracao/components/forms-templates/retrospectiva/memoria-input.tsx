@@ -1,15 +1,22 @@
 import { useRetrospective } from "./restrospective-context";
 
 export function MemoriaInput({
-  icon, label, placeholder, field,
+  icon,
+  label,
+  placeholder,
+  field,
 }: {
   icon: string;
   label: string;
   placeholder: string;
   field: "ondeSeConheceram" | "momentoFavorito" | "proximoPasso";
 }) {
-  const { data, setOndeSeConheceram, setMomentoFavorito, setProximoPasso } =
-    useRetrospective();
+  const {
+    data,
+    setOndeSeConheceram,
+    setMomentoFavorito,
+    setProximoPasso,
+  } = useRetrospective();
 
   const setters = {
     ondeSeConheceram: setOndeSeConheceram,
@@ -17,11 +24,22 @@ export function MemoriaInput({
     proximoPasso: setProximoPasso,
   };
 
+  const isFirstField = field === "ondeSeConheceram";
+
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-white/50 text-xs flex items-center gap-1.5">
+      {isFirstField && (
+        <p className="text-white/20 text-xs mb-2">
+          Esses campos são opcionais. Se preenchidos, aparecerão no resumo final
+          da retrospectiva do casal.
+        </p>
+      )}
+
+      <label className="text-white/60 text-xs flex items-center gap-1.5">
         <span>{icon}</span> {label}
+        <span className="text-white/30">(opcional)</span>
       </label>
+
       <input
         type="text"
         placeholder={placeholder}

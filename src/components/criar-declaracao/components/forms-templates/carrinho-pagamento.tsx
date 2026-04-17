@@ -92,26 +92,6 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
     }
   }
 
-  const mensagem = `Tudo pronto para o grande momento! 
-  Nós da HeartCode estamos ansiosos para ver a reação dela(e).`;
-
-  const [textoDigitado, setTextoDigitado] = useState("");
-
-  useEffect(() => {
-    let i = 0;
-
-    const interval = setInterval(() => {
-      setTextoDigitado((prev) => prev + mensagem.charAt(i));
-      i++;
-
-      if (i >= mensagem.length) {
-        clearInterval(interval);
-      }
-    }, 30); // velocidade da digitação
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
@@ -120,12 +100,6 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
           <FiShoppingBag size={22} className="text-red-500" />
           <h1 className="text-xl font-bold">Finalizar pedido</h1>
         </div>
-
-        <div className="mb-10 text-center max-w-2xl mx-auto">
-          <h2 className="text-sm md:text-xl font-semibold text-white leading-snug">
-            {textoDigitado}
-            <span className="animate-pulse text-red-500">|</span>
-          </h2>
 
           <p className="mt-4 text-sm md:text-base text-gray-400">
             Finalize os detalhes abaixo e prepare-se para criar um momento

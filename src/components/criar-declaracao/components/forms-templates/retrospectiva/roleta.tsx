@@ -253,7 +253,7 @@ export function WheelSection() {
             <div className="relative">
               {/* Seta */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-10">
-                <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-b-[22px] border-l-transparent border-r-transparent border-b-white drop-shadow-lg" />
+                <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-t-[22px] border-l-transparent border-r-transparent border-t-white drop-shadow-lg" />
               </div>
 
               <motion.svg

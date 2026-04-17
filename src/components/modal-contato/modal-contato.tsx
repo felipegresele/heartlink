@@ -36,14 +36,14 @@ export function ModalContatoAjuda({
         <h1 className="mt-3">Perguntas Frequentes</h1>
         <ListaDePerguntas />
 
-        <div className="mt-5 p-2 text-center">
+        <div className="mt-5 p-2 text-center ">
           <p>ou entre em contato conosco</p>
           <Button className="cursor-pointer mt-3 bg-red-500 w-full text-white p-3 rounded-md">
             Enviar Mensagem
           </Button>
         </div>
 
-        <p className="bg-red-500/15 h-10 p-2 rounded-md mt-3 text-sm text-center">
+        <p className="bg-red-500/15 h-13 p-2 rounded-md mt-3 text-sm text-center">
           Respondemos em <span className="font-bold">10 minutos</span> no
           Instagram: <span className="font-bold">@heartcode_</span>
         </p>

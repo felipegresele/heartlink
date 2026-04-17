@@ -306,7 +306,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
       </div>
 
       {/* ── Layout showcase ── */}
-      <div className="flex gap-10 items-center justify-center min-h-[400px] w-full">
+      <div className="flex flex-col md:flex-row gap-10 items-center justify-center min-h-[400px] w-full">
         {/* Celular */}
         <div className="relative flex-shrink-0 flex items-center justify-center">
           {/* Corações decorativos */}
@@ -388,7 +388,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, delay: 0.05 }}
-              className="text-white/50 text-xs leading-relaxed w-100"
+              className="text-white/50 text-xs leading-relaxed max-w-full"
             >
               {secao.descricao}
             </motion.p>

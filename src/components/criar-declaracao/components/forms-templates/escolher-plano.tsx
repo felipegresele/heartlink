@@ -31,7 +31,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
     },
     {
       titulo: "Padrão",
-      descricao: "Plano com duração de 1 ano.",
+      descricao: "Esse plano possui acesso por 24 horas",
       planType: "PADRAO",
       recomendado: false,
       precoAntigo: "R$ 40,00",

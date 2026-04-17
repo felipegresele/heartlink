@@ -24,7 +24,10 @@ function FallingHearts({ active }: { active: boolean }) {
   const [hearts, setHearts] = useState<HeartParticle[]>([]);
 
   useEffect(() => {
-    if (!active) { setHearts([]); return; }
+    if (!active) {
+      setHearts([]);
+      return;
+    }
 
     const emojis = ["❤️", "💕", "💖", "💗", "💝", "🩷"];
     const particles: HeartParticle[] = Array.from({ length: 20 }, (_, i) => ({
@@ -123,9 +126,15 @@ export function WheelSection() {
   const items = data.wheel;
 
   function handleAdd() {
-    if (!novoItem.trim()) { setErro("Digite uma opção."); return; }
+    if (!novoItem.trim()) {
+      setErro("Digite uma opção.");
+      return;
+    }
     const ok = addWheelItem(novoItem.trim());
-    if (!ok) { setErro("Limite de 10 opções atingido."); return; }
+    if (!ok) {
+      setErro("Limite de 10 opções atingido.");
+      return;
+    }
     setNovoItem("");
     setErro("");
     setVencedor(null);
@@ -147,7 +156,8 @@ export function WheelSection() {
     setTimeout(() => {
       const anguloFinal = novoAngulo % 360;
       const fatia = 360 / items.length;
-      const indice = Math.floor(((360 - anguloFinal + 90) % 360) / fatia) % items.length;
+      const indice =
+        Math.floor(((360 - anguloFinal + 90) % 360) / fatia) % items.length;
       const resultado = items[indice].texto;
 
       setVencedor(resultado);
@@ -164,7 +174,9 @@ export function WheelSection() {
 
   function renderWheel() {
     if (items.length === 0) return null;
-    const cx = 150, cy = 150, r = 140;
+    const cx = 150,
+      cy = 150,
+      r = 140;
     const fatia = (2 * Math.PI) / items.length;
 
     return items.map((item, i) => {
@@ -177,8 +189,8 @@ export function WheelSection() {
       const largeArc = fatia > Math.PI ? 1 : 0;
 
       const midAngle = startAngle + fatia / 2;
-      const tx = cx + (r * 0.65) * Math.cos(midAngle);
-      const ty = cy + (r * 0.65) * Math.sin(midAngle);
+      const tx = cx + r * 0.65 * Math.cos(midAngle);
+      const ty = cy + r * 0.65 * Math.sin(midAngle);
 
       const d = `M${cx},${cy} L${x1},${y1} A${r},${r},0,${largeArc},1,${x2},${y2} Z`;
 
@@ -196,7 +208,9 @@ export function WheelSection() {
             transform={`rotate(${(midAngle * 180) / Math.PI + 90}, ${tx}, ${ty})`}
             style={{ pointerEvents: "none", userSelect: "none" }}
           >
-            {item.texto.length > 10 ? item.texto.slice(0, 10) + "…" : item.texto}
+            {item.texto.length > 10
+              ? item.texto.slice(0, 10) + "…"
+              : item.texto}
           </text>
         </g>
       );
@@ -210,16 +224,25 @@ export function WheelSection() {
 
       {/* Modal de resultado */}
       {mostrarModal && vencedor && (
-        <ResultModal vencedor={vencedor} onClose={() => setMostrarModal(false)} />
+        <ResultModal
+          vencedor={vencedor}
+          onClose={() => setMostrarModal(false)}
+        />
       )}
 
       <div className="space-y-6">
         {/* Cabeçalho */}
         <div className="flex items-center gap-3">
-          <span className="text-2xl"><FaRandom /></span>
+          <span className="text-2xl">
+            <FaRandom />
+          </span>
           <div>
-            <h3 className="text-white font-bold text-lg leading-tight">Roleta</h3>
-            <p className="text-white/40 text-xs">Sorteie a próxima aventura de vocês</p>
+            <h3 className="text-white font-bold text-lg leading-tight">
+              Roleta
+            </h3>
+            <p className="text-white/40 text-xs">
+              Sorteie a próxima aventura de vocês
+            </p>
           </div>
           <div className="ml-auto">
             <LimiteBadge atual={items.length} maximo={LIMITS.wheel} />
@@ -252,7 +275,7 @@ export function WheelSection() {
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               {/* Seta */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-10">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full z-10">
                 <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-t-[22px] border-l-transparent border-r-transparent border-t-white drop-shadow-lg" />
               </div>
 
@@ -264,7 +287,14 @@ export function WheelSection() {
                 transition={{ duration: 3.5, ease: [0.15, 0.9, 0.3, 1] }}
               >
                 {renderWheel()}
-                <circle cx="150" cy="150" r="18" fill="#1a1a2e" stroke="white" strokeWidth="3" />
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="18"
+                  fill="#1a1a2e"
+                  stroke="white"
+                  strokeWidth="3"
+                />
                 <circle cx="150" cy="150" r="8" fill="white" />
               </motion.svg>
             </div>
@@ -280,7 +310,11 @@ export function WheelSection() {
             >
               <motion.span
                 animate={girando ? { rotate: 360 } : { rotate: 0 }}
-                transition={girando ? { repeat: Infinity, duration: 0.8, ease: "linear" } : {}}
+                transition={
+                  girando
+                    ? { repeat: Infinity, duration: 0.8, ease: "linear" }
+                    : {}
+                }
               >
                 <FaRedo size={14} />
               </motion.span>
@@ -290,7 +324,9 @@ export function WheelSection() {
         )}
 
         {items.length < 2 && items.length > 0 && (
-          <p className="text-white/30 text-xs text-center">Adicione pelo menos 2 opções para girar</p>
+          <p className="text-white/30 text-xs text-center">
+            Adicione pelo menos 2 opções para girar
+          </p>
         )}
 
         {/* Lista */}

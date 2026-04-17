@@ -379,6 +379,5 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
           </div>
         </div>
       </div>
-    </div>
   );
 }

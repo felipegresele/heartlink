@@ -58,10 +58,18 @@ function RetrospectiveModal({
   data,
   onClose,
   fotos,
+  nomeCasal,
+  totalDias,
+  dataDia,
+  nomeMes,
 }: {
   data: RetrospectiveData;
   onClose: () => void;
-  fotos: string[]; // ← novo prop: passa as imagens da página
+  fotos: string[];
+  nomeCasal: string;
+  totalDias: number;
+  dataDia: number;
+  nomeMes: string;
 }) {
   const secoes = data.secoesSelecionadas.filter((s) => s !== "time");
 
@@ -145,16 +153,16 @@ function RetrospectiveModal({
             {secao === "wheel" && <WheelView items={data.wheel} />}
             {secao === "gallery" && <GalleryView items={data.gallery} />}
             {secao === "enigma" && <EnigmaView items={data.enigma} />}
-            {/* {secao === "ultima" && (
+            {secao === "ultima" && (
               <UltimaSessaoRetrospectiva
                 photos={fotos}
-                nomeCasal={data.se ?? ""}
-                totalDias={data.totalDias ?? 0}
-                dataDia={data.dataDia ?? 0}
-                nomeMes={data.nomeMes ?? ""}
+                nomeCasal={nomeCasal}
+                totalDias={totalDias}
+                dataDia={dataDia}
+                nomeMes={nomeMes}
                 corBg="#e91e8c"
               />
-            )} */}
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -410,6 +418,7 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-10">
           <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-b-[22px] border-l-transparent border-r-transparent border-b-white drop-shadow-lg" />
         </div>
+        <h1 className="font-bold">Para onde vamos sair?</h1>
         <motion.svg
           width="300"
           height="300"
@@ -748,6 +757,15 @@ export default function PageReady({
     ? calcularTempoDesdeData(dataConhecimento)
     : { totalDias: 0, totalHoras: 0 };
 
+  // Dados para a UltimaSessaoRetrospectiva
+  const MESES = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
+  ];
+  const dataInicio = dataConhecimento ? new Date(dataConhecimento) : null;
+  const dataDia  = dataInicio ? dataInicio.getDate() : 0;
+  const nomeMes  = dataInicio ? MESES[dataInicio.getMonth()] : "";
+
   return (
     <>
       {/* ── Intro animada estilo Spotify Wrapped ── */}
@@ -782,6 +800,11 @@ export default function PageReady({
             <RetrospectiveModal
               data={retrospectiva!}
               onClose={() => setMostrarRetrospectiva(false)}
+              fotos={imagens}
+              nomeCasal={titulo}
+              totalDias={totalDias}
+              dataDia={dataDia}
+              nomeMes={nomeMes}
             />
           )}
         </AnimatePresence>

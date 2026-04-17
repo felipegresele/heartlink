@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaFont,
   FaImages,
@@ -31,7 +31,22 @@ import PreviewCarrossel from "../preview/preview-carrosel";
 import ContentEscolherMusica from "../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../mensagem-efeito/mensagem-efeito";
 
+// ─────────────────────────────────────────────────────────────
+// Chave usada para salvar/restaurar o rascunho no localStorage
+// ─────────────────────────────────────────────────────────────
+const DRAFT_KEY = "heartlink_criador_rascunho";
+
 type SubEtapaRetrospectiva = "selecao" | "formulario";
+
+function lerRascunho() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
 
 function FormsSecoesSelecionadas({
   onVoltar,
@@ -101,25 +116,37 @@ function FormsSecoesSelecionadas({
 // ─────────────────────────────────────────────────────────────
 function CriadorDeclaracaoInner() {
   const totalEtapas = 9;
-  const [etapa, setEtapa] = useState(1);
+
+  // ── Restaura rascunho salvo (se existir) ──────────────────
+  const rascunho = lerRascunho();
+
+  const [etapa, setEtapa] = useState<number>(rascunho?.etapa ?? 1);
   const [subEtapaRetro, setSubEtapaRetro] =
-    useState<SubEtapaRetrospectiva>("selecao");
+    useState<SubEtapaRetrospectiva>(rascunho?.subEtapaRetro ?? "selecao");
 
-  const [titulo, setTitulo] = useState("");
-  const [mensagem, setMensagem] = useState("");
-  const [corTitulo, setCorTitulo] = useState("#ffffff");
-  const [fonteTitulo, setFonteTitulo] = useState("Alex Brush, cursive");
-  const [tamanhoTitulo, setTamanhoTitulo] = useState(24);
-  const [tamanhoMensagem, setTamanhoMensagem] = useState(16);
+  const [titulo, setTitulo] = useState<string>(rascunho?.titulo ?? "");
+  const [mensagem, setMensagem] = useState<string>(rascunho?.mensagem ?? "");
+  const [corTitulo, setCorTitulo] = useState<string>(rascunho?.corTitulo ?? "#ffffff");
+  const [fonteTitulo, setFonteTitulo] = useState<string>(
+    rascunho?.fonteTitulo ?? "Alex Brush, cursive"
+  );
+  const [tamanhoTitulo, setTamanhoTitulo] = useState<number>(
+    rascunho?.tamanhoTitulo ?? 24
+  );
+  const [tamanhoMensagem, setTamanhoMensagem] = useState<number>(
+    rascunho?.tamanhoMensagem ?? 16
+  );
 
-  const [imagens, setImagens] = useState<string[]>([]);
-  const [dataConhecimento, setDataConhecimento] = useState("");
+  const [imagens, setImagens] = useState<string[]>(rascunho?.imagens ?? []);
+  const [dataConhecimento, setDataConhecimento] = useState<string>(
+    rascunho?.dataConhecimento ?? ""
+  );
 
   const [modoExibicao, setModoExibicao] = useState<
     "padrao" | "classico" | "simples"
-  >("padrao");
+  >(rascunho?.modoExibicao ?? "padrao");
   const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
-    "carrossel",
+    rascunho?.modoImagem ?? "carrossel"
   );
 
   const [musicaSelecionada, setMusicaSelecionada] = useState<{
@@ -127,13 +154,66 @@ function CriadorDeclaracaoInner() {
     title: string;
     thumbnail: string;
     channelTitle: string;
-  } | null>(null);
+  } | null>(rascunho?.musicaSelecionada ?? null);
 
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(
+    rascunho?.selectedPlan ?? null
+  );
   const [pageId, setPageId] = useState<string | null>(null);
 
   // Acessa os dados da retrospectiva do contexto
-  const { data: retroData } = useRetrospective();
+  const { data: retroData, saveToLocalStorage, loadFromLocalStorage, resetData } =
+    useRetrospective();
+
+  // ── Restaura retrospectiva do localStorage na montagem ────
+  useEffect(() => {
+    if (rascunho) {
+      loadFromLocalStorage();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Auto-save: salva rascunho sempre que algum estado mudar ─
+  useEffect(() => {
+    // Não salva depois que a página já foi criada (etapa 9)
+    if (etapa === 9) return;
+
+    const rascunhoAtual = {
+      etapa,
+      subEtapaRetro,
+      titulo,
+      mensagem,
+      corTitulo,
+      fonteTitulo,
+      tamanhoTitulo,
+      tamanhoMensagem,
+      imagens,
+      dataConhecimento,
+      modoExibicao,
+      modoImagem,
+      musicaSelecionada,
+      selectedPlan,
+    };
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(rascunhoAtual));
+    // Salva também a retrospectiva separadamente (via contexto)
+    saveToLocalStorage();
+  }, [
+    etapa,
+    subEtapaRetro,
+    titulo,
+    mensagem,
+    corTitulo,
+    fonteTitulo,
+    tamanhoTitulo,
+    tamanhoMensagem,
+    imagens,
+    dataConhecimento,
+    modoExibicao,
+    modoImagem,
+    musicaSelecionada,
+    selectedPlan,
+    saveToLocalStorage,
+  ]);
 
   function proximaEtapa() {
     if (!validarEtapaAtual()) {
@@ -179,7 +259,7 @@ function CriadorDeclaracaoInner() {
           theme: modoExibicao,
           planType: selectedPlan,
         }),
-      },
+      }
     );
 
     const data = await response.json();
@@ -189,10 +269,9 @@ function CriadorDeclaracaoInner() {
 
     // 2. Se o usuário preencheu alguma seção de retrospectiva OU ativou o efeitoTime, salva no backend
     if (retroData.secoesSelecionadas.length > 0 || retroData.efeitoTime) {
-      // Monta o JSON no formato esperado pelo backend
       const retrospectivePayload = {
         selectedSections: retroData.secoesSelecionadas,
-        efeitoTime: retroData.efeitoTime, // ← Campo necessário para a Intro Animada do Casal
+        efeitoTime: retroData.efeitoTime,
         timeline: retroData.timeline,
         wheel: retroData.wheel,
         gallery: retroData.gallery,
@@ -202,10 +281,13 @@ function CriadorDeclaracaoInner() {
       try {
         await saveRetrospective(createdPageId, retrospectivePayload);
       } catch (err) {
-        // Não bloqueia o fluxo — apenas loga o erro
         console.error("Erro ao salvar retrospectiva:", err);
       }
     }
+
+    // 3. Limpa o rascunho após criar com sucesso
+    localStorage.removeItem(DRAFT_KEY);
+    resetData();
 
     console.log(removeEventListener);
     setEtapa(9);
@@ -238,7 +320,7 @@ function CriadorDeclaracaoInner() {
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
-      <div className="flex-1 space-y-6 min-h-[calc(100vh-160px)] md:min-h-auto">
+      <div className="flex-1 space-y-6 min-h-[calc(80vh-140px)] md:min-h-auto">
         {etapa === 1 && (
           <>
             <StepHeader

@@ -1,15 +1,15 @@
 // ============================================================
-// RetrospectiveProviderEdit — igual ao original mas aceita
-// initialData para pré-popular o estado no modo edição.
-// Coloque este arquivo em:
-// src/components/criar-declaracao/components/forms-templates/retrospectiva/restrospective-context.tsx
-// (substitua o original, é retrocompatível — initialData é opcional)
+// RetrospectiveProvider — com auto-save no localStorage.
+// Toda mutação de estado persiste automaticamente na chave
+// "heartlink_retrospectiva", sem precisar chamar
+// saveToLocalStorage() manualmente.
 // ============================================================
 import {
   createContext,
   useContext,
   useState,
   useCallback,
+  useEffect,
   type ReactNode,
 } from "react";
 import {
@@ -21,6 +21,8 @@ import {
   type SectionType,
   type TimelineItem,
 } from "../../../../../schema/retrospectiva";
+
+const RETRO_STORAGE_KEY = "heartlink_retrospectiva";
 
 function uid() {
   return Math.random().toString(36).slice(2, 9);
@@ -47,7 +49,6 @@ interface RetrospectiveContextType {
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
   resetData: () => void;
-  // NOVO: expõe o estado atual para salvar na edição
   getData: () => RetrospectiveData;
 }
 
@@ -60,9 +61,27 @@ interface RetrospectiveProviderProps {
 }
 
 export function RetrospectiveProvider({ children, initialData }: RetrospectiveProviderProps) {
-  const [data, setData] = useState<RetrospectiveData>(
-    initialData ?? RETROSPECTIVE_INITIAL_STATE
-  );
+  // Se veio initialData (modo edição), usa ele.
+  // Senão, tenta restaurar do localStorage; se não houver, usa o estado inicial.
+  const [data, setData] = useState<RetrospectiveData>(() => {
+    if (initialData) return initialData;
+    try {
+      const saved = localStorage.getItem(RETRO_STORAGE_KEY);
+      if (saved) return JSON.parse(saved) as RetrospectiveData;
+    } catch {
+      // ignora erros de parse
+    }
+    return RETROSPECTIVE_INITIAL_STATE;
+  });
+
+  // ── Auto-save a cada mudança de estado ───────────────────
+  useEffect(() => {
+    try {
+      localStorage.setItem(RETRO_STORAGE_KEY, JSON.stringify(data));
+    } catch {
+      // ignora erros de quota
+    }
+  }, [data]);
 
   const getData = useCallback(() => data, [data]);
 
@@ -203,24 +222,28 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
     }));
   }, []);
 
+  // Mantidos por compatibilidade — agora o auto-save já cuida de tudo,
+  // mas estes métodos continuam funcionando caso sejam chamados externamente.
   const saveToLocalStorage = useCallback(() => {
-    localStorage.setItem("retrospectiva", JSON.stringify(data));
+    try {
+      localStorage.setItem(RETRO_STORAGE_KEY, JSON.stringify(data));
+    } catch {
+      // ignora erros de quota
+    }
   }, [data]);
 
   const loadFromLocalStorage = useCallback(() => {
-    const saved = localStorage.getItem("retrospectiva");
-    if (saved) {
-      try {
-        setData(JSON.parse(saved));
-      } catch {
-        console.error("Erro ao carregar retrospectiva do localStorage");
-      }
+    try {
+      const saved = localStorage.getItem(RETRO_STORAGE_KEY);
+      if (saved) setData(JSON.parse(saved));
+    } catch {
+      console.error("Erro ao carregar retrospectiva do localStorage");
     }
   }, []);
 
   const resetData = useCallback(() => {
     setData(RETROSPECTIVE_INITIAL_STATE);
-    localStorage.removeItem("retrospectiva");
+    localStorage.removeItem(RETRO_STORAGE_KEY);
   }, []);
 
   return (

@@ -60,7 +60,7 @@ export function UltimaSessaoRetrospectiva({
 
         {/* Frase emocional */}
         <p className="text-xs text-gray-400 text-center italic mb-4">
-          Cada momento juntos valeu a pena ❤️
+          Cada momento juntos valeu a pena
         </p>
 
         {/* Separador */}

@@ -15,9 +15,9 @@ export function Recursos() {
     },
     {
       icon: <BsImage size={24} />,
-      title: "Animações de fundo",
+      title: "Seção de Retrospectiva",
       description:
-        "Escolha entre várias animações de fundo para personalizar a página.",
+        "Essa seção tem galeria de fotos do casal, linha do tempo da história de vocês, roleta para decidir onde sair, jogos e muito mais.",
     },
     {
       icon: <FaMusic size={24} />,

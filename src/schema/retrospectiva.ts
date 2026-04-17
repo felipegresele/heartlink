@@ -32,6 +32,10 @@ export interface RetrospectiveData {
   enigma: EnigmaItem[];
   secoesSelecionadas: SectionType[];
   efeitoTime: boolean;
+  // Campos opcionais de memórias do casal
+  ondeSeConheceram?: string;
+  momentoFavorito?: string;
+  proximoPasso?: string;
 }
  
 // Estado inicial vazio
@@ -42,6 +46,9 @@ export const RETROSPECTIVE_INITIAL_STATE: RetrospectiveData = {
   enigma: [],
   secoesSelecionadas: [],
   efeitoTime: false,
+  ondeSeConheceram: undefined,
+  momentoFavorito: undefined,
+  proximoPasso: undefined,
 };
  
 // Limites máximos por seção
@@ -83,6 +90,9 @@ export interface BackendRetrospectiva {
     texto: string;
     revelado: boolean;
   }[];
+  ondeSeConheceram?: string;
+  momentoFavorito?: string;
+  proximoPasso?: string;
 }
 
 export function mapBackendRetrospectiva(
@@ -95,5 +105,8 @@ export function mapBackendRetrospectiva(
     wheel: backend.wheel ?? [],
     gallery: backend.gallery ?? [],
     enigma: backend.enigma ?? [],
+    ondeSeConheceram: backend.ondeSeConheceram,
+    momentoFavorito: backend.momentoFavorito,
+    proximoPasso: backend.proximoPasso,
   };
 }

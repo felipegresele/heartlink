@@ -50,9 +50,14 @@ interface RetrospectiveContextType {
   loadFromLocalStorage: () => void;
   resetData: () => void;
   getData: () => RetrospectiveData;
+  setOndeSeConheceram: (v: string) => void;
+  setMomentoFavorito: (v: string) => void;
+  setProximoPasso: (v: string) => void;
 }
 
-const RetrospectiveContext = createContext<RetrospectiveContextType | null>(null);
+const RetrospectiveContext = createContext<RetrospectiveContextType | null>(
+  null,
+);
 
 interface RetrospectiveProviderProps {
   children: ReactNode;
@@ -60,7 +65,10 @@ interface RetrospectiveProviderProps {
   initialData?: RetrospectiveData;
 }
 
-export function RetrospectiveProvider({ children, initialData }: RetrospectiveProviderProps) {
+export function RetrospectiveProvider({
+  children,
+  initialData,
+}: RetrospectiveProviderProps) {
   // Se veio initialData (modo edição), usa ele.
   // Senão, tenta restaurar do localStorage; se não houver, usa o estado inicial.
   const [data, setData] = useState<RetrospectiveData>(() => {
@@ -111,17 +119,19 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
       }));
       return true;
     },
-    [data.timeline.length]
+    [data.timeline.length],
   );
 
   const updateTimelineItem = useCallback(
     (id: string, item: Partial<TimelineItem>) => {
       setData((prev) => ({
         ...prev,
-        timeline: prev.timeline.map((t) => (t.id === id ? { ...t, ...item } : t)),
+        timeline: prev.timeline.map((t) =>
+          t.id === id ? { ...t, ...item } : t,
+        ),
       }));
     },
-    []
+    [],
   );
 
   const removeTimelineItem = useCallback((id: string) => {
@@ -141,7 +151,7 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
       }));
       return true;
     },
-    [data.wheel.length]
+    [data.wheel.length],
   );
 
   const updateWheelItem = useCallback((id: string, texto: string) => {
@@ -167,7 +177,7 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
       }));
       return true;
     },
-    [data.gallery.length]
+    [data.gallery.length],
   );
 
   const updateGalleryItem = useCallback(
@@ -177,7 +187,7 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
         gallery: prev.gallery.map((g) => (g.id === id ? { ...g, ...item } : g)),
       }));
     },
-    []
+    [],
   );
 
   const removeGalleryItem = useCallback((id: string) => {
@@ -196,7 +206,7 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
       }));
       return true;
     },
-    [data.enigma.length]
+    [data.enigma.length],
   );
 
   const updateEnigmaItem = useCallback((id: string, texto: string) => {
@@ -217,7 +227,7 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
     setData((prev) => ({
       ...prev,
       enigma: prev.enigma.map((e) =>
-        e.id === id ? { ...e, revelado: !e.revelado } : e
+        e.id === id ? { ...e, revelado: !e.revelado } : e,
       ),
     }));
   }, []);
@@ -246,6 +256,16 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
     localStorage.removeItem(RETRO_STORAGE_KEY);
   }, []);
 
+  const setOndeSeConheceram = useCallback((v: string) => {
+    setData((prev) => ({ ...prev, ondeSeConheceram: v || undefined }));
+  }, []);
+  const setMomentoFavorito = useCallback((v: string) => {
+    setData((prev) => ({ ...prev, momentoFavorito: v || undefined }));
+  }, []);
+  const setProximoPasso = useCallback((v: string) => {
+    setData((prev) => ({ ...prev, proximoPasso: v || undefined }));
+  }, []);
+
   return (
     <RetrospectiveContext.Provider
       value={{
@@ -270,6 +290,9 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
         saveToLocalStorage,
         loadFromLocalStorage,
         resetData,
+        setOndeSeConheceram,
+        setMomentoFavorito,
+        setProximoPasso,
       }}
     >
       {children}
@@ -280,6 +303,8 @@ export function RetrospectiveProvider({ children, initialData }: RetrospectivePr
 export function useRetrospective() {
   const ctx = useContext(RetrospectiveContext);
   if (!ctx)
-    throw new Error("useRetrospective deve ser usado dentro de <RetrospectiveProvider>");
+    throw new Error(
+      "useRetrospective deve ser usado dentro de <RetrospectiveProvider>",
+    );
   return ctx;
 }

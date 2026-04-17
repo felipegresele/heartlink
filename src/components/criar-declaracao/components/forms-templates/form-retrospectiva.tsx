@@ -19,6 +19,7 @@ import videoLinhaTempo from "../../../../img/retrospectiva-sessao/video-linha-te
 import videoGaleria from "../../../../img/retrospectiva-sessao/video-galeria.mp4";
 import videoRoleta from "../../../../img/retrospectiva-sessao/video-roleta.mp4";
 import videoEnigma from "../../../../img/retrospectiva-sessao/video-enigma.mp4";
+import { MemoriaInput } from "./retrospectiva/memoria-input";
 
 interface Props {
   onContinuar: () => void;
@@ -460,6 +461,42 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
           </motion.p>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+  {temAlgoSelecionado && (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/3 p-4"
+    >
+      <div className="flex items-center gap-2 mb-1">
+        <span className="text-pink-400">✨</span>
+        <p className="text-white font-semibold text-sm">Memórias especiais</p>
+        <span className="text-white/30 text-xs ml-auto">opcional</span>
+      </div>
+
+      <MemoriaInput
+        icon="📍"
+        label="Onde se conheceram?"
+        placeholder="Ex: Numa festa, no trabalho, pelo app…"
+        field="ondeSeConheceram"
+      />
+      <MemoriaInput
+        icon="💫"
+        label="Momento favorito juntos"
+        placeholder="Ex: Nossa primeira viagem, o dia que…"
+        field="momentoFavorito"
+      />
+      <MemoriaInput
+        icon="🚀"
+        label="Próximo passo do casal"
+        placeholder="Ex: Viajar para a Europa, morar juntos…"
+        field="proximoPasso"
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
 
       {/* Botões de ação */}
       <div className="flex flex-col gap-2 pt-1">

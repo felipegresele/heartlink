@@ -161,6 +161,9 @@ function RetrospectiveModal({
                 dataDia={dataDia}
                 nomeMes={nomeMes}
                 corBg="#e91e8c"
+                ondeSeConheceram={data.ondeSeConheceram} // ← novo
+                momentoFavorito={data.momentoFavorito} // ← novo
+                proximoPasso={data.proximoPasso}
               />
             )}
           </motion.div>

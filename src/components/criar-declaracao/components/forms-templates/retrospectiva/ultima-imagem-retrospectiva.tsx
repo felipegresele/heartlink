@@ -107,13 +107,6 @@ export function UltimaSessaoRetrospectiva({
           </div>
         </div>
 
-        {/* Badge nível */}
-        <div className="flex justify-center mb-4">
-          <span className="text-xs px-3 py-1 rounded-full bg-white/10">
-            💎 Amor verdadeiro
-          </span>
-        </div>
-
         {/* ── Memórias opcionais ── */}
         <AnimatePresence>
           {temMemoria && (

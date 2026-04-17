@@ -1,5 +1,9 @@
 // ============================================================
-// CONTEXT — Gerenciamento de estado da Retrospectiva
+// RetrospectiveProviderEdit — igual ao original mas aceita
+// initialData para pré-popular o estado no modo edição.
+// Coloque este arquivo em:
+// src/components/criar-declaracao/components/forms-templates/retrospectiva/restrospective-context.tsx
+// (substitua o original, é retrocompatível — initialData é opcional)
 // ============================================================
 import {
   createContext,
@@ -18,61 +22,50 @@ import {
   type TimelineItem,
 } from "../../../../../schema/retrospectiva";
 
-// ── Helpers ──────────────────────────────────────────────────
 function uid() {
   return Math.random().toString(36).slice(2, 9);
 }
 
-// ── Tipo do contexto ─────────────────────────────────────────
 interface RetrospectiveContextType {
   data: RetrospectiveData;
-
-  // Seções selecionadas
   toggleSection: (section: SectionType) => void;
-
-  // Efeito Time (intro animada)
   toggleEfeitoTime: () => void;
   setEfeitoTime: (value: boolean) => void;
-
-  // Timeline
   addTimelineItem: (item: Omit<TimelineItem, "id">) => boolean;
   updateTimelineItem: (id: string, item: Partial<TimelineItem>) => void;
   removeTimelineItem: (id: string) => void;
-
-  // Wheel
   addWheelItem: (texto: string) => boolean;
   updateWheelItem: (id: string, texto: string) => void;
   removeWheelItem: (id: string) => void;
-
-  // Gallery
   addGalleryItem: (item: Omit<GalleryItem, "id">) => boolean;
   updateGalleryItem: (id: string, item: Partial<GalleryItem>) => void;
   removeGalleryItem: (id: string) => void;
-
-  // Enigma
   addEnigmaItem: (texto: string) => boolean;
   updateEnigmaItem: (id: string, texto: string) => void;
   removeEnigmaItem: (id: string) => void;
   toggleEnigmaRevelado: (id: string) => void;
-
-  // Persistência
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
   resetData: () => void;
+  // NOVO: expõe o estado atual para salvar na edição
+  getData: () => RetrospectiveData;
 }
 
-// ── Criação do contexto ───────────────────────────────────────
-const RetrospectiveContext = createContext<RetrospectiveContextType | null>(
-  null
-);
+const RetrospectiveContext = createContext<RetrospectiveContextType | null>(null);
 
-// ── Provider ──────────────────────────────────────────────────
-export function RetrospectiveProvider({ children }: { children: ReactNode }) {
+interface RetrospectiveProviderProps {
+  children: ReactNode;
+  /** Dados iniciais para pré-popular (modo edição). Opcional. */
+  initialData?: RetrospectiveData;
+}
+
+export function RetrospectiveProvider({ children, initialData }: RetrospectiveProviderProps) {
   const [data, setData] = useState<RetrospectiveData>(
-    RETROSPECTIVE_INITIAL_STATE
+    initialData ?? RETROSPECTIVE_INITIAL_STATE
   );
 
-  // --- Seções ---
+  const getData = useCallback(() => data, [data]);
+
   const toggleSection = useCallback((section: SectionType) => {
     setData((prev) => {
       const selecionadas = prev.secoesSelecionadas.includes(section)
@@ -82,7 +75,6 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // --- Efeito Time ---
   const toggleEfeitoTime = useCallback(() => {
     setData((prev) => ({ ...prev, efeitoTime: !prev.efeitoTime }));
   }, []);
@@ -91,7 +83,6 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     setData((prev) => ({ ...prev, efeitoTime: value }));
   }, []);
 
-  // --- Timeline ---
   const addTimelineItem = useCallback(
     (item: Omit<TimelineItem, "id">): boolean => {
       if (data.timeline.length >= LIMITS.timeline) return false;
@@ -108,9 +99,7 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     (id: string, item: Partial<TimelineItem>) => {
       setData((prev) => ({
         ...prev,
-        timeline: prev.timeline.map((t) =>
-          t.id === id ? { ...t, ...item } : t
-        ),
+        timeline: prev.timeline.map((t) => (t.id === id ? { ...t, ...item } : t)),
       }));
     },
     []
@@ -123,7 +112,6 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  // --- Wheel ---
   const addWheelItem = useCallback(
     (texto: string): boolean => {
       if (data.wheel.length >= LIMITS.wheel) return false;
@@ -151,7 +139,6 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  // --- Gallery ---
   const addGalleryItem = useCallback(
     (item: Omit<GalleryItem, "id">): boolean => {
       if (data.gallery.length >= LIMITS.gallery) return false;
@@ -168,9 +155,7 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     (id: string, item: Partial<GalleryItem>) => {
       setData((prev) => ({
         ...prev,
-        gallery: prev.gallery.map((g) =>
-          g.id === id ? { ...g, ...item } : g
-        ),
+        gallery: prev.gallery.map((g) => (g.id === id ? { ...g, ...item } : g)),
       }));
     },
     []
@@ -183,7 +168,6 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  // --- Enigma ---
   const addEnigmaItem = useCallback(
     (texto: string): boolean => {
       if (data.enigma.length >= LIMITS.enigma) return false;
@@ -219,7 +203,6 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  // --- Persistência ---
   const saveToLocalStorage = useCallback(() => {
     localStorage.setItem("retrospectiva", JSON.stringify(data));
   }, [data]);
@@ -244,6 +227,7 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
     <RetrospectiveContext.Provider
       value={{
         data,
+        getData,
         toggleSection,
         toggleEfeitoTime,
         setEfeitoTime,
@@ -270,12 +254,9 @@ export function RetrospectiveProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// ── Hook de acesso ────────────────────────────────────────────
 export function useRetrospective() {
   const ctx = useContext(RetrospectiveContext);
   if (!ctx)
-    throw new Error(
-      "useRetrospective deve ser usado dentro de <RetrospectiveProvider>"
-    );
+    throw new Error("useRetrospective deve ser usado dentro de <RetrospectiveProvider>");
   return ctx;
 }

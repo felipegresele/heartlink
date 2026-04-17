@@ -48,9 +48,8 @@ export function TemplateCard({ page, onUpdate, onDelete, updating }: TemplateCar
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <HiSparkles className="text-pink-500 shrink-0" size={14} />
             <h3 className="text-white font-semibold text-sm truncate">
-              Para: {page.receiverName ?? "—"}
+              Nome História: {page.receiverName ?? "—"}
             </h3>
           </div>
           <p className="text-white/40 text-xs truncate">

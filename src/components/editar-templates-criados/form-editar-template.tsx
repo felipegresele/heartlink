@@ -437,10 +437,10 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
 
   // ── Abas disponíveis ──────────────────────────────────────
   const abas = [
-    { id: "info" as const, label: "✏️ Info", sempre: true },
-    { id: "musica" as const, label: "🎵 Música", sempre: temMusica },
-    { id: "fotos" as const, label: "📸 Fotos", sempre: temFotos },
-    { id: "retrospectiva" as const, label: "✨ Retrospectiva", sempre: temRetro },
+    { id: "info" as const, label: "Info", sempre: true },
+    { id: "musica" as const, label: "Música", sempre: temMusica },
+    { id: "fotos" as const, label: "Fotos", sempre: temFotos },
+    { id: "retrospectiva" as const, label: "Retrospectiva", sempre: temRetro },
   ].filter((a) => a.sempre);
 
   return (

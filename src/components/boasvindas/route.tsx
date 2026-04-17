@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { FaHeartCircleExclamation } from "react-icons/fa6";
+import imgCelular from "../../img/hero-section.svg";
 
 export function BoasVindas() {
   return (
-    <div
-      className="relative flex flex-col items-start justify-center min-h-screen px-8 md:px-20 text-white bg-black"
-    >
+    <div className="flex flex-col md:flex-row items-center justify-between min-h-screen px-8 md:px-20 text-white bg-black">
       <div className="max-w-lg">
         <h3 className="mb-4 text-xl">Vamos começar?</h3>
         <h1 className="text-5xl md:text-6xl font-bold mb-4">
@@ -47,13 +46,12 @@ export function BoasVindas() {
           <span>Mais de 10.465 usuários satisfeitos</span>
         </div>
       </div>
-
       {/* Imagem do celular */}
-      <div className="absolute right-8 top-20 md:top-1/4 w-80 md:w-[400px]">
+      <div className="w-full md:w-1/2 flex justify-center md:justify-start mt-10 md:mt-0">
         <img
-          src="https://via.placeholder.com/400x800" // substitua pela imagem do celular com a página
+          src={imgCelular}
           alt="Exemplo de página"
-          className="rounded-xl shadow-2xl"
+          className="w-[280px] sm:w-[350px] md:w-[450px] rounded-xl"
         />
       </div>
     </div>
@@ -73,8 +71,8 @@ export function BoasVindas() {
 //             "para seu amigo!",
 //           ]}
 //           typeSpeed={50}
-//           backSpeed={30} 
-//           loop      
+//           backSpeed={30}
+//           loop
 //         />
 //       </h3>
 //     </div>

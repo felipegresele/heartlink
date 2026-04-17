@@ -121,32 +121,35 @@ function CriadorDeclaracaoInner() {
   const rascunho = lerRascunho();
 
   const [etapa, setEtapa] = useState<number>(rascunho?.etapa ?? 1);
-  const [subEtapaRetro, setSubEtapaRetro] =
-    useState<SubEtapaRetrospectiva>(rascunho?.subEtapaRetro ?? "selecao");
+  const [subEtapaRetro, setSubEtapaRetro] = useState<SubEtapaRetrospectiva>(
+    rascunho?.subEtapaRetro ?? "selecao",
+  );
 
   const [titulo, setTitulo] = useState<string>(rascunho?.titulo ?? "");
   const [mensagem, setMensagem] = useState<string>(rascunho?.mensagem ?? "");
-  const [corTitulo, setCorTitulo] = useState<string>(rascunho?.corTitulo ?? "#ffffff");
+  const [corTitulo, setCorTitulo] = useState<string>(
+    rascunho?.corTitulo ?? "#ffffff",
+  );
   const [fonteTitulo, setFonteTitulo] = useState<string>(
-    rascunho?.fonteTitulo ?? "Alex Brush, cursive"
+    rascunho?.fonteTitulo ?? "Alex Brush, cursive",
   );
   const [tamanhoTitulo, setTamanhoTitulo] = useState<number>(
-    rascunho?.tamanhoTitulo ?? 24
+    rascunho?.tamanhoTitulo ?? 24,
   );
   const [tamanhoMensagem, setTamanhoMensagem] = useState<number>(
-    rascunho?.tamanhoMensagem ?? 16
+    rascunho?.tamanhoMensagem ?? 16,
   );
 
   const [imagens, setImagens] = useState<string[]>(rascunho?.imagens ?? []);
   const [dataConhecimento, setDataConhecimento] = useState<string>(
-    rascunho?.dataConhecimento ?? ""
+    rascunho?.dataConhecimento ?? "",
   );
 
   const [modoExibicao, setModoExibicao] = useState<
     "padrao" | "classico" | "simples"
   >(rascunho?.modoExibicao ?? "padrao");
   const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
-    rascunho?.modoImagem ?? "carrossel"
+    rascunho?.modoImagem ?? "carrossel",
   );
 
   const [musicaSelecionada, setMusicaSelecionada] = useState<{
@@ -157,20 +160,24 @@ function CriadorDeclaracaoInner() {
   } | null>(rascunho?.musicaSelecionada ?? null);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(
-    rascunho?.selectedPlan ?? null
+    rascunho?.selectedPlan ?? null,
   );
   const [pageId, setPageId] = useState<string | null>(null);
 
   // Acessa os dados da retrospectiva do contexto
-  const { data: retroData, saveToLocalStorage, loadFromLocalStorage, resetData } =
-    useRetrospective();
+  const {
+    data: retroData,
+    saveToLocalStorage,
+    loadFromLocalStorage,
+    resetData,
+  } = useRetrospective();
 
   // ── Restaura retrospectiva do localStorage na montagem ────
   useEffect(() => {
     if (rascunho) {
       loadFromLocalStorage();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── Auto-save: salva rascunho sempre que algum estado mudar ─
@@ -250,7 +257,7 @@ function CriadorDeclaracaoInner() {
         body: JSON.stringify({
           userId: usuario.id,
           receiverName: titulo,
-          senderName: "Felipe",
+          senderName: usuario.username,
           message: mensagem,
           photos: imagens,
           relationshipStartDate: dataConhecimento,
@@ -259,7 +266,7 @@ function CriadorDeclaracaoInner() {
           theme: modoExibicao,
           planType: selectedPlan,
         }),
-      }
+      },
     );
 
     const data = await response.json();
@@ -276,6 +283,9 @@ function CriadorDeclaracaoInner() {
         wheel: retroData.wheel,
         gallery: retroData.gallery,
         enigma: retroData.enigma,
+        ondeSeConheceram: retroData.ondeSeConheceram,
+        momentoFavorito: retroData.momentoFavorito,
+        proximoPasso: retroData.proximoPasso,
       };
 
       try {

@@ -147,7 +147,7 @@ export function WheelSection() {
     setTimeout(() => {
       const anguloFinal = novoAngulo % 360;
       const fatia = 360 / items.length;
-      const indice = Math.floor(((360 - anguloFinal) % 360) / fatia) % items.length;
+      const indice = Math.floor(((360 - anguloFinal + 90) % 360) / fatia) % items.length;
       const resultado = items[indice].texto;
 
       setVencedor(resultado);

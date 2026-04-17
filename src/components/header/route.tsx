@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AuthModal } from "../auth/AuthModal";
 import { LoginModal } from "../auth/LoginModal";
@@ -16,6 +16,9 @@ export function Header() {
   const [exibirModalLogin, setExibirModalLogin] = useState(false);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [menuAberto, setMenuAberto] = useState(false);
+
+  // Dentro do componente
+const navigate = useNavigate();
 
   const carregarUsuario = () => {
     const storedUser = localStorage.getItem("user");
@@ -83,7 +86,10 @@ export function Header() {
 
             {/* Dropdown - z-50 aqui para garantir que apareça sobre o conteúdo */}
             <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-white/10 rounded-xl shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[1002]">
-              <button className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors cursor-pointer">
+              <button 
+              className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors cursor-pointer"
+              onClick={() => {navigate("/perfil")}}
+              >
                 <FiUser /> Meu Perfil
               </button>
               <button

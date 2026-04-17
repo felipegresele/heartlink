@@ -16,6 +16,7 @@ import EscolherTemplate from './components/criar-declaracao'
 import LovePage from './components/criar-declaracao/components/tela-presente/LovePage'
 import { CriadorDeclaracao } from './components/criar-declaracao/components/templates/template-basico'
 import { TemplateNetflix } from './components/criar-declaracao/components/templates/template-netflix'
+import { MeusTemplates } from './components/editar-templates-criados/meus-templates'
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -49,6 +50,15 @@ function App() {
                 <Planos />
                 <Faqs />
               </>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/perfil"
+          element={
+            <Layout>
+              <MeusTemplates />
             </Layout>
           }
         />

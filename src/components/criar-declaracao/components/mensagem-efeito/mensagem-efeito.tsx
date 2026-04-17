@@ -27,7 +27,7 @@ export function MensagemComEfeitoEscritaRetrospectiva() {
       <img src={imgLogo} className="w-10 h-10 rounded-full" />
 
       {/* Balão */}
-      <div className="bg-zinc-800 text-white p-3 rounded-2xl rounded-bl-sm shadow-md relative">
+      <div className="bg-red-500/20 text-white p-3 rounded-2xl rounded-bl-sm shadow-md relative">
         
         {/* Textinho */}
         <h3 className="text-sm leading-relaxed">

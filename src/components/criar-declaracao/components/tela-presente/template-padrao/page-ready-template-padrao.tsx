@@ -25,6 +25,7 @@ import { FaTimeline } from "react-icons/fa6";
 
 // ── Importa a intro animada ───────────────────────────────────
 import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
+import { UltimaSessaoRetrospectiva } from "../../forms-templates/retrospectiva/ultima-imagem-retrospectiva";
 
 // ── Label e emoji de cada seção ──────────────────────────────────────────────
 const SECTION_META: Record<
@@ -56,19 +57,18 @@ function calcularTempoDesdeData(dataConhecimento: string) {
 function RetrospectiveModal({
   data,
   onClose,
+  fotos,
 }: {
   data: RetrospectiveData;
   onClose: () => void;
+  fotos: string[]; // ← novo prop: passa as imagens da página
 }) {
-  // Filtra a seção "time" pois ela não tem conteúdo de stories
   const secoes = data.secoesSelecionadas.filter((s) => s !== "time");
-  const [secaoAtual, setSecaoAtual] = useState(0);
-  const total = secoes.length;
 
-  if (total === 0) {
-    onClose();
-    return null;
-  }
+  // Adiciona a seção virtual "ultima" sempre ao final
+  const todasSecoes = [...secoes, "ultima" as const];
+  const [secaoAtual, setSecaoAtual] = useState(0);
+  const total = todasSecoes.length;
 
   const isUltima = secaoAtual === total - 1;
 
@@ -84,8 +84,11 @@ function RetrospectiveModal({
     if (secaoAtual > 0) setSecaoAtual((prev) => prev - 1);
   }
 
-  const secao = secoes[secaoAtual];
-  const meta = SECTION_META[secao];
+  const secao = todasSecoes[secaoAtual];
+  const meta =
+    secao === "ultima"
+      ? { label: "Nossa História", emoji: <FaHeart /> }
+      : SECTION_META[secao];
 
   return (
     <motion.div
@@ -96,7 +99,7 @@ function RetrospectiveModal({
     >
       {/* ── Barra de progresso (stories) ── */}
       <div className="flex gap-1.5 px-4 pt-4 pb-2">
-        {secoes.map((_, i) => (
+        {todasSecoes.map((_, i) => (
           <div
             key={i}
             className="flex-1 h-[3px] rounded-full bg-white/20 overflow-hidden"
@@ -142,6 +145,16 @@ function RetrospectiveModal({
             {secao === "wheel" && <WheelView items={data.wheel} />}
             {secao === "gallery" && <GalleryView items={data.gallery} />}
             {secao === "enigma" && <EnigmaView items={data.enigma} />}
+            {/* {secao === "ultima" && (
+              <UltimaSessaoRetrospectiva
+                photos={fotos}
+                nomeCasal={data.se ?? ""}
+                totalDias={data.totalDias ?? 0}
+                dataDia={data.dataDia ?? 0}
+                nomeMes={data.nomeMes ?? ""}
+                corBg="#e91e8c"
+              />
+            )} */}
           </motion.div>
         </AnimatePresence>
       </div>

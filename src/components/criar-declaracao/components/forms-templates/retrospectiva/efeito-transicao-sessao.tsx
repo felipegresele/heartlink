@@ -16,11 +16,11 @@ type Props = {
 // ── Constantes do efeito de pixel ────────────────────────────
 const PIXEL_SIZE = 12;
 const PIXEL_COLORS = [
-  "#58ec48",
-  "#4ea90d",
-  "#5cf6ac",
-  "#9bd78c",
-  "#7ae4b4",
+  "#e32929",
+  "#cc3b2e",
+  "#f1524d",
+  "#bd1e19",
+  "#da3fae",
   "#ffffff",
 ];
 
@@ -332,7 +332,7 @@ export default function SpotifySingleScreen({
                 fontWeight: 600,
               }}
             >
-              💝 sua retrospectiva
+              Sua retrospectiva
             </p>
             <h1
               style={{
@@ -357,7 +357,7 @@ export default function SpotifySingleScreen({
                 lineHeight: 1.5,
               }}
             >
-              os momentos que mais marcaram esse casal
+              Os momentos que mais marcaram esse casal
             </p>
           </div>
         )}
@@ -418,7 +418,7 @@ export default function SpotifySingleScreen({
                 color: "rgba(255,255,255,0.5)",
               }}
             >
-              histórias e memórias
+              Histórias e Memórias
             </p>
           </div>
         )}
@@ -505,7 +505,7 @@ export default function SpotifySingleScreen({
                   letterSpacing: "0.05em",
                 }}
               >
-                ✨ cada foto conta uma história
+                Cada foto conta uma história
               </p>
             </div>
           </>

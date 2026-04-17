@@ -454,7 +454,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="text-center text-white/30 text-xs"
+            className="text-center text-white text-xs"
           >
             {countLabel} selecionada(s)
           </motion.p>

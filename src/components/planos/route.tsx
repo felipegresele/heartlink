@@ -38,7 +38,7 @@ function PlanoPageContent() {
       ],
     },
     {
-      titulo: "Anual",
+      titulo: "Padrão",
       descricao: "Esse plano possui um período de 1 ano.",
       recomendado: false,
       precoAntigo: "R$ 40,00",

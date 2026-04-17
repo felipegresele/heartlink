@@ -30,7 +30,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
       ],
     },
     {
-      titulo: "Anual",
+      titulo: "Padrão",
       descricao: "Plano com duração de 1 ano.",
       planType: "PADRAO",
       recomendado: false,

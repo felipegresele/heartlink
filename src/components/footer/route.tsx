@@ -31,6 +31,9 @@ export function FooterContent() {
           <p className="text-gray-400 text-xs mt-6">
             Copyright © 2025 - HeartCode.com
           </p>
+          <p className="text-gray-400 text-xs mt-6">
+            Pagamento seguro com Mercado Pago
+          </p>
         </div>
 
         <div className="flex flex-col text-sm gap-2">

@@ -30,10 +30,8 @@ import { PagamentoStep } from "../forms-templates/carrinho-pagamento";
 import PreviewCarrossel from "../preview/preview-carrosel";
 import ContentEscolherMusica from "../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../mensagem-efeito/mensagem-efeito";
+import FaqsRetrospectiva from "../../../faqs-retrospectiva";
 
-// ─────────────────────────────────────────────────────────────
-// Chave usada para salvar/restaurar o rascunho no localStorage
-// ─────────────────────────────────────────────────────────────
 const DRAFT_KEY = "heartlink_criador_rascunho";
 
 type SubEtapaRetrospectiva = "selecao" | "formulario";
@@ -110,14 +108,9 @@ function FormsSecoesSelecionadas({
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// Componente interno que acessa o contexto da retrospectiva
-// (precisa estar dentro do RetrospectiveProvider)
-// ─────────────────────────────────────────────────────────────
 function CriadorDeclaracaoInner() {
   const totalEtapas = 9;
 
-  // ── Restaura rascunho salvo (se existir) ──────────────────
   const rascunho = lerRascunho();
 
   const [etapa, setEtapa] = useState<number>(rascunho?.etapa ?? 1);
@@ -145,9 +138,8 @@ function CriadorDeclaracaoInner() {
     rascunho?.dataConhecimento ?? "",
   );
 
-  const [modoExibicao, setModoExibicao] = useState<
-    "padrao" | "classico" | "simples"
-  >(rascunho?.modoExibicao ?? "padrao");
+ const [modoExibicao, setModoExibicao] = useState<"padrao" | "classico" | "simples">(rascunho?.modoExibicao ?? "padrao");
+
   const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
     rascunho?.modoImagem ?? "carrossel",
   );
@@ -164,7 +156,15 @@ function CriadorDeclaracaoInner() {
   );
   const [pageId, setPageId] = useState<string | null>(null);
 
-  // Acessa os dados da retrospectiva do contexto
+  // ── Estado do modal de validação ──────────────────────────
+  const [modalAberto, setModalAberto] = useState(false);
+  const [modalMensagem, setModalMensagem] = useState("");
+
+  function abrirModal(msg: string) {
+    setModalMensagem(msg);
+    setModalAberto(true);
+  }
+
   const {
     data: retroData,
     saveToLocalStorage,
@@ -172,7 +172,6 @@ function CriadorDeclaracaoInner() {
     resetData,
   } = useRetrospective();
 
-  // ── Restaura retrospectiva do localStorage na montagem ────
   useEffect(() => {
     if (rascunho) {
       loadFromLocalStorage();
@@ -180,9 +179,7 @@ function CriadorDeclaracaoInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── Auto-save: salva rascunho sempre que algum estado mudar ─
   useEffect(() => {
-    // Não salva depois que a página já foi criada (etapa 9)
     if (etapa === 9) return;
 
     const rascunhoAtual = {
@@ -202,7 +199,6 @@ function CriadorDeclaracaoInner() {
       selectedPlan,
     };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(rascunhoAtual));
-    // Salva também a retrospectiva separadamente (via contexto)
     saveToLocalStorage();
   }, [
     etapa,
@@ -224,7 +220,15 @@ function CriadorDeclaracaoInner() {
 
   function proximaEtapa() {
     if (!validarEtapaAtual()) {
-      alert("Preencha os campos antes de continuar");
+      const mensagens: Record<number, string> = {
+        1: "Preencha o título da página antes de continuar.",
+        2: "Escreva sua declaração antes de continuar.",
+        3: "Adicione pelo menos uma foto antes de continuar.",
+        4: "Informe a data em que vocês se conheceram.",
+        5: "Escolha uma música antes de continuar.",
+        8: "Selecione um plano antes de criar a página.",
+      };
+      abrirModal(mensagens[etapa] ?? "Preencha os campos antes de continuar.");
       return;
     }
     if (etapa + 1 === 7) setSubEtapaRetro("selecao");
@@ -244,11 +248,10 @@ function CriadorDeclaracaoInner() {
     const usuario = storedUser ? JSON.parse(storedUser) : null;
 
     if (!usuario) {
-      alert("Você precisa estar logado para criar uma página!");
+      abrirModal("Você precisa estar logado para criar uma página!");
       return;
     }
 
-    // 1. Cria a página principal
     const response = await fetch(
       "https://lovepage-backend.onrender.com/api/love-pages",
       {
@@ -274,7 +277,6 @@ function CriadorDeclaracaoInner() {
     const createdPageId: string = data.id;
     setPageId(createdPageId);
 
-    // 2. Se o usuário preencheu alguma seção de retrospectiva OU ativou o efeitoTime, salva no backend
     if (retroData.secoesSelecionadas.length > 0 || retroData.efeitoTime) {
       const retrospectivePayload = {
         selectedSections: retroData.secoesSelecionadas,
@@ -295,7 +297,6 @@ function CriadorDeclaracaoInner() {
       }
     }
 
-    // 3. Limpa o rascunho após criar com sucesso
     localStorage.removeItem(DRAFT_KEY);
     resetData();
 
@@ -326,10 +327,38 @@ function CriadorDeclaracaoInner() {
     }
   }
 
-  const etapa7Ativa = etapa === 7;
+  // Etapa 7 (ambas sub-etapas) e etapa 9 escondem o footer global
+  const esconderFooter =
+    etapa === 7 || etapa === 9;
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
+
+      {/* ── Modal de validação ── */}
+      {modalAberto && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+          onClick={() => setModalAberto(false)}
+        >
+          <div
+            className="bg-gray-900 border border-white/15 rounded-2xl p-6 max-w-sm w-full mx-4 text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-3 text-yellow-400 text-lg">
+              ⚠
+            </div>
+            <p className="text-white font-semibold text-sm mb-1">Campo obrigatório</p>
+            <p className="text-white/50 text-xs mb-5 leading-relaxed">{modalMensagem}</p>
+            <button
+              onClick={() => setModalAberto(false)}
+              className="w-full py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex-1 space-y-6 min-h-[calc(80vh-140px)] md:min-h-auto">
         {etapa === 1 && (
           <>
@@ -440,9 +469,27 @@ function CriadorDeclaracaoInner() {
           <>
             <MensagemComEfeitoEscritaRetrospectiva />
             <FormRetrospectivaSecoes
-              onContinuar={() => setSubEtapaRetro("formulario")}
+              onContinuar={() => {
+                if (retroData.secoesSelecionadas.length === 0) {
+                  abrirModal(
+                    'Selecione ao menos uma seção da retrospectiva ou clique em "Pular sem retrospectiva" para continuar sem ela.',
+                  );
+                  return;
+                }
+                setSubEtapaRetro("formulario");
+              }}
               onPular={() => setEtapa((prev) => prev + 1)}
             />
+            {/* Botão Voltar posicionado logo abaixo do conteúdo da etapa 7 */}
+            <div className="flex justify-start pt-2">
+              <button
+                onClick={voltarEtapa}
+                className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
+              >
+                <SlArrowLeft size={12} /> Voltar
+              </button>
+            </div>
+            <FaqsRetrospectiva />
           </>
         )}
 
@@ -464,7 +511,7 @@ function CriadorDeclaracaoInner() {
           <PagamentoStep pageId={pageId} selectedPlan={selectedPlan} />
         )}
 
-        {!etapa7Ativa && (
+        {!esconderFooter && (
           <div
             className={`flex justify-between items-center pt-6 border-t border-white/10 gap-2 ${etapa === 8 ? "mt-12 md:mt-6" : ""}`}
           >

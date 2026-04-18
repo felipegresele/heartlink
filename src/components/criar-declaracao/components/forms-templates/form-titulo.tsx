@@ -30,20 +30,6 @@ export function FormTitulo({
         onChange={(e) => setTitulo(e.target.value)}
         className="w-full p-2 rounded-md text-white bg-gray-800"
       />
-      <div className="flex items-center gap-2">
-        <label>Fonte:</label>
-        <select
-          value={fonteTitulo}
-          onChange={(e) => setFonteTitulo(e.target.value)}
-          className="p-1 rounded-md text-white bg-black"
-        >
-          {fontes.map((f, i) => (
-            <option key={i} value={f.value}>
-              {f.name}
-            </option>
-          ))}
-        </select>
-      </div>
     </div>
   );
 }

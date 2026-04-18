@@ -550,7 +550,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
         onClose={() => setModalContatoAberto(false)}
       />
 
-      <FaqsRetrospectiva />
+      
     </div>
   );
 }

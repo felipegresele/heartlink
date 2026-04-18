@@ -3,7 +3,7 @@ import { FiAlertCircle } from "react-icons/fi";
 
 export function FaqsRetrospectiva() {
     return (
-        <div className="bg-black text-white min-h-screen flex justify-center items-center px-6 py-16">
+        <div className="bg-black text-white flex justify-center items-center px-6 py-16">
             <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12">
                 {/* Coluna esquerda */}
                 <div>

@@ -15,7 +15,7 @@ export function MensagemComEfeitoEscritaRetrospectiva() {
       i++;
 
       if (i === texto.length) clearInterval(interval);
-    }, 25); // velocidade da digitação
+    }, 80); // velocidade da digitação
 
     return () => clearInterval(interval);
   }, []);

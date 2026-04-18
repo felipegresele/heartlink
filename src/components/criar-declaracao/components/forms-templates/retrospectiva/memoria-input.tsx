@@ -29,7 +29,7 @@ export function MemoriaInput({
   return (
     <div className="flex flex-col gap-1">
       {isFirstField && (
-        <p className="text-white/20 text-xs mb-2">
+        <p className="text-white/80 text-xs mb-2">
           Esses campos são opcionais. Se preenchidos, aparecerão no resumo final
           da retrospectiva do casal.
         </p>

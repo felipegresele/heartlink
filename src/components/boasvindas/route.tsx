@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaHeartCircleExclamation } from "react-icons/fa6";
 import imgCelular from "../../img/hero-section.svg";
+import { AvaliacoesDeslizando } from "../avaliacoes/card-avaliacoes";
 
 export function BoasVindas() {
   return (
@@ -22,27 +23,8 @@ export function BoasVindas() {
           <FaHeartCircleExclamation size={20} /> Criar minha página
         </Link>
 
-        {/* Avaliação dos usuários */}
-        <div className="flex items-center mt-6 space-x-2">
-          <div className="flex -space-x-2">
-            <img
-              className="w-8 h-8 rounded-full border-2 border-white"
-              src="https://randomuser.me/api/portraits/women/1.jpg"
-              alt=""
-            />
-            <img
-              className="w-8 h-8 rounded-full border-2 border-white"
-              src="https://randomuser.me/api/portraits/men/2.jpg"
-              alt=""
-            />
-            <img
-              className="w-8 h-8 rounded-full border-2 border-white"
-              src="https://randomuser.me/api/portraits/women/3.jpg"
-              alt=""
-            />
-          </div>
-          <span className="text-yellow-400 font-semibold">★★★★★</span>
-          <span>Mais de 10.465 usuários satisfeitos</span>
+        <div className="mt-6 w-full max-w-md">
+          <AvaliacoesDeslizando />
         </div>
       </div>
       {/* Imagem do celular */}
@@ -56,24 +38,3 @@ export function BoasVindas() {
     </div>
   );
 }
-
-// function TextoAnimado() {
-//   return (
-//     <div>
-//       <h3 className="text-3xl md:text-4xl text-red-500 mb-6 italic">
-//         <ReactTyped
-//           strings={[
-//             "para seu amor!",
-//             "para alguém especial!",
-//             "para eternizar momentos!",
-//             "para surpreender alguém!",
-//             "para seu amigo!",
-//           ]}
-//           typeSpeed={50}
-//           backSpeed={30}
-//           loop
-//         />
-//       </h3>
-//     </div>
-//   );
-// }

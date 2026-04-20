@@ -9,7 +9,7 @@ import type { SectionType } from "../../../../schema/retrospectiva";
 import { useRetrospective } from "./retrospectiva/restrospective-context";
 import { FiCalendar, FiImage } from "react-icons/fi";
 import { FaRandom } from "react-icons/fa";
-import { IoExtensionPuzzleSharp } from "react-icons/io5";
+import { IoExtensionPuzzleSharp, IoEye } from "react-icons/io5";
 import { FaGift, FaTimeline } from "react-icons/fa6";
 import { RiMessage2Line } from "react-icons/ri";
 import FaqsRetrospectiva from "../../../faqs-retrospectiva";
@@ -19,7 +19,10 @@ import videoLinhaTempo from "../../../../img/retrospectiva-sessao/video-linha-te
 import videoGaleria from "../../../../img/retrospectiva-sessao/video-galeria.mp4";
 import videoRoleta from "../../../../img/retrospectiva-sessao/video-roleta.mp4";
 import videoEnigma from "../../../../img/retrospectiva-sessao/video-enigma.mp4";
+import videoIntroducao from "../../../../img/retrospectiva-sessao/video-introducao.mp4";
+import videoUltimaSessao from "../../../../img/retrospectiva-sessao/video-ultima-tela.mp4";
 import { MemoriaInput } from "./retrospectiva/memoria-input";
+import { Tooltip } from "@mantine/core";
 
 interface Props {
   onContinuar: () => void;
@@ -193,9 +196,9 @@ const SECOES: SecaoConfig[] = [
     badgeIcon: <FaTimeline size={11} />,
     titulo: "Intro Animada do Casal",
     descricao:
-      "Uma intro estilo Spotify Wrapped com o tempo de vocês, fotos caindo e efeitos de pixel. Aparece primeiro ao abrir a página.",
+      "Uma intro estilo Spotify Wrapped com o tempo de vocês, fotos caindo e efeitos de pixel. Aparece primeiro ao abrir a retrospectiva antes das outras sessões selecionadas.",
     cor: "#ec4899",
-    videoUrl: videoLinhaTempo,
+    videoUrl: videoIntroducao,
     preview: (
       <div className="w-full h-full bg-[#0d0816] flex flex-col items-center justify-center gap-2.5 px-4 relative overflow-hidden">
         {/* scanlines */}
@@ -246,6 +249,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
   const { data, toggleSection, toggleEfeitoTime } = useRetrospective();
   const [current, setCurrent] = useState(0);
   const [modalContatoAberto, setModalContatoAberto] = useState(false);
+  const [abrirModalVideo, setAbrirModalVideo] = useState(false);
 
   const secao = SECOES[current];
   const total = SECOES.length;
@@ -470,9 +474,14 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
       exit={{ opacity: 0, y: 10 }}
       className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/3 p-4"
     >
-      <div className="flex items-center gap-2 mb-1">
+      <div className="flex items-center gap-2 mb-1 justify-between">
         <p className="text-white font-semibold text-sm">Memórias especiais</p>
-        <span className="text-white/80 text-xs ml-auto">Opcional</span>
+        <div className="gap-2 flex">
+          <button onClick={() => setAbrirModalVideo(true)}>
+            <IoEye className="text-pink-400 hover:textr-pink-600 cursor-pointer border border-pink-500 rounded-md" />
+          </button>
+          <span className="text-white/80 text-xs ml-auto">Opcional</span>
+        </div>  
       </div>
 
       <MemoriaInput
@@ -550,6 +559,34 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
         onClose={() => setModalContatoAberto(false)}
       />
 
+      {abrirModalVideo && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-[999]"
+          onClick={() => setAbrirModalVideo(false)}
+        >
+          <div
+            className="relative w-[90%] max-w-3xl bg-black rounded-xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* botão fechar */}
+            <button
+              onClick={() => setAbrirModalVideo(false)}
+              className="absolute top-2 right-3 text-white text-2xl z-10"
+            >
+              ✕
+            </button>
+
+            {/* vídeo */}
+            <video
+              autoPlay
+              controls
+              className="w-full h-full"
+            >
+              <source src={videoUltimaSessao} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      )}
       
     </div>
   );

@@ -472,7 +472,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
     >
       <div className="flex items-center gap-2 mb-1">
         <p className="text-white font-semibold text-sm">Memórias especiais</p>
-        <span className="text-white/30 text-xs ml-auto">Opcional</span>
+        <span className="text-white/80 text-xs ml-auto">Opcional</span>
       </div>
 
       <MemoriaInput

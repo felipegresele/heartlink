@@ -71,7 +71,7 @@ export function MeusTemplates() {
             </p>
             <button
               onClick={() => navigate("/criar")}
-              className="mt-2 flex items-center gap-2 bg-pink-600 hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all"
+              className="mt-2 flex items-center cursor-pointer gap-2 bg-red-600 hover:bg-red-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all"
             >
               <FiPlus size={15} />
               Criar primeira declaração

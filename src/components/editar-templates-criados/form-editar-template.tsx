@@ -482,22 +482,6 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
             </div>
           )}
 
-          {/* senderName */}
-          {page.senderName !== null && (
-            <div>
-              <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-1.5">
-                Seu nome 🖊️
-              </label>
-              <input
-                type="text"
-                value={senderName}
-                onChange={(e) => setSenderName(e.target.value)}
-                className={inputClass}
-                placeholder="Seu nome"
-              />
-            </div>
-          )}
-
           {/* relationshipStartDate */}
           {page.relationshipStartDate !== null && (
             <div>

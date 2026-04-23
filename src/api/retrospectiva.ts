@@ -6,7 +6,7 @@ async function apiGet<T>(path: string): Promise<T> {
   const res = await fetch(`${API_URL}${path}`);
   if (!res.ok) {
     const error = await res.json().catch(() => ({}))
-    throw new Error(error.message || "Dados inválidos");
+    throw new Error(error.message || "Erro na requisição");
   }
   return res.json()
 }
@@ -19,7 +19,7 @@ export async function apiPost(path: string, body: any) {
   });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Dados inválidos");
+    throw new Error(error.message || "Erro na requisição");
   }
   console.log(res)
   return res.json();

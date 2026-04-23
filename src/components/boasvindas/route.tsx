@@ -18,7 +18,7 @@ export function BoasVindas() {
 
         <Link
           to="/criar"
-          className="flex gap-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-300 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 max-w-100 h-15 justify-start items-center"
+          className="flex gap-2 cursor-pointer bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-300 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 max-w-100 h-15 justify-start items-center"
         >
           <FaHeartCircleExclamation size={20} /> Criar minha página
         </Link>

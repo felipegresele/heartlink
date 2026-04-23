@@ -106,7 +106,7 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
 
       <button
         type="submit"
-        className="w-full py-3 px-4 mt-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-blue-900/20"
+        className="w-full py-3 cursor-pointer px-4 mt-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-blue-900/20"
       >
         Entrar na conta
       </button>

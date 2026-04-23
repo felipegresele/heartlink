@@ -8,7 +8,7 @@ export async function apiPost(path: string, body: any) {
   });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Erro na requisição");
+    throw new Error(error.message || "Dados inválidos");
   }
   return res.json();
 }
@@ -19,7 +19,7 @@ export async function apiDelete(path: string) {
   });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "Erro na requisição");
+    throw new Error(error.message || "Dados inválidos");
   }
   return res.json();
 }

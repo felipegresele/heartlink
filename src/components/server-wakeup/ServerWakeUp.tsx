@@ -243,7 +243,7 @@ function ServerWakeUpModal() {
             fontSize: "11px",
           }}
         >
-          Isso pode levar até 1 minuto na primeira vez
+          Aguarde alguns instantes
         </p>
       </div>
     </div>

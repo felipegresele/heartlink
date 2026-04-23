@@ -1,4 +1,4 @@
-const API_URL = "https://lovepage-backend.onrender.com/api"; // troque para a URL do seu backend
+const API_URL = "https://lovepage-backend.onrender.com/api"; 
 
 export async function apiPost(path: string, body: any) {
   const res = await fetch(`${API_URL}${path}`, {

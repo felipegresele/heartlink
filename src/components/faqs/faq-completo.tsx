@@ -148,7 +148,7 @@ const faqCategorias = [
       {
         pergunta: "Como recebo minha página?",
         resposta:
-          "Você recebe um link exclusivo e um QR Code por e-mail logo após a confirmação do pagamento.",
+          "Você recebe um link exclusivo e um QR Code pelo seu e-mail cadastrado na sua conta logo após a confirmação do pagamento.",
       },
       {
         pergunta: "O acesso é imediato?",

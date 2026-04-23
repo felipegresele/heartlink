@@ -4,7 +4,6 @@ import type { FormModoImagemProps } from "../../../../schema/form-templates";
 export function FormModoImagem({ modoImagem, setModoImagem }: FormModoImagemProps) {
   const opcoes = [
     { label: "Carrossel", value: "carrossel" },
-    { label: "Slideshow", value: "slideshow" },
   ];
 
   return (
@@ -25,7 +24,7 @@ export function FormModoImagem({ modoImagem, setModoImagem }: FormModoImagemProp
               name="modoImagem"
               value={op.value}
               checked={modoImagem === op.value}
-              onChange={(e) => setModoImagem(e.target.value as "carrossel" | "slideshow")}
+              onChange={(e) => setModoImagem(e.target.value as "carrossel")}
               className="mr-2"
             />
             {op.label}

@@ -17,6 +17,8 @@ import LovePage from './components/criar-declaracao/components/tela-presente/Lov
 import { CriadorDeclaracao } from './components/criar-declaracao/components/templates/template-basico'
 import { TemplateNetflix } from './components/criar-declaracao/components/templates/template-netflix'
 import { MeusTemplates } from './components/editar-templates-criados/meus-templates'
+import { Sobre } from './components/sobre'
+import { FaqCompleto } from './components/faqs/faq-completo'
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -104,6 +106,24 @@ function App() {
           element={
             <Layout>
               <TemplateNetflix />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/sobre"
+          element={
+            <Layout>
+              <Sobre />
+            </Layout>
+          }
+        />
+
+         <Route
+          path="/help"
+          element={
+            <Layout>
+              <FaqCompleto />
             </Layout>
           }
         />

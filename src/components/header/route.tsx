@@ -64,7 +64,7 @@ export function Header() {
       </div>
 
       <nav className="hidden md:flex items-center gap-8 text-sm font-bold">
-        {["Início", "Dicas", "Temas", "Planos", "Help"].map((item) => (
+        {["Início", "Sobre", "Help"].map((item) => (
           <Link
             key={item}
             to={item === "Início" ? "/" : `/${item.toLowerCase()}`}
@@ -161,25 +161,11 @@ export function Header() {
             Início
           </Link>
           <Link
-            to="/dicas"
+            to="/sobre"
             onClick={() => setMenuAberto(false)}
             className="hover:text-red-500 transition-colors"
           >
-            Como funciona?
-          </Link>
-          <Link
-            to="/temas"
-            onClick={() => setMenuAberto(false)}
-            className="hover:text-red-500 transition-colors"
-          >
-            Temas
-          </Link>
-          <Link
-            to="/planos"
-            onClick={() => setMenuAberto(false)}
-            className="hover:text-red-500 transition-colors"
-          >
-            Planos
+            Sobre
           </Link>
           <Link
             to="/help"

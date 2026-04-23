@@ -470,7 +470,7 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
           {page.receiverName !== null && (
             <div>
               <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-1.5">
-                Para quem é 💌
+                Nome de vocês💌
               </label>
               <input
                 type="text"

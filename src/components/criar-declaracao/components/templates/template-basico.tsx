@@ -138,7 +138,9 @@ function CriadorDeclaracaoInner() {
     rascunho?.dataConhecimento ?? "",
   );
 
- const [modoExibicao, setModoExibicao] = useState<"padrao" | "classico" | "simples">(rascunho?.modoExibicao ?? "padrao");
+  const [modoExibicao, setModoExibicao] = useState<
+    "padrao" | "classico" | "simples"
+  >(rascunho?.modoExibicao ?? "padrao");
 
   const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
     rascunho?.modoImagem ?? "carrossel",
@@ -231,7 +233,10 @@ function CriadorDeclaracaoInner() {
       abrirModal(mensagens[etapa] ?? "Preencha os campos antes de continuar.");
       return;
     }
-    if (etapa + 1 === 7) setSubEtapaRetro("selecao");
+    if (etapa + 1 === 7) {
+      setSubEtapaRetro("selecao");
+      setVerMaisRetro(false);
+    }
     setEtapa((prev) => prev + 1);
   }
 
@@ -328,12 +333,12 @@ function CriadorDeclaracaoInner() {
   }
 
   // Etapa 7 (ambas sub-etapas) e etapa 9 escondem o footer global
-  const esconderFooter =
-    etapa === 7 || etapa === 9;
+  const esconderFooter = etapa === 7 || etapa === 9;
+
+  const [verMaisRetro, setVerMaisRetro] = useState(false);
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
-
       {/* ── Modal de validação ── */}
       {modalAberto && (
         <div
@@ -347,8 +352,12 @@ function CriadorDeclaracaoInner() {
             <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-3 text-yellow-400 text-lg">
               ⚠
             </div>
-            <p className="text-white font-semibold text-sm mb-1">Campo obrigatório</p>
-            <p className="text-white/50 text-xs mb-5 leading-relaxed">{modalMensagem}</p>
+            <p className="text-white font-semibold text-sm mb-1">
+              Campo obrigatório
+            </p>
+            <p className="text-white/50 text-xs mb-5 leading-relaxed">
+              {modalMensagem}
+            </p>
             <button
               onClick={() => setModalAberto(false)}
               className="w-full py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium"
@@ -467,39 +476,48 @@ function CriadorDeclaracaoInner() {
 
         {etapa === 7 && subEtapaRetro === "selecao" && (
           <>
-            <MensagemComEfeitoEscritaRetrospectiva />
-            <FormRetrospectivaSecoes
-              onContinuar={() => {
-                if (retroData.secoesSelecionadas.length === 0) {
-                  abrirModal(
-                    'Selecione ao menos uma seção da retrospectiva ou clique em "Pular sem retrospectiva" para continuar sem ela.',
-                  );
-                  return;
-                }
-                setSubEtapaRetro("formulario");
-              }}
+            <MensagemComEfeitoEscritaRetrospectiva
               onPular={() => setEtapa((prev) => prev + 1)}
+              onVerMais={() => setVerMaisRetro(true)}
+              esconderBotoes={verMaisRetro}
             />
-            {/* Botão Voltar posicionado logo abaixo do conteúdo da etapa 7 */}
-            <div className="flex justify-start pt-2">
-              <button
-                onClick={voltarEtapa}
-                className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
-              >
-                <SlArrowLeft size={12} /> Voltar
-              </button>
-            </div>
-            {/* <FaqsRetrospectiva /> */}
+
+            {!verMaisRetro ? (
+              <div className="flex justify-start w-full pt-2">
+                <button
+                  onClick={voltarEtapa}
+                  className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
+                >
+                  <SlArrowLeft size={12} /> Voltar
+                </button>
+              </div>
+            ) : (
+              <>
+                <FormRetrospectivaSecoes
+                  onContinuar={() => {
+                    if (retroData.secoesSelecionadas.length === 0) {
+                      abrirModal(
+                        'Selecione ao menos uma seção da retrospectiva ou clique em "Pular sem retrospectiva" para continuar sem ela.',
+                      );
+                      return;
+                    }
+                    setSubEtapaRetro("formulario");
+                  }}
+                  onPular={() => setEtapa((prev) => prev + 1)}
+                />
+                <div className="flex justify-start pt-2">
+                  <button
+                    onClick={voltarEtapa}
+                    className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
+                  >
+                    <SlArrowLeft size={12} /> Voltar
+                  </button>
+                </div>
+              </>
+            )}
           </>
         )}
-
-        {etapa === 7 && subEtapaRetro === "formulario" && (
-          <FormsSecoesSelecionadas
-            onVoltar={() => setSubEtapaRetro("selecao")}
-            onContinuar={() => setEtapa((prev) => prev + 1)}
-          />
-        )}
-
+        
         {etapa === 8 && (
           <EscolherPlano
             selectedPlan={selectedPlan}

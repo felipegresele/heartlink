@@ -289,7 +289,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
     .join(" + ");
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 ">
       {/* Header */}
       <div>
         <div className="flex gap-2 items-center mb-1">
@@ -304,19 +304,21 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
           />
         </div>
         <p className="text-white/65 text-sm leading-relaxed">
-          Veja uma prévia de cada sessão e selecione as desejadas para a retrospectiva da sua página.
+          Veja uma prévia de cada sessão e selecione as desejadas para a
+          retrospectiva da sua página.
         </p>
       </div>
 
       {/* ── Layout showcase ── */}
-      <div className="flex flex-col items-center gap-8 w-full">
+      <div className="flex flex-col items-center justify-center w-full gap-6 mt-2 md:flex-row">
         {/* Celular */}
         <div className="relative flex-shrink-0 flex items-center justify-center">
           {/* Corações decorativos */}
           <HeartDecor />
           {/* Frame do celular */}
           <div
-            className="relative w-[200px] h-[380px] rounded-[28px] overflow-hidden flex-shrink-0"
+            className="relative w-[250px] h-[500px] rounded-[20px] overflow-hidden flex-shrink-0"
+
             style={{
               border: "5px solid #1a1a2e",
               boxShadow: "0 0 0 1.5px #2a2a4a",
@@ -352,102 +354,103 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Info centralizada */}
-        <div className="w-full flex flex-col items-center gap-4 text-center">
-          {/* Badge */}
-          <div
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold"
-            style={{
-              borderColor: secao.cor + "60",
-              background: secao.cor + "22",
-              color: secao.cor,
-            }}
-          >
-            {secao.badgeIcon}
-            {secao.badge}
-          </div>
-
-          {/* Título */}
-          <AnimatePresence mode="wait">
-            <motion.h2
-              key={secao.id + "-title"}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2 }}
-              className="text-white font-extrabold text-2xl leading-tight"
+          <div className="flex flex-col items-center gap-4 text-center self-center max-w-xs">
+            {/* Badge */}
+            <div
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold"
+              style={{
+                borderColor: secao.cor + "60",
+                background: secao.cor + "22",
+                color: secao.cor,
+              }}
             >
-              {secao.titulo}
-            </motion.h2>
-          </AnimatePresence>
-
-          {/* Descrição */}
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={secao.id + "-desc"}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, delay: 0.05 }}
-              className="text-white/75 text-sm leading-relaxed max-w-sm"
-            >
-              {secao.descricao}
-            </motion.p>
-          </AnimatePresence>
-
-          {/* Dots + setas */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={prev}
-              className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
-            >
-              ‹
-            </button>
-
-            <div className="flex items-center gap-2">
-              {SECOES.map((s, i) => (
-                <button
-                  key={s.id}
-                  onClick={() => setCurrent(i)}
-                  className="transition-all duration-200 rounded-full border-none"
-                  style={{
-                    width: i === current ? "22px" : "8px",
-                    height: "8px",
-                    background:
-                      i === current ? secao.cor : "rgba(255,255,255,0.3)",
-                    borderRadius: i === current ? "4px" : "50%",
-                  }}
-                />
-              ))}
+              {secao.badgeIcon}
+              {secao.badge}
             </div>
 
-            <button
-              onClick={next}
-              className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
-            >
-              ›
-            </button>
-          </div>
+            {/* Título */}
+            <AnimatePresence mode="wait">
+              <motion.h2
+                key={secao.id + "-title"}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
+                className="text-white font-extrabold text-2xl leading-tight"
+              >
+                {secao.titulo}
+              </motion.h2>
+            </AnimatePresence>
 
-          {/* Botão adicionar seção */}
-          <motion.button
-            onClick={handleToggle}
-            animate={{
-              background: isSelected ? "#16a34a" : secao.cor,
-            }}
-            transition={{ duration: 0.25 }}
-            className="w-full max-w-xs py-3 rounded-xl text-white font-bold text-sm flex flex-col items-center justify-center gap-0.5 border-none"
-          >
-            <span className="text-[11px] font-medium opacity-80">
-              {isSelected ? "Adicionado ✓" : "Experiência Completa"}
-            </span>
-            <span>
-              {isSelected ? "Remover seção ✕" : "Sim! Quero adicionar agora ↗"}
-            </span>
-          </motion.button>
+            {/* Descrição */}
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={secao.id + "-desc"}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.05 }}
+                className="text-white text-md leading-relaxed max-w-sm"
+              >
+                {secao.descricao}
+              </motion.p>
+            </AnimatePresence>
+
+            {/* Dots + setas */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={prev}
+                className="w-8 h-8 rounded-full border border-white/25 bg-red-500 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
+              >
+                ‹
+              </button>
+
+              <div className="flex items-center gap-2">
+                {SECOES.map((s, i) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setCurrent(i)}
+                    className="transition-all duration-200 rounded-full border-none"
+                    style={{
+                      width: i === current ? "22px" : "8px",
+                      height: "8px",
+                      background:
+                        i === current ? secao.cor : "rgba(255,255,255,0.3)",
+                      borderRadius: i === current ? "4px" : "50%",
+                    }}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={next}
+                className="w-8 h-8 rounded-full border border-white/25 flex items-center bg-red-500 justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
+              >
+                ›
+              </button>
+            </div>
+
+            {/* Botão adicionar seção */}
+            <motion.button
+              onClick={handleToggle}
+              animate={{
+                background: isSelected ? "#16a34a" : secao.cor,
+              }}
+              transition={{ duration: 0.25 }}
+              className="w-full max-w-xs py-3 rounded-xl text-white font-bold text-sm flex flex-col items-center justify-center gap-0.5 border-none"
+            >
+              <span className="text-[11px] font-medium opacity-80">
+                {isSelected ? "Adicionado ✓" : "Experiência Completa"}
+              </span>
+              <span>
+                {isSelected
+                  ? "Remover seção ✕"
+                  : "Sim! Quero adicionar agora ↗"}
+              </span>
+            </motion.button>
+          </div>
         </div>
-      </div>
+        {/* Info centralizada */}
 
       {/* Contador de selecionadas */}
       <AnimatePresence>
@@ -464,44 +467,46 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
       </AnimatePresence>
 
       <AnimatePresence>
-  {temAlgoSelecionado && (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/3 p-4"
-    >
-      <div className="flex items-center gap-2 mb-1 justify-between">
-        <p className="text-white font-semibold text-sm">Memórias especiais</p>
-        <div className="gap-2 flex">
-          <button onClick={() => setAbrirModalVideo(true)}>
-            <IoEye className="text-pink-400 hover:textr-pink-600 cursor-pointer border border-pink-500 rounded-md" />
-          </button>
-          <span className="text-white/80 text-xs ml-auto">Opcional</span>
-        </div>  
-      </div>
+        {temAlgoSelecionado && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/3 p-4"
+          >
+            <div className="flex items-center gap-2 mb-1 justify-between">
+              <p className="text-white font-semibold text-sm">
+                Memórias especiais
+              </p>
+              <div className="gap-2 flex">
+                <button onClick={() => setAbrirModalVideo(true)}>
+                  <IoEye className="text-pink-400 hover:textr-pink-600 cursor-pointer border border-pink-500 rounded-md" />
+                </button>
+                <span className="text-white/80 text-xs ml-auto">Opcional</span>
+              </div>
+            </div>
 
-      <MemoriaInput
-        icon="📍"
-        label="Onde se conheceram?"
-        placeholder="Ex: Numa festa, no trabalho, pelo app…"
-        field="ondeSeConheceram"
-      />
-      <MemoriaInput
-        icon="💫"
-        label="Momento favorito juntos"
-        placeholder="Ex: Nossa primeira viagem, o dia que…"
-        field="momentoFavorito"
-      />
-      <MemoriaInput
-        icon="🚀"
-        label="Próximo passo do casal"
-        placeholder="Ex: Viajar para a Europa, morar juntos…"
-        field="proximoPasso"
-      />
-    </motion.div>
-  )}
-</AnimatePresence>
+            <MemoriaInput
+              icon="📍"
+              label="Onde se conheceram?"
+              placeholder="Ex: Numa festa, no trabalho, pelo app…"
+              field="ondeSeConheceram"
+            />
+            <MemoriaInput
+              icon="💫"
+              label="Momento favorito juntos"
+              placeholder="Ex: Nossa primeira viagem, o dia que…"
+              field="momentoFavorito"
+            />
+            <MemoriaInput
+              icon="🚀"
+              label="Próximo passo do casal"
+              placeholder="Ex: Viajar para a Europa, morar juntos…"
+              field="proximoPasso"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Botões de ação */}
       <div className="flex flex-col gap-3 pt-1">
@@ -516,7 +521,8 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
               {/* Dica visual para guiar o usuário */}
               <p className="text-white/60 text-xs text-center flex items-center gap-1.5">
                 <span>👇</span>
-                Clique abaixo para personalizar cada seção e ver a prévia da página.
+                Clique abaixo para personalizar cada seção e ver a prévia da
+                página.
               </p>
               <motion.button
                 onClick={onContinuar}
@@ -525,17 +531,23 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                 className="w-full py-4 rounded-xl text-black font-extrabold text-base flex items-center justify-center gap-2 relative overflow-hidden"
                 style={{
                   background: "linear-gradient(135deg, #fff 0%, #f0f0f0 100%)",
-                  boxShadow: "0 0 24px rgba(255,255,255,0.25), 0 4px 12px rgba(0,0,0,0.3)",
+                  boxShadow:
+                    "0 0 24px rgba(255,255,255,0.25), 0 4px 12px rgba(0,0,0,0.3)",
                 }}
               >
                 {/* Shimmer effect */}
                 <motion.div
                   className="absolute inset-0 opacity-30"
                   style={{
-                    background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)",
+                    background:
+                      "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)",
                   }}
                   animate={{ x: ["-100%", "200%"] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                 />
                 <span className="relative z-10">✨ Personalizar seções →</span>
               </motion.button>
@@ -545,9 +557,9 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
 
         <button
           onClick={onPular}
-          className="w-full py-2.5 rounded-xl border border-white/10 text-white/40 font-medium text-xs hover:text-white/60 hover:border-white/20 transition-colors"
+          className="w-full py-3 rounded-xl border border-white text-white font-medium text-sm hover:text-white hover:border-white/50 transition-colors"
         >
-          Pular — sem retrospectiva
+          → Continuar sem retrospectiva
         </button>
       </div>
 
@@ -574,17 +586,12 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             </button>
 
             {/* vídeo */}
-            <video
-              autoPlay
-              controls
-              className="w-full h-full"
-            >
+            <video autoPlay controls className="w-full h-full">
               <source src={videoUltimaSessao} type="video/mp4" />
             </video>
           </div>
         </div>
       )}
-      
     </div>
   );
 }
@@ -596,7 +603,7 @@ function HeartDecor() {
       {/* coração grande superior esquerdo */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute -top-2 -left-4 w-8 h-8 text-red-400 opacity-50"
+        className="absolute -top-2 -left-8 w-12 h-12 text-red-400 opacity-50"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />
@@ -604,7 +611,7 @@ function HeartDecor() {
       {/* coração médio superior direito */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute top-4 -right-5 w-6 h-6 text-red-500 opacity-35"
+        className="absolute top-4 -right-10 w-15 h-10 text-red-500 opacity-35"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />
@@ -612,7 +619,7 @@ function HeartDecor() {
       {/* coração pequeno meio esquerdo */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute top-1/2 -left-6 w-5 h-5 text-red-400 opacity-25"
+        className="absolute top-1/2 -left-8 w-10 h-10 text-red-400 opacity-25"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />
@@ -620,7 +627,7 @@ function HeartDecor() {
       {/* coração grande inferior direito */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute -bottom-3 -right-4 w-8 h-8 text-red-500 opacity-40"
+        className="absolute -bottom-3 -right-8 w-15 h-15 text-red-500 opacity-40"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />

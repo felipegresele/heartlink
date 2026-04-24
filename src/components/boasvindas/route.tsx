@@ -7,7 +7,7 @@ export function BoasVindas() {
   return (
     <div className="flex flex-col md:flex-row items-center justify-between min-h-screen px-8 md:px-20 text-white bg-black">
       <div className="max-w-lg">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">
+        <h1 className="text-5xl md:text-6xl mt-6 font-bold mb-4">
           Declare seu amor
         </h1>
         {/* <TextoAnimado /> */}

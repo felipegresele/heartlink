@@ -12,7 +12,6 @@ import { FaRandom } from "react-icons/fa";
 import { IoExtensionPuzzleSharp, IoEye } from "react-icons/io5";
 import { FaGift, FaTimeline } from "react-icons/fa6";
 import { RiMessage2Line } from "react-icons/ri";
-import FaqsRetrospectiva from "../../../faqs-retrospectiva";
 import { ModalContatoAjuda } from "../../../modal-contato/modal-contato";
 
 import videoLinhaTempo from "../../../../img/retrospectiva-sessao/video-linha-tempo.mp4";
@@ -22,7 +21,6 @@ import videoEnigma from "../../../../img/retrospectiva-sessao/video-enigma.mp4";
 import videoIntroducao from "../../../../img/retrospectiva-sessao/video-introducao.mp4";
 import videoUltimaSessao from "../../../../img/retrospectiva-sessao/video-ultima-tela.mp4";
 import { MemoriaInput } from "./retrospectiva/memoria-input";
-import { Tooltip } from "@mantine/core";
 
 interface Props {
   onContinuar: () => void;
@@ -306,7 +304,8 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
           />
         </div>
         <p className="text-white/65 text-sm leading-relaxed">
-          Navegue pelas seções e adicione as que quiser à sua página.
+          Veja uma prévia de cada sessão e selecione as desejadas para a retrospectiva da sua página.
+          
         </p>
       </div>
 

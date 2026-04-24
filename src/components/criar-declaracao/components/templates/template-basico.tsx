@@ -489,7 +489,7 @@ function CriadorDeclaracaoInner() {
                 <SlArrowLeft size={12} /> Voltar
               </button>
             </div>
-            <FaqsRetrospectiva />
+            {/* <FaqsRetrospectiva /> */}
           </>
         )}
 

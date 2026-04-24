@@ -56,7 +56,7 @@ export function FooterContent() {
         {/* Redes sociais */}
         <div className="flex flex-col text-sm gap-2">
           <a
-            href="https://instagram.com/seuPerfil"
+            href="https://instagram.com/heartcodegift"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-red-500 transition-colors"
@@ -64,7 +64,7 @@ export function FooterContent() {
             <SiInstagram /> Instagram
           </a>
           <a
-            href="https://tiktok.com/@seuPerfil"
+            href="https://tiktok.com/heartcodegift"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-red-500 transition-colors"

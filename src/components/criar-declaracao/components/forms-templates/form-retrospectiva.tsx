@@ -305,7 +305,6 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
         </div>
         <p className="text-white/65 text-sm leading-relaxed">
           Veja uma prévia de cada sessão e selecione as desejadas para a retrospectiva da sua página.
-          
         </p>
       </div>
 
@@ -315,7 +314,6 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
         <div className="relative flex-shrink-0 flex items-center justify-center">
           {/* Corações decorativos */}
           <HeartDecor />
-
           {/* Frame do celular */}
           <div
             className="relative w-[200px] h-[380px] rounded-[28px] overflow-hidden flex-shrink-0"

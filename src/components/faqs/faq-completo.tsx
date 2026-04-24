@@ -488,7 +488,7 @@ export function FaqCompleto() {
 
           <Button
             component="a"
-            href="https://instagram.com/heartcode"
+            href="https://instagram.com/heartcodegift"
             target="_blank"
             rel="noopener noreferrer"
             style={{

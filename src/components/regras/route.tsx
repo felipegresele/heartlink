@@ -49,7 +49,7 @@ export function TermosDeUso() {
         {
             title: "10. Contato",
             description:
-                "Se tiver dúvidas sobre estes Termos de Uso, entre em contato conosco pelo Instagram: @HeartCode_"
+                "Se tiver dúvidas sobre estes Termos de Uso, entre em contato conosco pelo Instagram: @heartcodegift"
         }
     ];
 
@@ -108,7 +108,7 @@ export function Privacidade() {
     {
       title: "7. Seus Direitos",
       description:
-        "Você pode acessar, corrigir ou excluir suas informações pessoais a qualquer momento. Para isso, entre em contato conosco pelo Instagram: @heartcode_"
+        "Você pode acessar, corrigir ou excluir suas informações pessoais a qualquer momento. Para isso, entre em contato conosco pelo Instagram: @heartcodegift"
     },
     {
       title: "8. Alterações nesta Política",
@@ -118,7 +118,7 @@ export function Privacidade() {
     {
       title: "9. Contato",
       description:
-        "Se tiver dúvidas sobre esta Política de Privacidade, entre em contato pelo Instagram: @heartcode_"
+        "Se tiver dúvidas sobre esta Política de Privacidade, entre em contato pelo Instagram: @heartcodegift"
     }
   ];
 

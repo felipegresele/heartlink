@@ -89,7 +89,7 @@ const perguntas = [
         id: 9,
         value: "Como posso entrar em contato com o suporte ao cliente?",
         description:
-            "Você pode entrar em contato com o suporte ao cliente pelo nosso Instagram: @heartcode_",
+            "Você pode entrar em contato com o suporte ao cliente pelo nosso Instagram: @heartcodegift",
     },
 ];
 

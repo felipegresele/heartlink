@@ -45,7 +45,7 @@ export function ModalContatoAjuda({
 
         <p className="bg-red-500/15 h-13 p-2 rounded-md mt-3 text-sm text-center">
           Respondemos em <span className="font-bold">10 minutos</span> no
-          Instagram: <span className="font-bold">@heartcode_</span>
+          Instagram: <span className="font-bold">@heartcodegift</span>
         </p>
       </div>
     </div>

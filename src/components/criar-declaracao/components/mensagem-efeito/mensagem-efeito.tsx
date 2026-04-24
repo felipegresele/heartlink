@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import imgLogo from "../../../../img/logo.png";
+import imgLogo from "../../../../img/mascote-fotos/escrevendo.png";
 
 interface Props {
   onPular?: () => void;
@@ -30,7 +30,7 @@ export function MensagemComEfeitoEscritaRetrospectiva({ onPular, onVerMais, esco
       <div className="flex items-start gap-5 py-4">
         <img
           src={imgLogo}
-          className="w-20 h-20 rounded-full flex-shrink-0 border-2 border-pink-500/40"
+          className="w-25 h-22 rounded-full object-cover flex-shrink-0 border-2 border-pink-500/40"
         />
         <div className="relative bg-white/5 border border-white/10 text-white px-6 py-5 rounded-2xl rounded-tl-sm shadow-lg flex-1">
           <div className="absolute -left-2 top-5 w-3 h-3 bg-white/5 border-l border-b border-white/10 rotate-45" />

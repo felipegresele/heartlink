@@ -8,7 +8,7 @@ export default function ContentEscolherMusica({
 }: EscolherMusicaProps) {
   const [query, setQuery] = useState("");
   const [videos, setVideos] = useState<Video[]>([]);
-  const [videoSelecionado, setVideoSelecionado] = useState<string | null>(null);
+  const [musicaSelecionadaId, setMusicaSelecionadaId] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
 
   const buscarMusicas = async () => {
@@ -41,7 +41,6 @@ export default function ContentEscolherMusica({
 
   return (
     <div className="space-y-5">
-      {/* 🔎 Campo de busca */}
       <div className="flex gap-2">
         <input
           className="flex-1 p-3 bg-gray-800 rounded-lg text-white outline-none focus:ring-2 focus:ring-red-500"
@@ -58,40 +57,24 @@ export default function ContentEscolherMusica({
         </button>
       </div>
 
-      {/* 🎥 Player */}
-      {videoSelecionado && (
-        <div className="w-full aspect-video rounded-lg overflow-hidden shadow-lg">
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${videoSelecionado}?autoplay=1`}
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-          />
-        </div>
-      )}
-
-      {/* ⏳ Loading */}
       {carregando && (
         <p className="text-gray-400 text-sm">Carregando músicas...</p>
       )}
 
-      {/* 🎵 Lista de músicas */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
         {videos.map((video) => (
           <div
             key={video.id}
             onClick={() => {
-              setVideoSelecionado(video.id);
+              setMusicaSelecionadaId(video.id);
               onMusicSelect(video);
             }}
             className={`cursor-pointer flex gap-2 p-2 rounded-lg border transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
-              videoSelecionado === video.id
+              musicaSelecionadaId === video.id
                 ? "border-red-500 bg-red-500/10 shadow-md shadow-red-500/20"
                 : "border-transparent hover:border-gray-600 hover:bg-gray-800/60"
             }`}
           >
-            {/* Thumbnail */}
             <div className="relative">
               <img
                 src={video.thumbnail}
@@ -99,8 +82,6 @@ export default function ContentEscolherMusica({
                 className="w-20 h-14 object-cover rounded-md"
                 loading="lazy"
               />
-
-              {/* ▶️ Play overlay */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition">
                 <div className="bg-black/60 rounded-full p-1">
                   <svg
@@ -115,7 +96,6 @@ export default function ContentEscolherMusica({
               </div>
             </div>
 
-            {/* Info */}
             <div className="flex-1">
               <p className="text-sm font-medium line-clamp-2 leading-tight">
                 {video.title}
@@ -128,7 +108,6 @@ export default function ContentEscolherMusica({
         ))}
       </div>
 
-      {/* ❌ Nenhum resultado */}
       {!carregando && videos.length === 0 && (
         <p className="text-gray-500 text-sm text-center">
           Busque por uma música para começar 🎵

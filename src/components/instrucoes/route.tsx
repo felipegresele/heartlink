@@ -21,9 +21,9 @@ export function RegrasComoFunciona() {
   ];
 
   return (
-    <div className="text-center py-12 bg-black text-white">
+    <div className="text-center py-12 bg-white text-black">
       <h1 className="text-3xl md:text-4xl font-bold mb-4">Como funciona?</h1>
-      <p className="max-w-2xl mx-auto text-gray-300 mb-12">
+      <p className="max-w-2xl mx-auto text-black mb-12">
         Crie momentos únicos e eternize suas memórias especiais com nossa
         plataforma. Em apenas três passos simples, você pode criar uma
         experiência personalizada e romântica para surpreender seu amor.
@@ -36,15 +36,15 @@ export function RegrasComoFunciona() {
         {regras.map((item) => (
           <div key={item.id} className="flex-1 text-center px-4">
             {/* bolinha com número */}
-            <div className="relative z-10 flex items-center justify-center w-12 h-12 mx-auto rounded-full border-2 border-red-500 bg-black text-red-500 shadow-lg">
+            <div className="relative z-10 flex items-center justify-center w-12 h-12 mx-auto rounded-full border-2 border-pink-500 bg-black text-pink-500 shadow-lg">
               <span className="font-bold text-lg">{item.id}</span>
             </div>
 
             {/* título e descrição */}
-            <h3 className="mt-6 font-semibold text-lg text-white">
+            <h3 className="mt-6 font-semibold text-lg text-black">
               {item.title}
             </h3>
-            <p className="mt-2 text-gray-400 text-sm">{item.description}</p>
+            <p className="mt-2 text-black text-sm">{item.description}</p>
           </div>
         ))}
       </div>

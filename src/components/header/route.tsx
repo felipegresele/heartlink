@@ -53,11 +53,11 @@ export function Header() {
   };
 
   return (
-    <header className="bg-black sticky top-0 z-[999] border-b border-white/10 p-8 flex justify-between items-center h-[72px]">
+    <header className="bg-white sticky top-0 z-[999] border-b border-black p-8 flex justify-between items-center h-[72px]">
       <div className="flex items-center gap-2 z-[1001]">
         <Link
           to="/"
-          className="text-white text-2xl font-black tracking-tighter"
+          className="text-black text-2xl font-black tracking-tighter"
         >
           <img src={imgLogo} className="max-w-50" />
         </Link>
@@ -68,7 +68,7 @@ export function Header() {
           <Link
             key={item}
             to={item === "Início" ? "/" : `/${item.toLowerCase()}`}
-            className="text-gray-300 hover:text-white transition-colors text-xl"
+            className="text-black hover:text-white transition-colors text-xl"
           >
             {item === "Help" ? "F.A.Q" : item}
           </Link>
@@ -78,11 +78,11 @@ export function Header() {
       <div className="hidden md:flex items-center gap-4">
         {usuario ? (
           <div className="relative group">
-            <button className="flex items-center gap-3 bg-white/10 py-2 px-4 rounded-full border border-white/10 text-white">
-              <div className="w-6 h-6 bg-red-600 cursor-pointer rounded-full flex items-center justify-center text-[10px] font-bold">
+            <button className="flex items-center gap-3 bg-gray-100 py-2 px-4 rounded-full border border-white/10 text-white">
+              <div className="w-6 h-6 bg-pink-500 cursor-pointer rounded-full flex items-center justify-center text-[10px] font-bold">
                 {usuario.nome?.charAt(0).toUpperCase()}
               </div>
-              <span className="text-sm font-bold">{usuario.nome}</span>
+              <span className="text-sm font-bold text-black">{usuario.nome}</span>
               <SlArrowDown
                 size={10}
                 className="group-hover:rotate-180 transition-transform"
@@ -90,9 +90,9 @@ export function Header() {
             </button>
 
             {/* Dropdown - z-50 aqui para garantir que apareça sobre o conteúdo */}
-            <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-white/10 rounded-xl shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[1002]">
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-black rounded-xl shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[1002]">
               <button
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors cursor-pointer"
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-black hover:bg-white/5 hover:text-black transition-colors cursor-pointer"
                 onClick={() => {
                   navigate("/perfil");
                 }}
@@ -101,7 +101,7 @@ export function Header() {
               </button>
               <button
                 onClick={deslogar}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-pink-400 hover:bg-pink-500/10 transition-colors cursor-pointer"
               >
                 <FiLogOut /> Sair
               </button>

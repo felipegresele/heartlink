@@ -164,15 +164,15 @@ function RecursoCardItem({ recurso, index }: { recurso: RecursoCard; index: numb
         className="w-10 h-10 rounded-xl flex items-center justify-center"
         style={{
           background: "rgba(239,68,68,0.1)",
-          color: "#ef4444",
+          color: "#d98ed9",
         }}
       >
         {recurso.icon}
       </div>
 
       <div>
-        <h3 className="font-bold text-white text-base mb-1">{recurso.titulo}</h3>
-        <p className="text-white/50 text-sm leading-relaxed">{recurso.descricao}</p>
+        <h3 className="font-bold text-black text-base mb-1">{recurso.titulo}</h3>
+        <p className="text-black text-sm leading-relaxed">{recurso.descricao}</p>
       </div>
 
       <div className="flex-1 flex items-end min-h-[150px]">
@@ -184,7 +184,7 @@ function RecursoCardItem({ recurso, index }: { recurso: RecursoCard; index: numb
 
 export function RecursosCardContainer() {
   return (
-    <section className="w-full py-20 px-4 bg-black">
+    <section className="w-full py-20 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -197,17 +197,17 @@ export function RecursosCardContainer() {
             style={{
               background: "rgba(239,68,68,0.1)",
               border: "1px solid rgba(239,68,68,0.25)",
-              color: "#ef4444",
+              color: "#d98ed9",
             }}
           >
             ✦ RECURSOS
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-black leading-tight mb-4">
             Crie um presente{" "}
-            <span className="text-red-500">memorável</span>{" "}
+            <span className="text-pink-400">memorável</span>{" "}
             e único
           </h2>
-          <p className="text-white/50 text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-black text-lg max-w-xl mx-auto leading-relaxed">
             Nossa plataforma oferece tudo para criar uma experiência digital personalizada que vai
             emocionar quem você ama.
           </p>

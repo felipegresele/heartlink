@@ -5,7 +5,7 @@ import { AvaliacoesDeslizando } from "../avaliacoes/card-avaliacoes";
 
 export function BoasVindas() {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between min-h-screen px-8 md:px-20 text-white bg-black">
+    <div className="flex flex-col md:flex-row items-center justify-between min-h-screen px-8 md:px-20 text-black bg-white">
       <div className="max-w-lg">
         <h1 className="text-5xl md:text-6xl mt-6 font-bold mb-4">
           Declare seu amor
@@ -18,7 +18,7 @@ export function BoasVindas() {
 
         <Link
           to="/criar"
-          className="flex gap-2 cursor-pointer bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 max-w-100 h-15 justify-start items-center"
+          className="flex gap-2 cursor-pointer bg-pink-400 hover:bg-pink-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 max-w-100 h-15 justify-start items-center"
         >
           <FaHeartCircleExclamation size={20} /> Criar minha página
         </Link>
@@ -28,7 +28,7 @@ export function BoasVindas() {
         </div>
       </div>
       {/* Imagem do celular */}
-      <div className="w-full md:w-1/2 flex justify-center md:justify-start mt-10 md:mt-0">
+      <div className="w-full md:w-1/2 flex justify-center md:justify-start mt-10 md:mt-0e">
         <img
           src={imgCelular}
           alt="Exemplo de página"

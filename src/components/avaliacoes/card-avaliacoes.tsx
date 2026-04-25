@@ -26,7 +26,7 @@ export function AvaliacoesDeslizando() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % avaliacoes.length);
-    }, 3000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -63,7 +63,7 @@ export function AvaliacoesDeslizando() {
               </span>
             </div>
 
-            <p className="text-white/80 text-xs">
+            <p className="text-black text-xs">
               {item.descricao}
             </p>
           </div>

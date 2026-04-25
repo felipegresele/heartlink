@@ -220,7 +220,7 @@ export function DemoBanner({ onAbrirDemo }: Props) {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center text-center flex-1 gap-5"
           >
-            <h2 className="text-white font-extrabold text-3xl md:text-4xl leading-tight">
+            <h2 className="text-black font-extrabold text-3xl md:text-4xl leading-tight">
               Teste Nossa
               <br />
               <span className="text-pink-200">Demo Interativa</span>

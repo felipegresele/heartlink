@@ -49,7 +49,7 @@ function App() {
                 <RegrasComoFunciona />
                 <EscolhaTema />
                 <RecursosCardContainer />
-                <div className="px-4 md:px-8 py-4 bg-black">
+                <div className="px-4 md:px-8 py-4 bg-white">
                   <DemoBanner
                     onAbrirDemo={() =>
                       window.open(

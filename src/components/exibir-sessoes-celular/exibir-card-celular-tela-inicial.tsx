@@ -245,12 +245,12 @@ export default function ExibirCardCelularesTelaInicial() {
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           cursor: pointer;
-          color: #E8253A;
+          color: #e687cd;;
           font-size: 14px;
           transition: background 0.2s, border-color 0.2s;
           user-select: none;
         }
-        .arrow-btn:hover { background: rgba(232,37,58,0.15); border-color: #E8253A; }
+        .arrow-btn:hover { background: rgba(232,37,58,0.15); border-color: #d297dd; }
         .arrow-btn.left  { left: -8px; }
         .arrow-btn.right { right: -8px; }
 
@@ -265,10 +265,10 @@ export default function ExibirCardCelularesTelaInicial() {
         .icon-circle {
           width: 52px; height: 52px;
           background: rgba(232,37,58,0.12);
-          border: 1.5px solid rgba(232,37,58,0.35);
+          border: 1.5px solid #e687cd;;
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
-          color: #E8253A;
+          color: #e687cd;
         }
 
         .info-title {
@@ -279,7 +279,7 @@ export default function ExibirCardCelularesTelaInicial() {
           line-height: 1.1;
         }
         .info-title span {
-          color: #E8253A;
+          color: #e687cd;;
         }
 
         .info-desc {
@@ -301,7 +301,7 @@ export default function ExibirCardCelularesTelaInicial() {
           font-weight: 600;
           padding: 6px 14px;
           border-radius: 20px;
-          border: 1px solid rgba(232,37,58,0.25);
+          border: 1px solid #e687cd;;
           background: transparent;
           color: #9A8A8D;
           cursor: pointer;
@@ -309,13 +309,13 @@ export default function ExibirCardCelularesTelaInicial() {
           white-space: nowrap;
         }
         .tab-btn:hover {
-          border-color: #E8253A;
-          color: #E8253A;
+          border-color: #e687cd;;
+          color: #e687cd;;
           background: rgba(232,37,58,0.08);
         }
         .tab-btn.active {
-          border-color: #E8253A;
-          background: #E8253A;
+          border-color: #e687cd;;
+          background: #e687cd;;
           color: #fff;
         }
 
@@ -324,7 +324,7 @@ export default function ExibirCardCelularesTelaInicial() {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background: #E8253A;
+          background: #e687cd;;
           color: #fff;
           border: none;
           border-radius: 14px;
@@ -337,7 +337,7 @@ export default function ExibirCardCelularesTelaInicial() {
           transition: background 0.2s, transform 0.1s;
           letter-spacing: 0.01em;
         }
-        .cta-btn:hover  { background: #C41E31; transform: scale(1.02); }
+        .cta-btn:hover  { background: rgb(212, 105, 199);; transform: scale(1.02); }
         .cta-btn:active { transform: scale(0.97); }
         .cta-arrow {
           width: 22px; height: 22px;
@@ -399,7 +399,7 @@ export default function ExibirCardCelularesTelaInicial() {
               i === arr.length - 1 ? (
                 <span key={i}>{word}</span>
               ) : (
-                <span key={i} style={{ color: "#F5F0F1" }}>{word} </span>
+                <span key={i} style={{ color: "#000000" }}>{word} </span>
               )
             )}
           </h2>

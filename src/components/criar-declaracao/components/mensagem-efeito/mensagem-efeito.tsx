@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import imgLogo from "../../../../img/mascote-fotos/escrevendo.png";
+import imgLogo from "../../../../img/mascote-fotos/escrevendo-removebg.png";
 
 interface Props {
   onPular?: () => void;

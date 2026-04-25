@@ -14,10 +14,8 @@ export function ModalContatoAjuda({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Fundo escuro */}
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
 
-      {/* Modal */}
       <div className="relative bg-zinc-900 text-white w-[90%] max-w-md rounded-2xl p-4 shadow-xl">
         <div className="flex gap-3 justify-between">
           <div className="flex items-center">

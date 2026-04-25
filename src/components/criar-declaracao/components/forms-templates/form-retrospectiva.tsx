@@ -300,7 +300,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
           {/* Botão de contato */}
           <RiMessage2Line
             onClick={() => setModalContatoAberto(true)}
-            className="cursor-pointer bg-red-600 rounded-md w-5 h-5"
+            className="cursor-pointer bg-red-600 rounded-md w-8 h-6"
           />
         </div>
         <p className="text-white/65 text-sm leading-relaxed">

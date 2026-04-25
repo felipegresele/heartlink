@@ -21,6 +21,7 @@ import { Sobre } from "./components/sobre";
 import { FaqCompleto } from "./components/faqs/faq-completo";
 import { DemoBanner } from "./components/criar-declaracao/components/demo-banner/demo-banner";
 import { RecursosCardContainer } from "./components/criar-declaracao/components/resumo-container/resumo-container";
+import ExibirCardCelularesTelaInicial from "./components/exibir-sessoes-celular/exibir-card-celular-tela-inicial";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

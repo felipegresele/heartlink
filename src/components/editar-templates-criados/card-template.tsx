@@ -121,7 +121,7 @@ export function TemplateCard({
               💳 Pagar agora
             </button>
           ) : (
-            <a>
+            <a
               href={previewUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -138,9 +138,7 @@ export function TemplateCard({
           {onDelete && (
             <button
               onClick={() => onDelete(page.id)}
-              className="p-2 bg-gray-100 hover:bg-red-50 border border-gray-200
-                         hover:border-red-200 rounded-xl text-gray-300
-                         hover:text-red-400 transition-colors"
+              className="p-2 bg-gray-100 hover:bg-red-50 border border-gray-200 hover:border-red-200 rounded-xl text-gray-300 hover:text-red-400 transition-colors"
               title="Excluir template"
             >
               <FiTrash2 size={13} />

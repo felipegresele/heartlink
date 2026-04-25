@@ -2,7 +2,7 @@ import img from "../../../../../img/bg-retrospectiva.png";
 
 export function RetrospectiveBtn({ isVisible }: { isVisible: () => void }) {
   return (
-    <div className="flex flex-col justify-center items-center mt-4 h-150">
+    <div className="flex bg-gray-900 flex-col justify-center items-center mt-4 h-150">
       
       <div className="flex justify-center items-center text-center">
         <img

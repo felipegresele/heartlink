@@ -158,7 +158,7 @@ export default function PreviewCarrossel({
   };
 
   return (
-    <div className="border border-gray-400 rounded-md">
+    <div className="bg-gray-900 border border-gray-400 rounded-md">
  <div className="bg-gray-900 p-8 rounded-xl text-center flex flex-col items-center relative overflow-hidden min-h-[700px] border border-white/5 shadow-2xl transition-all duration-500">
       {/* <BackgroundEffects effect={efeitoFundo} /> */}
       <div className="relative z-10 flex flex-col items-center w-full">

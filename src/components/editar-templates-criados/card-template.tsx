@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { HiSparkles } from "react-icons/hi2";
 import type { LovePage } from "../../schema/schemas";
 import { EditTemplateForm } from "./form-editar-template";
 import { FiEdit2, FiExternalLink, FiTrash2 } from "react-icons/fi";
 import { ModalPagamentoPendente } from "./modal-pagamento.-pendente";
+import { useState } from "react";
 
 interface TemplateCardProps {
   page: LovePage;
@@ -13,9 +13,9 @@ interface TemplateCardProps {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  PAID: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
-  PENDING: "bg-amber-500/15 text-amber-400 border-amber-500/20",
-  DEFAULT: "bg-white/5 text-white/40 border-white/10",
+  PAID: "bg-emerald-50 text-emerald-600 border-emerald-200",
+  PENDING: "bg-amber-50 text-amber-500 border-amber-200",
+  DEFAULT: "bg-gray-100 text-gray-400 border-gray-200",
 };
 
 const STATUS_LABEL: Record<string, string> = {
@@ -44,12 +44,12 @@ export function TemplateCard({
   return (
     <div
       className={`
-        bg-white/[0.03] border rounded-2xl p-5 flex flex-col gap-4
+        bg-white border rounded-2xl p-5 flex flex-col gap-4
         transition-all duration-300
         ${
           isEditing
-            ? "border-pink-500/30 shadow-lg shadow-pink-900/10"
-            : "border-white/10 hover:border-white/20"
+            ? "border-[#e687cd]/40 shadow-lg shadow-pink-100"
+            : "border-gray-200 hover:border-gray-300"
         }
       `}
     >
@@ -57,11 +57,11 @@ export function TemplateCard({
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-white font-semibold text-sm truncate">
+            <h3 className="text-gray-800 font-semibold text-sm truncate">
               Nome História: {page.receiverName ?? "—"}
             </h3>
           </div>
-          <p className="text-white/40 text-xs truncate">
+          <p className="text-gray-500 text-xs truncate">
             De: {page.senderName ?? "—"}
           </p>
         </div>
@@ -86,7 +86,7 @@ export function TemplateCard({
         )}
       </div>
 
-      <div className="h-px bg-white/5" />
+      <div className="h-px bg-gray-100" />
 
       {/* Formulário de edição (renderização condicional) */}
       {isEditing ? (
@@ -102,8 +102,8 @@ export function TemplateCard({
           <button
             onClick={() => setIsEditing(true)}
             className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2
-                       bg-white/5 hover:bg-white/10 border border-white/10
-                       rounded-xl text-white/70 hover:text-white text-xs font-medium
+                       bg-gray-100 hover:bg-gray-200 border border-gray-300
+                       rounded-xl text-gray-500 hover:text-gray-700 text-xs font-medium
                        transition-colors cursor-pointer"
           >
             <FiEdit2 size={13} />
@@ -114,20 +114,20 @@ export function TemplateCard({
             <button
               onClick={() => setOpenModal(true)}
               className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2
-               bg-amber-600/10 hover:bg-amber-600/20 border border-amber-500/20
-               rounded-xl text-amber-400 hover:text-amber-300 text-xs font-medium
+               bg-amber-50 hover:bg-amber-100 border border-amber-200
+               rounded-xl text-amber-500 hover:text-amber-600 text-xs font-medium
                transition-colors cursor-pointer"
             >
               💳 Pagar agora
             </button>
           ) : (
-            <a
+            <a>
               href={previewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2
-               bg-pink-600/10 hover:bg-pink-600/20 border border-pink-500/20
-               rounded-xl text-pink-400 hover:text-pink-300 text-xs font-medium
+               bg-pink-50 hover:bg-pink-100 border border-pink-200
+               rounded-xl text-[#e687cd] hover:text-pink-400 text-xs font-medium
                transition-colors"
             >
               <FiExternalLink size={13} />
@@ -138,8 +138,8 @@ export function TemplateCard({
           {onDelete && (
             <button
               onClick={() => onDelete(page.id)}
-              className="p-2 bg-white/5 hover:bg-red-500/10 border border-white/10
-                         hover:border-red-500/20 rounded-xl text-white/30
+              className="p-2 bg-gray-100 hover:bg-red-50 border border-gray-200
+                         hover:border-red-200 rounded-xl text-gray-300
                          hover:text-red-400 transition-colors"
               title="Excluir template"
             >
@@ -161,8 +161,7 @@ export function TemplateCard({
 function Chip({ children }: { children: React.ReactNode }) {
   return (
     <span
-      className="text-[11px] text-white/50 bg-white/5 border border-white/10
-                     px-2.5 py-0.5 rounded-full"
+      className="text-[11px] text-gray-500 bg-gray-100 border border-gray-200 px-2.5 py-0.5 rounded-full"
     >
       {children}
     </span>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import imgLogo from "../../../../img/mascote-fotos/escrevendo.png";
-import imgTriste from "../../../../img/mascote-fotos/escrevendo.png";
+import imgLogo from "../../../../img/mascote-fotos/cara-apaixonado.png";
+import imgTriste from "../../../../img/mascote-fotos/cara-apaixonado.png";
 
 interface Props {
   onPular?: () => void;

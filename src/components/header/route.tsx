@@ -53,7 +53,7 @@ export function Header() {
   };
 
   return (
-    <header className="bg-white sticky top-0 z-[999] border-b border-black p-8 flex justify-between items-center h-[72px]">
+    <header className="bg-white sticky top-0 z-[999] border-b border-pink-400 p-8 flex justify-between items-center h-[72px]">
       <div className="flex items-center gap-2 z-[1001]">
         <Link
           to="/"

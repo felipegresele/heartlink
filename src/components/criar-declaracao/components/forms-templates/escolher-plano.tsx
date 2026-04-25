@@ -66,14 +66,14 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
           <div
             key={idx}
             onClick={() => setSelectedPlan(plano.planType)}
-            className={`p-4 rounded-xl border flex flex-col gap-3 cursor-pointer transition-all 
+            className={`p-4 rounded-xl border-2 flex flex-col gap-3 cursor-pointer transition-all bg-white shadow-sm
               ${
                 selectedPlan === plano.planType
-                  ? "ring-2 ring-[#e687cd]"
+                  ? "ring-2 ring-[#e687cd] border-[#e687cd]"
                   : plano.recomendado
                   ? "border-[#e687cd]"
-                  : "border-gray-700"
-              } bg-black`}
+                  : "border-gray-200"
+              }`}
           >
             {plano.recomendado && (
               <span className="bg-[#e687cd] text-white px-2 py-0.5 rounded-full text-xs w-max">
@@ -90,17 +90,17 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
                   key={i}
                   className={`flex items-center gap-1 ${
                     recurso.destaque ? "font-semibold" : ""
-                  } ${recurso.ativo ? "text-white" : "text-gray-600 line-through"}`}
+                  } ${recurso.ativo ? "text-gray-800" : "text-gray-300 line-through"}`}
                 >
-                  {recurso.ativo ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
+                  {recurso.ativo ? <FaCheck className="text-green-500 shrink-0" /> : <FaTimes className="text-red-400 shrink-0" />}
                   {recurso.text}
                 </li>
               ))}
             </ul>
 
             <div className="mt-2 text-sm">
-              <span className="text-gray-500 line-through">{plano.precoAntigo}</span>
-              <h3 className="text-xl md:text-2xl font-bold text-white">
+              <span className="text-gray-400 line-through">{plano.precoAntigo}</span>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800">
                 {plano.precoAtual}{" "}
                 <span className="text-gray-400 text-xs md:text-sm">/{plano.periodo}</span>
               </h3>
@@ -108,7 +108,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
 
             <button
               onClick={() => setSelectedPlan(plano.planType)}
-              className="mt-2 bg-[#e687cd] hover:bg-pink-400 text-white py-1.5 rounded-lg font-semibold text-sm cursor-pointer"
+              className="mt-2 bg-[#e687cd] hover:bg-pink-400 text-white py-1.5 rounded-lg font-semibold text-sm cursor-pointer transition-colors"
             >
               Quero esse
             </button>

@@ -89,14 +89,14 @@ function MusicSection({ musicaAtual, onSelect }: MusicSectionProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold text-white/50 uppercase tracking-widest flex items-center gap-1.5">
+        <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest flex items-center gap-1.5">
           <FiMusic size={12} />
           Música de fundo
         </label>
         <button
           type="button"
           onClick={() => setBuscaAberta((v) => !v)}
-          className="text-xs text-pink-400 hover:text-pink-300 underline transition-colors"
+          className="text-xs text-[#e687cd] hover:text-pink-400 underline transition-colors"
         >
           {buscaAberta ? "Fechar busca" : "Trocar música"}
         </button>
@@ -104,7 +104,7 @@ function MusicSection({ musicaAtual, onSelect }: MusicSectionProps) {
 
       {/* Música atual */}
       {selecionado && !buscaAberta && (
-        <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+        <div className="flex items-center gap-3 bg-gray-100 border border-gray-300 rounded-xl px-4 py-3">
           {selecionado.thumbnail && (
             <img
               src={selecionado.thumbnail}
@@ -113,18 +113,18 @@ function MusicSection({ musicaAtual, onSelect }: MusicSectionProps) {
             />
           )}
           <div className="flex-1 min-w-0">
-            <p className="text-white text-sm font-medium truncate">{selecionado.title}</p>
+            <p className="text-black text-sm font-medium truncate">{selecionado.title}</p>
             {selecionado.channelTitle && (
-              <p className="text-white/40 text-xs truncate">{selecionado.channelTitle}</p>
+              <p className="text-gray-500 text-xs truncate">{selecionado.channelTitle}</p>
             )}
           </div>
-          <FiCheck className="text-emerald-400 shrink-0" size={16} />
+          <FiCheck className="text-emerald-500 shrink-0" size={16} />
         </div>
       )}
 
       {/* Busca aberta */}
       {buscaAberta && (
-        <div className="space-y-3 bg-white/[0.02] border border-white/10 rounded-xl p-4">
+        <div className="space-y-3 bg-gray-50 border border-gray-300 rounded-xl p-4">
           <div className="flex gap-2">
             <input
               type="text"
@@ -132,15 +132,15 @@ function MusicSection({ musicaAtual, onSelect }: MusicSectionProps) {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && buscar()}
               placeholder="Buscar música no YouTube..."
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5
-                         text-white text-sm placeholder-white/20
-                         focus:outline-none focus:border-pink-500/60 transition-colors"
+              className="flex-1 bg-gray-100 border border-gray-300 rounded-xl px-4 py-2.5
+                         text-black text-sm placeholder-gray-400
+                         focus:outline-none focus:border-[#e687cd] transition-colors"
             />
             <button
               type="button"
               onClick={buscar}
               disabled={carregando}
-              className="flex items-center gap-1.5 bg-red-600 hover:bg-red-500 disabled:opacity-50
+              className="flex items-center gap-1.5 bg-[#e687cd] hover:bg-pink-400 disabled:opacity-50
                          px-4 py-2.5 rounded-xl text-white text-sm font-medium transition-colors"
             >
               <FiSearch size={14} />
@@ -171,8 +171,8 @@ function MusicSection({ musicaAtual, onSelect }: MusicSectionProps) {
                   onClick={() => handleSelect(video)}
                   className={`text-left rounded-xl overflow-hidden border-2 transition-all ${
                     selecionado?.id === video.id
-                      ? "border-red-500"
-                      : "border-transparent hover:border-white/20"
+                      ? "border-[#e687cd]"
+                      : "border-transparent hover:border-gray-300"
                   }`}
                 >
                   <img
@@ -180,9 +180,9 @@ function MusicSection({ musicaAtual, onSelect }: MusicSectionProps) {
                     alt={video.title}
                     className="w-full object-cover"
                   />
-                  <div className="p-2 bg-white/5">
-                    <p className="text-xs font-medium text-white line-clamp-2">{video.title}</p>
-                    <p className="text-[10px] text-white/40 mt-0.5">{video.channelTitle}</p>
+                  <div className="p-2 bg-gray-100">
+                    <p className="text-xs font-medium text-black line-clamp-2">{video.title}</p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">{video.channelTitle}</p>
                   </div>
                 </button>
               ))}
@@ -245,7 +245,6 @@ function FotosSection({ fotos, onChange }: FotosSectionProps) {
 
     onChange([...fotos, ...novas]);
     setUploading(false);
-    // Limpa o input para permitir reenviar o mesmo arquivo
     e.target.value = "";
   };
 
@@ -255,7 +254,7 @@ function FotosSection({ fotos, onChange }: FotosSectionProps) {
 
   return (
     <div className="space-y-3">
-      <label className="text-xs font-semibold text-white/50 uppercase tracking-widest flex items-center gap-1.5">
+      <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest flex items-center gap-1.5">
         <FiImage size={12} />
         Fotos ({fotos.length}/3)
       </label>
@@ -268,12 +267,12 @@ function FotosSection({ fotos, onChange }: FotosSectionProps) {
               <img
                 src={url}
                 alt={`Foto ${i + 1}`}
-                className="w-20 h-20 object-cover rounded-xl border border-white/10"
+                className="w-20 h-20 object-cover rounded-xl border border-gray-300"
               />
               <button
                 type="button"
                 onClick={() => remover(i)}
-                className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-600 hover:bg-red-500
+                className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 hover:bg-red-400
                            text-white rounded-full text-xs flex items-center justify-center
                            opacity-0 group-hover:opacity-100 transition-opacity"
               >
@@ -287,8 +286,8 @@ function FotosSection({ fotos, onChange }: FotosSectionProps) {
       {/* Upload */}
       {fotos.length < 3 && (
         <label
-          className={`flex items-center justify-center gap-2 border-2 border-dashed border-white/15
-                      hover:border-white/30 rounded-xl py-4 cursor-pointer transition-colors
+          className={`flex items-center justify-center gap-2 border-2 border-dashed border-gray-300
+                      hover:border-gray-400 rounded-xl py-4 cursor-pointer transition-colors
                       ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <input
@@ -299,8 +298,8 @@ function FotosSection({ fotos, onChange }: FotosSectionProps) {
             disabled={uploading}
             className="sr-only"
           />
-          <FiImage className="text-white/30" size={16} />
-          <span className="text-white/40 text-sm">
+          <FiImage className="text-gray-400" size={16} />
+          <span className="text-gray-500 text-sm">
             {uploading ? "Enviando..." : "Adicionar foto"}
           </span>
         </label>
@@ -327,7 +326,7 @@ function RetrospectivaEditor() {
 
   if (data.secoesSelecionadas.length === 0) {
     return (
-      <p className="text-white/30 text-sm text-center py-4">
+      <p className="text-gray-400 text-sm text-center py-4">
         Esta retrospectiva não possui seções configuradas.
       </p>
     );
@@ -344,8 +343,8 @@ function RetrospectivaEditor() {
             onClick={() => setSecaoAtiva(secao)}
             className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-all ${
               secaoAtiva === secao
-                ? "bg-pink-600/30 border-pink-500/40 text-pink-300"
-                : "bg-white/5 border-white/10 text-white/50 hover:text-white/70"
+                ? "bg-pink-50 border-[#e687cd]/40 text-[#e687cd]"
+                : "bg-gray-100 border-gray-200 text-gray-500 hover:text-gray-700"
             }`}
           >
             {SECAO_LABELS[secao] ?? secao}
@@ -354,7 +353,7 @@ function RetrospectivaEditor() {
       </div>
 
       {/* Conteúdo da seção ativa */}
-      <div className="bg-white/[0.02] border border-white/10 rounded-xl p-4">
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
         {secaoAtiva === "timeline" && <TimelineSection />}
         {secaoAtiva === "wheel" && <WheelSection />}
         {secaoAtiva === "gallery" && <GallerySection />}
@@ -420,7 +419,6 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
 
     if (temRetro) {
       const retroAtual = getData();
-      // Converte RetrospectiveData → formato backend
       (payload as any).retrospectiva = {
         selectedSections: retroAtual.secoesSelecionadas,
         efeitoTime: retroAtual.efeitoTime,
@@ -446,7 +444,7 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Navegação por abas */}
-      <div className="flex gap-1 bg-white/5 rounded-xl p-1">
+      <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
         {abas.map(({ id, label }) => (
           <button
             key={id}
@@ -454,8 +452,8 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
             onClick={() => setAba(id)}
             className={`flex-1 text-xs font-medium py-2 rounded-lg transition-all ${
               aba === id
-                ? "bg-white/10 text-white shadow"
-                : "text-white/40 hover:text-white/70"
+                ? "bg-white text-gray-800 shadow"
+                : "text-gray-400 hover:text-gray-600"
             }`}
           >
             {label}
@@ -469,7 +467,7 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
           {/* receiverName */}
           {page.receiverName !== null && (
             <div>
-              <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-1.5">
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1.5">
                 Nome de vocês 💌
               </label>
               <input
@@ -485,7 +483,7 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
           {/* relationshipStartDate */}
           {page.relationshipStartDate !== null && (
             <div>
-              <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-1.5">
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1.5">
                 Data do relacionamento 📅
               </label>
               <input
@@ -500,7 +498,7 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
           {/* message */}
           {page.message !== null && (
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-white/50 uppercase tracking-widest mb-1.5">
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1.5">
                 Mensagem 💬
               </label>
               <textarea
@@ -544,8 +542,8 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
           onClick={onCancel}
           disabled={saving}
           className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5
-                     bg-white/5 hover:bg-white/10 border border-white/10
-                     rounded-xl text-white/70 text-sm font-medium
+                     bg-gray-100 hover:bg-gray-200 border border-gray-300
+                     rounded-xl text-gray-500 text-sm font-medium
                      transition-colors disabled:opacity-50"
         >
           <FiX size={15} />
@@ -556,8 +554,7 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
           type="submit"
           disabled={saving}
           className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5
-                     bg-gradient-to-r from-red-600 to-rose-600
-                     hover:from-red-500 hover:to-rose-500
+                     bg-[#e687cd] hover:bg-pink-400
                      rounded-xl text-white text-sm font-semibold
                      transition-all disabled:opacity-40 disabled:cursor-not-allowed"
         >
@@ -584,7 +581,6 @@ function InnerEditForm({ page, onSave, onCancel, saving, retroInitial }: InnerFo
 export function EditTemplateForm(props: EditTemplateFormProps) {
   const { page } = props;
 
-  // Converte retrospectiva do backend → RetrospectiveData (formato do context)
   const retroInitial: RetrospectiveData | null = page.retrospectiva
     ? mapBackendRetrospectiva(page.retrospectiva as any)
     : null;
@@ -598,6 +594,6 @@ export function EditTemplateForm(props: EditTemplateFormProps) {
 
 // ── Classe base de input ──────────────────────────────────────
 const inputClass =
-  "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 " +
-  "text-white text-sm placeholder-white/20 " +
-  "focus:outline-none focus:border-pink-500/60 focus:bg-white/8 transition-colors";
+  "w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 " +
+  "text-black text-sm placeholder-gray-400 " +
+  "focus:outline-none focus:border-[#e687cd] focus:bg-white transition-colors";

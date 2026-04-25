@@ -39,14 +39,14 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
         maxLength={700}
         value={mensagem}
         onChange={(e) => setMensagem(e.target.value)}
-        className="w-full p-2 rounded-md h-24 text-white bg-gray-800 resize-none"
+        className="w-full p-2 rounded-md h-24 bg-gray-100 border border-gray-300 text-black resize-none"
       />
-      <div className="flex items-center gap-2 text-sm text-gray-400">
+      <div className="flex items-center gap-2 text-sm text-gray-500">
         <span>{mensagem.length}/700</span>
       </div>
       <button
         onClick={gerarMensagemAutomatica}
-        className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-md"
+        className="flex items-center gap-2 bg-[#e687cd] hover:bg-pink-400 px-4 py-2 rounded-md"
       >
         <FaRandom />
         Gerar mensagem automática

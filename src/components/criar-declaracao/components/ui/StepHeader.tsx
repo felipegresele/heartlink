@@ -21,23 +21,23 @@ export default function StepHeader({
     <div className="mb-6">
 
       {/* BARRA PROGRESSO */}
-      <div className="w-full bg-gray-800 rounded-full h-2 mb-4 overflow-hidden">
+      <div className="w-full bg-gray-300 rounded-full h-2 mb-4 overflow-hidden">
         <div
-          className="bg-red-500 h-full transition-all duration-500"
+          className="bg-[#e687cd] h-full transition-all duration-500"
           style={{ width: `${progresso}%` }}
         />
       </div>
 
       {/* TEXTO PROGRESSO */}
       <div className="flex justify-between items-center mb-4">
-        <span className="text-sm text-gray-400">
+        <span className="text-sm text-gray-500">
           Etapa {etapa}/{totalEtapas}
         </span>
       </div>
 
       {/* HEADER ETAPA */}
       <div className="flex items-center gap-3 mb-2">
-        <div className="bg-gray-800 p-3 rounded-lg">
+        <div className="bg-[#e687cd] p-3 rounded-lg">
           <Icon className="text-xl text-white" />
         </div>
 
@@ -46,7 +46,7 @@ export default function StepHeader({
         </h1>
       </div>
 
-      <p className="text-gray-400 text-sm max-w-xl">
+      <p className="text-gray-500 font-bold text-md max-w-xl">
         {descricao}
       </p>
     </div>

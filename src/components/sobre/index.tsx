@@ -1,19 +1,19 @@
 export function Sobre() {
   return (
-    <main className="bg-black text-white min-h-screen font-sans">
+    <main className="bg-[#FAFAFA] text-black min-h-screen font-sans">
       {/* Hero */}
       <section className="relative overflow-hidden px-6 pt-28 pb-24 text-center">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-red-600/10 rounded-full blur-[120px]" />
         </div>
-        <span className="inline-block text-red-500 text-sm font-bold tracking-widest uppercase mb-4">
+        <span className="inline-block text-[#e687cd] text-md font-bold tracking-widest uppercase mb-4">
           Nossa história
         </span>
         <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight max-w-4xl mx-auto">
-          Presentes que contam{" "}
-          <span className="text-red-600">a sua história</span>
+          Presentes que contam a{" "}
+          <span className="text-[#e687cd]">sua história</span>
         </h1>
-        <p className="mt-6 text-gray-400 text-xl max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-6 text-gray-500 text-xl max-w-2xl mx-auto leading-relaxed">
           A HeartCode nasceu de uma ideia simples: que um presente de verdade
           não precisa ser físico — precisa ser algo que emociona de verdade.
         </p>
@@ -47,10 +47,10 @@ export function Sobre() {
             },
           ].map((item, i) => (
             <div key={i} className="relative pl-14 mb-12 last:mb-0">
-              <div className="absolute left-0 top-1 w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-xs font-black text-white shrink-0">
+              <div className="absolute left-0 top-1 w-10 h-10 rounded-full bg-[#e687cd] flex items-center justify-center text-xs font-black text-white shrink-0">
                 ♥
               </div>
-              <span className="text-red-500 text-xs font-bold tracking-widest uppercase">
+              <span className="text-[#e687cd] text-xs font-bold tracking-widest uppercase">
                 {item.ano}
               </span>
               <h3 className="text-xl font-black mt-1 mb-2">{item.titulo}</h3>
@@ -101,11 +101,11 @@ export function Sobre() {
             ].map((card, i) => (
               <div
                 key={i}
-                className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-red-600/40 hover:bg-white/[0.07] transition-all duration-300"
+                className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-pink-600/40 hover:bg-white/[0.07] transition-all duration-300"
               >
                 <span className="text-3xl">{card.emoji}</span>
                 <h3 className="text-lg font-black mt-3 mb-2">{card.titulo}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-gray-500 text-sm leading-relaxed">
                   {card.texto}
                 </p>
               </div>
@@ -138,7 +138,7 @@ export function Sobre() {
             },
           ].map((item, i) => (
             <div key={i} className="flex flex-col gap-3">
-              <div className="w-8 h-1 bg-red-600 rounded-full" />
+              <div className="w-8 h-1 bg-pink-400 rounded-full" />
               <h3 className="text-xl font-black">{item.titulo}</h3>
               <p className="text-gray-400 leading-relaxed">{item.texto}</p>
             </div>
@@ -149,7 +149,7 @@ export function Sobre() {
       {/* CTA Final */}
       <section className="relative overflow-hidden px-6 py-24 text-center">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-red-600/10 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-pink-600/10 rounded-full blur-[100px]" />
         </div>
         <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">
           Crie um presente que emociona
@@ -160,7 +160,7 @@ export function Sobre() {
         </p>
         <a
           href="/criar"
-          className="inline-block bg-red-600 hover:bg-red-700 text-white text-lg font-bold py-4 px-10 rounded-full shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-105"
+          className="inline-block bg-[#e687cd] hover:bg-pink-500 text-white text-lg font-bold py-4 px-10 rounded-full shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-105"
         >
           Criar minha página ❤️
         </a>

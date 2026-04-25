@@ -15,8 +15,8 @@ export function FormModoImagem({ modoImagem, setModoImagem }: FormModoImagemProp
             key={op.value}
             className={`cursor-pointer p-1 rounded-md border text-sm ${
               modoImagem === op.value
-                ? "border-red-500 bg-gray-800"
-                : "border-gray-600"
+                ? "border-[#e687cd] bg-gray-300"
+                : "border-gray-300"
             }`}
           >
             <input

@@ -93,15 +93,15 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 md:p-8">
+    <div className="min-h-screen bg-[#FAFAFA] text-black p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
-          <FiShoppingBag size={22} className="text-red-500" />
+          <FiShoppingBag size={22} className="text-[#e687cd]" />
           <h1 className="text-xl font-bold">Finalizar pedido</h1>
         </div>
 
-          <p className="mt-4 text-sm md:text-base text-gray-400">
+          <p className="mt-4 text-sm md:text-base text-gray-500">
             Finalize os detalhes abaixo e prepare-se para criar um momento
             inesquecível.
           </p>
@@ -111,17 +111,17 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
           {/* ── COLUNA ESQUERDA ── */}
           <div className="lg:col-span-3 space-y-4">
             {/* Card: Resumo do pedido */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-              <h2 className="font-bold text-base mb-4 text-gray-100">
+            <div className="bg-[#FAFAFA] border border-gray-300 rounded-2xl p-5">
+              <h2 className="font-bold text-base mb-4 text-black">
                 Resumo do pedido
               </h2>
 
-              <div className="flex justify-between items-center text-sm text-gray-300 mb-3">
+              <div className="flex justify-between items-center text-sm text-black mb-3">
                 <div className="flex items-center gap-2">
-                  <FiShoppingBag size={14} className="text-gray-500" />
+                  <FiShoppingBag size={14} className="text-black" />
                   <span>Plano: {plano?.nome ?? "—"}</span>
                 </div>
-                <span className="font-semibold text-white">
+                <span className="font-semibold text-black">
                   R$ {precoPlan.toFixed(2).replace(".", ",")}
                 </span>
               </div>
@@ -139,24 +139,24 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
               )}
 
               <div className="border-t border-gray-800 pt-4 mt-2 flex justify-between items-center">
-                <span className="text-sm text-gray-400">Total:</span>
-                <span className="text-2xl font-black text-white">
+                <span className="text-sm text-black">Total:</span>
+                <span className="text-2xl font-black text-black">
                   R$ {total.toFixed(2).replace(".", ",")}
                 </span>
               </div>
             </div>
 
             {/* Card: QR Code personalizado */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+            <div className="bg-[#FAFAFA] border border-gray-300 rounded-2xl overflow-hidden">
               <button
                 onClick={() => setQrAberto(!qrAberto)}
-                className="w-full flex justify-between items-center p-5 hover:bg-gray-800/50 transition-colors"
+                className="w-full flex justify-between items-center p-5 hover:bg-gray-100 transition-colors"
               >
-                <div className="flex items-center gap-2 text-sm font-semibold text-gray-200">
-                  <MdQrCode2 size={18} className="text-red-400" />
+                <div className="flex items-center gap-2 text-sm font-semibold text-black">
+                  <MdQrCode2 size={20} className="text-[#e687cd]"/>
                   QR Code personalizado
                   {molduraSelecionada !== "NONE" && (
-                    <span className="ml-2 bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded-full border border-red-500/30">
+                    <span className="ml-2 bg-[#e687cd] text-white text-md font-bold px-2 py-0.5 rounded-full border border-pink-400">
                       + R$ {precoMoldura.toFixed(2).replace(".", ",")}
                     </span>
                   )}
@@ -170,7 +170,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
 
               {qrAberto && (
                 <div className="px-5 pb-5">
-                  <p className="text-xs text-gray-500 mb-4">
+                  <p className="text-md text-gray-500 mb-4">
                     Escolha uma moldura especial para o QR Code que será enviado
                     no email. A primeira opção é gratuita.
                   </p>
@@ -194,8 +194,8 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                           onClick={() => setMolduraSelecionada(moldura.id)}
                           className={`relative flex-1 min-w-0 rounded-xl border-2 transition-all overflow-hidden aspect-[2/3] ${
                             molduraSelecionada === moldura.id
-                              ? "border-red-500 ring-2 ring-red-500/30"
-                              : "border-gray-700 hover:border-gray-500"
+                              ? "border-[#e687cd] ring-2 ring-pink-500/30"
+                              : "border-[#e687cd] hover:border-[#e687cd]"
                           }`}
                         >
                           {moldura.preview ? (

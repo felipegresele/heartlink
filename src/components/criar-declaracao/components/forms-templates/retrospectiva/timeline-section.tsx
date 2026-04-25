@@ -80,7 +80,7 @@ export function TimelineSection() {
   }) {
     return (
       <div
-        className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105"
+        className="bg-white text-black p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105"
         style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
       >
         {item.imagem && (
@@ -93,7 +93,7 @@ export function TimelineSection() {
         )}
         {item.descricao && (
           <p
-            className="text-gray-700 text-center mt-2 leading-tight"
+            className="text-black text-center mt-2 leading-tight"
             style={{
               fontFamily: "'Caveat', cursive",
               fontSize: "14px",
@@ -116,7 +116,7 @@ export function TimelineSection() {
   }) {
     return (
       <div
-        className="bg-white p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105 ml-15"
+        className="bg-white text-black p-2 pb-7 shadow-2xl transition-transform duration-300 hover:rotate-0 hover:scale-105 ml-15"
         style={{ transform: `rotate(${rotation})`, maxWidth: "140px" }}
       >
         {item.imagem && (
@@ -129,7 +129,7 @@ export function TimelineSection() {
         )}
         {item.descricao && (
           <p
-            className="text-gray-700 text-center mt-2 leading-tight"
+            className="text-black text-center mt-2 leading-tight"
             style={{
               fontFamily: "'Caveat', cursive",
               fontSize: "14px",
@@ -162,20 +162,20 @@ export function TimelineSection() {
           </p>
         </div>
         {item.descricao && (
-          <p className="text-white/50 text-xs leading-snug max-w-[110px] text-[20px] ml-5">
+          <p className="text-black text-xs leading-snug max-w-[110px] text-[20px] ml-5">
             {item.descricao}
           </p>
         )}
         <div className={`flex gap-2 mt-1 ${align === "right" ? "justify-start" : "justify-end"}`}>
           <button
             onClick={() => iniciarEdicao(item.id)}
-            className="text-white/30 ml-4 hover:text-gray-400 transition-colors cursor-pointer"
+            className="text-black ml-4 hover:text-gray-400 transition-colors cursor-pointer"
           >
             <FaPencilAlt size={10} />
           </button>
           <button
             onClick={() => removeTimelineItem(item.id)}
-            className="text-white/30 ml-4 hover:text-red-400 transition-colors cursor-pointer"
+            className="text-black ml-4 hover:text-red-400 transition-colors cursor-pointer"
           >
             <FaTrash size={10} />
           </button>
@@ -197,24 +197,24 @@ export function TimelineSection() {
           type="text"
           value={editForm.titulo}
           onChange={(e) => setEditForm((f) => ({ ...f, titulo: e.target.value }))}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-pink-400"
+          className="w-full bg-gray-100 border border-gray-300 text-black rounded-xl px-3 py-1.5 text-sm outline-none focus:border-pink-400"
         />
         <textarea
           value={editForm.descricao}
           onChange={(e) => setEditForm((f) => ({ ...f, descricao: e.target.value }))}
           rows={2}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-white text-sm outline-none focus:border-pink-400 resize-none"
+          className="w-full bg-gray-100 border border-gray-300 text-black rounded-xl px-3 py-1.5 text-sm outline-none focus:border-pink-400 resize-none"
         />
         <div className="flex gap-2">
           <button
             onClick={salvarEdicao}
-            className="flex items-center gap-1 bg-green-500/20 text-green-400 text-xs px-3 py-1.5 rounded-lg hover:bg-green-500/30 transition-colors"
+            className="flex items-center gap-1 bg-green-500/20 text-green-400 text-xs px-3 py-1.5 rounded-lg hover:bg-green-500/30 cursor-pointer transition-colors"
           >
             <FaCheck size={10} /> Salvar
           </button>
           <button
             onClick={() => setEditandoId(null)}
-            className="flex items-center gap-1 bg-white/5 text-white/50 text-xs px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors"
+            className="flex items-center gap-1 bg-red-500/20 text-red-400 text-xs px-3 py-1.5 rounded-lg hover:bg-red-500/30 cursor-pointer transition-colors"
           >
             <FaTimes size={10} /> Cancelar
           </button>
@@ -232,7 +232,7 @@ export function TimelineSection() {
         </span>
         <div>
           <h3
-            className="text-white font-bold text-lg leading-tight"
+            className="text-black font-bold text-lg leading-tight"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Linha do Tempo
@@ -256,7 +256,7 @@ export function TimelineSection() {
           <UploadImagemTimeline
             value={form.imagem}
             onChange={(v) => setForm((f) => ({ ...f, imagem: v }))}
-            className="h-36 w-full"
+            className="h-36 w-full bg-gray-200"
             label="Foto do momento"
           />
           <input
@@ -264,7 +264,7 @@ export function TimelineSection() {
             placeholder="Título (ex: Junho 2022)"
             value={form.titulo}
             onChange={(e) => setForm((f) => ({ ...f, titulo: e.target.value }))}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-pink-400"
+            className="w-full bg-gray-100 border border-gray-300 text-black rounded-xl px-4 py-2 text-black text-sm placeholder:text-black outline-none focus:border-pink-400"
           />
           <textarea
             placeholder="Descrição do momento…"
@@ -273,12 +273,12 @@ export function TimelineSection() {
               setForm((f) => ({ ...f, descricao: e.target.value }))
             }
             rows={2}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-pink-400 resize-none"
+            className="w-full bg-gray-100 border border-gray-300 text-black rounded-xl px-4 py-2 text-black text-sm placeholder:text-black outline-none focus:border-pink-400 resize-none"
           />
           {erro && <p className="text-red-400 text-xs">{erro}</p>}
           <button
             onClick={handleAdd}
-            className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:opacity-90 text-white text-sm font-bold px-4 py-2 rounded-xl transition-opacity"
+            className="flex items-center gap-2 bg-[#e687cd] hover:opacity-90 text-white text-sm font-bold px-4 py-2 rounded-xl transition-opacity"
           >
             <FaPlus size={12} /> Adicionar momento
           </button>

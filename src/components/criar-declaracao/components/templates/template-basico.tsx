@@ -59,10 +59,10 @@ function FormsSecoesSelecionadas({
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-white font-bold text-base mb-1">
+        <h3 className="text-black font-bold text-xl mb-1">
           Personalize suas seções
         </h3>
-        <p className="text-white/40 text-xs">
+        <p className="text-gray-500 font-bold text-md">
           Preencha os dados de cada seção que você escolheu.
         </p>
       </div>
@@ -99,7 +99,7 @@ function FormsSecoesSelecionadas({
         </button>
         <button
           onClick={onContinuar}
-          className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
+          className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-[#e687cd] hover:bg-pink-500 font-bold w-80 h-13 justify-center"
         >
           Próximo <SlArrowRight size={12} />
         </button>
@@ -338,7 +338,7 @@ function CriadorDeclaracaoInner() {
   const [verMaisRetro, setVerMaisRetro] = useState(false);
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 bg-black text-white min-h-screen">
+    <div className="flex flex-col md:flex-row gap-6 p-6 bg-[#FAFAFA] text-black min-h-screen">
       {/* ── Modal de validação ── */}
       {modalAberto && (
         <div
@@ -368,7 +368,7 @@ function CriadorDeclaracaoInner() {
         </div>
       )}
 
-      <div className="flex-1 space-y-6 min-h-[calc(80vh-140px)] md:min-h-auto">
+      <div className="flex-1 space-y-6 min-h-[calc(80vh-140px)] md:min-h-auto ">
         {etapa === 1 && (
           <>
             <StepHeader
@@ -495,7 +495,10 @@ function CriadorDeclaracaoInner() {
               <>
                 <FormRetrospectivaSecoes
                   onContinuar={() => {
-                    if (retroData.secoesSelecionadas.length === 0) {
+                    if (
+                      retroData.secoesSelecionadas.length === 0 &&
+                      !retroData.efeitoTime
+                    ) {
                       abrirModal(
                         'Selecione ao menos uma seção da retrospectiva ou clique em "Pular sem retrospectiva" para continuar sem ela.',
                       );
@@ -517,7 +520,14 @@ function CriadorDeclaracaoInner() {
             )}
           </>
         )}
-        
+
+        {etapa === 7 && subEtapaRetro === "formulario" && (
+          <FormsSecoesSelecionadas
+            onVoltar={() => setSubEtapaRetro("selecao")}
+            onContinuar={() => setEtapa((prev) => prev + 1)}
+          />
+        )}
+
         {etapa === 8 && (
           <EscolherPlano
             selectedPlan={selectedPlan}
@@ -536,7 +546,7 @@ function CriadorDeclaracaoInner() {
             <button
               onClick={voltarEtapa}
               disabled={etapa === 1}
-              className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500 disabled:opacity-40"
+              className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-black hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
             >
               <SlArrowLeft size={12} /> Voltar
             </button>
@@ -544,7 +554,7 @@ function CriadorDeclaracaoInner() {
             {etapa < totalEtapas && (
               <button
                 onClick={etapa === 8 ? criarPagina : proximaEtapa}
-                className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-white hover:bg-gray-100 font-bold w-80 h-13 justify-center"
+                className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-[#e687cd] hover:bg-pink-400 font-bold w-80 h-13 justify-center cursor-pointer"
               >
                 {etapa === 8 ? "Criar página ❤️" : "Próximo"}{" "}
                 <SlArrowRight size={12} />

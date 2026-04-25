@@ -29,15 +29,15 @@ export function MemoriaInput({
   return (
     <div className="flex flex-col gap-1">
       {isFirstField && (
-        <p className="text-white/80 text-xs mb-2">
+        <p className="text-black text-xs mb-4">
           Esses campos são opcionais. Se preenchidos, aparecerão no resumo final
           da retrospectiva do casal.
         </p>
       )}
 
-      <label className="text-white/60 text-xs flex items-center gap-1.5">
+      <label className="text-black text-xs flex items-center gap-1.5">
         <span>{icon}</span> {label}
-        <span className="text-white/30">(opcional)</span>
+        <span className="text-black">(opcional)</span>
       </label>
 
       <input
@@ -45,7 +45,7 @@ export function MemoriaInput({
         placeholder={placeholder}
         value={data[field] ?? ""}
         onChange={(e) => setters[field](e.target.value)}
-        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/25 outline-none focus:border-pink-400/60 transition-colors"
+        className="w-full bg-white/5 border border-gray-400 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-black outline-none focus:border-pink-400/60 transition-colors"
       />
     </div>
   );

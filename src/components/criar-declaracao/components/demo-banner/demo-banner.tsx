@@ -220,10 +220,10 @@ export function DemoBanner({ onAbrirDemo }: Props) {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center text-center flex-1 gap-5"
           >
-            <h2 className="text-black font-extrabold text-3xl md:text-4xl leading-tight">
+            <h2 className="text-white/40 font-extrabold text-3xl md:text-4xl leading-tight">
               Teste Nossa
               <br />
-              <span className="text-pink-200">Demo Interativa</span>
+              <span className="text-pink-100">Demo Interativa</span>
             </h2>
 
             <p className="text-white/60 text-sm max-w-xs leading-relaxed">
@@ -262,10 +262,10 @@ export function DemoBanner({ onAbrirDemo }: Props) {
               >
                 <path d="M8 5v14l11-7z" />
               </svg>
-              <span className="relative z-10">Explorar a Demo</span>
+              <span className="relative z-10 cursor-pointer">Explorar a Demo</span>
             </motion.button>
 
-            <p className="text-white/35 text-xs">Não é necessário cadastro.</p>
+            <p className="text-white/50 text-xs">Não é necessário cadastro.</p>
           </motion.div>
 
           {/* Celular direito */}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export function Faqs() {
     return (
-        <div className="bg-black text-white min-h-screen flex justify-center items-center px-6 py-16">
+        <div className="bg-[#FAFAFA] text-black min-h-screen flex justify-center items-center px-6 py-16">
             <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12">
                 {/* Coluna esquerda */}
                 <div>
@@ -11,19 +11,19 @@ export function Faqs() {
                         F.A.Q
                     </span>
 
-                    <h1 className="text-4xl md:text-5xl font-extrabold mt-4">
+                    <h1 className="text-4xl md:text-5xl font-extrabold mt-4 text-[#e687cd]">
                         Perguntas Frequentes
                     </h1>
-                    <p className="text-gray-300 mt-4">
+                    <p className="text-black mt-4">
                         Aqui estão algumas perguntas frequentes para ajudar você a entender
                         melhor a{" "}
-                        <span className="font-semibold text-white">Heart<span className="text-red-500">Code</span></span>. Caso
+                        <span className="font-semibold text-[#e687cd]">Heart<span className="text-[#e687cd]">Code</span></span>. Caso
                         tenha alguma dúvida, entre em contato conosco.
                     </p>
 
                     <Link
                         to="/duvidas"
-                        className="inline-block mt-6 text-gray-300 text-xl hover:text-red-500 transition-colors"
+                        className="inline-block mt-6 text-black text-xl hover:text-[#e687cd] transition-colors font-bold"
                     >
                         Dúvidas? Entre em contato por aqui
                     </Link>
@@ -96,12 +96,12 @@ const perguntas = [
 function ListaDePerguntas() {
     const items = perguntas.map((item) => (
         <Accordion.Item key={item.value} value={item.value}>
-            <Accordion.Control className="flex p-3 font-medium text-white hover:text-red-400 transition-colors">
+            <Accordion.Control className="flex p-3 font-medium text-black hover:text-pink-400 transition-colors text-justify">
                 {item.value}
             </Accordion.Control>
-            <Accordion.Panel className="!pb-2 text-gray-300 text-sm">
-                {item.description}
-            </Accordion.Panel>
+            <Accordion.Panel className="!pb-2 text-gray-500 text-sm text-justify leading-relaxed max-w-prose p-2">
+    {item.description}
+</Accordion.Panel>
         </Accordion.Item>
     ));
 
@@ -109,10 +109,10 @@ function ListaDePerguntas() {
         <Accordion
             chevronPosition="right"
             transitionDuration={200}
-            className="bg-black text-white"
+            className="bg-white border-2 border-[#e687cd] text-white rounded-xl "
             styles={{
                 item: {
-                    borderBottom: "1px solid #27272a",
+                    borderBottom: "1px solid #f4e9e9",
                     marginBottom: "0.25rem",
                 },
                 chevron: {

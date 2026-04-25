@@ -293,17 +293,17 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
       {/* Header */}
       <div>
         <div className="flex gap-2 items-center mb-1">
-          <FaGift className="text-white/60" />
-          <h3 className="text-white font-bold text-base">
+          <FaGift className="text-[#e687cd]" size={20} />
+          <h3 className="text-black font-bold text-base">
             Seções da Retrospectiva
           </h3>
           {/* Botão de contato */}
           <RiMessage2Line
             onClick={() => setModalContatoAberto(true)}
-            className="cursor-pointer bg-red-600 rounded-md w-8 h-6"
+            className="cursor-pointer bg-[#e687cd] text-white rounded-md w-8 h-6"
           />
         </div>
-        <p className="text-white/65 text-sm leading-relaxed">
+        <p className="text-gray-500 font-0bold text-md font-bold leading-relaxed">
           Veja uma prévia de cada sessão e selecione as desejadas para a
           retrospectiva da sua página.
         </p>
@@ -376,7 +376,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.2 }}
-                className="text-white font-extrabold text-2xl leading-tight"
+                className="text-black font-extrabold text-2xl leading-tight"
               >
                 {secao.titulo}
               </motion.h2>
@@ -390,7 +390,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2, delay: 0.05 }}
-                className="text-white text-md leading-relaxed max-w-sm"
+                className="text-black text-md leading-relaxed max-w-sm"
               >
                 {secao.descricao}
               </motion.p>
@@ -400,7 +400,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             <div className="flex items-center gap-3">
               <button
                 onClick={prev}
-                className="w-8 h-8 rounded-full border border-white/25 bg-red-500 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
+                className="w-8 h-8 rounded-full border border-white/25 bg-[#e687cd] flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
               >
                 ‹
               </button>
@@ -415,7 +415,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                       width: i === current ? "22px" : "8px",
                       height: "8px",
                       background:
-                        i === current ? secao.cor : "rgba(255,255,255,0.3)",
+                        i === current ? secao.cor : "rgba(2, 2, 2, 0.3)",
                       borderRadius: i === current ? "4px" : "50%",
                     }}
                   />
@@ -424,7 +424,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
 
               <button
                 onClick={next}
-                className="w-8 h-8 rounded-full border border-white/25 flex items-center bg-red-500 justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
+                className="w-8 h-8 rounded-full border border-white/25 flex items-center bg-[#e687cd] justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors text-lg"
               >
                 ›
               </button>
@@ -434,7 +434,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             <motion.button
               onClick={handleToggle}
               animate={{
-                background: isSelected ? "#16a34a" : secao.cor,
+                background: isSelected ? "#e687cd" : secao.cor,
               }}
               transition={{ duration: 0.25 }}
               className="w-full max-w-xs py-3 rounded-xl text-white font-bold text-sm flex flex-col items-center justify-center gap-0.5 border-none"
@@ -459,7 +459,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="text-center text-white/80 text-sm font-medium"
+            className="text-center text-black text-sm font-medium"
           >
             ✅ {countLabel} selecionada(s)
           </motion.p>
@@ -472,17 +472,17 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/3 p-4"
+            className="flex flex-col gap-3 rounded-2xl border border-gray-300 bg-white/3 p-4"
           >
             <div className="flex items-center gap-2 mb-1 justify-between">
-              <p className="text-white font-semibold text-sm">
+              <p className="text-black font-semibold text-sm">
                 Memórias especiais
               </p>
               <div className="gap-2 flex">
                 <button onClick={() => setAbrirModalVideo(true)}>
-                  <IoEye className="text-pink-400 hover:textr-pink-600 cursor-pointer border border-pink-500 rounded-md" />
+                  <IoEye className="text-[#e687cd] hover:text-pink-500 hover:border-ounk-500 cursor-pointer border border-[#e687cd] rounded-md" />
                 </button>
-                <span className="text-white/80 text-xs ml-auto">Opcional</span>
+                <span className="text-black text-xs ml-auto">Opcional</span>
               </div>
             </div>
 
@@ -519,7 +519,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
               className="flex flex-col items-center gap-2"
             >
               {/* Dica visual para guiar o usuário */}
-              <p className="text-white/60 text-xs text-center flex items-center gap-1.5">
+              <p className="text-black text-xs text-center flex items-center gap-1.5">
                 <span>👇</span>
                 Clique abaixo para personalizar cada seção e ver a prévia da
                 página.
@@ -540,7 +540,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                   className="absolute inset-0 opacity-30"
                   style={{
                     background:
-                      "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)",
+                      "linear-gradient(90deg, transparent 0%, #e687cd 50%, transparent 100%)",
                   }}
                   animate={{ x: ["-100%", "200%"] }}
                   transition={{
@@ -557,7 +557,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
 
         <button
           onClick={onPular}
-          className="w-full py-3 rounded-xl border border-white text-white font-medium text-sm hover:text-white hover:border-white/50 transition-colors"
+          className="w-full py-3 rounded-xl border border-gray-500 text-black font-medium text-sm hover:bg-gray-800 hover:text-white hover:border-gray-500 transition-colors"
         >
           → Continuar sem retrospectiva
         </button>
@@ -603,7 +603,7 @@ function HeartDecor() {
       {/* coração grande superior esquerdo */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute -top-2 -left-8 w-12 h-12 text-red-400 opacity-50"
+        className="absolute -top-2 -left-8 w-12 h-12 text-pink-400 opacity-50"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />
@@ -611,7 +611,7 @@ function HeartDecor() {
       {/* coração médio superior direito */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute top-4 -right-10 w-15 h-10 text-red-500 opacity-35"
+        className="absolute top-4 -right-10 w-15 h-10 text-pink-500 opacity-35"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />
@@ -619,7 +619,7 @@ function HeartDecor() {
       {/* coração pequeno meio esquerdo */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute top-1/2 -left-8 w-10 h-10 text-red-400 opacity-25"
+        className="absolute top-1/2 -left-8 w-10 h-10 text-pink-800 opacity-25"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />
@@ -627,7 +627,7 @@ function HeartDecor() {
       {/* coração grande inferior direito */}
       <svg
         viewBox="0 0 24 24"
-        className="absolute -bottom-3 -right-8 w-15 h-15 text-red-500 opacity-40"
+        className="absolute -bottom-3 -right-8 w-15 h-15 text-pink-600 opacity-40"
         fill="currentColor"
       >
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35z" />

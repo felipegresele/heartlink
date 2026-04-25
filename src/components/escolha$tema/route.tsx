@@ -5,9 +5,9 @@ import ExibirCardCelularesTelaInicial from "../exibir-sessoes-celular/exibir-car
 export function EscolhaTema() {
 
     return (
-        <div className="text-white bg-white text-center justify-center text-black flex flex-col">
+        <div className="text-white bg-[#FAFAFA] text-center justify-center text-black flex flex-col">
             <h1 className="text-4xl md:text-5xl font-extrabold mt-4 text-black">Escolha o seu tema ideal</h1>
-            <p className="text-black mt-4 mb-15">Veja uma prévia de como ficará a pagína inicial.</p>
+            <p className="text-gray-500 mt-4">Veja uma prévia de como ficará a pagína inicial.</p>
             <ExibirCardCelularesTelaInicial />
             {/* <ContentTemas /> */}
         </div>

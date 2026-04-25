@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { FiCloud, FiCamera } from "react-icons/fi";
 import { FaPalette, FaMusic } from "react-icons/fa";
-import imgEscrevendo from "../../../../img/mascote-fotos/escrevendo-removebg.png"
-import imgPintura from "../../../../img/mascote-fotos/pintura-feita-removebg.png"
+import imgEscrevendo from "../../img/mascote-fotos/escrevendo.png"
+import imgPintura from "../../img/mascote-fotos/olhos-brilhando.png"
 
 interface RecursoCard {
   icon: React.ReactNode;
@@ -120,13 +120,13 @@ const RECURSOS: RecursoCard[] = [
     icon: <FiCloud className="w-5 h-5" />,
     titulo: "Para sempre no ar",
     descricao: "Seu presente vai para a nuvem imediatamente. Para sempre online, acessível de qualquer lugar do mundo.",
-    visual: <img src={imgEscrevendo}/>,
+    visual: <img src={imgEscrevendo} className="w-75 h-75"/>,
   },
   {
     icon: <FaPalette className="w-5 h-5" />,
     titulo: "100% personalizável",
     descricao: "Escolha fotos, músicas, mensagens e jogos interativos. Cada detalhe pensado para emocionar!",
-    visual: <img src={imgPintura}/>,
+    visual: <img src={imgPintura} className="w-70 h-70"/>,
   },
   {
     icon: <FaMusic className="w-5 h-5" />,
@@ -164,7 +164,7 @@ function RecursoCardItem({ recurso, index }: { recurso: RecursoCard; index: numb
         className="w-10 h-10 rounded-xl flex items-center justify-center"
         style={{
           background: "rgba(239,68,68,0.1)",
-          color: "#d98ed9",
+          color: "#e687cd",
         }}
       >
         {recurso.icon}
@@ -184,7 +184,7 @@ function RecursoCardItem({ recurso, index }: { recurso: RecursoCard; index: numb
 
 export function RecursosCardContainer() {
   return (
-    <section className="w-full py-20 px-4 bg-white">
+    <section className="w-full py-20 px-4 bg-[#FAFAFA]">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -204,7 +204,7 @@ export function RecursosCardContainer() {
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-black leading-tight mb-4">
             Crie um presente{" "}
-            <span className="text-pink-400">memorável</span>{" "}
+            <span className="text-[#e687cd]">memorável</span>{" "}
             e único
           </h2>
           <p className="text-black text-lg max-w-xl mx-auto leading-relaxed">

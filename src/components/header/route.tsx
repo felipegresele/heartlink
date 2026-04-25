@@ -68,7 +68,7 @@ export function Header() {
           <Link
             key={item}
             to={item === "Início" ? "/" : `/${item.toLowerCase()}`}
-            className="text-black hover:text-white transition-colors text-xl"
+            className="text-black hover:text-[#e687cd] transition-colors text-xl"
           >
             {item === "Help" ? "F.A.Q" : item}
           </Link>

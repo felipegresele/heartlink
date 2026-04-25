@@ -194,8 +194,8 @@ export function FaqCompleto() {
   return (
     <main
       style={{
-        backgroundColor: "#0a0a0a",
-        color: "#f0f0f0",
+        backgroundColor: "#FAFAFA",
+        color: "black",
         minHeight: "100vh",
         fontFamily: "'DM Sans', sans-serif",
       }}
@@ -229,7 +229,7 @@ export function FaqCompleto() {
             fontSize: 15,
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#e63333",
+            color: "#e687cd",
             marginBottom: 14,
           }}
         >
@@ -252,7 +252,7 @@ export function FaqCompleto() {
         <p
           style={{
             marginTop: 16,
-            color: "#6b6b6b",
+            color: "#7d7b7b",
             fontSize: "1rem",
             maxWidth: 480,
             marginLeft: "auto",
@@ -262,8 +262,8 @@ export function FaqCompleto() {
         >
           Tudo o que você precisa saber para criar um presente inesquecível com
           a{" "}
-          <span style={{ color: "#f0f0f0", fontWeight: 600 }}>
-            Heart<span style={{ color: "#e63333" }}>Code</span>
+          <span style={{ color: "#e687cd", fontWeight: 600 }}>
+            HeartCode
           </span>
         </p>
       </section>
@@ -278,7 +278,7 @@ export function FaqCompleto() {
           padding: "16px 24px",
           position: "sticky",
           top: 0,
-          backgroundColor: "#0a0a0a",
+          backgroundColor: "#FAFAFA",
           zIndex: 10,
           borderBottom: "1px solid #1e1e1e",
         }}
@@ -298,8 +298,8 @@ export function FaqCompleto() {
                 fontSize: 13,
                 fontWeight: 500,
                 cursor: "pointer",
-                border: `1px solid ${isActive ? "#e63333" : "#1e1e1e"}`,
-                backgroundColor: isActive ? "#e63333" : "#111111",
+                border: `1px solid ${isActive ? "#e687cd" : "#1e1e1e"}`,
+                backgroundColor: isActive ? "#e687cd" : "#F5F5F5",
                 color: isActive ? "#fff" : "#6b6b6b",
                 transition: "all 0.2s",
                 whiteSpace: "nowrap",
@@ -363,13 +363,13 @@ export function FaqCompleto() {
           transitionDuration={220}
           styles={{
             root: {
-              border: "1px solid #1e1e1e",
+              border: "1px solid #e687cd",
               borderRadius: 14,
               overflow: "hidden",
             },
             item: {
-              borderBottom: "1px solid #1e1e1e",
-              backgroundColor: "#111111",
+              borderBottom: "1px solid #aea9a9",
+              backgroundColor: "white",
               "&:last-child": { borderBottom: "none" },
               "&[data-active]": { backgroundColor: "#141414" },
             },
@@ -382,22 +382,22 @@ export function FaqCompleto() {
               "&:hover": { backgroundColor: "#161616" },
             },
             chevron: {
-              color: "#e63333",
+              color: "#e687cd",
               width: 22,
               height: 22,
-              backgroundColor: "#1e1e1e",
+              backgroundColor: "#757575",
               borderRadius: "50%",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               transition: "background 0.2s",
               "&[data-rotate]": {
-                backgroundColor: "#e63333",
+                backgroundColor: "#e687cd",
                 color: "#fff",
               },
             },
             panel: {
-              backgroundColor: "#0e0e0e",
+              backgroundColor: "white",
             },
             content: {
               color: "#6b6b6b",
@@ -420,9 +420,9 @@ export function FaqCompleto() {
         <div
           style={{
             marginTop: 60,
-            border: "1px solid #2a1a1a",
+            border: "1px solid #e687cd",
             borderRadius: 20,
-            background: "linear-gradient(135deg, #150a0a 0%, #110505 100%)",
+            background: "linear-gradient(135deg, #f1e0e0 0%, #ffffff 100%)",
             padding: "40px 32px",
             textAlign: "center",
             position: "relative",
@@ -492,7 +492,7 @@ export function FaqCompleto() {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              backgroundColor: "#e63333",
+              backgroundColor: "#e687cd",
               borderRadius: 999,
               fontFamily: "'DM Sans', sans-serif",
               fontWeight: 600,

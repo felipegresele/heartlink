@@ -245,7 +245,7 @@ export default function ExibirCardCelularesTelaInicial() {
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           cursor: pointer;
-          color: #e687cd;;
+          color: #e687cd;
           font-size: 14px;
           transition: background 0.2s, border-color 0.2s;
           user-select: none;
@@ -279,7 +279,7 @@ export default function ExibirCardCelularesTelaInicial() {
           line-height: 1.1;
         }
         .info-title span {
-          color: #e687cd;;
+          color: #e687cd;
         }
 
         .info-desc {

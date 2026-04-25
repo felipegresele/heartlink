@@ -1,7 +1,3 @@
-// ============================================================
-// SEÇÃO — EnigmaSection
-// Cartões misteriosos que revelam o que o usuário ama na outra pessoa
-// ============================================================
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaTrash, FaHeart, FaLock, FaLockOpen } from "react-icons/fa";
@@ -10,7 +6,6 @@ import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
 
-// Emojis decorativos para os cards
 const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
 
 export function EnigmaSection() {
@@ -37,13 +32,13 @@ export function EnigmaSection() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-[#FAFAFA]">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl"><IoExtensionPuzzleSharp /></span>
+        <span className="text-2xl text-[#e687cd]"><IoExtensionPuzzleSharp /></span>
         <div>
-          <h3 className="text-white font-bold text-lg leading-tight">Enigma</h3>
-          <p className="text-white/40 text-xs">O que você ama nessa pessoa — revelado aos poucos</p>
+          <h3 className="text-black font-bold text-lg leading-tight">Enigma</h3>
+          <p className="text-gray-500 text-xs">O que você ama nessa pessoa — revelado aos poucos</p>
         </div>
         <div className="ml-auto">
           <LimiteBadge atual={data.enigma.length} maximo={LIMITS.enigma} />
@@ -60,11 +55,11 @@ export function EnigmaSection() {
               value={novoItem}
               onChange={(e) => setNovoItem(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-red-400"
+              className="flex-1 bg-gray-100 border border-gray-300 rounded-xl px-4 py-2 text-black text-sm placeholder:text-gray-400 outline-none focus:border-[#e687cd]"
             />
             <button
               onClick={handleAdd}
-              className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl transition-colors"
+              className="bg-[#e687cd] hover:bg-pink-400 text-white px-4 py-2 rounded-xl transition-colors"
             >
               <FaPlus size={14} />
             </button>
@@ -79,8 +74,8 @@ export function EnigmaSection() {
           onClick={() => setModoVisualizacao((v) => !v)}
           className={`w-full text-xs font-bold py-2 rounded-xl transition-all border ${
             modoVisualizacao
-              ? "border-red-500 bg-red-500/10 text-red-400"
-              : "border-white/10 bg-white/5 text-white/50 hover:border-white/20"
+              ? "border-[#e687cd] bg-[#e687cd]/10 text-[#e687cd]"
+              : "border-gray-300 bg-gray-100 text-gray-500 hover:border-gray-400"
           }`}
         >
           {modoVisualizacao ? "✏️ Modo Edição" : "👀 Pré-visualizar como o destinatário verá"}
@@ -107,32 +102,30 @@ export function EnigmaSection() {
                 >
                   <AnimatePresence mode="wait">
                     {!item.revelado ? (
-                      // Frente — oculto
                       <motion.div
                         key="frente"
                         initial={{ rotateY: 90 }}
                         animate={{ rotateY: 0 }}
                         exit={{ rotateY: -90 }}
                         transition={{ duration: 0.3 }}
-                        className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-red-500/30 bg-gradient-to-br from-red-900/40 to-purple-900/40"
+                        className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-[#e687cd]/30 bg-[#e687cd]/10"
                       >
-                        <FaLock className="text-red-400" size={20} />
-                        <p className="text-red-300 text-xs font-bold">Toque para revelar</p>
-                        <p className="text-white/20 text-xs"># {idx + 1}</p>
+                        <FaLock className="text-[#e687cd]" size={20} />
+                        <p className="text-[#e687cd] text-xs font-bold">Toque para revelar</p>
+                        <p className="text-gray-400 text-xs"># {idx + 1}</p>
                       </motion.div>
                     ) : (
-                      // Verso — revelado
                       <motion.div
                         key="verso"
                         initial={{ rotateY: -90 }}
                         animate={{ rotateY: 0 }}
                         exit={{ rotateY: 90 }}
                         transition={{ duration: 0.3 }}
-                        className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-white/20 bg-white/5 p-3 text-center"
+                        className="h-28 rounded-2xl flex flex-col items-center justify-center gap-2 border border-gray-300 bg-gray-100 p-3 text-center"
                       >
                         <span className="text-xl">{CARD_EMOJIS[idx % CARD_EMOJIS.length]}</span>
-                        <p className="text-white text-xs font-semibold leading-tight">{item.texto}</p>
-                        <FaLockOpen className="text-white/20" size={10} />
+                        <p className="text-black text-xs font-semibold leading-tight">{item.texto}</p>
+                        <FaLockOpen className="text-gray-400" size={10} />
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -142,7 +135,6 @@ export function EnigmaSection() {
           </AnimatePresence>
         </div>
       ) : (
-        /* Modo edição — lista */
         <div className="space-y-2">
           <AnimatePresence>
             {data.enigma.map((item, idx) => (
@@ -159,11 +151,11 @@ export function EnigmaSection() {
                   type="text"
                   value={item.texto}
                   onChange={(e) => updateEnigmaItem(item.id, e.target.value)}
-                  className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm outline-none focus:border-red-400"
+                  className="flex-1 bg-gray-100 border border-gray-300 rounded-xl px-3 py-2 text-black text-sm outline-none focus:border-[#e687cd]"
                 />
                 <button
                   onClick={() => removeEnigmaItem(item.id)}
-                  className="text-white/30 hover:text-red-400 transition-colors shrink-0"
+                  className="text-gray-400 hover:text-[#e687cd] transition-colors shrink-0"
                 >
                   <FaTrash size={12} />
                 </button>
@@ -174,9 +166,9 @@ export function EnigmaSection() {
       )}
 
       {data.enigma.length === 0 && (
-        <div className="text-center py-8 text-white/20">
-          <FaHeart size={32} className="mx-auto mb-2 opacity-30" />
-          <p className="text-sm">Adicione o que você ama nessa pessoa</p>
+        <div className="text-center py-8 text-gray-300">
+          <FaHeart size={32} className="mx-auto mb-2 text-[#e687cd] opacity-30" />
+          <p className="text-sm text-gray-500">Adicione o que você ama nessa pessoa</p>
         </div>
       )}
     </div>

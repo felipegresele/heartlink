@@ -43,7 +43,7 @@ export default function ContentEscolherMusica({
     <div className="space-y-5">
       <div className="flex gap-2">
         <input
-          className="flex-1 p-3 bg-gray-800 rounded-lg text-white outline-none focus:ring-2 focus:ring-red-500"
+          className="flex-1 p-3 bg-gray-100 border border-gray-300 text-black rounded-lg outline-none focus:ring-2 focus:ring-red-500"
           placeholder="Buscar música no YouTube..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -51,7 +51,7 @@ export default function ContentEscolherMusica({
         />
         <button
           onClick={buscarMusicas}
-          className="bg-red-600 hover:bg-red-700 transition px-5 py-2 rounded-lg text-white font-medium"
+          className="bg-[#e687cd] hover:bg-red-700 transition px-5 py-2 rounded-lg text-white font-medium"
         >
           {carregando ? "Buscando..." : "Buscar"}
         </button>

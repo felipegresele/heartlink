@@ -25,11 +25,11 @@ export function EscolherTemplate() {
   }, [usuario]);
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-start text-white p-6">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-start text-black p-6">
       <h1 className="font-bold text-3xl mt-6 mb-2">
         Modelos de templates disponíveis
       </h1>
-      <p className="text-sm text-gray-400 mb-10 text-center">
+      <p className="text-sm text-gray-500 mb-10 text-center">
         Escolha qual você deseja para surpreender alguém
       </p>
 
@@ -37,14 +37,14 @@ export function EscolherTemplate() {
         {templates.map((item) => (
           <div
             key={item.id}
-            className="group relative w-64 h-44 rounded-2xl p-[1px] bg-gradient-to-br from-pink-500/40 via-red-500/30 to-transparent hover:from-pink-500 hover:via-red-500 transition-all duration-300"
+            className="group relative w-64 h-44 rounded-2xl p-[1px] bg-gradient-to-br from-pink-300/40 via-pink-500/30 to-transparent hover:from-pink-100 hover:via-pink-200 transition-all duration-300"
           >
-            <div className="relative w-full h-full bg-[#0d0d1a] rounded-2xl flex flex-col items-center justify-center text-center p-5 overflow-hidden">
+            <div className="relative w-full h-full bg-gray-100 rounded-2xl flex flex-col items-center justify-center text-center p-5 overflow-hidden">
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent" />
 
               <h3 className="text-lg font-bold mb-2 z-10">{item.title}</h3>
 
-              <p className="text-xs text-white/60 mb-4 z-10">{item.bonus}</p>
+              <p className="text-xs text-[#e687cd] mb-4 z-10 font-bold">{item.bonus}</p>
 
               <Link
                 to={item.path}
@@ -57,7 +57,7 @@ export function EscolherTemplate() {
         ))}
       </div>
 
-      <p className="text-sm text-gray-400 mt-16">Em breve mais disponíveis</p>
+      <p className="text-sm text-gray-500 mt-16">Em breve mais disponíveis</p>
 
       {abrirModal && <LoginModal fecharModal={() => setAbrirModal(false)} />}
     </div>

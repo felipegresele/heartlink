@@ -53,11 +53,11 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
   ];
 
   return (
-    <div className="bg-black flex flex-col items-center p-4 gap-4">
-      <h2 className="text-xl md:text-2xl font-bold text-white text-center mb-1">
+    <div className="bg-[#FAFAFA] flex flex-col items-center p-4 gap-4">
+      <h2 className="text-xl md:text-2xl font-bold text-black text-center mb-1">
         Escolha seu plano
       </h2>
-      <p className="text-gray-400 text-center text-sm md:text-sm mb-2">
+      <p className="text-gray-500 text-center text-md mb-2">
         Escolha o que melhor se encaixa para você.
       </p>
 
@@ -69,19 +69,19 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
             className={`p-4 rounded-xl border flex flex-col gap-3 cursor-pointer transition-all 
               ${
                 selectedPlan === plano.planType
-                  ? "ring-2 ring-red-500"
+                  ? "ring-2 ring-[#e687cd]"
                   : plano.recomendado
-                  ? "border-red-500"
+                  ? "border-[#e687cd]"
                   : "border-gray-700"
-              } bg-gradient-to-b from-black via-gray-900 to-black`}
+              } bg-black`}
           >
             {plano.recomendado && (
-              <span className="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs w-max">
+              <span className="bg-[#e687cd] text-white px-2 py-0.5 rounded-full text-xs w-max">
                 ⭐ Recomendado
               </span>
             )}
 
-            <h3 className="text-lg md:text-xl font-bold text-red-500">{plano.titulo}</h3>
+            <h3 className="text-lg md:text-xl font-bold text-[#e687cd]">{plano.titulo}</h3>
             <p className="text-gray-400 text-sm">{plano.descricao}</p>
 
             <ul className="flex flex-col gap-1 mt-1 text-xs">
@@ -108,7 +108,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
 
             <button
               onClick={() => setSelectedPlan(plano.planType)}
-              className="mt-2 bg-red-500 hover:bg-red-600 text-white py-1.5 rounded-lg font-semibold text-sm"
+              className="mt-2 bg-[#e687cd] hover:bg-pink-400 text-white py-1.5 rounded-lg font-semibold text-sm cursor-pointer"
             >
               Quero esse
             </button>

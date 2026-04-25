@@ -24,7 +24,7 @@ export function FormTempoConhecimento({
           validarData()
           setDataConhecimento(e.target.value);
         }}
-        className="w-full p-2 rounded-md text-white bg-gray-800"
+        className="w-full p-2 rounded-md text-black bg-gray-100 border border-gray-300"
       />
     </div>
   );

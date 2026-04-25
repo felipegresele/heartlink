@@ -237,10 +237,10 @@ export function WheelSection() {
             <FaRandom />
           </span>
           <div>
-            <h3 className="text-white font-bold text-lg leading-tight">
+            <h3 className="text-black font-bold text-lg leading-tight">
               Roleta
             </h3>
-            <p className="text-white/40 text-xs">
+            <p className="text-gray-500 text-xs">
               Sorteie a próxima aventura de vocês
             </p>
           </div>
@@ -258,11 +258,11 @@ export function WheelSection() {
               value={novoItem}
               onChange={(e) => setNovoItem(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-pink-400"
+              className="flex-1 bg-gray-100 border border-gray-300 text-black rounded-xl px-4 py-2 text-black text-sm placeholder:text-black outline-none focus:border-pink-400"
             />
             <button
               onClick={handleAdd}
-              className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl transition-colors"
+              className="bg-[#e687cd] hover:bg-pink-400 text-white px-4 py-2 rounded-xl transition-colors"
             >
               <FaPlus size={14} />
             </button>
@@ -304,7 +304,7 @@ export function WheelSection() {
               disabled={girando}
               className={`flex items-center gap-2 font-bold px-8 py-3 rounded-full transition-all ${
                 girando
-                  ? "bg-white/10 text-white/40 cursor-not-allowed"
+                  ? "bg-black text-black cursor-not-allowed"
                   : "bg-gradient-to-r from-red-500 to-purple-500 text-white hover:opacity-90 shadow-lg shadow-red-500/30"
               }`}
             >
@@ -324,7 +324,7 @@ export function WheelSection() {
         )}
 
         {items.length < 2 && items.length > 0 && (
-          <p className="text-white/30 text-xs text-center">
+          <p className="text-black text-xs text-center">
             Adicione pelo menos 2 opções para girar
           </p>
         )}
@@ -349,7 +349,7 @@ export function WheelSection() {
                   type="text"
                   value={item.texto}
                   onChange={(e) => updateWheelItem(item.id, e.target.value)}
-                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-white text-sm outline-none focus:border-pink-400"
+                  className="flex-1 bg-gray-100 border border-gray-300 text-black rounded-lg px-3 py-1.5 text-black text-sm outline-none focus:border-pink-400"
                 />
                 <button
                   onClick={() => removeWheelItem(item.id)}

@@ -198,7 +198,7 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
                         </div>
                         {molduraSelecionada === moldura.id && (
                           <div className="absolute top-2 right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                            <FiCheck size={11} className="text-white" />
+                            <FiCheck size={11} className="text-black" />
                           </div>
                         )}
                       </button>
@@ -211,9 +211,9 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
                     className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:bg-gray-800 disabled:opacity-30 transition-all flex-shrink-0"
                   >›</button>
                 </div>
-                <p className="text-xs text-center text-gray-400">
+                <p className="text-md text-center text-gray-500">
                   Selecionada:{" "}
-                  <span className="text-white font-medium">
+                  <span className="text-black font-medium">
                     {MOLDURAS.find((m) => m.id === molduraSelecionada)?.label}
                   </span>
                 </p>
@@ -222,16 +222,16 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
           </div>
 
           {/* Seus dados */}
-          <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-5">
-            <h3 className="font-bold text-sm mb-3 text-gray-100">Seus dados</h3>
-            <div className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-gray-300">
+          <div className="bg-[#FAFAFA] border border-gray-300 rounded-2xl p-5">
+            <h3 className="font-bold text-sm mb-3 text-black">Seus dados</h3>
+            <div className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-xl text-sm text-gray-500">
               {userEmail || "Email não encontrado"}
             </div>
-            <p className="text-xs text-gray-500 mt-2">O link de acesso será enviado para este email.</p>
+            <p className="text-md text-gray-500 mt-2">O link de acesso será enviado para este email.</p>
           </div>
 
           {/* Aviso entrega */}
-          <div className="flex items-start gap-3 text-xs text-orange-300 border border-orange-900/50 bg-orange-950/20 p-4 rounded-xl">
+          <div className="flex items-start gap-3 text-xs text-black border border-orange-100 bg-orange-100 p-4 rounded-xl">
             <FiAlertCircle size={16} className="flex-shrink-0 mt-0.5" />
             <span>
               O QR Code para acessar sua página será enviado pela nossa equipe para o seu email após confirmação do pagamento.
@@ -239,11 +239,11 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
           </div>
 
           {/* Forma de pagamento + botão */}
-          <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-5">
-            <h3 className="font-bold text-sm mb-4 text-gray-100">Forma de pagamento</h3>
-            <div className="bg-gray-800 rounded-xl p-4 mb-4 border border-gray-700">
+          <div className="bg-[#FAFAFA] border border-gray-300 rounded-2xl p-5">
+            <h3 className="font-bold text-sm mb-4 text-black">Forma de pagamento</h3>
+            <div className="bg-gray-100 rounded-xl p-4 mb-4 border border-gray-300">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-400">Mercado Pago</span>
+                <span className="text-xs text-gray-500">Mercado Pago</span>
                 <span className="text-xs bg-green-600/20 text-green-400 px-2 py-0.5 rounded-full border border-green-600/30">Instantâneo</span>
               </div>
               <p className="text-xs text-gray-500">Pix, cartão de crédito ou boleto</p>
@@ -253,7 +253,7 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
               <button
                 onClick={gerarPagamento}
                 disabled={isCreating}
-                className="w-full py-4 rounded-xl font-bold text-sm bg-red-600 hover:bg-red-500 text-white transition-all active:scale-[0.98] shadow-lg shadow-red-600/20 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                className="w-full py-4 rounded-xl font-bold text-sm bg-[#e687cd] hover:bg-pink-400 text-white transition-all active:scale-[0.98] shadow-lg shadow-red-600/20 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isCreating ? (
                   <span className="flex items-center justify-center gap-2">
@@ -281,7 +281,7 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
                 >
                   Ir para pagamento →
                 </a>
-                <p className="text-xs text-gray-300 break-all text-center">{paymentLink}</p>
+                <p className="text-xs text-gray-400 break-all text-center">{paymentLink}</p>
               </div>
             )}
 

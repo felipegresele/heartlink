@@ -20,7 +20,7 @@ import { MeusTemplates } from "./components/editar-templates-criados/meus-templa
 import { Sobre } from "./components/sobre";
 import { FaqCompleto } from "./components/faqs/faq-completo";
 import { DemoBanner } from "./components/criar-declaracao/components/demo-banner/demo-banner";
-import { RecursosCardContainer } from "./components/criar-declaracao/components/resumo-container/resumo-container";
+import { RecursosCardContainer } from "./components/resumo-container/resumo-container";
 import ExibirCardCelularesTelaInicial from "./components/exibir-sessoes-celular/exibir-card-celular-tela-inicial";
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -49,7 +49,7 @@ function App() {
                 <RegrasComoFunciona />
                 <EscolhaTema />
                 <RecursosCardContainer />
-                <div className="px-4 md:px-8 py-4 bg-white">
+                <div className="px-4 md:px-8 py-4 bg-[#FAFAFA]">
                   <DemoBanner
                     onAbrirDemo={() =>
                       window.open(

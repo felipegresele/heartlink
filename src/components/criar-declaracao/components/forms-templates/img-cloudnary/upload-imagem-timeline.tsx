@@ -71,7 +71,7 @@ export function UploadImagemTimeline({ value, onChange, className = "", label }:
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-2 py-6 text-white/40 group-hover:text-pink-400 transition-colors">
+        <div className="flex flex-col items-center justify-center gap-2 py-6 text-[#e687cd] group-hover:text-pink-400 transition-colors">
           <FaCamera size={24} />
           <span className="text-xs">{label ?? "Foto do momento"}</span>
         </div>

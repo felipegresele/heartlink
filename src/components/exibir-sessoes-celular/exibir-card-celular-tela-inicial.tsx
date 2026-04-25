@@ -161,7 +161,7 @@ export default function ExibirCardCelularesTelaInicial() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "32px 16px",
+        padding: "32px 110px",
         fontFamily: "'DM Sans', sans-serif",
       }}
     >

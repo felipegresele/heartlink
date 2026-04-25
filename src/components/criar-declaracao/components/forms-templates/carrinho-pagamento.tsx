@@ -101,7 +101,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
           <h1 className="text-xl font-bold">Finalizar pedido</h1>
         </div>
 
-          <p className="mt-4 text-sm md:text-base text-gray-500">
+          <p className="mt-4 text-sm md:text-base text-gray-500 mb-4">
             Finalize os detalhes abaixo e prepare-se para criar um momento
             inesquecível.
           </p>
@@ -127,12 +127,12 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
               </div>
 
               {precoMoldura > 0 && (
-                <div className="flex justify-between items-center text-sm text-gray-300 mb-3">
+                <div className="flex justify-between items-center text-sm text-black mb-3">
                   <div className="flex items-center gap-2">
                     <MdQrCode2 size={14} className="text-gray-500" />
                     <span>QR Code personalizado</span>
                   </div>
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold black">
                     + R$ {precoMoldura.toFixed(2).replace(".", ",")}
                   </span>
                 </div>
@@ -156,7 +156,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                   <MdQrCode2 size={20} className="text-[#e687cd]"/>
                   QR Code personalizado
                   {molduraSelecionada !== "NONE" && (
-                    <span className="ml-2 bg-[#e687cd] text-white text-md font-bold px-2 py-0.5 rounded-full border border-pink-400">
+                    <span className="ml-2 bg-[#e687cd] text-black text-md font-bold px-2 py-0.5 rounded-full border border-pink-400">
                       + R$ {precoMoldura.toFixed(2).replace(".", ",")}
                     </span>
                   )}
@@ -256,9 +256,9 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                   </div>
 
                   {/* Nome da selecionada */}
-                  <p className="text-xs text-center text-gray-400">
+                  <p className="text-md text-center text-gray-500">
                     Selecionada:{" "}
-                    <span className="text-white font-medium">
+                    <span className="text-black font-medium">
                       {MOLDURAS.find((m) => m.id === molduraSelecionada)?.label}
                     </span>
                   </p>
@@ -267,7 +267,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
             </div>
 
             {/* Aviso */}
-            <div className="flex items-start gap-3 text-xs text-orange-300 border border-orange-900/50 bg-orange-950/20 p-4 rounded-xl">
+            <div className="flex items-start gap-3 text-xs text-orange-500 border border-orange-500/50 bg-orange-100/20 p-4 rounded-xl">
               <FiAlertCircle size={16} className="flex-shrink-0 mt-0.5" />
               <span>
                 O QR Code para acessar sua página será enviado pela nossa equipe
@@ -279,12 +279,12 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
           {/* ── COLUNA DIREITA ── */}
           <div className="lg:col-span-2 space-y-4">
             {/* Card: Seus dados */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-              <h2 className="font-bold text-base mb-4 text-gray-100">
+            <div className="bg-[#FAFAFA] border border-gray-300 rounded-2xl p-5">
+              <h2 className="font-bold text-base mb-4 text-black">
                 Seus dados
               </h2>
               <div className="space-y-3">
-                <div className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-sm text-gray-300">
+                <div className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-xl text-sm text-black">
                   {userEmail || "Email não encontrado"}
                 </div>
                 <p className="text-xs text-gray-500">
@@ -294,15 +294,15 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
             </div>
 
             {/* Card: Pagamento */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-              <h2 className="font-bold text-base mb-4 text-gray-100">
+            <div className="bg-[#FAFAFA] border border-gray-300 rounded-2xl p-5">
+              <h2 className="font-bold text-base mb-4 text-black">
                 Forma de pagamento
               </h2>
 
-              <div className="bg-gray-800 rounded-xl p-4 mb-4 border border-gray-700">
+              <div className="bg-gray-100 rounded-xl p-4 mb-4 border border-gray-300">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs text-gray-400">Mercado Pago</span>
-                  <span className="text-xs bg-green-600/20 text-green-400 px-2 py-0.5 rounded-full border border-green-600/30">
+                  <span className="text-xs text-gray-500">Mercado Pago</span>
+                  <span className="text-xs bg-green-600/20 text-green-600 px-2 py-0.5 rounded-full border border-green-600/30">
                     Instantâneo
                   </span>
                 </div>
@@ -316,7 +316,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                 <button
                   onClick={gerarPagamento}
                   disabled={isCreating}
-                  className="w-full py-4 rounded-xl font-bold text-sm bg-red-600 hover:bg-red-500 text-white transition-all active:scale-[0.98] shadow-lg shadow-red-600/20 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full py-4 rounded-xl font-bold text-sm bg-[#e687cd] hover:bg-pink-400 cursor-pointer text-white transition-all active:scale-[0.98] shadow-lg shadow-red-600/20 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isCreating ? (
                     <span className="flex items-center justify-center gap-2">

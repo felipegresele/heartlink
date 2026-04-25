@@ -135,23 +135,23 @@ export function Header() {
         {/* Mobile Menu */}
         <div
           className={`
-            fixed inset-0 bg-black flex flex-col p-6 pt-24 gap-8 transition-transform duration-300 md:hidden z-[1000]
+            fixed inset-0 bg-[#FAFAFA] flex flex-col p-6 pt-24 gap-8 transition-transform duration-300 md:hidden z-[1000]
             ${menuAberto ? "translate-x-0" : "translate-x-full"}
           `}
         >
           {usuario && (
-            <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-              <div className="w-12 h-12 bg-[#e687cd] rounded-full flex items-center justify-center text-xl font-bold text-white uppercase">
+            <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-gray-100">
+              <div className="w-12 h-12 bg-[#e687cd] rounded-full flex items-center justify-center text-xl font-bold text-black uppercase">
                 {usuario.nome?.charAt(0)}
               </div>
               <div>
-                <p className="text-white font-bold text-lg">{usuario.nome}</p>
-                <p className="text-xs text-gray-400">{usuario.email}</p>
+                <p className="text-black font-bold text-lg">{usuario.nome}</p>
+                <p className="text-md text-gray-500">{usuario.email}</p>
               </div>
             </div>
           )}
 
-          <nav className="flex flex-col gap-6 text-2xl font-black text-white">
+          <nav className="flex flex-col gap-6 text-2xl font-black text-black">
             <Link to="/" onClick={() => setMenuAberto(false)} className="hover:text-[#e687cd] transition-colors">Início</Link>
             <Link to="/sobre" onClick={() => setMenuAberto(false)} className="hover:text-[#e687cd] transition-colors">Sobre</Link>
             <Link to="/help" onClick={() => setMenuAberto(false)} className="hover:text-[#e687cd] transition-colors">F.A.Q</Link>
@@ -162,7 +162,7 @@ export function Header() {
               <>
                 <button
                   onClick={() => { navigate("/perfil"); setMenuAberto(false); }}
-                  className="w-full flex items-center justify-center gap-2 bg-white/10 text-white p-4 rounded-2xl font-bold border border-white/20"
+                  className="w-full flex items-center justify-center gap-2 bg-white/10 text-black p-4 rounded-2xl font-bold border border-gray-300"
                 >
                   <FiUser /> Meu Perfil
                 </button>

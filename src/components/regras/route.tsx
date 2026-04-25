@@ -54,17 +54,17 @@ export function TermosDeUso() {
     ];
 
     return (
-        <div className="bg-black min-h-screen text-white px-6 py-12">
-            <h1 className="text-4xl font-bold text-red-600 mb-8 text-center">
-                <span className="text-white">Termos de Uso</span> - HeartCode
+        <div className="bg-[#FAFAFA] min-h-screen text-black px-6 py-12">
+            <h1 className="text-4xl font-bold text-[#e687cd] mb-8 text-center">
+                <span className="text-black">Termos de Uso</span> - HeartCode
             </h1>
             <div className="max-w-4xl mx-auto space-y-6">
                 {termos.map((item, index) => (
-                    <div key={index} className="border-l-4 border-red-600 pl-4">
-                        <h2 className="text-2xl font-semibold text-white mb-2">
+                    <div key={index} className="border-l-4 border-pink-400 pl-4">
+                        <h2 className="text-2xl font-semibold text-black mb-2">
                             {item.title}
                         </h2>
-                        <p className="text-white">{item.description}</p>
+                        <p className="text-gray-500">{item.description}</p>
                     </div>
                 ))}
             </div>
@@ -123,17 +123,17 @@ export function Privacidade() {
   ];
 
   return (
-    <div className="bg-black min-h-screen text-white px-6 py-12">
-      <h1 className="text-4xl font-bold text-red-600 mb-8 text-center">
-        <span className="text-white">Política de Privacidade</span> - HeartCode
+    <div className="bg-[#FAFAFA] min-h-screen text-white px-6 py-12">
+      <h1 className="text-4xl font-bold text-[#e687cd] mb-8 text-center">
+        <span className="text-black">Política de Privacidade</span> - HeartCode
       </h1>
       <div className="max-w-4xl mx-auto space-y-6">
         {politicas.map((item, index) => (
-          <div key={index} className="border-l-4 border-red-600 pl-4">
-            <h2 className="text-2xl font-semibold text-white mb-2">
+          <div key={index} className="border-l-4 border-pink-400 pl-4">
+            <h2 className="text-2xl font-semibold text-black mb-2">
               {item.title}
             </h2>
-            <p className="whitespace-pre-line text-white">{item.description}</p>
+            <p className="whitespace-pre-line text-black">{item.description}</p>
           </div>
         ))}
       </div>

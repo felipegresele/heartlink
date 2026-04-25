@@ -70,8 +70,7 @@ const sections: Section[] = [
     id: "introducao",
     label: "Introdução Animada",
     title: "Introdução Animada",
-    description:
-      "O começo de tudo. Uma abertura cinematográfica que mergulha o casal em uma experiência inesquecível, preparando o coração para o que vem a seguir.",
+    description: "O começo de tudo. Uma abertura cinematográfica que mergulha o casal em uma experiência inesquecível, preparando o coração para o que vem a seguir.",
     video: videoIntroducao,
     icon: <IntroIcon />,
   },
@@ -79,8 +78,7 @@ const sections: Section[] = [
     id: "galeria",
     label: "Galeria de Imagens",
     title: "Galeria de Imagens",
-    description:
-      "Transforme suas fotos favoritas em uma galeria de arte digital. Conte a história de seus momentos de uma forma visualmente deslumbrante.",
+    description: "Transforme suas fotos favoritas em uma galeria de arte digital. Conte a história de seus momentos de uma forma visualmente deslumbrante.",
     video: videoGaleria,
     icon: <CameraIcon />,
   },
@@ -88,8 +86,7 @@ const sections: Section[] = [
     id: "linha-tempo",
     label: "Linha do Tempo",
     title: "Linha do Tempo",
-    description:
-      "Cada data marcada, cada capítulo vivido. Reviva a jornada do casal em uma linha do tempo interativa cheia de memórias e emoções.",
+    description: "Cada data marcada, cada capítulo vivido. Reviva a jornada do casal em uma linha do tempo interativa cheia de memórias e emoções.",
     video: videoLinhaTempo,
     icon: <TimelineIcon />,
   },
@@ -97,8 +94,7 @@ const sections: Section[] = [
     id: "roleta",
     label: "Roleta",
     title: "Roleta dos Momentos",
-    description:
-      "Uma surpresa a cada giro! A roleta sorteia memórias especiais do casal de forma lúdica e divertida, tornando cada revelação única.",
+    description: "Uma surpresa a cada giro! A roleta sorteia memórias especiais do casal de forma lúdica e divertida, tornando cada revelação única.",
     video: videoRoleta,
     icon: <RouletteIcon />,
   },
@@ -106,8 +102,7 @@ const sections: Section[] = [
     id: "enigma",
     label: "Enigma",
     title: "Enigma do Amor",
-    description:
-      "Quem conhece melhor o outro? Desafios e perguntas que revelam o quanto dois corações estão conectados. Um jogo cheio de cumplicidade.",
+    description: "Quem conhece melhor o outro? Desafios e perguntas que revelam o quanto dois corações estão conectados. Um jogo cheio de cumplicidade.",
     video: videoEnigma,
     icon: <EnigmaIcon />,
   },
@@ -115,34 +110,15 @@ const sections: Section[] = [
     id: "ultima-sessao",
     label: "Última Tela",
     title: "Última Tela",
-    description:
-      "O grand finale. Uma tela de encerramento emocionante que resume tudo o que foi vivido e deixa uma mensagem eterna de amor.",
+    description: "O grand finale. Uma tela de encerramento emocionante que resume tudo o que foi vivido e deixa uma mensagem eterna de amor.",
     video: videoUltimaSessao,
     icon: <StarIcon />,
   },
 ];
 
-// Heart SVG component
-const Heart = ({
-  size = 32,
-  opacity = 0.7,
-  style,
-}: {
-  size?: number;
-  opacity?: number;
-  style?: React.CSSProperties;
-}) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 32 32"
-    fill="none"
-    style={{ position: "absolute", opacity, pointerEvents: "none", ...style }}
-  >
-    <path
-      d="M16 27S3 19.5 3 11a7 7 0 0 1 13-3.5A7 7 0 0 1 29 11c0 8.5-13 16-13 16z"
-      fill="#C41E31"
-    />
+const Heart = ({ size = 32, opacity = 0.7, style }: { size?: number; opacity?: number; style?: React.CSSProperties }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" style={{ position: "absolute", opacity, pointerEvents: "none", ...style }}>
+    <path d="M16 27S3 19.5 3 11a7 7 0 0 1 13-3.5A7 7 0 0 1 29 11c0 8.5-13 16-13 16z" fill="#C41E31" />
   </svg>
 );
 
@@ -150,23 +126,24 @@ export default function ExibirCardCelularesTelaInicial() {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = sections[activeIndex];
 
-  const prev = () =>
-    setActiveIndex((i) => (i - 1 + sections.length) % sections.length);
+  const prev = () => setActiveIndex((i) => (i - 1 + sections.length) % sections.length);
   const next = () => setActiveIndex((i) => (i + 1) % sections.length);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "32px 110px",
-        fontFamily: "'DM Sans', sans-serif",
-      }}
-    >
+    <div className="retro-outer">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap');
+
+        .retro-outer {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 32px 110px;
+          font-family: 'DM Sans', sans-serif;
+          box-sizing: border-box;
+          width: 100%;
+        }
 
         .retro-section-wrap {
           border-radius: 28px;
@@ -197,7 +174,6 @@ export default function ExibirCardCelularesTelaInicial() {
           pointer-events: none;
         }
 
-        /* Phone area */
         .phone-area {
           position: relative;
           flex: 0 0 240px;
@@ -222,7 +198,7 @@ export default function ExibirCardCelularesTelaInicial() {
           width: 200px; height: 350px;
           background: #0a0608;
           border-radius: 28px;
-          border: 2px solid rgba(232,37,58,0.4);
+          border: 2px solid #e687cd;
           overflow: hidden;
           z-index: 2;
           box-shadow: 0 0 0 1px rgba(232,37,58,0.08), 0 20px 50px rgba(0,0,0,0.7);
@@ -254,7 +230,6 @@ export default function ExibirCardCelularesTelaInicial() {
         .arrow-btn.left  { left: -8px; }
         .arrow-btn.right { right: -8px; }
 
-        /* Info area */
         .info-area {
           flex: 1;
           display: flex;
@@ -265,7 +240,7 @@ export default function ExibirCardCelularesTelaInicial() {
         .icon-circle {
           width: 52px; height: 52px;
           background: rgba(232,37,58,0.12);
-          border: 1.5px solid #e687cd;;
+          border: 1.5px solid #e687cd;
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           color: #e687cd;
@@ -278,9 +253,7 @@ export default function ExibirCardCelularesTelaInicial() {
           color: #F5F0F1;
           line-height: 1.1;
         }
-        .info-title span {
-          color: #e687cd;
-        }
+        .info-title span { color: #e687cd; }
 
         .info-desc {
           font-size: 15px;
@@ -289,7 +262,6 @@ export default function ExibirCardCelularesTelaInicial() {
           max-width: 400px;
         }
 
-        /* Tabs / selector buttons */
         .tabs-row {
           display: flex;
           flex-wrap: wrap;
@@ -301,7 +273,7 @@ export default function ExibirCardCelularesTelaInicial() {
           font-weight: 600;
           padding: 6px 14px;
           border-radius: 20px;
-          border: 1px solid #e687cd;;
+          border: 1px solid #e687cd;
           background: transparent;
           color: #9A8A8D;
           cursor: pointer;
@@ -309,22 +281,21 @@ export default function ExibirCardCelularesTelaInicial() {
           white-space: nowrap;
         }
         .tab-btn:hover {
-          border-color: #e687cd;;
-          color: #e687cd;;
+          border-color: #e687cd;
+          color: #e687cd;
           background: rgba(232,37,58,0.08);
         }
         .tab-btn.active {
-          border-color: #e687cd;;
-          background: #e687cd;;
+          border-color: #e687cd;
+          background: #e687cd;
           color: #fff;
         }
 
-        /* CTA */
         .cta-btn {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background: #e687cd;;
+          background: #e687cd;
           color: #fff;
           border: none;
           border-radius: 14px;
@@ -336,64 +307,93 @@ export default function ExibirCardCelularesTelaInicial() {
           width: fit-content;
           transition: background 0.2s, transform 0.1s;
           letter-spacing: 0.01em;
+          text-decoration: none;
         }
-        .cta-btn:hover  { background: rgb(212, 105, 199);; transform: scale(1.02); }
+        .cta-btn:hover  { background: rgb(212, 105, 199); transform: scale(1.02); }
         .cta-btn:active { transform: scale(0.97); }
-        .cta-arrow {
-          width: 22px; height: 22px;
-          background: rgba(255,255,255,0.2);
-          border-radius: 7px;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 13px;
-        }
 
+        /* ── MOBILE ── */
         @media (max-width: 700px) {
+          .retro-outer {
+            padding: 16px 12px;
+            align-items: flex-start;
+          }
+
           .retro-section-wrap {
             flex-direction: column;
-            padding: 32px 24px;
-            gap: 32px;
+            padding: 28px 16px;
+            gap: 28px;
           }
-          .phone-area { flex: unset; width: 100%; height: 340px; }
+
+          .phone-area {
+            flex: unset;
+            width: 100%;
+            height: 400px;
+          }
+
+          .phone-frame {
+            width: 220px;
+            height: 390px;
+          }
+
+          .phone-bg {
+            width: 155px;
+            height: 310px;
+          }
+
+          .arrow-btn {
+            width: 38px;
+            height: 38px;
+            font-size: 18px;
+          }
+          .arrow-btn.left  { left: 0px; }
+          .arrow-btn.right { right: 0px; }
+
           .info-title { font-size: 28px; }
+
+          .info-area {
+            align-items: center;
+            text-align: center;
+            width: 100%;
+          }
+
+          .info-desc {
+            text-align: center;
+            max-width: 100%;
+          }
+
+          .tabs-row { justify-content: center; }
+
+          .cta-btn {
+            width: 100%;
+            justify-content: center;
+          }
         }
       `}</style>
 
       <div className="retro-section-wrap">
-
         {/* ===== LEFT: PHONE MOCKUP ===== */}
         <div className="phone-area">
-          {/* Floating hearts */}
           <Heart size={34} style={{ top: 16, left: 2, transform: "rotate(-15deg)" }} opacity={0.65} />
           <Heart size={42} style={{ top: 0, right: 14, transform: "rotate(10deg)" }} opacity={0.5} />
           <Heart size={26} style={{ bottom: 58, left: -2, transform: "rotate(-20deg)" }} opacity={0.45} />
           <Heart size={30} style={{ bottom: 20, right: 4, transform: "rotate(12deg)" }} opacity={0.55} />
 
-          {/* Background phone silhouettes */}
           <div className="phone-bg left" />
           <div className="phone-bg right" />
 
           <div className="phone-frame">
-            <video
-              key={active.video}
-              src={active.video}
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
+            <video key={active.video} src={active.video} autoPlay loop muted playsInline />
           </div>
 
-          {/* Navigation arrows */}
           <button className="arrow-btn left" onClick={prev}>‹</button>
           <button className="arrow-btn right" onClick={next}>›</button>
         </div>
 
         {/* ===== RIGHT: INFO ===== */}
         <div className="info-area">
-          {/* Icon */}
           <div className="icon-circle">{active.icon}</div>
 
-          {/* Title */}
           <h2 className="info-title">
             {active.title.split(" ").map((word, i, arr) =>
               i === arr.length - 1 ? (
@@ -404,10 +404,8 @@ export default function ExibirCardCelularesTelaInicial() {
             )}
           </h2>
 
-          {/* Description */}
           <p className="info-desc">{active.description}</p>
 
-          {/* Section selector buttons */}
           <div className="tabs-row">
             {sections.map((s, i) => (
               <button

@@ -128,3 +128,17 @@ body {
   background-size: 200% 200%;
   animation: borderMove 3s linear infinite;
 }
+
+/* Animação de corações flutuantes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(5deg);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}

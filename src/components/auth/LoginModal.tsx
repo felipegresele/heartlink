@@ -17,14 +17,14 @@ export function LoginModal({ fecharModal }: LoginModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-      <div className="bg-gray-900 border border-gray-700 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all">
+      <div className="bg-[#FAFAFA] border border-gray-300 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">HeartCode</h1>
+          <h1 className="text-2xl font-extrabold text-black tracking-tight">HeartCode</h1>
           <button
             onClick={fecharModal}
-            className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+            className="p-1 hover:bg-gray-200 rounded-full transition-colors"
           >
-            <IoClose size={24} className="text-gray-400 hover:text-white" />
+            <IoClose size={24} className="text-gray-400 hover:text-black" />
           </button>
         </div>
         <LoginForm fecharModal={fecharModal} onCadastro={() => setModoCadastro(true)} />
@@ -57,15 +57,15 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div>
-        <h2 className="text-lg font-medium text-gray-300 mb-1">Bem-vindo de volta</h2>
-        <p className="text-sm text-gray-300 mb-2 mt-1">Você deve estar logado na sua conta para criar sua tela personalizada</p>
-        <p className="text-sm text-gray-500 mb-6">Insira seus dados para acessar sua conta.</p>
+        <h2 className="text-lg font-medium text-black mb-1">Bem-vindo de volta</h2>
+        <p className="text-sm text-gray-500 mb-2 mt-1">Você deve estar logado na sua conta para criar sua tela personalizada</p>
+        <p className="text-sm text-gray-400 mb-6">Insira seus dados para acessar sua conta.</p>
       </div>
 
       <div className="space-y-4">
         {/* Campo Email */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-gray-400 ml-1">Email</label>
+          <label className="text-sm font-medium text-gray-500 ml-1">Email</label>
           <Controller
             name="email" control={control}
             rules={{
@@ -76,8 +76,8 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
               <input
                 {...field}
                 placeholder="exemplo@email.com"
-                className={`w-full px-4 py-3 bg-gray-800 border rounded-xl text-white outline-none transition-all focus:ring-2 
-                  ${errors.email ? 'border-red-500 focus:ring-red-500/20' : 'border-gray-700 focus:border-blue-500 focus:ring-blue-500/20'}`}
+                className={`w-full px-4 py-3 bg-gray-100 border rounded-xl text-black outline-none transition-all focus:ring-2 
+                  ${errors.email ? 'border-red-500 focus:ring-red-500/20' : 'border-gray-300 focus:border-[#e687cd] focus:ring-[#e687cd]/20'}`}
               />
             )}
           />
@@ -86,7 +86,7 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
 
         {/* Campo Senha */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-gray-400 ml-1">Senha</label>
+          <label className="text-sm font-medium text-gray-500 ml-1">Senha</label>
           <Controller
             name="password" control={control}
             rules={{ required: "Senha é obrigatória" }}
@@ -95,8 +95,8 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
                 type="password"
                 {...field}
                 placeholder="••••••••"
-                className={`w-full px-4 py-3 bg-gray-800 border rounded-xl text-white outline-none transition-all focus:ring-2 
-                  ${errors.password ? 'border-red-500 focus:ring-red-500/20' : 'border-gray-700 focus:border-blue-500 focus:ring-blue-500/20'}`}
+                className={`w-full px-4 py-3 bg-gray-100 border rounded-xl text-black outline-none transition-all focus:ring-2 
+                  ${errors.password ? 'border-red-500 focus:ring-red-500/20' : 'border-gray-300 focus:border-[#e687cd] focus:ring-[#e687cd]/20'}`}
               />
             )}
           />
@@ -106,17 +106,17 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
 
       <button
         type="submit"
-        className="w-full py-3 cursor-pointer px-4 mt-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-blue-900/20"
+        className="w-full py-3 cursor-pointer px-4 mt-4 bg-[#e687cd] hover:bg-pink-400 text-white font-semibold rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-pink-200"
       >
         Entrar na conta
       </button>
 
-      <p className="text-sm text-center mt-4 text-gray-400">
+      <p className="text-sm text-center mt-4 text-gray-500">
         Não tem conta?{" "}
         <button
           type="button"
           onClick={onCadastro}
-          className="text-red-500 hover:underline"
+          className="text-[#e687cd] hover:underline"
         >
           Criar conta
         </button>

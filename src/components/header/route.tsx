@@ -111,13 +111,13 @@ export function Header() {
           <div className="flex gap-2">
             <button
               onClick={abrirModalLogin}
-              className="cursor-pointer text-white text-xl font-bold px-4 py-2 hover:bg-white/10 rounded-lg transition-all"
+              className="cursor-pointer text-black text-xl font-bold px-4 py-2 hover:bg-white/10 rounded-lg transition-all"
             >
               Entrar
             </button>
             <button
               onClick={abrirModal}
-              className="cursor-pointer bg-red-600 hover:bg-red-700 text-white text-xl font-bold py-2 px-6 rounded-full shadow-lg shadow-red-600/20 transition-all"
+              className="cursor-pointer bg-[#e687cd] hover:bg-pink-400 text-white text-xl font-bold py-2 px-6 rounded-full shadow-lg shadow-red-600/20 transition-all"
             >
               Cadastrar
             </button>

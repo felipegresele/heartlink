@@ -47,7 +47,7 @@ export function AvaliacoesDeslizando() {
           }}
           className="absolute top-0 flex items-center"
         >
-          <div className="w-72 backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl p-3 shadow-lg">
+          <div className="w-72 bg-white/10 border border-gray-200 rounded-xl p-3">
             
             <div className="flex items-center gap-2 mb-1">
               <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center text-xs font-bold">

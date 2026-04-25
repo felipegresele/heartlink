@@ -1,5 +1,6 @@
 import { FaTimes } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export function Planos() {
     return (
@@ -99,9 +100,9 @@ function PlanoPageContent() {
                             </h3>
                         </div>
 
-                        <button className="mt-auto bg-[#e687cd] hover:bg-pink-400 text-white py-3 rounded-lg font-bold cursor-pointer transition-colors">
+                        <Link to="/criar" className="mt-auto bg-[#e687cd] hover:bg-pink-400 text-white py-3 rounded-lg font-bold cursor-pointer transition-colors">
                             Criar minha página
-                        </button>
+                        </Link>
                     </div>
                 ))}
             </div>

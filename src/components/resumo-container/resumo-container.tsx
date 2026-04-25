@@ -3,6 +3,7 @@ import { FiCloud, FiCamera } from "react-icons/fi";
 import { FaPalette, FaMusic } from "react-icons/fa";
 import imgEscrevendo from "../../img/mascote-fotos/escrevendo.png"
 import imgPintura from "../../img/mascote-fotos/olhos-brilhando.png"
+import imgPensando from "../../img/mascote-fotos/pensando.png"
 
 interface RecursoCard {
   icon: React.ReactNode;
@@ -132,14 +133,8 @@ const RECURSOS: RecursoCard[] = [
     icon: <FaMusic className="w-5 h-5" />,
     titulo: "Com uma retrospectiva única",
     descricao: "Uma retrospectiva animada para relembrar os melhores momentos dessa história especial.",
-    visual: <VisualRetrospectiva />,
+    visual: <img src={imgPensando} className="w-75 h-75"/>,
     destaque: true,
-  },
-  {
-    icon: <FiCamera className="w-5 h-5" />,
-    titulo: "Relembre seus melhores momentos",
-    descricao: "O presente digital que faz quem você ama sentir o quanto é especial.",
-    visual: <VisualMomentos />,
   },
 ];
 

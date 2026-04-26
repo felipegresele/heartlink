@@ -4,7 +4,7 @@ import { FiChevronDown } from "react-icons/fi";
 
 export function Faqs() {
     return (
-        <div className="bg-[#FAFAFA] text-black min-h-screen flex justify-center items-center px-6 py-16">
+        <div className="bg-[#FAFAFA] text-black flex justify-center items-center px-6 py-16">
             <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>
                     <span className="text-xl font-semibold">F.A.Q</span>

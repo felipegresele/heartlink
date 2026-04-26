@@ -135,7 +135,6 @@ export default function ExibirCardCelularesTelaInicial() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap');
 
         .retro-outer {
-          min-height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;

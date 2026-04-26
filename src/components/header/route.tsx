@@ -4,8 +4,8 @@ import { AuthModal } from "../auth/AuthModal";
 import { LoginModal } from "../auth/LoginModal";
 import { SlArrowDown } from "react-icons/sl";
 import { FiMenu, FiX, FiLogOut, FiUser } from "react-icons/fi";
-import imgLogo from "../../img/logo-heartcode.webp";
 import PromoBanner from "./banner-promocao";
+import imgLogo from "../../img/logo-nova.png"
 
 interface Usuario {
   nome: string | null;
@@ -58,9 +58,9 @@ export function Header() {
       <PromoBanner />
 
       <header className="bg-white sticky top-0 z-[999] border-b border-pink-400 px-8 flex items-center justify-between h-[72px]">
-
-        {/* Logo — esquerda */}
-        <div className="flex items-center z-[1001]">
+        <div
+          className={`flex items-center z-[1001] transition-opacity duration-300 ${menuAberto ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+        >
           <Link to="/">
             <img src={imgLogo} className="max-w-[200px]" />
           </Link>
@@ -87,8 +87,13 @@ export function Header() {
                 <div className="w-6 h-6 bg-pink-500 cursor-pointer rounded-full flex items-center justify-center text-[10px] font-bold text-white">
                   {usuario.nome?.charAt(0).toUpperCase()}
                 </div>
-                <span className="text-sm font-bold text-black">{usuario.nome}</span>
-                <SlArrowDown size={10} className="group-hover:rotate-180 transition-transform" />
+                <span className="text-sm font-bold text-black">
+                  {usuario.nome}
+                </span>
+                <SlArrowDown
+                  size={10}
+                  className="group-hover:rotate-180 transition-transform"
+                />
               </button>
 
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[1002]">
@@ -152,16 +157,37 @@ export function Header() {
           )}
 
           <nav className="flex flex-col gap-6 text-2xl font-black text-black">
-            <Link to="/" onClick={() => setMenuAberto(false)} className="hover:text-[#e687cd] transition-colors">Início</Link>
-            <Link to="/sobre" onClick={() => setMenuAberto(false)} className="hover:text-[#e687cd] transition-colors">Sobre</Link>
-            <Link to="/help" onClick={() => setMenuAberto(false)} className="hover:text-[#e687cd] transition-colors">F.A.Q</Link>
+            <Link
+              to="/"
+              onClick={() => setMenuAberto(false)}
+              className="hover:text-[#e687cd] transition-colors"
+            >
+              Início
+            </Link>
+            <Link
+              to="/sobre"
+              onClick={() => setMenuAberto(false)}
+              className="hover:text-[#e687cd] transition-colors"
+            >
+              Sobre
+            </Link>
+            <Link
+              to="/help"
+              onClick={() => setMenuAberto(false)}
+              className="hover:text-[#e687cd] transition-colors"
+            >
+              F.A.Q
+            </Link>
           </nav>
 
           <div className="mt-auto flex flex-col gap-4 pb-8">
             {usuario ? (
               <>
                 <button
-                  onClick={() => { navigate("/perfil"); setMenuAberto(false); }}
+                  onClick={() => {
+                    navigate("/perfil");
+                    setMenuAberto(false);
+                  }}
                   className="w-full flex items-center justify-center gap-2 bg-white/10 text-black p-4 rounded-2xl font-bold border border-gray-300"
                 >
                   <FiUser /> Meu Perfil
@@ -176,13 +202,19 @@ export function Header() {
             ) : (
               <>
                 <button
-                  onClick={() => { setExibirModalLogin(true); setMenuAberto(false); }}
-                  className="w-full border border-white/20 text-white p-4 rounded-2xl font-bold text-lg"
+                  onClick={() => {
+                    setExibirModalLogin(true);
+                    setMenuAberto(false);
+                  }}
+                  className="w-full border border-gray-400 text-black p-4 rounded-2xl font-bold text-lg"
                 >
                   Entrar
                 </button>
                 <button
-                  onClick={() => { setExibirModal(true); setMenuAberto(false); }}
+                  onClick={() => {
+                    setExibirModal(true);
+                    setMenuAberto(false);
+                  }}
                   className="w-full bg-[#e687cd] text-white p-4 rounded-2xl font-bold text-lg"
                 >
                   Cadastrar

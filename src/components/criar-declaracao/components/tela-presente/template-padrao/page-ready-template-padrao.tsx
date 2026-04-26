@@ -10,7 +10,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-import imgLogo from "../../../../../img/logo-heartcode.webp";
+import imgLogo from "../../../../../img/logo-nova.png";
 import MusicPlayerFooter from "../../music/exibir-musica";
 import ModalPresente from "../modal/modal-ver-presente";
 import {

@@ -227,17 +227,17 @@ export function TimelineSection() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl text-white">
+        <span className="text-2xl text-black">
           <FiClock />
         </span>
         <div>
           <h3
-            className="text-black font-bold text-lg leading-tight"
+            className="text-black font-bold text-xl leading-tight"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Linha do Tempo
           </h3>
-          <p className="text-white/40 text-xs">
+          <p className="text-gray-500 text-xs">
             Os momentos mais especiais de vocês
           </p>
         </div>

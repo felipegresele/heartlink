@@ -5,7 +5,7 @@ import { AvaliacoesDeslizando } from "../avaliacoes/card-avaliacoes";
 
 export function BoasVindas() {
   return (
-    <div className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-8 md:px-20 text-black bg-gradient-to-br from-pink-50 via-white to-fuchsia-50 overflow-hidden">
+    <div className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-20 text-black bg-gradient-to-br from-pink-50 via-white to-fuchsia-50 overflow-hidden">
       {/* Efeito de brilho de fundo */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-pink-200 rounded-full opacity-20 blur-3xl -translate-y-1/2 translate-x-1/2" />

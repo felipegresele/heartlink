@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Accordion, Button, UnstyledButton } from "@mantine/core";
-import { BsInstagram } from "react-icons/bs";
 
 const faqCategorias = [
   {
@@ -374,7 +373,7 @@ export function FaqCompleto() {
               "&[data-active]": { backgroundColor: "#141414" },
             },
             control: {
-              color: "#f0f0f0",
+              color: "#000000",
               fontFamily: "'DM Sans', sans-serif",
               fontWeight: 500,
               fontSize: "0.92rem",
@@ -385,7 +384,7 @@ export function FaqCompleto() {
               color: "#e687cd",
               width: 22,
               height: 22,
-              backgroundColor: "#757575",
+              backgroundColor: "#d9d3d3",
               borderRadius: "50%",
               display: "flex",
               alignItems: "center",
@@ -400,10 +399,10 @@ export function FaqCompleto() {
               backgroundColor: "white",
             },
             content: {
-              color: "#6b6b6b",
+              color: "#514b4b",
               fontSize: "0.88rem",
               lineHeight: 1.7,
-              padding: "14px 20px 18px",
+              padding: "14px",
               fontFamily: "'DM Sans', sans-serif",
             },
           }}

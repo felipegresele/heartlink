@@ -32,7 +32,7 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
   return (
     <div className="space-y-2">
       <h2 className="text-lg font-bold">
-        O que você quer dizer pra pessoa que vc ama? 💌
+        O que você quer dizer pra pessoa que você ama? 💌
       </h2>
       <textarea
         placeholder="Digite sua mensagem"

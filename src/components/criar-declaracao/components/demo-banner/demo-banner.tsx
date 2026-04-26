@@ -209,9 +209,9 @@ export function DemoBanner({ onAbrirDemo }: Props) {
         {/* Conteúdo */}
         <div className="relative z-10 flex items-center justify-between px-6 md:px-12 py-10 gap-6">
           {/* Celular esquerdo */}
-          <div className="hidden md:block">
+          {/* <div className="hidden md:block">
             <MockPhone side="left" />
-          </div>
+          </div> */}
 
           {/* Texto central */}
           <motion.div
@@ -269,9 +269,9 @@ export function DemoBanner({ onAbrirDemo }: Props) {
           </motion.div>
 
           {/* Celular direito */}
-          <div className="hidden md:block">
+          {/* <div className="hidden md:block">
             <MockPhone side="right" />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

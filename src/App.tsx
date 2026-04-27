@@ -49,7 +49,7 @@ function App() {
                 <RegrasComoFunciona />
                 <EscolhaTema />
                 <RecursosCardContainer />
-                <div className="px-4 md:px-8 py-4 bg-[#FAFAFA]">
+                <div className="flex justify-center px-4 md:px-8 py-4 bg-[#FAFAFA]">
                   <DemoBanner
                     onAbrirDemo={() =>
                       window.open(

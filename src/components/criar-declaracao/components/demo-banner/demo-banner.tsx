@@ -83,7 +83,7 @@ function MockPhone({ side }: { side: "left" | "right" }) {
       style={{ width: 160 }}
     >
       <div
-        className="relative rounded-[24px] overflow-hidden"
+        className="relative rounded-[24px] overflow-hidden mb-3"
         style={{
           width: 160,
           height: 300,
@@ -185,7 +185,7 @@ export function DemoBanner({ onAbrirDemo }: Props) {
       `}</style>
 
       <div
-        className="relative w-full overflow-hidden"
+        className="relative w-200 overflow-hidden mb-2"
         style={{
           background:
             "linear-gradient(135deg, #be123c 0%, #9f1239 40%, #6d1b7b 100%)",

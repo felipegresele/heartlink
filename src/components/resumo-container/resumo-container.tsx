@@ -101,13 +101,13 @@ const RECURSOS: RecursoCard[] = [
     icon: <FiCloud className="w-5 h-5" />,
     titulo: "Para sempre no ar",
     descricao: "Seu presente é enviado direto para a nuvem, na hora. Fica sempre online com o plano 'Para Sempre', disponível de qualquer lugar do mundo.",
-    visual: <img src={imgEscrevendo} className="w-75 h-75"/>,
+    visual: <img src={imgEscrevendo} className="w-70 h-70"/>,
   },
   {
     icon: <FaPalette className="w-5 h-5" />,
     titulo: "100% personalizável",
     descricao: "Selecione fotos, músicas, mensagens e jogos interativos. Tudo pensado nos mínimos detalhes para emocionar.",
-    visual: <img src={imgPintura} className="w-70 h-70"/>,
+    visual: <img src={imgPintura} className="w-65 h-65"/>,
   },
   {
     icon: <FaMusic className="w-5 h-5" />,

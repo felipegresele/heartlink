@@ -1,7 +1,7 @@
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import { Link } from "react-router-dom";
 
-import img from "../../assets/img.jpg";
+import img from "../../img/logo.png";
 import imgLogoMercadoLivre from "../../img/mercado-pago-icon.jpg";
 
 export function Footer() {

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FiCloud, FiCamera } from "react-icons/fi";
 import { FaPalette, FaMusic } from "react-icons/fa";
-import imgEscrevendo from "../../img/mascote-fotos/escrevendo.png"
+import imgEscrevendo from "../../img/mascote-fotos/nuvem.png"
 import imgPintura from "../../img/mascote-fotos/olhos-brilhando.png"
 import imgPensando from "../../img/mascote-fotos/pensando.png"
 
@@ -96,43 +96,23 @@ function VisualRetrospectiva() {
   );
 }
 
-function VisualMomentos() {
-  const emojis = ["📷", "🌹", "🎂", "🎵", "✈️", "🌅", "💌", "🎉", "🥂"];
-  return (
-    <div className="flex items-end justify-center h-full pt-4 pb-2">
-      <PhoneMock rotacao={-3} cor="#0d0816">
-        <div className="w-full h-full flex flex-col pt-7 px-3 pb-3">
-          <p className="text-white text-[9px] font-bold text-center mb-2">Nossas Memórias</p>
-          <div className="grid grid-cols-3 gap-1 flex-1">
-            {emojis.map((e, i) => (
-              <div key={i} className="bg-white/5 rounded-lg flex items-center justify-center text-sm aspect-square">
-                {e}
-              </div>
-            ))}
-          </div>
-        </div>
-      </PhoneMock>
-    </div>
-  );
-}
-
 const RECURSOS: RecursoCard[] = [
   {
     icon: <FiCloud className="w-5 h-5" />,
     titulo: "Para sempre no ar",
-    descricao: "Seu presente vai para a nuvem imediatamente. Para sempre online, acessível de qualquer lugar do mundo.",
+    descricao: "Seu presente é enviado direto para a nuvem, na hora. Fica sempre online com o plano 'Para Sempre', disponível de qualquer lugar do mundo.",
     visual: <img src={imgEscrevendo} className="w-75 h-75"/>,
   },
   {
     icon: <FaPalette className="w-5 h-5" />,
     titulo: "100% personalizável",
-    descricao: "Escolha fotos, músicas, mensagens e jogos interativos. Cada detalhe pensado para emocionar!",
+    descricao: "Selecione fotos, músicas, mensagens e jogos interativos. Tudo pensado nos mínimos detalhes para emocionar.",
     visual: <img src={imgPintura} className="w-70 h-70"/>,
   },
   {
     icon: <FaMusic className="w-5 h-5" />,
     titulo: "Com uma retrospectiva única",
-    descricao: "Uma retrospectiva animada para relembrar os melhores momentos dessa história especial.",
+    descricao: "Uma retrospectiva que revive cada detalhe dessa história, difícil de assistir sem se emocionar",
     visual: <img src={imgPensando} className="w-75 h-75"/>,
     destaque: true,
   },

@@ -22,8 +22,8 @@ interface PagamentoStepProps {
 }
 
 const PLANO_INFO: Record<string, { nome: string; preco: number }> = {
-  VITALICIO: { nome: "Para Sempre (Vitalício)", preco: 25.0 },
-  PADRAO: { nome: "Padrão", preco: 20.0 },
+  VITALICIO: { nome: "Para Sempre (Vitalício)", preco: 1.0 },
+  PADRAO: { nome: "Padrão", preco: 1.0 },
 };
 
 const MOLDURAS = [

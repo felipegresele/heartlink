@@ -46,7 +46,7 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
       </div>
       <button
         onClick={gerarMensagemAutomatica}
-        className="flex items-center gap-2 bg-[#e687cd] hover:bg-pink-400 px-4 py-2 rounded-md"
+        className="flex items-center gap-2 bg-[#e687cd] text-white hover:bg-pink-400 px-4 py-2 rounded-md cursor-pointer"
       >
         <FaRandom />
         Gerar mensagem automática

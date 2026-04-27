@@ -22,8 +22,8 @@ interface PagamentoStepProps {
 }
 
 const PLANO_INFO: Record<string, { nome: string; preco: number }> = {
-  VITALICIO: { nome: "Para Sempre (Vitalício)", preco: 1.0 },
-  PADRAO: { nome: "Padrão", preco: 1.0 },
+  VITALICIO: { nome: "Para Sempre (Vitalício)", preco: 5.0 },
+  PADRAO: { nome: "Padrão", preco: 5.0 },
 };
 
 const MOLDURAS = [
@@ -359,7 +359,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                   >
                     Ir para pagamento →
                   </a>
-                  <p className="text-xs text-gray-300 break-all text-center">
+                  <p className="text-xs text-black break-all text-center">
                     {paymentLink}
                   </p>
                 </div>

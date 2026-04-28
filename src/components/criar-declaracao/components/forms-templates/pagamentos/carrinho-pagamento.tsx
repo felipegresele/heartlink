@@ -9,12 +9,12 @@ import {
 import { MdQrCode2 } from "react-icons/md";
 
 // Importa as imagens das molduras
-import molduraPadrao from "../../../../img/qr-code-padrao.png";
-import moldura1 from "../../../../img/escaneie-e-se-surprenda-com-qr.webp";
-import moldura2 from "../../../../img/juntos-para-sempre-com-qr.webp";
-import moldura3 from "../../../../img/spotify-com-qr.webp";
-import moldura4 from "../../../../img/supresa-para-vc-com-qr.webp";
-import moldura5 from "../../../../img/carta-com-qr.webp";
+import molduraPadrao from "../../../../../img/qr-code-padrao.png"
+import moldura1 from "../../../../../img/escaneie-e-se-surprenda-com-qr.webp";
+import moldura2 from "../../../../../img/juntos-para-sempre-com-qr.webp";
+import moldura3 from "../../../../../img/spotify-com-qr.webp";
+import moldura4 from "../../../../../img/supresa-para-vc-com-qr.webp";
+import moldura5 from "../../../../../img/carta-com-qr.webp";
 
 interface PagamentoStepProps {
   pageId: string | null;

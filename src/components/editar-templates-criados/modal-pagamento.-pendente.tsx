@@ -55,10 +55,16 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
   async function gerarPagamento() {
     setIsCreating(true);
     setErro("");
+
+    const token: string | null = JSON.parse(localStorage.getItem("user") || "{}").token ?? null;
+
     try {
       const res = await fetch("https://lovepage-backend.onrender.com/api/payment/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({
           pageId: page.id,
           planType: page.planType ?? "PADRAO",

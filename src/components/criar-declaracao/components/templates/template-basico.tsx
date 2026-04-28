@@ -26,11 +26,11 @@ import { FormModoImagem } from "../forms-templates/form-modo-imagens";
 import { FormModoExibicao } from "../forms-templates/form-modo-exibicao";
 import { FormRetrospectivaSecoes } from "../forms-templates/form-retrospectiva";
 import { EscolherPlano } from "../forms-templates/escolher-plano";
-import { PagamentoStep } from "../forms-templates/pagamentos/carrinho-pagamento";
 import PreviewCarrossel from "../preview/preview-carrosel";
 import ContentEscolherMusica from "../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../mensagem-efeito/mensagem-efeito";
 import FaqsRetrospectiva from "../../../faqs-retrospectiva";
+import { PagamentoStep } from "../forms-templates/pagamentos/carrinho-pagamento";
 
 const DRAFT_KEY = "heartlink_criador_rascunho";
 
@@ -249,70 +249,83 @@ function CriadorDeclaracaoInner() {
   }
 
   async function criarPagina() {
-  const storedUser = localStorage.getItem("user");
-  const usuario = storedUser ? JSON.parse(storedUser) : null;
+    const storedUser = localStorage.getItem("user");
+    const usuario = storedUser ? JSON.parse(storedUser) : null;
 
-  if (!usuario) {
-    abrirModal("Você precisa estar logado para criar uma página!");
-    return;
-  }
-
-  // ← pega o token do localStorage
-  const token = localStorage.getItem("token");
-
-  const response = await fetch(
-    "https://lovepage-backend.onrender.com/api/love-pages",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // ← adiciona isso
-      },
-      body: JSON.stringify({
-        userId: usuario.id,
-        receiverName: titulo,
-        senderName: usuario.username,
-        message: mensagem,
-        photos: imagens,
-        relationshipStartDate: dataConhecimento,
-        musicId: musicaSelecionada?.id,
-        musicTitle: musicaSelecionada?.title,
-        theme: modoExibicao,
-        planType: selectedPlan,
-      }),
-    },
-  );
-
-    const data = await response.json();
-    console.log(data);
-    const createdPageId: string = data.id;
-    setPageId(createdPageId);
-
-    if (retroData.secoesSelecionadas.length > 0 || retroData.efeitoTime) {
-      const retrospectivePayload = {
-        selectedSections: retroData.secoesSelecionadas,
-        efeitoTime: retroData.efeitoTime,
-        timeline: retroData.timeline,
-        wheel: retroData.wheel,
-        gallery: retroData.gallery,
-        enigma: retroData.enigma,
-        ondeSeConheceram: retroData.ondeSeConheceram,
-        momentoFavorito: retroData.momentoFavorito,
-        proximoPasso: retroData.proximoPasso,
-      };
-
-      try {
-        await saveRetrospective(createdPageId, retrospectivePayload);
-      } catch (err) {
-        console.error("Erro ao salvar retrospectiva:", err);
-      }
+    if (!usuario) {
+      abrirModal("Você precisa estar logado para criar uma página!");
+      return;
     }
 
-    localStorage.removeItem(DRAFT_KEY);
-    resetData();
+    // Token fica dentro do objeto "user" no localStorage
+    const token: string | null = usuario.token ?? null;
 
-    console.log(removeEventListener);
-    setEtapa(9);
+    if (!token) {
+      abrirModal("Sessão expirada. Faça login novamente.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "https://lovepage-backend.onrender.com/api/love-pages",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            userId: usuario.id,
+            receiverName: titulo,
+            senderName: usuario.username,
+            message: mensagem,
+            photos: imagens,
+            relationshipStartDate: dataConhecimento,
+            musicId: musicaSelecionada?.id,
+            musicTitle: musicaSelecionada?.title,
+            theme: modoExibicao,
+            planType: selectedPlan,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        abrirModal(err.message || `Erro ao criar página (${response.status}). Tente novamente.`);
+        return;
+      }
+
+      const data = await response.json();
+      const createdPageId: string = data.id;
+      setPageId(createdPageId);
+
+      if (retroData.secoesSelecionadas.length > 0 || retroData.efeitoTime) {
+        const retrospectivePayload = {
+          selectedSections: retroData.secoesSelecionadas,
+          efeitoTime: retroData.efeitoTime,
+          timeline: retroData.timeline,
+          wheel: retroData.wheel,
+          gallery: retroData.gallery,
+          enigma: retroData.enigma,
+          ondeSeConheceram: retroData.ondeSeConheceram,
+          momentoFavorito: retroData.momentoFavorito,
+          proximoPasso: retroData.proximoPasso,
+        };
+
+        try {
+          await saveRetrospective(createdPageId, retrospectivePayload);
+        } catch (err) {
+          console.error("Erro ao salvar retrospectiva:", err);
+        }
+      }
+
+      localStorage.removeItem(DRAFT_KEY);
+      resetData();
+      setEtapa(9);
+    } catch (err) {
+      console.error("Erro ao criar página:", err);
+      abrirModal("Erro de conexão. Verifique sua internet e tente novamente.");
+    }
   }
 
   function validarEtapaAtual() {

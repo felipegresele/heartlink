@@ -1,6 +1,7 @@
 import { IoClose } from "react-icons/io5";
 import { apiPost } from "../../api/auth/api";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 type AuthFormProps = { displayName: string; email: string; password: string; confirmPassword: string };
 interface AuthModalProps { fecharModal: () => void }
@@ -28,16 +29,19 @@ function AuthForm({ fecharModal }: AuthModalProps) {
   const { control, handleSubmit, formState: { errors }, getValues } = useForm<AuthFormProps>({
     defaultValues: { displayName: "", email: "", password: "", confirmPassword: "" }
   });
+  const navigate = useNavigate();
 
   const onSubmit = async (data: AuthFormProps) => {
     try {
-      await apiPost("/users", {
+      const user = await apiPost("/users", {
         username: data.displayName,
         email: data.email,
         password: data.password
       });
-      alert("Conta criada com sucesso!");
+      // ✅ Cadastro já retorna token — salva e loga automaticamente
+      localStorage.setItem("user", JSON.stringify(user));
       fecharModal();
+      navigate("/");
     } catch (err: any) {
       alert(err.message);
     }
@@ -55,7 +59,6 @@ function AuthForm({ fecharModal }: AuthModalProps) {
         <p className="text-sm text-gray-500 mb-2">Junte-se à nossa comunidade hoje.</p>
       </div>
 
-      {/* Campo Nome */}
       <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-gray-500 ml-1">Nome de exibição</label>
         <Controller name="displayName" control={control}
@@ -67,7 +70,6 @@ function AuthForm({ fecharModal }: AuthModalProps) {
         {errors.displayName && <span className="text-xs text-red-400 ml-1">{errors.displayName.message}</span>}
       </div>
 
-      {/* Campo Email */}
       <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-gray-500 ml-1">Email</label>
         <Controller name="email" control={control}

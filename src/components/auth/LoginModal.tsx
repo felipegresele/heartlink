@@ -46,6 +46,7 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
   const onSubmit = async (data: LoginFormProps) => {
     try {
       const user = await apiPost("/users/login", data);
+      // ✅ Salva o objeto completo incluindo o token JWT
       localStorage.setItem("user", JSON.stringify(user));
       fecharModal();
       navigate("/");
@@ -63,7 +64,6 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
       </div>
 
       <div className="space-y-4">
-        {/* Campo Email */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-gray-500 ml-1">Email</label>
           <Controller
@@ -84,7 +84,6 @@ function LoginForm({ fecharModal, onCadastro }: LoginFormInternalProps) {
           {errors.email && <span className="text-xs text-red-400 ml-1">{errors.email.message}</span>}
         </div>
 
-        {/* Campo Senha */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-gray-500 ml-1">Senha</label>
           <Controller

@@ -71,12 +71,16 @@ export function PixPagamento({
     setStep("loading");
     setErrorMsg("");
 
+    const token = localStorage.getItem("token");
+
     try {
       const res = await fetch(`${API_BASE}/pix/create`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Precisa do JWT se o endpoint estiver protegido
-        // headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+
+         },
         body: JSON.stringify({
           pageId,
           planType: selectedPlan,

@@ -26,7 +26,7 @@ import { FormModoImagem } from "../forms-templates/form-modo-imagens";
 import { FormModoExibicao } from "../forms-templates/form-modo-exibicao";
 import { FormRetrospectivaSecoes } from "../forms-templates/form-retrospectiva";
 import { EscolherPlano } from "../forms-templates/escolher-plano";
-import { PagamentoStep } from "../forms-templates/carrinho-pagamento";
+import { PagamentoStep } from "../forms-templates/pagamentos/carrinho-pagamento";
 import PreviewCarrossel from "../preview/preview-carrosel";
 import ContentEscolherMusica from "../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../mensagem-efeito/mensagem-efeito";

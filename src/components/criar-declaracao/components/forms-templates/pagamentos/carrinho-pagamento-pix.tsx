@@ -37,7 +37,7 @@ interface PixPagamentoProps {
 
 interface PixResponse {
   paymentId: number;
-  qrCode: string; // string "copia e cola"
+  qrCode: string;       // string "copia e cola"
   qrCodeBase64: string; // imagem PNG em base64
   status: string;
 }
@@ -55,9 +55,7 @@ export function PixPagamento({
   onPago,
   onVoltar,
 }: PixPagamentoProps) {
-  const [step, setStep] = useState<"loading" | "qrcode" | "paid" | "error">(
-    "loading",
-  );
+  const [step, setStep] = useState<"loading" | "qrcode" | "paid" | "error">("loading");
   const [pix, setPix] = useState<PixResponse | null>(null);
   const [copiado, setCopiado] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -79,10 +77,11 @@ export function PixPagamento({
     try {
       const res = await fetch(`${API_BASE}/pix/create`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+
+         },
         body: JSON.stringify({
           pageId,
           planType: selectedPlan,
@@ -141,13 +140,13 @@ export function PixPagamento({
   // ─── renders por estado ──────────────────────────────────────────────────
 
   if (step === "loading") return <Loading />;
-  if (step === "error")
-    return <Erro msg={errorMsg} onRetry={gerarPix} onVoltar={onVoltar} />;
+  if (step === "error") return <Erro msg={errorMsg} onRetry={gerarPix} onVoltar={onVoltar} />;
   if (step === "paid") return <Pago />;
 
   // ── estado: qrcode ───────────────────────────────────────────────────────
   return (
     <div className="flex flex-col items-center gap-5 py-2">
+
       {/* Título */}
       <div className="text-center">
         <h3 className="text-base font-bold text-black">Pague com PIX</h3>
@@ -183,9 +182,7 @@ export function PixPagamento({
 
       {/* Código copia e cola */}
       <div className="w-full">
-        <p className="text-xs text-gray-500 mb-1.5 font-medium">
-          Código PIX (copia e cola)
-        </p>
+        <p className="text-xs text-gray-500 mb-1.5 font-medium">Código PIX (copia e cola)</p>
         <div className="flex items-center gap-2">
           <div className="flex-1 bg-gray-100 border border-gray-200 rounded-xl px-3 py-2.5 text-[11px] text-gray-700 break-all font-mono overflow-hidden max-h-14 leading-relaxed">
             {pix?.qrCode}
@@ -254,24 +251,9 @@ export function PixPagamento({
 function Loading() {
   return (
     <div className="flex flex-col items-center gap-4 py-10">
-      <svg
-        className="animate-spin w-8 h-8 text-[#e687cd]"
-        viewBox="0 0 24 24"
-        fill="none"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        />
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v8z"
-        />
+      <svg className="animate-spin w-8 h-8 text-[#e687cd]" viewBox="0 0 24 24" fill="none">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
       </svg>
       <p className="text-sm text-gray-500">Gerando seu QR Code PIX...</p>
     </div>
@@ -285,9 +267,7 @@ function Pago() {
         <FiCheckCircle size={32} className="text-green-500" />
       </div>
       <div>
-        <h3 className="text-base font-bold text-black">
-          Pagamento confirmado! 🎉
-        </h3>
+        <h3 className="text-base font-bold text-black">Pagamento confirmado! 🎉</h3>
         <p className="text-xs text-gray-500 mt-1">
           O QR Code da sua página foi enviado para o seu email.
         </p>
@@ -296,15 +276,7 @@ function Pago() {
   );
 }
 
-function Erro({
-  msg,
-  onRetry,
-  onVoltar,
-}: {
-  msg: string;
-  onRetry: () => void;
-  onVoltar?: () => void;
-}) {
+function Erro({ msg, onRetry, onVoltar }: { msg: string; onRetry: () => void; onVoltar?: () => void }) {
   return (
     <div className="flex flex-col items-center gap-4 py-8 text-center">
       <FiAlertCircle size={36} className="text-red-400" />
@@ -316,10 +288,7 @@ function Erro({
         Tentar novamente
       </button>
       {onVoltar && (
-        <button
-          onClick={onVoltar}
-          className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
-        >
+        <button onClick={onVoltar} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
           Pagar com cartão ou boleto
         </button>
       )}

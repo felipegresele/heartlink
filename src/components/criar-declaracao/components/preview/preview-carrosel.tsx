@@ -208,7 +208,7 @@ function RetrospectiveModal({ onClose }: { onClose: () => void }) {
           <p className="text-sm text-gray-500 leading-relaxed">
             A retrospectiva só poderá ser acessada após o{" "}
             <span className="text-pink-400 font-medium">presente</span> ficar
-            pronto.
+            pronto e pago.
           </p>
 
           <button

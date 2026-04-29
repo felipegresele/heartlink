@@ -61,7 +61,6 @@ export function ServerWakeUpProvider({ children }: { children: ReactNode }) {
 
       incrementPending();
 
-      // Timer to show modal if request takes too long
       const timer = setTimeout(() => {
         if (pendingCount.current > 0) {
           setIsWakingUp(true);
@@ -149,7 +148,7 @@ function ServerWakeUpModal() {
             transform: "translateX(-50%)",
             width: "120px",
             height: "120px",
-            background: "radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(244,114,182,0.3) 0%, transparent 70%)",
             borderRadius: "50%",
             pointerEvents: "none",
           }}
@@ -163,7 +162,7 @@ function ServerWakeUpModal() {
               position: "absolute",
               inset: 0,
               borderRadius: "50%",
-              border: "2px solid rgba(239,68,68,0.6)",
+              border: "2px solid rgba(244,114,182,0.6)",
               animation: "pulse-ring 1.5s ease-out infinite",
             }}
           />
@@ -174,7 +173,7 @@ function ServerWakeUpModal() {
               height: "56px",
               borderRadius: "50%",
               border: "3px solid rgba(255,255,255,0.1)",
-              borderTop: "3px solid #ef4444",
+              borderTop: "3px solid #f472b6",
               animation: "spin 1s linear infinite",
               position: "relative",
             }}
@@ -228,7 +227,7 @@ function ServerWakeUpModal() {
                 width: "8px",
                 height: "8px",
                 borderRadius: "50%",
-                background: "#ef4444",
+                background: "#f472b6",
                 animation: `dot-bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
               }}
             />

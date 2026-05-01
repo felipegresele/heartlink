@@ -25,7 +25,7 @@ const SECTION_LABELS: Record<SectionType, string> = {
   time: "Tempo de casal animado",
 };
 
-const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
+const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🥰", "💎"];
 
 // ── Componente principal ──────────────────────────────────────
 export function RetrospectivePage({ data }: RetrospectivePageProps) {

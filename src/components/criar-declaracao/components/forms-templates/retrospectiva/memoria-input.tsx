@@ -45,7 +45,7 @@ export function MemoriaInput({
         placeholder={placeholder}
         value={data[field] ?? ""}
         onChange={(e) => setters[field](e.target.value)}
-        className="w-full bg-white/5 border border-gray-400 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-black outline-none focus:border-pink-400/60 transition-colors"
+        className="w-full bg-white/5 border border-gray-400 rounded-xl px-4 py-2.5 text-black text-sm placeholder:text-black outline-none focus:border-pink-400/60 transition-colors"
       />
     </div>
   );

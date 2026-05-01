@@ -6,7 +6,7 @@ import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
 
-const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
+const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🥰", "💎"];
 
 export function EnigmaSection() {
   const {

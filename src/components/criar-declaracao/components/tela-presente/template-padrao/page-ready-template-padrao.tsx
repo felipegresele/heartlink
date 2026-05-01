@@ -39,7 +39,7 @@ const SECTION_META: Record<
   time: { label: "", emoji: <FaTimeline /> },
 };
 
-const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🌸", "💎"];
+const CARD_EMOJIS = ["💕", "🌹", "✨", "💫", "🥰", "💎"];
 
 // ── Helper: calcula dias e horas desde uma data ───────────────
 function calcularTempoDesdeData(dataConhecimento: string) {

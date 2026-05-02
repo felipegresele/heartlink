@@ -217,11 +217,12 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm" style={{ paddingTop: '100px' }}>
+
+      <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-lg max-h-[calc(100vh-100px)] overflow-y-auto shadow-2xl">
 
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 rounded-t-2xl z-10">
+        <div className="sticky top- bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 rounded-t-2xl z-10">
           <div className="flex items-center gap-2">
             {metodo !== "selecao" && (
               <button

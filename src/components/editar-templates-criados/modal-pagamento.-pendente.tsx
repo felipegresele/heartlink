@@ -217,7 +217,7 @@ export function ModalPagamentoPendente({ page, onFechar }: ModalPagamentoPendent
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm" style={{ paddingTop: '100px' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm" style={{ paddingTop: '150px' }}>
 
       <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-lg max-h-[calc(100vh-100px)] overflow-y-auto shadow-2xl">
 

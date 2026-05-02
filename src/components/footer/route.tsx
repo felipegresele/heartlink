@@ -64,7 +64,7 @@ export function FooterContent() {
             <SiInstagram /> Instagram
           </a>
           <a
-            href="https://tiktok.com/heartcodegift"
+            href="https://www.tiktok.com/@heartcodegift"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-[#e687cd] transition-colors"

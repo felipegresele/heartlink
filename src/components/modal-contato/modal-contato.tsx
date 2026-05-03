@@ -16,34 +16,34 @@ export function ModalContatoAjuda({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
 
-      <div className="relative bg-zinc-900 text-white w-[90%] max-w-md rounded-2xl p-4 shadow-xl">
+      <div className="relative bg-white text-gray-800 w-[90%] max-w-md rounded-2xl p-4 shadow-xl">
         <div className="flex gap-3 justify-between">
           <div className="flex items-center">
             <img src={imgLogo} className="w-10 h-10" />
             <div className="flex flex-col p-2">
-              <h1 className="font-bold text-md">Precisa de ajuda?</h1>
-              <p className="flex gap-1 items-center">
+              <h1 className="font-bold text-md text-gray-800">Precisa de ajuda?</h1>
+              <p className="flex gap-1 items-center text-gray-600">
                 <IoIosRadioButtonOn className="text-green-500" /> Online agora
               </p>
             </div>
           </div>
 
-          <IoMdClose onClick={onClose} className="cursor-pointer text-xl" />
+          <IoMdClose onClick={onClose} className="cursor-pointer text-xl text-gray-500 hover:text-pink-400" />
         </div>
 
-        <h1 className="mt-3">Perguntas Frequentes</h1>
+        <h1 className="mt-3 text-gray-800">Perguntas Frequentes</h1>
         <ListaDePerguntas />
 
-        <div className="mt-5 p-2 text-center ">
-          <p>ou entre em contato conosco</p>
-          <Button className="cursor-pointer mt-3 bg-red-500 w-full text-white p-3 rounded-md">
+        <div className="mt-5 p-2 text-center">
+          <p className="text-gray-600">ou entre em contato conosco</p>
+          <Button className="cursor-pointer mt-3 bg-pink-400 hover:bg-pink-500 w-full text-white p-3 rounded-md">
             Enviar Mensagem
           </Button>
         </div>
 
-        <p className="bg-red-500/15 h-13 p-2 rounded-md mt-3 text-sm text-center">
-          Respondemos em <span className="font-bold">10 minutos</span> no
-          Instagram: <span className="font-bold">@heartcodegift</span>
+        <p className="bg-pink-400/15 h-13 p-2 rounded-md mt-3 text-sm text-center text-gray-700">
+          Respondemos em <span className="font-bold text-gray-800">10 minutos</span> no
+          Instagram: <span className="font-bold text-pink-400">@heartcodegift</span>
         </p>
       </div>
     </div>
@@ -80,10 +80,10 @@ const perguntas = [
 function ListaDePerguntas() {
   const items = perguntas.map((item) => (
     <Accordion.Item key={item.value} value={item.value}>
-      <Accordion.Control className="flex p-3 font-medium text-white hover:text-red-400 transition-colors">
+      <Accordion.Control className="flex p-3 font-medium text-gray-800 hover:text-pink-400 transition-colors">
         {item.value}
       </Accordion.Control>
-      <Accordion.Panel className="!pb-2 text-gray-300 text-sm p-2">
+      <Accordion.Panel className="!pb-2 text-gray-500 text-sm p-2">
         {item.description}
       </Accordion.Panel>
     </Accordion.Item>
@@ -93,14 +93,14 @@ function ListaDePerguntas() {
     <Accordion
       chevronPosition="right"
       transitionDuration={200}
-      className="text-white"
+      className="text-gray-800"
       styles={{
         item: {
-          borderBottom: "1px solid #37373b",
+          borderBottom: "1px solid #f9a8d4",
           marginBottom: "0.25rem",
         },
         chevron: {
-          color: "#ef4444",
+          color: "#f472b6",
         },
       }}
     >

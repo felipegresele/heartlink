@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPlus, FaTrash, FaTimes, FaPencilAlt, FaCheck, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {
+  FaPlus,
+  FaTrash,
+  FaTimes,
+  FaPencilAlt,
+  FaCheck,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
 import { useRetrospective } from "./restrospective-context";
 import { LIMITS } from "../../../../../schema/retrospectiva";
 import { LimiteBadge } from "./limit-bagde";
@@ -23,9 +31,15 @@ export function GallerySection() {
   const cheio = data.gallery.length >= LIMITS.gallery;
 
   function handleAdd() {
-    if (!form.imagem) { setErro("Selecione uma imagem."); return; }
+    if (!form.imagem) {
+      setErro("Selecione uma imagem.");
+      return;
+    }
     const ok = addGalleryItem(form);
-    if (!ok) { setErro("Limite de 6 fotos atingido."); return; }
+    if (!ok) {
+      setErro("Limite de 6 fotos atingido.");
+      return;
+    }
     setFotoAtiva(data.gallery.length);
     setForm({ imagem: "", descricao: "" });
     setAdicionando(false);
@@ -53,10 +67,16 @@ export function GallerySection() {
     <div className="space-y-6 bg-[#FAFAFA]">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl text-[#e687cd]"><FiImage /></span>
+        <span className="text-2xl text-[#e687cd]">
+          <FiImage />
+        </span>
         <div>
-          <h3 className="text-black font-bold text-lg leading-tight">Galeria de Fotos</h3>
-          <p className="text-gray-500 text-xs">Momentos capturados para sempre</p>
+          <h3 className="text-black font-bold text-lg leading-tight">
+            Galeria de Fotos
+          </h3>
+          <p className="text-gray-500 text-xs">
+            Momentos capturados para sempre
+          </p>
         </div>
         <div className="ml-auto">
           <LimiteBadge atual={data.gallery.length} maximo={LIMITS.gallery} />
@@ -85,22 +105,33 @@ export function GallerySection() {
             <UploadImagemGallery
               value={form.imagem}
               onChange={(v) => setForm((f) => ({ ...f, imagem: v }))}
-              className="h-40 w-full"
+              className="h-40 w-full bg-gray-100 rounded-xl flex flex-col items-center justify-center"
               label="Clique para escolher a foto"
             />
             <input
               type="text"
               placeholder="Legenda (opcional)"
               value={form.descricao}
-              onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, descricao: e.target.value }))
+              }
               className="w-full bg-gray-100 border border-gray-300 rounded-xl px-4 py-2 text-black text-sm placeholder:text-gray-400 outline-none focus:border-[#e687cd]"
             />
             {erro && <p className="text-red-400 text-xs">{erro}</p>}
             <div className="flex gap-2">
-              <button onClick={handleAdd} className="flex items-center gap-1 bg-[#e687cd] hover:bg-pink-400 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors">
+              <button
+                onClick={handleAdd}
+                className="flex items-center gap-1 bg-[#e687cd] hover:bg-pink-400 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors"
+              >
                 <FaCheck size={12} /> Adicionar
               </button>
-              <button onClick={() => { setAdicionando(false); setErro(""); }} className="text-gray-500 hover:text-black text-sm px-4 py-2 rounded-xl transition-colors">
+              <button
+                onClick={() => {
+                  setAdicionando(false);
+                  setErro("");
+                }}
+                className="text-gray-500 hover:text-black text-sm px-4 py-2 rounded-xl transition-colors"
+              >
                 Cancelar
               </button>
             </div>
@@ -192,24 +223,40 @@ export function GallerySection() {
                     autoFocus
                     onKeyDown={(e) => e.key === "Enter" && salvarDescricao()}
                   />
-                  <button onClick={salvarDescricao} className="text-[#e687cd] hover:text-pink-400">
+                  <button
+                    onClick={salvarDescricao}
+                    className="text-[#e687cd] hover:text-pink-400"
+                  >
                     <FaCheck size={12} />
                   </button>
-                  <button onClick={() => setEditandoId(null)} className="text-gray-400 hover:text-black">
+                  <button
+                    onClick={() => setEditandoId(null)}
+                    className="text-gray-400 hover:text-black"
+                  >
                     <FaTimes size={12} />
                   </button>
                 </div>
               ) : (
                 <div
                   className="flex items-center gap-2 cursor-pointer group"
-                  onClick={() => iniciarEdicaoDescricao(fotoAtivaItem.id, fotoAtivaItem.descricao)}
+                  onClick={() =>
+                    iniciarEdicaoDescricao(
+                      fotoAtivaItem.id,
+                      fotoAtivaItem.descricao,
+                    )
+                  }
                 >
                   <p className="text-gray-500 text-sm flex-1 group-hover:text-black transition-colors">
                     {fotoAtivaItem.descricao || (
-                      <span className="italic opacity-40">Clique para adicionar legenda…</span>
+                      <span className="italic opacity-40">
+                        Clique para adicionar legenda…
+                      </span>
                     )}
                   </p>
-                  <FaPencilAlt size={10} className="text-gray-300 group-hover:text-gray-500 transition-colors shrink-0" />
+                  <FaPencilAlt
+                    size={10}
+                    className="text-gray-300 group-hover:text-gray-500 transition-colors shrink-0"
+                  />
                 </div>
               )}
             </div>

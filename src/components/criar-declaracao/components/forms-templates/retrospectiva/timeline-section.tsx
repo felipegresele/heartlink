@@ -256,7 +256,7 @@ export function TimelineSection() {
           <UploadImagemTimeline
             value={form.imagem}
             onChange={(v) => setForm((f) => ({ ...f, imagem: v }))}
-            className="h-36 w-full bg-gray-200"
+            className="h-36 w-full bg-gray-100"
             label="Foto do momento"
           />
           <input

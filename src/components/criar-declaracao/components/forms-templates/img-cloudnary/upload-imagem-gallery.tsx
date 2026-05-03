@@ -55,7 +55,7 @@ export function UploadImagemGallery({ value, onChange, className = "", label }: 
 
   return (
     <div
-      className={`relative cursor-pointer group rounded-xl overflow-hidden border-2 border-dashed border-white/20 hover:border-pink-400 transition-all ${className}`}
+      className={`relative cursor-pointer group rounded-xl overflow-hidden border-2 border-dashed border-pink-400 hover:border-pink-400 transition-all ${className}`}
       onClick={() => !uploading && inputRef.current?.click()}
     >
       {uploading ? (
@@ -71,7 +71,7 @@ export function UploadImagemGallery({ value, onChange, className = "", label }: 
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-2 py-6 text-white/40 group-hover:text-pink-400 transition-colors">
+        <div className="flex flex-col items-center justify-center gap-2 py-6 text-pink-400 group-hover:text-pink-400 transition-colors">
           <FaCamera size={24} />
           <span className="text-xs">{label ?? "Clique para escolher a foto"}</span>
         </div>

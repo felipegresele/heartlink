@@ -19,29 +19,29 @@ function fmt(s: number) {
   return `${m}:${sec.toString().padStart(2, "0")}`;
 }
 
-function loadYTScript(): Promise<void> {
+// Carrega o script YT uma vez globalmente — chamado no mount, não no clique
+function preloadYTScript() {
+  if (window.YT && window.YT.Player) return;
+  if (document.getElementById("yt-api-script")) return;
+
+  const script = document.createElement("script");
+  script.id = "yt-api-script";
+  script.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(script);
+}
+
+// Aguarda o YT estar pronto (resolve imediatamente se já estiver)
+function waitForYT(): Promise<void> {
   return new Promise((resolve) => {
     if (window.YT && window.YT.Player) {
       resolve();
       return;
     }
-
-    if (document.getElementById("yt-api-script")) {
-      const prev = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => {
-        prev?.();
-        resolve();
-      };
-      return;
-    }
-
-    window.onYouTubeIframeAPIReady = resolve;
-
-    const script = document.createElement("script");
-    script.id = "yt-api-script";
-    script.src = "https://www.youtube.com/iframe_api";
-
-    document.head.appendChild(script);
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prev?.();
+      resolve();
+    };
   });
 }
 
@@ -50,19 +50,23 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const [muted, setMuted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
+  // FIX iOS: indica se o YT API já está pronto para uso síncrono
+  const [ytReady, setYtReady] = useState(false);
 
   const playerRef = useRef<any>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
-
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentIdRef = useRef<string | null>(null);
 
-  // FIX iOS: flag para saber se o usuário pediu play antes do player estar pronto
-  const pendingPlayRef = useRef(false);
+  // FIX iOS: pré-carrega o script YT assim que o componente monta
+  // Assim quando o usuário clicar em play, YT já está pronto
+  useEffect(() => {
+    preloadYTScript();
+    waitForYT().then(() => setYtReady(true));
+  }, []);
 
   const startTick = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-
     intervalRef.current = setInterval(() => {
       if (playerRef.current?.getCurrentTime) {
         setElapsed(Math.floor(playerRef.current.getCurrentTime()));
@@ -77,55 +81,52 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     }
   }, []);
 
+  // FIX iOS: initPlayer agora é SÍNCRONO — só é chamado quando ytReady=true
+  // Isso mantém o contexto do gesto do usuário intacto no iOS Safari
   const initPlayer = useCallback(
     (videoId: string) => {
-      loadYTScript().then(() => {
-        if (!playerContainerRef.current) return;
+      if (!playerContainerRef.current) return;
 
-        if (playerRef.current?.loadVideoById) {
-          playerRef.current.loadVideoById(videoId);
-          return;
-        }
+      // Se o player já existe, apenas carrega o novo vídeo
+      if (playerRef.current?.loadVideoById) {
+        playerRef.current.loadVideoById(videoId);
+        return;
+      }
 
-        playerRef.current = new window.YT.Player(playerContainerRef.current, {
-          videoId,
-          playerVars: {
-            autoplay: 0,        // FIX iOS: nunca autoplay, o iOS bloqueia
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            iv_load_policy: 3,
-            modestbranding: 1,
-            rel: 0,
-            playsinline: 1,     // essencial para iOS não abrir tela cheia
+      // Cria o player de forma síncrona (YT já está carregado)
+      playerRef.current = new window.YT.Player(playerContainerRef.current, {
+        videoId,
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          iv_load_policy: 3,
+          modestbranding: 1,
+          rel: 0,
+          playsinline: 1, // essencial para iOS não abrir fullscreen
+        },
+        events: {
+          onReady: (e: any) => {
+            setDuration(Math.floor(e.target.getDuration()));
+            // FIX iOS: playVideo() chamado diretamente no onReady
+            // Como o player foi criado de forma síncrona no clique,
+            // o iOS ainda reconhece esse contexto como gesto do usuário
+            e.target.playVideo();
+            setPlaying(true);
+            startTick();
           },
-          events: {
-            onReady: (e: any) => {
+          onStateChange: (e: any) => {
+            if (e.data === 1) {
+              setPlaying(true);
               setDuration(Math.floor(e.target.getDuration()));
-
-              // FIX iOS: só dá play se o usuário clicou (pendingPlayRef = true)
-              // O callback onReady ainda está dentro do contexto do gesto do usuário
-              // desde que loadYTScript resolva de forma síncrona (YT já carregado).
-              // Para garantir no iOS, usamos a flag pendingPlayRef.
-              if (pendingPlayRef.current) {
-                e.target.playVideo();
-                pendingPlayRef.current = false;
-                setPlaying(true);
-                startTick();
-              }
-            },
-            onStateChange: (e: any) => {
-              if (e.data === 1) {
-                setPlaying(true);
-                setDuration(Math.floor(e.target.getDuration()));
-                startTick();
-              } else if (e.data === 2 || e.data === 0) {
-                setPlaying(false);
-                stopTick();
-              }
-            },
+              startTick();
+            } else if (e.data === 2 || e.data === 0) {
+              setPlaying(false);
+              stopTick();
+            }
           },
-        });
+        },
       });
     },
     [startTick, stopTick]
@@ -144,12 +145,10 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   useEffect(() => {
     return () => {
       stopTick();
-
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
         } catch {}
-
         playerRef.current = null;
       }
     };
@@ -161,9 +160,16 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
 
   const handlePlayPause = () => {
     if (!playerRef.current) {
-      // FIX iOS: marca a intenção de play ANTES de iniciar o player
-      // assim o onReady sabe que deve chamar playVideo()
-      pendingPlayRef.current = true;
+      // FIX iOS: só inicializa se YT já estiver pronto (síncrono)
+      // Se ainda não estiver pronto, aguarda e tenta de novo
+      if (!ytReady) {
+        waitForYT().then(() => {
+          setYtReady(true);
+          // Não chama initPlayer aqui pois perdemos o contexto do gesto
+          // O usuário precisará tocar novamente (YT estará pronto desta vez)
+        });
+        return;
+      }
       initPlayer(musica.id);
       return;
     }
@@ -175,23 +181,17 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
 
   const handleMute = () => {
     if (!playerRef.current) return;
-
     muted ? playerRef.current.unMute() : playerRef.current.mute();
-
     setMuted((m) => !m);
   };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!playerRef.current || duration === 0) return;
-
     const rect = e.currentTarget.getBoundingClientRect();
-
     const seekTo = Math.round(
       ((e.clientX - rect.left) / rect.width) * duration
     );
-
     playerRef.current.seekTo(seekTo, true);
-
     setElapsed(seekTo);
   };
 

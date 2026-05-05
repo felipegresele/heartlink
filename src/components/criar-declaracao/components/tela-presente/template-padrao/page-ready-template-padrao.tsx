@@ -404,7 +404,7 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
     setTimeout(() => {
       const final = totalAngulo % 360;
       const fatia = 360 / items.length;
-      const idx = Math.floor(((360 - final + 90) % 360) / fatia) % items.length;
+      const idx = Math.floor(((360 - final) % 360) / fatia) % items.length;
       setVencedor(items[idx].texto);
       setGirando(false);
     }, 3600);

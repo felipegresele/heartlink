@@ -57,6 +57,9 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentIdRef = useRef<string | null>(null);
 
+  // FIX iOS: flag para saber se o usuário pediu play antes do player estar pronto
+  const pendingPlayRef = useRef(false);
+
   const startTick = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
 
@@ -87,21 +90,29 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
         playerRef.current = new window.YT.Player(playerContainerRef.current, {
           videoId,
           playerVars: {
-            autoplay: 1,
+            autoplay: 0,        // FIX iOS: nunca autoplay, o iOS bloqueia
             controls: 0,
             disablekb: 1,
             fs: 0,
             iv_load_policy: 3,
             modestbranding: 1,
             rel: 0,
-            playsinline: 1,
+            playsinline: 1,     // essencial para iOS não abrir tela cheia
           },
           events: {
             onReady: (e: any) => {
-              e.target.playVideo();
               setDuration(Math.floor(e.target.getDuration()));
-              setPlaying(true);
-              startTick();
+
+              // FIX iOS: só dá play se o usuário clicou (pendingPlayRef = true)
+              // O callback onReady ainda está dentro do contexto do gesto do usuário
+              // desde que loadYTScript resolva de forma síncrona (YT já carregado).
+              // Para garantir no iOS, usamos a flag pendingPlayRef.
+              if (pendingPlayRef.current) {
+                e.target.playVideo();
+                pendingPlayRef.current = false;
+                setPlaying(true);
+                startTick();
+              }
             },
             onStateChange: (e: any) => {
               if (e.data === 1) {
@@ -121,15 +132,14 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   );
 
   useEffect(() => {
-  if (!musica) return;
-  if (currentIdRef.current === musica.id) return;
+    if (!musica) return;
+    if (currentIdRef.current === musica.id) return;
 
-  currentIdRef.current = musica.id;
-  setElapsed(0);
-  setDuration(musica.duration ?? 0);
-  setPlaying(false);
-
-}, [musica]);
+    currentIdRef.current = musica.id;
+    setElapsed(0);
+    setDuration(musica.duration ?? 0);
+    setPlaying(false);
+  }, [musica]);
 
   useEffect(() => {
     return () => {
@@ -150,15 +160,18 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const progress = duration > 0 ? Math.min((elapsed / duration) * 100, 100) : 0;
 
   const handlePlayPause = () => {
-  if (!playerRef.current) {
-    initPlayer(musica.id);
-    return;
-  }
+    if (!playerRef.current) {
+      // FIX iOS: marca a intenção de play ANTES de iniciar o player
+      // assim o onReady sabe que deve chamar playVideo()
+      pendingPlayRef.current = true;
+      initPlayer(musica.id);
+      return;
+    }
 
-  playing
-    ? playerRef.current.pauseVideo()
-    : playerRef.current.playVideo();
-};
+    playing
+      ? playerRef.current.pauseVideo()
+      : playerRef.current.playVideo();
+  };
 
   const handleMute = () => {
     if (!playerRef.current) return;
@@ -228,7 +241,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
             >
               {muted ? <HiSpeakerXMark /> : <HiSpeakerWave />}
             </button>
-
           </div>
 
           <div className="text-[10px] text-gray-400 w-16 text-right">

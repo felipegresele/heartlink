@@ -19,7 +19,6 @@ function fmt(s: number) {
   return `${m}:${sec.toString().padStart(2, "0")}`;
 }
 
-// Carrega o script YT uma vez globalmente — chamado no mount, não no clique
 function preloadYTScript() {
   if (window.YT && window.YT.Player) return;
   if (document.getElementById("yt-api-script")) return;
@@ -30,7 +29,6 @@ function preloadYTScript() {
   document.head.appendChild(script);
 }
 
-// Aguarda o YT estar pronto (resolve imediatamente se já estiver)
 function waitForYT(): Promise<void> {
   return new Promise((resolve) => {
     if (window.YT && window.YT.Player) {
@@ -50,7 +48,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const [muted, setMuted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
-  // FIX iOS: indica se o YT API já está pronto para uso síncrono
   const [ytReady, setYtReady] = useState(false);
 
   const playerRef = useRef<any>(null);
@@ -58,8 +55,6 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentIdRef = useRef<string | null>(null);
 
-  // FIX iOS: pré-carrega o script YT assim que o componente monta
-  // Assim quando o usuário clicar em play, YT já está pronto
   useEffect(() => {
     preloadYTScript();
     waitForYT().then(() => setYtReady(true));
@@ -81,21 +76,19 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     }
   }, []);
 
-  // FIX iOS: initPlayer agora é SÍNCRONO — só é chamado quando ytReady=true
-  // Isso mantém o contexto do gesto do usuário intacto no iOS Safari
   const initPlayer = useCallback(
     (videoId: string) => {
       if (!playerContainerRef.current) return;
 
-      // Se o player já existe, apenas carrega o novo vídeo
       if (playerRef.current?.loadVideoById) {
         playerRef.current.loadVideoById(videoId);
         return;
       }
 
-      // Cria o player de forma síncrona (YT já está carregado)
       playerRef.current = new window.YT.Player(playerContainerRef.current, {
         videoId,
+        width: "1",
+        height: "1",
         playerVars: {
           autoplay: 0,
           controls: 0,
@@ -104,14 +97,11 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
           iv_load_policy: 3,
           modestbranding: 1,
           rel: 0,
-          playsinline: 1, // essencial para iOS não abrir fullscreen
+          playsinline: 1,
         },
         events: {
           onReady: (e: any) => {
             setDuration(Math.floor(e.target.getDuration()));
-            // FIX iOS: playVideo() chamado diretamente no onReady
-            // Como o player foi criado de forma síncrona no clique,
-            // o iOS ainda reconhece esse contexto como gesto do usuário
             e.target.playVideo();
             setPlaying(true);
             startTick();
@@ -146,9 +136,7 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     return () => {
       stopTick();
       if (playerRef.current) {
-        try {
-          playerRef.current.destroy();
-        } catch {}
+        try { playerRef.current.destroy(); } catch {}
         playerRef.current = null;
       }
     };
@@ -160,20 +148,10 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
 
   const handlePlayPause = () => {
     if (!playerRef.current) {
-      // FIX iOS: só inicializa se YT já estiver pronto (síncrono)
-      // Se ainda não estiver pronto, aguarda e tenta de novo
-      if (!ytReady) {
-        waitForYT().then(() => {
-          setYtReady(true);
-          // Não chama initPlayer aqui pois perdemos o contexto do gesto
-          // O usuário precisará tocar novamente (YT estará pronto desta vez)
-        });
-        return;
-      }
+      if (!ytReady) return;
       initPlayer(musica.id);
       return;
     }
-
     playing
       ? playerRef.current.pauseVideo()
       : playerRef.current.playVideo();
@@ -228,17 +206,11 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={handlePlayPause}
-              className="text-white text-xl"
-            >
+            <button onClick={handlePlayPause} className="text-white text-xl">
               {playing ? <BsFillPauseFill /> : <BsFillPlayFill />}
             </button>
 
-            <button
-              onClick={handleMute}
-              className="text-white text-lg"
-            >
+            <button onClick={handleMute} className="text-white text-lg">
               {muted ? <HiSpeakerXMark /> : <HiSpeakerWave />}
             </button>
           </div>
@@ -249,9 +221,24 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
         </div>
       </div>
 
+      {/*
+        FIX PRINCIPAL: nunca usar display:none no container do player YT.
+        O YouTube IFrame API não inicializa corretamente em elementos ocultos
+        com display:none — o player fica travado no 0:00 sem reproduzir.
+        Solução: posicionar fora da tela com position absolute (ainda "existe"
+        no DOM visualmente para o browser, mas o usuário não vê).
+      */}
       <div
         ref={playerContainerRef}
-        className="hidden"
+        style={{
+          position: "fixed",
+          top: "-9999px",
+          left: "-9999px",
+          width: "1px",
+          height: "1px",
+          pointerEvents: "none",
+          opacity: 0,
+        }}
       />
     </>
   );

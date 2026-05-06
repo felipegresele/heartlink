@@ -1,7 +1,7 @@
 import { SiInstagram, SiTiktok } from "react-icons/si";
 import { Link } from "react-router-dom";
 
-import img from "../../img/logo.png";
+import img from "../../img/logo-nova.png";
 import imgLogoMercadoLivre from "../../img/mercado-pago-icon.jpg";
 
 export function Footer() {
@@ -18,10 +18,7 @@ export function FooterContent() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         <div className="max-w-sm">
           <div className="flex items-center gap-2 mb-2">
-            <img src={img} alt="Logo" className="w-8 h-8" />
-            <h1 className="text-xl font-bold">
-              Heart<span className="text-[#e687cd]">Code.</span>
-            </h1>
+            <img src={img} alt="Logo" className="w-80 h-30" />
           </div>
           <p className="text-gray-500 text-sm mb-2">
             A HeartCode é uma plataforma que permite criar páginas

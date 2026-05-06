@@ -5,7 +5,7 @@ import { LoginModal } from "../auth/LoginModal";
 import { SlArrowDown } from "react-icons/sl";
 import { FiMenu, FiX, FiLogOut, FiUser } from "react-icons/fi";
 import PromoBanner from "./banner-promocao";
-import imgLogo from "../../img/logo-nova.png"
+import imgLogo from "../../img/logo-letra-cor-preta.png"
 
 interface Usuario {
   nome: string | null;

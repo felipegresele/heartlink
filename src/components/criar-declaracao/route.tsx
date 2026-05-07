@@ -8,14 +8,14 @@ export function EscolherTemplate() {
   const templates = [
     {
       id: 1,
-      title: "Template Padrão para casal",
+      title: "Template Casal",
       bonus: "+ Sessão Retrospectiva",
       path: "/padrao",
       button: "Criar",
     },
     {
       id: 1,
-      title: "Template Padrão para o Dia das mães ",
+      title: "Template Dia das mães ",
       bonus: "+ Sessão Retrospectiva",
       path: "/padrao-mae",
       button: "Criar",

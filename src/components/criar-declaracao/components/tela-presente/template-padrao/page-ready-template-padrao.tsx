@@ -818,7 +818,7 @@ export default function PageReady({
           )}
         </AnimatePresence>
 
-        <img src={imgLogo} className="h-20 w-40" />
+        <img src={imgLogo} className="h-20 w-40 mt-3" />
 
         <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">
           <div className="bg-white w-[320px] flex flex-col items-center justify-center px-3 pt-3 pb-6 shadow-lg">

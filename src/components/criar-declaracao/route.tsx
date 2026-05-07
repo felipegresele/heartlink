@@ -11,13 +11,15 @@ export function EscolherTemplate() {
       title: "Template Casal",
       bonus: "+ Sessão Retrospectiva",
       path: "/padrao",
+      demo: "https://www.heartcodegift.com.br/p/37ca69", // coloque o link aqui
       button: "Criar",
     },
     {
-      id: 1,
-      title: "Template Dia das mães ",
+      id: 2,
+      title: "Template Dia das mães",
       bonus: "+ Sessão Retrospectiva",
       path: "/padrao-mae",
+      demo: "https://www.heartcodegift.com.br/p/fc8f5e", // coloque o link aqui
       button: "Criar",
     },
   ];
@@ -53,12 +55,24 @@ export function EscolherTemplate() {
 
               <p className="text-xs text-[#e687cd] mb-4 z-10 font-bold">{item.bonus}</p>
 
-              <Link
-                to={item.path}
-                className="z-10 px-5 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-pink-500 to-red-500 hover:scale-105 transition-transform duration-200"
-              >
-                {item.button}
-              </Link>
+              {/* Botões lado a lado */}
+              <div className="z-10 flex gap-2">
+                <Link
+                  to={item.path}
+                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-pink-500 to-red-500 hover:scale-105 transition-transform duration-200"
+                >
+                  {item.button}
+                </Link>
+
+                <a
+                  href={item.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-lg text-sm font-semibold border border-pink-400 text-pink-500 bg-white hover:bg-pink-50 hover:scale-105 transition-transform duration-200"
+                >
+                  Ver Demo
+                </a>
+              </div>
             </div>
           </div>
         ))}

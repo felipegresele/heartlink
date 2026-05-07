@@ -145,6 +145,10 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
   );
   const [pageId, setPageId] = useState<string | null>(null);
 
+  const [tipoPresenteado, setTipoPresenteado] = useState<
+    "FILHO_E_MAE" | "FILHA_E_MAE" | null
+  >(rascunho.tipoPresenteado ?? null);
+
   // ── Estado do modal de validação ──────────────────────────
   const [modalAberto, setModalAberto] = useState(false);
   const [modalMensagem, setModalMensagem] = useState("");
@@ -182,6 +186,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
       modoImagem,
       musicaSelecionada,
       selectedPlan,
+      tipoPresenteado,
     };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(rascunhoAtual));
     saveToLocalStorage();
@@ -264,13 +269,17 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
             musicTitle: musicaSelecionada?.title,
             theme: modoExibicao,
             planType: selectedPlan,
+            tipoPresenteado: tipoPresenteado,
           }),
         },
       );
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        abrirModal(err.message || `Erro ao criar página (${response.status}). Faça login novamente.`);
+        abrirModal(
+          err.message ||
+            `Erro ao criar página (${response.status}). Faça login novamente.`,
+        );
         return;
       }
 
@@ -334,6 +343,35 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
   const esconderFooter = etapa === 7 || etapa === 9;
 
   const [verMaisRetro, setVerMaisRetro] = useState(false);
+
+  if (!tipoPresenteado) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAFAFA] p-8 gap-8">
+        <h1 className="text-2xl font-bold text-black text-center">
+          O presente é para quem? 💝
+        </h1>
+        <p className="text-gray-500 text-sm text-center">
+          Escolha para personalizar a experiência
+        </p>
+        <div className="flex gap-6 flex-wrap justify-center">
+          <button
+            onClick={() => setTipoPresenteado("FILHA_E_MAE")}
+            className="w-48 h-40 rounded-2xl border-2 border-pink-300 bg-white hover:border-pink-500 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-3"
+          >
+            <span className="text-5xl">👩‍👧</span>
+            <span className="font-bold text-black">Filha e Mãe</span>
+          </button>
+          <button
+            onClick={() => setTipoPresenteado("FILHO_E_MAE")}
+            className="w-48 h-40 rounded-2xl border-2 border-blue-300 bg-white hover:border-blue-500 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-3"
+          >
+            <span className="text-5xl">👩‍👦</span>
+            <span className="font-bold text-black">Filho e Mãe</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-[#FAFAFA] text-black min-h-screen">

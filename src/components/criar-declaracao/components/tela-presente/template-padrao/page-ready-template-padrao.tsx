@@ -666,6 +666,7 @@ export default function PageReady({
   musicaTitulo,
   usuarioNome,
   retrospectiva,
+  tipoPresenteado,
 }: {
   titulo: string;
   mensagem: string;
@@ -675,6 +676,7 @@ export default function PageReady({
   musicaTitulo?: string;
   usuarioNome: string;
   retrospectiva?: RetrospectiveData;
+  tipoPresenteado?: "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 }) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempo, setTempo] = useState({
@@ -883,8 +885,8 @@ export default function PageReady({
 
         {temRetrospectiva && (
           <RetrospectiveBtn
+            tipoPresenteado={tipoPresenteado}
             isVisible={() => {
-              // Se efeitoTime está ativo e ainda não foi exibido, mostra a intro primeiro
               if (retrospectiva?.efeitoTime && !efeitoJaExibido.current) {
                 efeitoJaExibido.current = true;
                 setMostrarEfeitoTime(true);

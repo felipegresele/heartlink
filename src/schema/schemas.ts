@@ -10,6 +10,7 @@ export interface LovePageData {
   musicTitle?: string;
   senderName: string;
   retrospectiva?: BackendRetrospectiva;
+  tipoPresenteado?: "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 }
 
 export interface LovePage {

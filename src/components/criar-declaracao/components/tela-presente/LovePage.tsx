@@ -33,6 +33,7 @@ export default function LovePage() {
       musicaTitulo={page.musicTitle}
       dataConhecimento={page.relationshipStartDate}
       usuarioNome={page.senderName}
+      tipoPresenteado={page.tipoPresenteado}
       retrospectiva={
         page.retrospectiva
           ? mapBackendRetrospectiva(page.retrospectiva)

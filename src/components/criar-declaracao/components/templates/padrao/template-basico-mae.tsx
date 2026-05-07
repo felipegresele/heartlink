@@ -455,7 +455,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
             <StepHeader
               icon={FaCalendar}
               titulo="Data"
-              descricao="Coloque sua data de nascimento, e o contador mostra o tempo que a mãe carrega você no coração."
+              descricao="Coloque sua data de nascimento, e o contador mostra o tempo que a sua mãe carrega você no coração."
               etapa={etapa}
               totalEtapas={totalEtapas}
             />
@@ -472,7 +472,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
             <StepHeader
               icon={FaMusic}
               titulo="Dedicar música"
-              descricao="Escolha a música preferida dela ou que lembre ela"
+              descricao="Escolha a música preferida dela ou que lembre ela."
               etapa={etapa}
               totalEtapas={totalEtapas}
             />

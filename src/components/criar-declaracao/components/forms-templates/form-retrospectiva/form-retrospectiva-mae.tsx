@@ -291,7 +291,7 @@ export function FormRetrospectivaSecoesDiaDasMaes({ onContinuar, onPular }: Prop
         <div className="flex gap-2 items-center mb-1">
           <FaGift className="text-[#e687cd]" size={20} />
           <h3 className="text-black font-bold text-base">
-            Seções da Retrospectiva para Mamãe
+            Seções da Retrospectiva para sua querida Mãe
           </h3>
           <RiMessage2Line
             onClick={() => setModalContatoAberto(true)}
@@ -299,7 +299,7 @@ export function FormRetrospectivaSecoesDiaDasMaes({ onContinuar, onPular }: Prop
           />
         </div>
         <p className="text-gray-500 font-0bold text-md font-bold leading-relaxed">
-          Escolha as seções que vão compor o presente especial da sua mãe e surpreenda ela com memórias únicas.
+          Escolha as seções que vão compor o presente especial e surpreenda-a com memórias únicas.
         </p>
       </div>
 

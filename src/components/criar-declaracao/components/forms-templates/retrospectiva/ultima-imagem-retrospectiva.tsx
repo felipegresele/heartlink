@@ -55,7 +55,7 @@ export function UltimaSessaoRetrospectiva({
   ondeSeConheceram,
   momentoFavorito,
   proximoPasso,
-  tipoPresenteado = "CASAL",
+  tipoPresenteado,
 }: {
   photos: string[];
   nomeCasal: string;
@@ -68,7 +68,7 @@ export function UltimaSessaoRetrospectiva({
   proximoPasso?: string;
   tipoPresenteado?: TipoPresenteado;
 }) {
-  const textos = TEXTOS[tipoPresenteado];
+  const textos = TEXTOS[(tipoPresenteado ?? "CASAL") as TipoPresenteado] ?? TEXTOS["CASAL"];
   const temMemoria = ondeSeConheceram || momentoFavorito || proximoPasso;
 
   return (

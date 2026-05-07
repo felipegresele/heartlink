@@ -145,9 +145,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
   );
   const [pageId, setPageId] = useState<string | null>(null);
 
-  const [tipoPresenteado, setTipoPresenteado] = useState<
-    "FILHO_E_MAE" | "FILHA_E_MAE" | null
-  >(rascunho.tipoPresenteado ?? null);
+  const [tipoPresenteado, setTipoPresenteado] = useState<"FILHO_E_MAE" | "FILHA_E_MAE" | null >(rascunho?.tipoPresenteado ?? null);
 
   // ── Estado do modal de validação ──────────────────────────
   const [modalAberto, setModalAberto] = useState(false);

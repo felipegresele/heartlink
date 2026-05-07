@@ -30,8 +30,8 @@ const TEXTOS: Record<
     dataLabel: "MEU NASCIMENTO",
     diasLabel: "DIAS QUE VOCÊ ME CARREGA NO CORAÇÃO",
     jornadaLabel: "NOSSA JORNADA",
-    momentosLabel: "Momentos que nos marcaram",
-    ondeLabel: "Uma lembrança especial",
+    momentosLabel: "Momentos especiais",
+    ondeLabel: "O que me ensinou de valioso",
     proximoLabel: "O que quero viver com você",
   },
   FILHO_E_MAE: {
@@ -39,8 +39,8 @@ const TEXTOS: Record<
     dataLabel: "MEU NASCIMENTO",
     diasLabel: "DIAS QUE VOCÊ ME CARREGA NO CORAÇÃO",
     jornadaLabel: "NOSSA JORNADA",
-    momentosLabel: "Momentos que nos marcaram",
-    ondeLabel: "Uma lembrança especial",
+    momentosLabel: "Momentos especiais",
+    ondeLabel: "O que me ensinou de valioso",
     proximoLabel: "O que quero viver com você",
   },
 };

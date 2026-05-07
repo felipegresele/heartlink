@@ -253,7 +253,7 @@ export function WheelSection() {
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="Ex: Jantar romântico, Cinema…"
+              placeholder="Ex: Jantar, Cinema…"
               value={novoItem}
               onChange={(e) => setNovoItem(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAdd()}

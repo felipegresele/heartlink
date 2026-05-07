@@ -13,4 +13,5 @@ export interface PreviewCarrosselProps {
   dataConhecimento: string;
   modoExibicao?: ModoExibicao;
   modoImagem?: ModoImagem;
+  tipoPresenteado?: "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE" | null;
 }

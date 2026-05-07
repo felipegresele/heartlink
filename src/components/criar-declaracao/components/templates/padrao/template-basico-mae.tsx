@@ -612,6 +612,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
               dataConhecimento={dataConhecimento}
               modoExibicao={modoExibicao}
               modoImagem={modoImagem}
+              tipoPresenteado={tipoPresenteado}
             />
           </div>
         </div>

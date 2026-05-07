@@ -11,6 +11,7 @@ export default function PreviewCarrossel({
   dataConhecimento = "",
   modoExibicao = "padrao",
   modoImagem = "carrossel",
+  tipoPresenteado
 }: PreviewCarrosselProps) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempoDetalhado, setTempoDetalhado] = useState({
@@ -170,7 +171,7 @@ export default function PreviewCarrossel({
       
     </div>
     <div className=" w-full relative z-10">
-        <RetrospectiveBtn isVisible={() => setModalRetrospectivaAberto(true)} />
+        <RetrospectiveBtn tipoPresenteado={tipoPresenteado ?? undefined} isVisible={() => setModalRetrospectivaAberto(true)} />
           {modalRetrospectivaAberto && <RetrospectiveModal onClose={() => setModalRetrospectivaAberto(false)} />}
         <MusicPlayerFooter musica={musicaSelecionada ?? null} />
       </div>

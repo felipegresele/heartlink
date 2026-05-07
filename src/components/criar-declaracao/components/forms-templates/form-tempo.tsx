@@ -3,6 +3,7 @@ import type { FormTempoConhecimentoProps } from "../../../../schema/form-templat
 export function FormTempoConhecimento({
   dataConhecimento,
   setDataConhecimento,
+  mensagem
 }: FormTempoConhecimentoProps) {
 
   function validarData() {
@@ -15,7 +16,7 @@ export function FormTempoConhecimento({
 
   return (
     <div className="space-y-2">
-      <h2 className="text-lg font-bold">Quando se conheceram?</h2>
+      <h2 className="text-lg font-bold">{mensagem}</h2>
       <input
         type="date"
         value={dataConhecimento}

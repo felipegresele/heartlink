@@ -19,6 +19,7 @@ export interface FormImagensProps {
 export interface FormTempoConhecimentoProps {
   dataConhecimento: string;
   setDataConhecimento: (value: string) => void;
+  mensagem:string;
 }
 
 export type ModoExibicao = "padrao" | "classico" | "simples";

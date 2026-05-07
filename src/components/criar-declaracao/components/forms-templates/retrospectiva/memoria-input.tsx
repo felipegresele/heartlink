@@ -31,7 +31,7 @@ export function MemoriaInput({
       {isFirstField && (
         <p className="text-black text-xs mb-4">
           Esses campos são opcionais. Se preenchidos, aparecerão no resumo final
-          da retrospectiva do casal.
+          da retrospectiva.
         </p>
       )}
 

@@ -43,7 +43,7 @@ export function UltimaSessaoRetrospectiva({
             className="text-black text-xs px-4 py-1 rounded-full font-semibold"
             style={{ backgroundColor: corBg }}
           >
-            RETROSPECTIVA DO CASAL
+            RETROSPECTIVA
           </span>
         </div>
 

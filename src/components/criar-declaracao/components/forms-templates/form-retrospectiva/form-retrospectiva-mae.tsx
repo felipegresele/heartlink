@@ -103,7 +103,7 @@ const SECOES: SecaoConfig[] = [
     badgeIcon: <FaRandom size={11} />,
     titulo: "Roleta",
     descricao:
-      "Deixe o acaso escolher a próxima surpresa que vocês vão fazer. Gire e descubra um mimo especial para ela.",
+      "Deixe o acaso escolher a próxima surpresa que você vai fazer para ela. Gire e descubra um mimo para este dia especial.",
     cor: "#a855f7",
     videoUrl: videoRoleta,
     preview: (
@@ -242,7 +242,7 @@ function isSectionType(id: string): id is SectionType {
 }
 
 // ── Componente principal ───────────────────────────────────
-export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
+export function FormRetrospectivaSecoesDiaDasMaes({ onContinuar, onPular }: Props) {
   const { data, toggleSection, toggleEfeitoTime } = useRetrospective();
   const [current, setCurrent] = useState(0);
   const [modalContatoAberto, setModalContatoAberto] = useState(false);
@@ -476,9 +476,9 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
             </div>
 
             <MemoriaInput
-              icon="📍"
-              label="Onde aconteceu sua memória favorita com ela?"
-              placeholder="Ex: Um presente, uma viajem…"
+              icon="❤️"
+              label="O que você aprendeu com sua mãe de mais valioso?"
+              placeholder="Ex: Um conselho…"
               field="ondeSeConheceram"
             />
             <MemoriaInput

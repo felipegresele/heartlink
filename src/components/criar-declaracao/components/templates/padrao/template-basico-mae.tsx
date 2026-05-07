@@ -24,12 +24,12 @@ import { FormImagens } from "../../forms-templates/img-cloudnary/form-imagens";
 import { FormTempoConhecimento } from "../../forms-templates/form-tempo";
 import { FormModoImagem } from "../../forms-templates/form-modo-imagens";
 import { FormModoExibicao } from "../../forms-templates/form-modo-exibicao";
-import { FormRetrospectivaSecoes } from "../../forms-templates/form-retrospectiva/form-retrospectiva";
 import { EscolherPlano } from "../../forms-templates/escolher-plano";
 import PreviewCarrossel from "../../preview/preview-carrosel";
 import ContentEscolherMusica from "../../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../../mensagem-efeito/mensagem-efeito";
 import { PagamentoStep } from "../../forms-templates/pagamentos/carrinho-pagamento";
+import { FormRetrospectivaSecoesDiaDasMaes } from "../../forms-templates/form-retrospectiva/form-retrospectiva-mae";
 
 const DRAFT_KEY = "heartlink_criador_rascunho";
 
@@ -270,7 +270,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        abrirModal(err.message || `Erro ao criar página (${response.status}). Tente novamente.`);
+        abrirModal(err.message || `Erro ao criar página (${response.status}). Faça login novamente.`);
         return;
       }
 
@@ -379,7 +379,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
             <FormTitulo
               titulo={titulo}
               setTitulo={setTitulo}
-              mensagemTitulo="Como vai se chamar a história com você mãe?"
+              mensagemTitulo="Como vai se chamar a história com você e sua mãe?"
             />
           </>
         )}
@@ -406,7 +406,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
             <StepHeader
               icon={FaImages}
               titulo="Fotos"
-              descricao="Adicione suas fotos."
+              descricao="Adicione até 3 fotos que mais gosta com sua mãe."
               etapa={etapa}
               totalEtapas={totalEtapas}
             />
@@ -419,13 +419,14 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
             <StepHeader
               icon={FaCalendar}
               titulo="Data"
-              descricao="Quando tudo começou?"
+              descricao="Coloque sua data de nascimento, e o contador mostra o tempo que a mãe carrega você no coração."
               etapa={etapa}
               totalEtapas={totalEtapas}
             />
             <FormTempoConhecimento
               dataConhecimento={dataConhecimento}
               setDataConhecimento={setDataConhecimento}
+              mensagem="Data do seu nascimento?"
             />
           </>
         )}
@@ -434,8 +435,8 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
           <>
             <StepHeader
               icon={FaMusic}
-              titulo="Escolher música"
-              descricao="Escolha uma música que lembra esta pessoa."
+              titulo="Dedicar música"
+              descricao="Escolha a música preferida dela ou que lembre ela"
               etapa={etapa}
               totalEtapas={totalEtapas}
             />
@@ -485,7 +486,7 @@ function CriadorDeclaracaoInnerDiaDasMaes() {
               </div>
             ) : (
               <>
-                <FormRetrospectivaSecoes
+                <FormRetrospectivaSecoesDiaDasMaes
                   onContinuar={() => {
                     if (
                       retroData.secoesSelecionadas.length === 0 &&

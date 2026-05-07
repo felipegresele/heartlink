@@ -270,7 +270,7 @@ function CriadorDeclaracaoInner() {
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        abrirModal(err.message || `Erro ao criar página (${response.status}). Tente novamente.`);
+        abrirModal(err.message || `Erro ao criar página (${response.status}). Faça login novamente.`);
         return;
       }
 
@@ -426,6 +426,7 @@ function CriadorDeclaracaoInner() {
             <FormTempoConhecimento
               dataConhecimento={dataConhecimento}
               setDataConhecimento={setDataConhecimento}
+              mensagem="A data em que o universo conspirou a favor de vocês"
             />
           </>
         )}
@@ -434,7 +435,7 @@ function CriadorDeclaracaoInner() {
           <>
             <StepHeader
               icon={FaMusic}
-              titulo="Escolher música"
+              titulo="Dedicar música"
               descricao="Escolha uma música que lembra esta pessoa."
               etapa={etapa}
               totalEtapas={totalEtapas}

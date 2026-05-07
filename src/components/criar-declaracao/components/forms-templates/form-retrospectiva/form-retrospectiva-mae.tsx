@@ -11,12 +11,12 @@ import { IoExtensionPuzzleSharp, IoEye } from "react-icons/io5";
 import { FaGift, FaTimeline } from "react-icons/fa6";
 import { RiMessage2Line } from "react-icons/ri";
 
-import videoLinhaTempo from "../../../../../img/retrospectiva-sessao/video-linha-tempo.mp4";
-import videoGaleria from "../../../../../img/retrospectiva-sessao/video-galeria.mp4";
-import videoRoleta from "../../../../../img/retrospectiva-sessao/video-roleta.mp4";
-import videoEnigma from "../../../../../img/retrospectiva-sessao/video-enigma.mp4";
-import videoIntroducao from "../../../../../img/retrospectiva-sessao/video-introducao.mp4";
-import videoUltimaSessao from "../../../../../img/retrospectiva-sessao/video-ultima-tela.mp4";
+import videoLinhaTempo from "../../../../../img/retrospectiva-sessao/dia-das-maes/linha-do-tempo-dia-das-maes..mp4";
+import videoGaleria from "../../../../../img/retrospectiva-sessao/dia-das-maes/video-galeria.mp4";
+import videoRoleta from "../../../../../img/retrospectiva-sessao/dia-das-maes/roleta-dia-das-maes.mp4";
+import videoEnigma from "../../../../../img/retrospectiva-sessao/dia-das-maes/enigma-dia-das-maes.mp4";
+import videoIntroducao from "../../../../../img/retrospectiva-sessao/dia-das-maes/introducao-animada-dia-das-maes.mp4";
+import videoUltimaSessao from "../../../../../img/retrospectiva-sessao/dia-das-maes/resumo-dia-das-maes.mp4";
 import type { SectionType } from "../../../../../schema/retrospectiva";
 import { useRetrospective } from "../retrospectiva/restrospective-context";
 import { MemoriaInput } from "../retrospectiva/memoria-input";

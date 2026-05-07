@@ -1,4 +1,4 @@
-import imgCasal from "../../../../../../img/bg-retrospectiva.png";
+import imgCasal from "../../../../../img/retrospectiva-banner-imgs/bg-retrospectiva.png";
 import imgFilhaEMae from "../../../../../img/retrospectiva-banner-imgs/bg_mae_e_filha_retrospectiva.png";
 import imgFilhoEMae from "../../../../../img/retrospectiva-banner-imgs/bg_mae_e_filho_retrospectiva.png";
 

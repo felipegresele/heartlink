@@ -7,7 +7,6 @@ type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 const TEXTOS: Record<
   TipoPresenteado,
   {
-    titulo: string;
     frase: string;
     dataLabel: string;
     diasLabel: string;
@@ -18,7 +17,6 @@ const TEXTOS: Record<
   }
 > = {
   CASAL: {
-    titulo: "Nossa História",
     frase: "Cada momento juntos valeu a pena",
     dataLabel: "NOSSA DATA ESPECIAL",
     diasLabel: "TOTAL DE DIAS JUNTOS",
@@ -28,7 +26,6 @@ const TEXTOS: Record<
     proximoLabel: "Próximo passo",
   },
   FILHA_E_MAE: {
-    titulo: "Nossa História",
     frase: "Cada momento ao seu lado valeu a pena",
     dataLabel: "MEU NASCIMENTO",
     diasLabel: "DIAS QUE VOCÊ ME CARREGA NO CORAÇÃO",
@@ -38,7 +35,6 @@ const TEXTOS: Record<
     proximoLabel: "O que quero viver com você",
   },
   FILHO_E_MAE: {
-    titulo: "Nossa História",
     frase: "Cada momento ao seu lado valeu a pena",
     dataLabel: "MEU NASCIMENTO",
     diasLabel: "DIAS QUE VOCÊ ME CARREGA NO CORAÇÃO",
@@ -109,7 +105,7 @@ export function UltimaSessaoRetrospectiva({
 
         {/* Texto */}
         <div className="text-center mb-3">
-          <h1 className="text-xl font-bold">{textos.titulo}</h1>
+          <h1 className="text-xl font-bold">Nossa História</h1>
           <p className="text-sm text-gray-300">{nomeCasal}</p>
         </div>
 

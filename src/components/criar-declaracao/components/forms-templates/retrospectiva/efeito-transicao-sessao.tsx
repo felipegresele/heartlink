@@ -357,7 +357,7 @@ export default function SpotifySingleScreen({
                 lineHeight: 1.5,
               }}
             >
-              Os momentos que mais marcaram esse casal
+              Os momentos que mais marcaram
             </p>
           </div>
         )}

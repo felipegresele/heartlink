@@ -94,13 +94,13 @@ function FormsSecoesSelecionadas({
           onClick={onVoltar}
           className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-gray-800 hover:bg-gray-700 font-bold w-80 h-13 justify-center border border-gray-500"
         >
-          <SlArrowLeft size={11} /> Voltar
+          <SlArrowLeft size={12} /> Voltar
         </button>
         <button
           onClick={onContinuar}
           className="flex items-center gap-2 px-6 py-2 rounded-lg text-black bg-[#e687cd] hover:bg-pink-500 font-bold w-80 h-13 justify-center"
         >
-          Próximo <SlArrowRight size={11} />
+          Próximo <SlArrowRight size={12} />
         </button>
       </div>
     </div>

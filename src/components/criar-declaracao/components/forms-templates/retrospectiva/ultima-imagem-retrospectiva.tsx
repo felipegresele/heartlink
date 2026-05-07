@@ -2,6 +2,53 @@ import { FiCalendar, FiMapPin } from "react-icons/fi";
 import { FaStar, FaRocket } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
+type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
+
+const TEXTOS: Record<
+  TipoPresenteado,
+  {
+    titulo: string;
+    frase: string;
+    dataLabel: string;
+    diasLabel: string;
+    jornadaLabel: string;
+    momentosLabel: string;
+    ondeLabel: string;
+    proximoLabel: string;
+  }
+> = {
+  CASAL: {
+    titulo: "Nossa História",
+    frase: "Cada momento juntos valeu a pena",
+    dataLabel: "NOSSA DATA ESPECIAL",
+    diasLabel: "TOTAL DE DIAS JUNTOS",
+    jornadaLabel: "JORNADA DO AMOR",
+    momentosLabel: "Momentos que nos definem",
+    ondeLabel: "Onde nos conhecemos",
+    proximoLabel: "Próximo passo",
+  },
+  FILHA_E_MAE: {
+    titulo: "Nossa História",
+    frase: "Cada momento ao seu lado valeu a pena",
+    dataLabel: "MEU NASCIMENTO",
+    diasLabel: "DIAS QUE VOCÊ ME CARREGA NO CORAÇÃO",
+    jornadaLabel: "NOSSA JORNADA",
+    momentosLabel: "Momentos que nos marcaram",
+    ondeLabel: "Uma lembrança especial",
+    proximoLabel: "O que quero viver com você",
+  },
+  FILHO_E_MAE: {
+    titulo: "Nossa História",
+    frase: "Cada momento ao seu lado valeu a pena",
+    dataLabel: "MEU NASCIMENTO",
+    diasLabel: "DIAS QUE VOCÊ ME CARREGA NO CORAÇÃO",
+    jornadaLabel: "NOSSA JORNADA",
+    momentosLabel: "Momentos que nos marcaram",
+    ondeLabel: "Uma lembrança especial",
+    proximoLabel: "O que quero viver com você",
+  },
+};
+
 export function UltimaSessaoRetrospectiva({
   photos,
   nomeCasal,
@@ -12,6 +59,7 @@ export function UltimaSessaoRetrospectiva({
   ondeSeConheceram,
   momentoFavorito,
   proximoPasso,
+  tipoPresenteado = "CASAL",
 }: {
   photos: string[];
   nomeCasal: string;
@@ -22,7 +70,9 @@ export function UltimaSessaoRetrospectiva({
   ondeSeConheceram?: string;
   momentoFavorito?: string;
   proximoPasso?: string;
+  tipoPresenteado?: TipoPresenteado;
 }) {
+  const textos = TEXTOS[tipoPresenteado];
   const temMemoria = ondeSeConheceram || momentoFavorito || proximoPasso;
 
   return (
@@ -59,13 +109,13 @@ export function UltimaSessaoRetrospectiva({
 
         {/* Texto */}
         <div className="text-center mb-3">
-          <h1 className="text-xl font-bold">Nossa História</h1>
+          <h1 className="text-xl font-bold">{textos.titulo}</h1>
           <p className="text-sm text-gray-300">{nomeCasal}</p>
         </div>
 
         {/* Frase */}
         <p className="text-xs text-gray-400 text-center italic mb-4">
-          Cada momento juntos valeu a pena
+          {textos.frase}
         </p>
 
         {/* Separador */}
@@ -83,7 +133,7 @@ export function UltimaSessaoRetrospectiva({
             <FiCalendar size={16} />
           </div>
           <div>
-            <p className="text-xs text-gray-400">NOSSA DATA ESPECIAL</p>
+            <p className="text-xs text-gray-400">{textos.dataLabel}</p>
             <h1 className="text-sm font-semibold">
               {dataDia} de {nomeMes}
             </h1>
@@ -92,13 +142,13 @@ export function UltimaSessaoRetrospectiva({
 
         {/* Dias */}
         <div className="mb-4">
-          <p className="text-xs text-gray-400">TOTAL DE DIAS JUNTOS</p>
+          <p className="text-xs text-gray-400">{textos.diasLabel}</p>
           <h1 className="text-4xl font-bold">{totalDias}</h1>
         </div>
 
         {/* Barra de progresso */}
         <div className="mb-4">
-          <p className="text-xs text-gray-400 mb-1">JORNADA DO AMOR</p>
+          <p className="text-xs text-gray-400 mb-1">{textos.jornadaLabel}</p>
           <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full"
@@ -122,7 +172,7 @@ export function UltimaSessaoRetrospectiva({
               </div>
 
               <p className="text-white/40 text-[10px] uppercase tracking-widest text-center mb-3">
-                Momentos que nos definem
+                {textos.momentosLabel}
               </p>
 
               <div className="flex flex-col gap-3">
@@ -132,7 +182,10 @@ export function UltimaSessaoRetrospectiva({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 }}
                     className="rounded-xl p-3 flex items-start gap-3"
-                    style={{ backgroundColor: `${corBg}20`, border: `1px solid ${corBg}30` }}
+                    style={{
+                      backgroundColor: `${corBg}20`,
+                      border: `1px solid ${corBg}30`,
+                    }}
                   >
                     <div
                       className="p-1.5 rounded-full shrink-0 mt-0.5"
@@ -142,7 +195,7 @@ export function UltimaSessaoRetrospectiva({
                     </div>
                     <div>
                       <p className="text-white/40 text-[10px] uppercase tracking-wide mb-0.5">
-                        Onde nos conhecemos
+                        {textos.ondeLabel}
                       </p>
                       <p className="text-white text-sm font-medium leading-snug">
                         {ondeSeConheceram}
@@ -157,7 +210,10 @@ export function UltimaSessaoRetrospectiva({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
                     className="rounded-xl p-3 flex items-start gap-3"
-                    style={{ backgroundColor: `${corBg}20`, border: `1px solid ${corBg}30` }}
+                    style={{
+                      backgroundColor: `${corBg}20`,
+                      border: `1px solid ${corBg}30`,
+                    }}
                   >
                     <div
                       className="p-1.5 rounded-full shrink-0 mt-0.5"
@@ -182,7 +238,10 @@ export function UltimaSessaoRetrospectiva({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.6 }}
                     className="rounded-xl p-3 flex items-start gap-3"
-                    style={{ backgroundColor: `${corBg}20`, border: `1px solid ${corBg}30` }}
+                    style={{
+                      backgroundColor: `${corBg}20`,
+                      border: `1px solid ${corBg}30`,
+                    }}
                   >
                     <div
                       className="p-1.5 rounded-full shrink-0 mt-0.5"
@@ -192,7 +251,7 @@ export function UltimaSessaoRetrospectiva({
                     </div>
                     <div>
                       <p className="text-white/40 text-[10px] uppercase tracking-wide mb-0.5">
-                        Próximo passo
+                        {textos.proximoLabel}
                       </p>
                       <p className="text-white text-sm font-medium leading-snug">
                         {proximoPasso}

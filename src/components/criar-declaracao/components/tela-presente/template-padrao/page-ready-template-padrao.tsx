@@ -23,9 +23,10 @@ import { IoExtensionPuzzleSharp } from "react-icons/io5";
 import { FiClock, FiImage } from "react-icons/fi";
 import { FaTimeline } from "react-icons/fa6";
 
-// ── Importa a intro animada ───────────────────────────────────
 import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
 import { UltimaSessaoRetrospectiva } from "../../forms-templates/retrospectiva/ultima-imagem-retrospectiva";
+
+type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 
 // ── Label e emoji de cada seção ──────────────────────────────────────────────
 const SECTION_META: Record<
@@ -62,6 +63,7 @@ function RetrospectiveModal({
   totalDias,
   dataDia,
   nomeMes,
+  tipoPresenteado,
 }: {
   data: RetrospectiveData;
   onClose: () => void;
@@ -70,10 +72,10 @@ function RetrospectiveModal({
   totalDias: number;
   dataDia: number;
   nomeMes: string;
+  tipoPresenteado?: TipoPresenteado;
 }) {
   const secoes = data.secoesSelecionadas.filter((s) => s !== "time");
 
-  // Adiciona a seção virtual "ultima" sempre ao final
   const todasSecoes = [...secoes, "ultima" as const];
   const [secaoAtual, setSecaoAtual] = useState(0);
   const total = todasSecoes.length;
@@ -161,9 +163,10 @@ function RetrospectiveModal({
                 dataDia={dataDia}
                 nomeMes={nomeMes}
                 corBg="#e91e8c"
-                ondeSeConheceram={data.ondeSeConheceram} // ← novo
-                momentoFavorito={data.momentoFavorito} // ← novo
+                ondeSeConheceram={data.ondeSeConheceram}
+                momentoFavorito={data.momentoFavorito}
                 proximoPasso={data.proximoPasso}
+                tipoPresenteado={tipoPresenteado} // ← passa aqui
               />
             )}
           </motion.div>
@@ -417,7 +420,7 @@ function WheelView({ items }: { items: RetrospectiveData["wheel"] }) {
 
   return (
     <div className="flex flex-col items-center gap-6 pt-4">
-      <h1 className="font-bold text-xl">Para onde vamos sair?</h1>
+      <h1 className="font-bold text-xl">O que vamos fazer juntos? 🎲</h1>
       <div className="relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full z-10">
           <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-t-[22px] border-l-transparent border-r-transparent border-t-white drop-shadow-lg" />
@@ -676,7 +679,7 @@ export default function PageReady({
   musicaTitulo?: string;
   usuarioNome: string;
   retrospectiva?: RetrospectiveData;
-  tipoPresenteado?: "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
+  tipoPresenteado?: TipoPresenteado;
 }) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [tempo, setTempo] = useState({
@@ -698,11 +701,7 @@ export default function PageReady({
 
   const [mostrarModal, setMostrarModal] = useState(true);
   const [mostrarRetrospectiva, setMostrarRetrospectiva] = useState(false);
-
-  // Controla se a intro animada (SpotifySingleScreen) está visível
-  // Inicia como false — só dispara quando o usuário abre a retrospectiva pela primeira vez
   const [mostrarEfeitoTime, setMostrarEfeitoTime] = useState(false);
-  // Flag para garantir que o efeito rode apenas uma vez por sessão
   const efeitoJaExibido = useRef(false);
 
   useEffect(() => {
@@ -751,18 +750,15 @@ export default function PageReady({
     return () => clearInterval(intervalo);
   }, [dataConhecimento]);
 
-  // Seções visíveis no modal de stories (exclui "time")
   const secoesStories = retrospectiva
     ? retrospectiva.secoesSelecionadas.filter((s) => s !== "time")
     : [];
   const temRetrospectiva = secoesStories.length > 0;
 
-  // Calcula totalDias e totalHoras para o SpotifySingleScreen
   const { totalDias, totalHoras } = dataConhecimento
     ? calcularTempoDesdeData(dataConhecimento)
     : { totalDias: 0, totalHoras: 0 };
 
-  // Dados para a UltimaSessaoRetrospectiva
   const MESES = [
     "Janeiro",
     "Fevereiro",
@@ -783,7 +779,6 @@ export default function PageReady({
 
   return (
     <>
-      {/* ── Intro animada estilo Spotify Wrapped ── */}
       {mostrarEfeitoTime && retrospectiva?.efeitoTime && (
         <SpotifySingleScreen
           senderName={titulo}
@@ -792,7 +787,6 @@ export default function PageReady({
           fotos={imagens}
           onFinish={() => {
             setMostrarEfeitoTime(false);
-            // Abre o modal de retrospectiva automaticamente após a intro
             if (secoesStories.length > 0) {
               setMostrarRetrospectiva(true);
             }
@@ -800,7 +794,6 @@ export default function PageReady({
         />
       )}
 
-      {/* ── Conteúdo principal da página ── */}
       <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
         {mostrarModal && (
           <ModalPresente
@@ -820,11 +813,11 @@ export default function PageReady({
               totalDias={totalDias}
               dataDia={dataDia}
               nomeMes={nomeMes}
+              tipoPresenteado={tipoPresenteado} // ← passa aqui
             />
           )}
         </AnimatePresence>
 
-        {/* 144px */}
         <img src={imgLogo} className="h-20 w-40" />
 
         <div className="bg-gray-800 rounded-xl p-6 w-full max-w-2xl flex flex-col items-center shadow-xl">

@@ -5,22 +5,22 @@
 // ============================================================
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { SectionType } from "../../../../schema/retrospectiva";
-import { useRetrospective } from "./retrospectiva/restrospective-context";
+import type { SectionType } from "../../../../../schema/retrospectiva";
+import { useRetrospective } from "../retrospectiva/restrospective-context";
 import { FiCalendar, FiImage } from "react-icons/fi";
 import { FaRandom } from "react-icons/fa";
 import { IoExtensionPuzzleSharp, IoEye } from "react-icons/io5";
 import { FaGift, FaTimeline } from "react-icons/fa6";
 import { RiMessage2Line } from "react-icons/ri";
-import { ModalContatoAjuda } from "../../../modal-contato/modal-contato";
+import { ModalContatoAjuda } from "../../../../modal-contato/modal-contato";
 
-import videoLinhaTempo from "../../../../img/retrospectiva-sessao/video-linha-tempo.mp4";
-import videoGaleria from "../../../../img/retrospectiva-sessao/video-galeria.mp4";
-import videoRoleta from "../../../../img/retrospectiva-sessao/video-roleta.mp4";
-import videoEnigma from "../../../../img/retrospectiva-sessao/video-enigma.mp4";
-import videoIntroducao from "../../../../img/retrospectiva-sessao/video-introducao.mp4";
-import videoUltimaSessao from "../../../../img/retrospectiva-sessao/video-ultima-tela.mp4";
-import { MemoriaInput } from "./retrospectiva/memoria-input";
+import videoLinhaTempo from "../../../../../img/retrospectiva-sessao/video-linha-tempo.mp4";
+import videoGaleria from "../../../../../img/retrospectiva-sessao/video-galeria.mp4";
+import videoRoleta from "../../../../../img/retrospectiva-sessao/video-roleta.mp4";
+import videoEnigma from "../../../../../img/retrospectiva-sessao/video-enigma.mp4";
+import videoIntroducao from "../../../../../img/retrospectiva-sessao/video-introducao.mp4";
+import videoUltimaSessao from "../../../../../img/retrospectiva-sessao/video-ultima-tela.mp4";
+import { MemoriaInput } from "../retrospectiva/memoria-input";
 
 interface Props {
   onContinuar: () => void;

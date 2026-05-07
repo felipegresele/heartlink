@@ -6,10 +6,6 @@ import { RetrospectiveBtn } from "../forms-templates/retrospectiva/botao-retrosp
 export default function PreviewCarrossel({
   titulo = "Seu título aqui",
   mensagem = "Sua mensagem aqui",
-  corTitulo = "#ffffff",
-  fonteTitulo = "Arial, sans-serif",
-  tamanhoTitulo = 24,
-  tamanhoMensagem = 16,
   musicaSelecionada = null,
   imagens = [],
   dataConhecimento = "",
@@ -166,9 +162,9 @@ export default function PreviewCarrossel({
       <div className="relative z-10 flex flex-col items-center w-full">
         <div className="bg-white w-[400px] flex flex-col items-center justify-center p-4"> 
         {renderImagens()}
-        <h1 style={{ color: "black", fontFamily: fonteTitulo, fontSize: `${tamanhoTitulo}px` }} className="mb-6 drop-shadow-md">{titulo}</h1>
+        <h1 style={{ color: "black", fontFamily: "Arial", fontSize: "24px" }} className="mb-6 drop-shadow-md">{titulo}</h1>
         </div>
-        <p style={{ fontSize: `${tamanhoMensagem}px` }} className="max-w-[500px] break-words whitespace-pre-wrap overflow-hidden p-4 text-gray-200 leading-relaxed">{mensagem}</p>
+        <p style={{ fontSize: "24px" }} className="max-w-[500px] break-words whitespace-pre-wrap overflow-hidden p-4 text-gray-200 leading-relaxed">{mensagem}</p>
         {renderTempo()}
       </div>
       

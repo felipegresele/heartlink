@@ -10,27 +10,26 @@ import {
 import {
   RetrospectiveProvider,
   useRetrospective,
-} from "../forms-templates/retrospectiva/restrospective-context";
-import { TimelineSection } from "../forms-templates/retrospectiva/timeline-section";
-import { WheelSection } from "../forms-templates/retrospectiva/roleta";
-import { GallerySection } from "../forms-templates/retrospectiva/galeria-sessao";
-import { EnigmaSection } from "../forms-templates/retrospectiva/enigma-sessao";
+} from "../../forms-templates/retrospectiva/restrospective-context";
+import { TimelineSection } from "../../forms-templates/retrospectiva/timeline-section";
+import { WheelSection } from "../../forms-templates/retrospectiva/roleta";
+import { GallerySection } from "../../forms-templates/retrospectiva/galeria-sessao";
+import { EnigmaSection } from "../../forms-templates/retrospectiva/enigma-sessao";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
-import { saveRetrospective } from "../../../../api/retrospectiva";
-import StepHeader from "../ui/StepHeader";
-import { FormTitulo } from "../forms-templates/form-titulo";
-import { FormMensagem } from "../forms-templates/form-mensagem";
-import { FormImagens } from "../forms-templates/img-cloudnary/form-imagens";
-import { FormTempoConhecimento } from "../forms-templates/form-tempo";
-import { FormModoImagem } from "../forms-templates/form-modo-imagens";
-import { FormModoExibicao } from "../forms-templates/form-modo-exibicao";
-import { FormRetrospectivaSecoes } from "../forms-templates/form-retrospectiva";
-import { EscolherPlano } from "../forms-templates/escolher-plano";
-import PreviewCarrossel from "../preview/preview-carrosel";
-import ContentEscolherMusica from "../music/escolher-musica";
-import { MensagemComEfeitoEscritaRetrospectiva } from "../mensagem-efeito/mensagem-efeito";
-import FaqsRetrospectiva from "../../../faqs-retrospectiva";
-import { PagamentoStep } from "../forms-templates/pagamentos/carrinho-pagamento";
+import { saveRetrospective } from "../../../../../api/retrospectiva";
+import StepHeader from "../../ui/StepHeader";
+import { FormTitulo } from "../../forms-templates/form-titulo";
+import { FormMensagem } from "../../forms-templates/form-mensagem";
+import { FormImagens } from "../../forms-templates/img-cloudnary/form-imagens";
+import { FormTempoConhecimento } from "../../forms-templates/form-tempo";
+import { FormModoImagem } from "../../forms-templates/form-modo-imagens";
+import { FormModoExibicao } from "../../forms-templates/form-modo-exibicao";
+import { FormRetrospectivaSecoes } from "../../forms-templates/form-retrospectiva/form-retrospectiva";
+import { EscolherPlano } from "../../forms-templates/escolher-plano";
+import PreviewCarrossel from "../../preview/preview-carrosel";
+import ContentEscolherMusica from "../../music/escolher-musica";
+import { MensagemComEfeitoEscritaRetrospectiva } from "../../mensagem-efeito/mensagem-efeito";
+import { PagamentoStep } from "../../forms-templates/pagamentos/carrinho-pagamento";
 
 const DRAFT_KEY = "heartlink_criador_rascunho";
 
@@ -120,19 +119,7 @@ function CriadorDeclaracaoInner() {
 
   const [titulo, setTitulo] = useState<string>(rascunho?.titulo ?? "");
   const [mensagem, setMensagem] = useState<string>(rascunho?.mensagem ?? "");
-  const [corTitulo, setCorTitulo] = useState<string>(
-    rascunho?.corTitulo ?? "#ffffff",
-  );
-  const [fonteTitulo, setFonteTitulo] = useState<string>(
-    rascunho?.fonteTitulo ?? "Alex Brush, cursive",
-  );
-  const [tamanhoTitulo, setTamanhoTitulo] = useState<number>(
-    rascunho?.tamanhoTitulo ?? 24,
-  );
-  const [tamanhoMensagem, setTamanhoMensagem] = useState<number>(
-    rascunho?.tamanhoMensagem ?? 16,
-  );
-
+  
   const [imagens, setImagens] = useState<string[]>(rascunho?.imagens ?? []);
   const [dataConhecimento, setDataConhecimento] = useState<string>(
     rascunho?.dataConhecimento ?? "",
@@ -189,10 +176,6 @@ function CriadorDeclaracaoInner() {
       subEtapaRetro,
       titulo,
       mensagem,
-      corTitulo,
-      fonteTitulo,
-      tamanhoTitulo,
-      tamanhoMensagem,
       imagens,
       dataConhecimento,
       modoExibicao,
@@ -207,10 +190,6 @@ function CriadorDeclaracaoInner() {
     subEtapaRetro,
     titulo,
     mensagem,
-    corTitulo,
-    fonteTitulo,
-    tamanhoTitulo,
-    tamanhoMensagem,
     imagens,
     dataConhecimento,
     modoExibicao,
@@ -400,12 +379,7 @@ function CriadorDeclaracaoInner() {
             <FormTitulo
               titulo={titulo}
               setTitulo={setTitulo}
-              corTitulo={corTitulo}
-              setCorTitulo={setCorTitulo}
-              fonteTitulo={fonteTitulo}
-              setFonteTitulo={setFonteTitulo}
-              tamanhoTitulo={tamanhoTitulo}
-              setTamanhoTitulo={setTamanhoTitulo}
+              mensagemTitulo="Como vai se chamar a história de vocês? 💌"
             />
           </>
         )}
@@ -422,8 +396,7 @@ function CriadorDeclaracaoInner() {
             <FormMensagem
               mensagem={mensagem}
               setMensagem={setMensagem}
-              tamanhoMensagem={tamanhoMensagem}
-              setTamanhoMensagem={setTamanhoMensagem}
+              tituloMensagem="O que você quer dizer pra pessoa que você ama? "
             />
           </>
         )}
@@ -597,10 +570,6 @@ function CriadorDeclaracaoInner() {
             <PreviewCarrossel
               titulo={titulo}
               mensagem={mensagem}
-              corTitulo={corTitulo}
-              fonteTitulo={fonteTitulo}
-              tamanhoTitulo={tamanhoTitulo}
-              tamanhoMensagem={tamanhoMensagem}
               musicaSelecionada={musicaSelecionada}
               imagens={imagens}
               dataConhecimento={dataConhecimento}

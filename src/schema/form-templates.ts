@@ -1,19 +1,13 @@
 export interface FormTituloProps {
   titulo: string;
   setTitulo: (value: string) => void;
-  corTitulo: string;
-  setCorTitulo: (value: string) => void;
-  fonteTitulo: string;
-  setFonteTitulo: (value: string) => void;
-  tamanhoTitulo: number;
-  setTamanhoTitulo: (value: number) => void;
+  mensagemTitulo: string;
 }
 
 export interface FormMensagemProps {
   mensagem: string;
   setMensagem: (value: string) => void;
-  tamanhoMensagem: number;
-  setTamanhoMensagem: (value: number) => void;
+  tituloMensagem: string;
 }
 
 export interface FormImagensProps {

@@ -14,13 +14,14 @@ import TermosDeUso from "./components/regras";
 import { Privacidade } from "./components/regras/route";
 import EscolherTemplate from "./components/criar-declaracao";
 import LovePage from "./components/criar-declaracao/components/tela-presente/LovePage";
-import { CriadorDeclaracao } from "./components/criar-declaracao/components/templates/template-basico";
+import { CriadorDeclaracao } from "./components/criar-declaracao/components/templates/padrao/template-basico";
 import { TemplateNetflix } from "./components/criar-declaracao/components/templates/template-netflix";
 import { MeusTemplates } from "./components/editar-templates-criados/meus-templates";
 import { Sobre } from "./components/sobre";
 import { FaqCompleto } from "./components/faqs/faq-completo";
 import { DemoBanner } from "./components/criar-declaracao/components/demo-banner/demo-banner";
 import { RecursosCardContainer } from "./components/resumo-container/resumo-container";
+import { CriadorDeclaracaoDiaDasMaes } from "./components/criar-declaracao/components/templates/padrao/template-basico-mae";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -106,6 +107,15 @@ function App() {
           element={
             <Layout>
               <CriadorDeclaracao />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/padrao-mae"
+          element={
+            <Layout>
+              <CriadorDeclaracaoDiaDasMaes />
             </Layout>
           }
         />

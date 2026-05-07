@@ -4,8 +4,7 @@ import type { FormMensagemProps } from "../../../../schema/form-templates";
 export function FormMensagem({
   mensagem,
   setMensagem,
-  tamanhoMensagem,
-  setTamanhoMensagem,
+  tituloMensagem
 }: FormMensagemProps) {
   const textosAutomaticos = [
     `Desde que você entrou na minha vida tudo ficou mais bonito.
@@ -32,7 +31,7 @@ Porque ao seu lado encontrei amor, amizade e felicidade verdadeira.`,
   return (
     <div className="space-y-2">
       <h2 className="text-lg font-bold">
-        O que você quer dizer pra pessoa que você ama? 💌
+        {tituloMensagem}
       </h2>
       <textarea
         placeholder="Digite sua mensagem"

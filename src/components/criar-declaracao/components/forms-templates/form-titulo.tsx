@@ -4,23 +4,13 @@ import type { FormTituloProps } from "../../../../schema/form-templates";
 export function FormTitulo({
   titulo,
   setTitulo,
-  corTitulo,
-  setCorTitulo,
-  fonteTitulo,
-  setFonteTitulo,
+  mensagemTitulo,
 }: FormTituloProps) {
-  const fontes = [
-    { name: "Alex Brush", value: "Alex Brush, cursive" },
-    { name: "Dancing Script", value: "Dancing Script, cursive" },
-    { name: "DM Serif Text", value: "DM Serif Text, serif" },
-    { name: "Playfair Display", value: "Playfair Display, serif" },
-    { name: "Lora", value: "Lora, serif" },
-  ];
-
+  
   return (
     <div className="space-y-2">
       <h2 className="text-lg font-bold">
-        Como vai se chamar a história de vocês?
+        {mensagemTitulo}
       </h2>
       <input
         type="text"

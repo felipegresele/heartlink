@@ -11,8 +11,8 @@ import { IoExtensionPuzzleSharp, IoEye } from "react-icons/io5";
 import { FaGift, FaTimeline } from "react-icons/fa6";
 import { RiMessage2Line } from "react-icons/ri";
 
-import videoLinhaTempo from "../../../../../img/retrospectiva-sessao/dia-das-maes/linha-do-tempo-dia-das-maes..mp4";
-import videoGaleria from "../../../../../img/retrospectiva-sessao/dia-das-maes/video-galeria.mp4";
+import videoLinhaTempo from "../../../../../img/retrospectiva-sessao/dia-das-maes/linha-do-tempo-dia-das-maes.mp4";
+import videoGaleria from "../../../../../img/retrospectiva-sessao/dia-das-maes/galeria-de-fotos-dia-das-maes.mp4";
 import videoRoleta from "../../../../../img/retrospectiva-sessao/dia-das-maes/roleta-dia-das-maes.mp4";
 import videoEnigma from "../../../../../img/retrospectiva-sessao/dia-das-maes/enigma-dia-das-maes.mp4";
 import videoIntroducao from "../../../../../img/retrospectiva-sessao/dia-das-maes/introducao-animada-dia-das-maes.mp4";

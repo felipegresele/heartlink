@@ -16,7 +16,7 @@ export function EscolherTemplate() {
     },
     {
       id: 2,
-      title: "Template Dia das mães",
+      title: "Template Para sua Mãe",
       bonus: "+ Sessão Retrospectiva",
       path: "/padrao-mae",
       demo: "https://www.heartcodegift.com.br/p/fc8f5e", // coloque o link aqui

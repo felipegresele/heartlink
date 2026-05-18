@@ -70,7 +70,7 @@ const sections: Section[] = [
     id: "introducao",
     label: "Introdução Animada",
     title: "Introdução Animada",
-    description: "O começo de tudo. Uma abertura cinematográfica que mergulha o casal em uma experiência inesquecível, preparando o coração para o que vem a seguir.",
+    description: "O começo de tudo. Uma abertura cinematográfica que mergulha você com pessoa presenteada em uma experiência inesquecível, preparando o coração para o que vem a seguir.",
     video: videoIntroducao,
     icon: <IntroIcon />,
   },

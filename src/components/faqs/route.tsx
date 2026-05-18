@@ -37,11 +37,11 @@ export function Faqs() {
 const perguntas = [
     {
         value: "O que é a HeartCode?",
-        description: "A HeartCode é uma plataforma que permite criar páginas personalizadas para pessoas especiais. Você pode adicionar fotos, uma mensagem e também o tempo da união.",
+        description: "A HeartCode é uma plataforma que permite criar páginas personalizadas para surpreender pessoas especiais. Você pode adicionar fotos, uma mensagem e também o tempo da união.",
     },
     {
         value: "Como posso criar uma página personalizada na HeartCode?",
-        description: "Você pode acessar nosso formulário, preencher com as informações desejadas e escolher o plano mais adequado. O processo é rápido e intuitivo.",
+        description: "Clique no botão de 'Criar minha página', escolha seu tema, preencha com as informações desejadas e escolha o plano mais adequado. O processo é rápido e intuitivo.",
     },
     {
         value: "O que está incluído na minha página personalizada?",
@@ -49,7 +49,7 @@ const perguntas = [
     },
     {
         value: "Como recebo minha página personalizada após o pagamento?",
-        description: "Após a confirmação do pagamento, você receberá um QR code e um link via email para compartilhar e acessar sua página.",
+        description: "Após a confirmação do pagamento, você receberá um link via email com o QR code do seu presente pronto para compartilhar e acessar sua página.",
     },
     {
         value: "A página personalizada tem validade?",
@@ -57,7 +57,7 @@ const perguntas = [
     },
     {
         value: "Quanto tempo leva para receber o QR Code por email?",
-        description: "Pagamentos com Cartão de Crédito & PIX são processados imediatamente. Pagamentos por boleto podem levar até 2 dias úteis.",
+        description: "Pagamentos com Cartão de Crédito & PIX são processados imediatamente.",
     },
     {
         value: "Quais são as formas de pagamento aceitas?",

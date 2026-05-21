@@ -274,7 +274,6 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                 </span>
               </button>
 
-              {/* Cartão / Boleto */}
               <button
                 onClick={() => setMetodo("cartao")}
                 disabled={!pageId || !selectedPlan}
@@ -282,11 +281,11 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
               >
                 <FiCreditCard size={26} className="text-gray-600" />
                 <div className="text-center">
-                  <p className="text-sm font-bold text-gray-800">Cartão / Boleto</p>
+                  <p className="text-sm font-bold text-gray-800">Cartão</p>
                   <p className="text-[11px] text-gray-500">Mercado Pago</p>
                 </div>
                 <span className="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-semibold border border-gray-200">
-                  Crédito ou boleto
+                  Crédito
                 </span>
               </button>
             </div>
@@ -301,7 +300,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
                       Seguro
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500">Cartão de crédito ou boleto bancário</p>
+                  <p className="text-xs text-gray-500">Cartão de crédito</p>
                 </div>
 
                 {!paymentLink ? (

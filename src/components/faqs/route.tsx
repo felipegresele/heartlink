@@ -61,7 +61,7 @@ const perguntas = [
     },
     {
         value: "Quais são as formas de pagamento aceitas?",
-        description: "Atualmente aceitamos PIX, Cartão de Crédito",
+        description: "Atualmente aceitamos PIX e Cartão de Crédito",
     },
     {
         value: "Preciso ter conhecimento técnico para criar o site?",

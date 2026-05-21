@@ -234,7 +234,7 @@ export function PixPagamento({
           className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700 transition-colors mt-1"
         >
           <FiArrowLeft size={12} />
-          Pagar com cartão ou boleto
+          Pagar com cartão
         </button>
       )}
 
@@ -289,7 +289,7 @@ function Erro({ msg, onRetry, onVoltar }: { msg: string; onRetry: () => void; on
       </button>
       {onVoltar && (
         <button onClick={onVoltar} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
-          Pagar com cartão ou boleto
+          Pagar com cartão
         </button>
       )}
     </div>

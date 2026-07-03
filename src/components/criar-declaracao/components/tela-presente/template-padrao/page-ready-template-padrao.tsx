@@ -794,7 +794,7 @@ export default function PageReady({
         />
       )}
 
-      <div className="relative min-h-screen bg-gray-900 flex flex-col items-center text-white pb-24 px-4">
+      <div className="relative min-h-screen bg-gradient-to-b from-black via-purple-950 to-gray-900 flex flex-col items-center text-white pb-24 px-4">
         {mostrarModal && (
           <ModalPresente
             usuarioNome={usuarioNome}

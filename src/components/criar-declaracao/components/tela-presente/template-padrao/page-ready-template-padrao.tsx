@@ -785,6 +785,7 @@ export default function PageReady({
           totalDias={totalDias}
           totalHoras={totalHoras}
           fotos={imagens}
+          corBarraPrimaria="#df1836"
           onFinish={() => {
             setMostrarEfeitoTime(false);
             if (secoesStories.length > 0) {

@@ -431,6 +431,7 @@ export default function PageReadySpotify({
           senderName={titulo}
           totalDias={totalDias}
           totalHoras={totalHoras}
+          corBarraPrimaria="#1ED760"
           fotos={imagens}
           onFinish={() => {
             setMostrarEfeitoTime(false);

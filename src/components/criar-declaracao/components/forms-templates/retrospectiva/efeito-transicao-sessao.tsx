@@ -11,6 +11,7 @@ type Props = {
   totalHoras: number;
   fotos: string[];
   brandName?: string;
+  corBarraPrimaria: string;
   onFinish?: () => void;
 };
 
@@ -238,6 +239,7 @@ export default function SpotifySingleScreen({
   totalHoras,
   fotos,
   brandName = "HEARTCODE",
+  corBarraPrimaria,
   onFinish,
 }: Props) {
   // step 0 = marca · 1 = nome · 2 = dias · 3 = fotos · 4 = horas
@@ -359,9 +361,9 @@ export default function SpotifySingleScreen({
                 fontStyle: "italic",
                 fontSize: "clamp(2.5rem, 10vw, 5rem)",
                 letterSpacing: "2px",
-                color: "#ff1f1f",
+                color: corBarraPrimaria,
                 textShadow:
-                  "0 0 12px rgba(255, 20, 20, 0.85), 0 0 32px rgba(255, 0, 0, 0.55), 0 0 64px rgba(255, 0, 0, 0.35)",
+                  "0 0 12px rgba(238, 219, 219, 0.85), 0 0 32px rgba(201, 179, 179, 0.55), 0 0 6rgba(223, 46, 84, 0.35).35)",
                 transform: "skewX(-6deg)",
               }}
             >

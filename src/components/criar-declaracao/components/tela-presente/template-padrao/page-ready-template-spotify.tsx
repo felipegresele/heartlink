@@ -222,7 +222,7 @@ export function SpotifyPlayerCard({
     if (!playerRef.current || duration === 0) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const seekTo = Math.round(
-      ((e.clientX - rect.left) / rect.width) * duration
+      ((e.clientX - rect.left) / rect.width) * duration,
     );
     playerRef.current.seekTo(seekTo, true);
     setElapsed(seekTo);
@@ -230,7 +230,12 @@ export function SpotifyPlayerCard({
 
   // Fallback decorativo — quando não há música cadastrada
   const temMusica = Boolean(musicaId);
-  const progresso = duration > 0 ? Math.min((elapsed / duration) * 100, 100) : temMusica ? 0 : 5;
+  const progresso =
+    duration > 0
+      ? Math.min((elapsed / duration) * 100, 100)
+      : temMusica
+        ? 0
+        : 5;
   const restante = duration > 0 ? duration - elapsed : 0;
 
   return (
@@ -410,7 +415,9 @@ export default function PageReadySpotify({
   const anoInicio = dataInicio ? dataInicio.getFullYear() : null;
 
   const nomeCasal =
-    usuarioNome && titulo ? `${usuarioNome} e ${titulo}` : titulo || usuarioNome;
+    usuarioNome && titulo
+      ? `${usuarioNome} e ${titulo}`
+      : titulo || usuarioNome;
 
   function handleShare() {
     const shareData = {
@@ -540,17 +547,28 @@ export default function PageReadySpotify({
         {/* ── Mensagem especial ── */}
         {mensagem && (
           <div className="px-5 mt-6">
-            <div className="bg-[#3d9bff]/15 border border-[#3d9bff]/30 rounded-2xl p-5">
-              <p className="text-[#7fc2ff] font-bold text-sm mb-2">
+            <div className="relative bg-[#3d9bff] rounded-2xl p-5 overflow-hidden">
+              <p className="text-white/90 font-bold text-sm mb-3">
                 Mensagem especial
               </p>
-              <p
-                className={`text-white whitespace-pre-wrap leading-snug font-medium ${
-                  mostrarMensagem ? "" : "line-clamp-3"
-                }`}
-              >
-                {mensagem}
-              </p>
+              <div className="relative">
+                <p
+                  className={`text-[#0a1620] whitespace-pre-wrap leading-snug font-extrabold text-lg ${
+                    mostrarMensagem ? "" : "line-clamp-3"
+                  }`}
+                >
+                  {mensagem}
+                </p>
+                {!mostrarMensagem && (
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(61,155,255,0) 0%, #3d9bff 90%)",
+                    }}
+                  />
+                )}
+              </div>
               <button
                 onClick={() => setMostrarMensagem((v) => !v)}
                 className="mt-4 bg-white text-[#0a1620] font-bold text-sm px-5 py-2 rounded-full hover:scale-105 active:scale-95 transition-transform"
@@ -564,27 +582,29 @@ export default function PageReadySpotify({
         {/* ── Conheça o casal (fotos) ── */}
         {imagens.length > 0 && (
           <div className="px-5 mt-8">
-            <h2 className="text-lg font-extrabold mb-3">
-              Conheça {titulo || "o casal"}
-            </h2>
-            <div className="grid grid-cols-3 gap-2.5">
-              {imagens.slice(0, 3).map((foto, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-square rounded-xl overflow-hidden"
-                >
-                  <img
-                    src={foto}
-                    alt={THUMB_LABELS[i % THUMB_LABELS.length]}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-2">
-                    <span className="text-[11px] font-bold text-white">
-                      {THUMB_LABELS[i % THUMB_LABELS.length]}
-                    </span>
+            <div className="bg-[#1a1a1a] border border-white/15 rounded-2xl p-4">
+              <h2 className="text-lg font-extrabold mb-3">
+                Conheça {titulo || "o casal"}
+              </h2>
+              <div className="grid grid-cols-3 gap-2.5">
+                {imagens.slice(0, 3).map((foto, i) => (
+                  <div
+                    key={i}
+                    className="relative aspect-square rounded-xl overflow-hidden"
+                  >
+                    <img
+                      src={foto}
+                      alt={THUMB_LABELS[i % THUMB_LABELS.length]}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-2">
+                      <span className="text-[11px] font-bold text-white">
+                        {THUMB_LABELS[i % THUMB_LABELS.length]}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         )}

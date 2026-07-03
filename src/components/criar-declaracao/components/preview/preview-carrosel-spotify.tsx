@@ -109,7 +109,7 @@ export default function PreviewSpotify({
               <img
                 src={imagens[0]}
                 alt={titulo}
-                className="w-full h-44 object-cover rounded-xl mb-4"
+                className="w-full h-48 object-cover rounded-xl mb-4"
               />
             )}
             <p className="text-xl font-extrabold">{titulo}</p>

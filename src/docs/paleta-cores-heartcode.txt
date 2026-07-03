@@ -1,0 +1,8 @@
+rosa padrão
+#e687cd
+
+verde spotify
+#1ED760
+
+vermelho
+#df1836

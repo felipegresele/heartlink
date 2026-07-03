@@ -22,6 +22,7 @@ import { FaqCompleto } from "./components/faqs/faq-completo";
 import { DemoBanner } from "./components/criar-declaracao/components/demo-banner/demo-banner";
 import { RecursosCardContainer } from "./components/resumo-container/resumo-container";
 import { CriadorDeclaracaoDiaDasMaes } from "./components/criar-declaracao/components/templates/padrao/template-basico-mae";
+import HeartCodeTrustBar from "./components/criar-declaracao/components/ui/trust-bar";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -48,6 +49,7 @@ function App() {
                 <BoasVindas />
                 <RegrasComoFunciona />
                 <EscolhaTema />
+                <HeartCodeTrustBar />
                 <RecursosCardContainer />
                 <div className="flex justify-center px-4 md:px-8 py-4 bg-[#FAFAFA]">
                   <DemoBanner

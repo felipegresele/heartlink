@@ -28,7 +28,8 @@ export default function ModalPresente({
  
         <button
           onClick={onClose}
-          className="mt-4 bg-red-500 hover:bg-red-400 active:scale-95 transition-all text-white font-bold text-base px-10 py-3 rounded-full shadow-lg"
+          style={{ backgroundColor: corTextos}}
+          className={`mt-4 hover:bg-red-400 active:scale-95 transition-all text-white font-bold text-base px-10 py-3 rounded-full shadow-lg`}
         >
           Ver Presente
         </button>

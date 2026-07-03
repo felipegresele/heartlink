@@ -451,7 +451,7 @@ export default function PageReadySpotify({
         {mostrarModal && (
           <ModalPresente
             usuarioNome={usuarioNome}
-            corTextos="text-[#1ED760]"
+            corTextos="#1ED760"
             onClose={() => setMostrarModal(false)}
           />
         )}
@@ -508,7 +508,7 @@ export default function PageReadySpotify({
                 className="w-full h-44 object-cover rounded-xl mb-4"
               />
             )}
-            <p className="text-xl font-extrabold">{nomeCasal}</p>
+            <p className="text-xl font-extrabold">{titulo}</p>
             {anoInicio && (
               <p className="text-white/50 text-sm mb-4">
                 Juntos desde {anoInicio}

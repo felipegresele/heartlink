@@ -20,6 +20,7 @@ import {
 import { RetrospectiveBtn } from "../../forms-templates/retrospectiva/botao-retrospectiva";
 import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
 import type { RetrospectiveData } from "../../../../../schema/retrospectiva";
+import { RetrospectiveSpotifyBtn } from "../../forms-templates/retrospectiva/botao-retrospectiva-spotify";
 
 // ════════════════════════════════════════════════════════════════════════════
 // HELPERS
@@ -591,7 +592,7 @@ export default function PageReadySpotify({
         {/* ── CTA Retrospectiva — mesmo comportamento do template padrão ── */}
         {temRetrospectiva && (
           <div className="mt-10">
-            <RetrospectiveBtn
+            <RetrospectiveSpotifyBtn
               tipoPresenteado={tipoPresenteado}
               isVisible={() => {
                 if (retrospectiva?.efeitoTime && !efeitoJaExibido.current) {

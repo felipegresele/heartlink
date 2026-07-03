@@ -107,7 +107,7 @@ export default function PreviewSpotify({
           <div className="bg-[#121212]/70 backdrop-blur rounded-2xl p-4 border border-white/5">
             {imagens[0] && (
               <img
-                src={imagens[0]}
+                src={imagens[1]}
                 alt={titulo}
                 className="w-full h-48 object-cover rounded-xl mb-4"
               />

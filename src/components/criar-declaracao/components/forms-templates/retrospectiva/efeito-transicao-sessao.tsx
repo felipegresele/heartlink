@@ -76,6 +76,7 @@ const EXIT_DURATION = 0.7; // segundos
 // ── Canvas de Barras (substitui o antigo PixelCanvas) ──────────
 interface BarsCanvasProps {
   phase: "enter" | "exit" | "idle";
+  centerColorBar: string;
   onEnterDone?: () => void;
   onExitDone?: () => void;
 }
@@ -87,7 +88,7 @@ interface Bar {
   color: string;
 }
 
-function BarsCanvas({ phase, onEnterDone, onExitDone }: BarsCanvasProps) {
+function BarsCanvas({ phase, centerColorBar, onEnterDone, onExitDone }: BarsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
   const startTimeRef = useRef<number>(-1);
@@ -202,7 +203,7 @@ function BarsCanvas({ phase, onEnterDone, onExitDone }: BarsCanvasProps) {
         width: BAR_WIDTH,
         // atraso escalonado esquerda → direita, com um pouco de ruído orgânico
         delay: (i / cols) * 0.4 + stableRandom(i * 5) * 0.15,
-        color: colorForColumn(i, cols, BAR_EDGE_COLOR, BAR_CENTER_COLOR),
+        color: colorForColumn(i, cols, BAR_EDGE_COLOR, centerColorBar),
       })
     );
 
@@ -325,8 +326,10 @@ export default function SpotifySingleScreen({
     <>
       <BarsCanvas
         phase={barsPhase}
+        centerColorBar={corBarraPrimaria}
         onEnterDone={handleEnterDone}
         onExitDone={handleExitDone}
+        
       />
 
       <div

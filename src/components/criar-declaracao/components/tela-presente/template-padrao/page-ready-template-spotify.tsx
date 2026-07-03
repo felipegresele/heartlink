@@ -3,18 +3,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   FaChevronDown,
   FaEllipsisH,
-  FaGem,
-  FaFire,
   FaPause,
   FaPlay,
   FaRandom,
   FaRedo,
   FaStepBackward,
   FaStepForward,
-  FaTrophy,
 } from "react-icons/fa";
 import { BsCheckCircleFill } from "react-icons/bs";
-import { HiSparkles } from "react-icons/hi2";
 
 import ModalPresente from "../modal/modal-ver-presente";
 import {
@@ -104,7 +100,7 @@ function waitForYT(): Promise<void> {
 // ════════════════════════════════════════════════════════════════════════════
 // PLAYER — CARD ESTILO SPOTIFY (topo da página)
 // ════════════════════════════════════════════════════════════════════════════
-function SpotifyPlayerCard({
+export function SpotifyPlayerCard({
   capa,
   musicaId,
   musicaTitulo,
@@ -415,15 +411,6 @@ export default function PageReadySpotify({
   const nomeCasal =
     usuarioNome && titulo ? `${usuarioNome} e ${titulo}` : titulo || usuarioNome;
 
-  // Conquistas decorativas, baseadas em dados reais preenchidos
-  const CONQUISTAS = [
-    { icon: FaTrophy, cor: "#facc15", desbloqueada: Boolean(mensagem) },
-    { icon: HiSparkles, cor: "#c084fc", desbloqueada: imagens.length > 0 },
-    { icon: FaFire, cor: "#fb923c", desbloqueada: Boolean(dataConhecimento) },
-    { icon: FaGem, cor: "#38bdf8", desbloqueada: temRetrospectiva },
-  ];
-  const totalDesbloqueadas = CONQUISTAS.filter((c) => c.desbloqueada).length;
-
   function handleShare() {
     const shareData = {
       title: "Juntos para sempre 💖",
@@ -510,9 +497,9 @@ export default function PageReadySpotify({
           />
         </div>
 
-        {/* ── Sobre o casal ── */}
+        {/* ── Sobre Vocês ── */}
         <div className="px-5 mt-9">
-          <h2 className="text-lg font-extrabold mb-3">Sobre o casal</h2>
+          <h2 className="text-lg font-extrabold mb-3">Sobre Vocês</h2>
           <div className="bg-[#121212]/70 backdrop-blur rounded-2xl p-4 border border-white/5">
             {imagens[0] && (
               <img
@@ -599,37 +586,6 @@ export default function PageReadySpotify({
             </div>
           </div>
         )}
-
-        {/* ── Conquistas ── */}
-        <div className="px-5 mt-8">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-extrabold">Conquistas</h2>
-            <span className="text-xs font-bold text-white/50 bg-white/10 px-2.5 py-1 rounded-full">
-              {totalDesbloqueadas}/{CONQUISTAS.length}
-            </span>
-          </div>
-          <div className="flex gap-3">
-            {CONQUISTAS.map(({ icon: Icon, cor, desbloqueada }, i) => (
-              <div
-                key={i}
-                className="flex-1 aspect-square rounded-xl flex items-center justify-center border"
-                style={{
-                  borderColor: desbloqueada ? cor : "rgba(255,255,255,0.1)",
-                  background: desbloqueada
-                    ? `${cor}1a`
-                    : "rgba(255,255,255,0.03)",
-                }}
-              >
-                <Icon
-                  size={22}
-                  style={{
-                    color: desbloqueada ? cor : "rgba(255,255,255,0.2)",
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* ── CTA Retrospectiva — mesmo comportamento do template padrão ── */}
         {temRetrospectiva && (

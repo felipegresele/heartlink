@@ -27,6 +27,7 @@ import { FormModoExibicao } from "../../forms-templates/form-modo-exibicao";
 import { FormRetrospectivaSecoes } from "../../forms-templates/form-retrospectiva/form-retrospectiva";
 import { EscolherPlano } from "../../forms-templates/escolher-plano";
 import PreviewCarrossel from "../../preview/preview-carrosel";
+import PreviewSpotify from "../../preview/preview-carrosel-spotify";
 import ContentEscolherMusica from "../../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../../mensagem-efeito/mensagem-efeito";
 import { PagamentoStep } from "../../forms-templates/pagamentos/carrinho-pagamento";
@@ -580,15 +581,25 @@ function CriadorDeclaracaoInner({
             Pré Visualização do seu site:
           </h1>
           <div className="flex-1">
-            <PreviewCarrossel
-              titulo={titulo}
-              mensagem={mensagem}
-              musicaSelecionada={musicaSelecionada}
-              imagens={imagens}
-              dataConhecimento={dataConhecimento}
-              modoExibicao={modoExibicao}
-              modoImagem={modoImagem}
-            />
+            {pageTemplate === "SPOTIFY" ? (
+              <PreviewSpotify
+                titulo={titulo}
+                mensagem={mensagem}
+                musicaSelecionada={musicaSelecionada}
+                imagens={imagens}
+                dataConhecimento={dataConhecimento}
+              />
+            ) : (
+              <PreviewCarrossel
+                titulo={titulo}
+                mensagem={mensagem}
+                musicaSelecionada={musicaSelecionada}
+                imagens={imagens}
+                dataConhecimento={dataConhecimento}
+                modoExibicao={modoExibicao}
+                modoImagem={modoImagem}
+              />
+            )}
           </div>
         </div>
       ) : (

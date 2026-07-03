@@ -237,7 +237,7 @@ export default function SpotifySingleScreen({
   totalDias,
   totalHoras,
   fotos,
-  brandName = "HEARTZZU",
+  brandName = "HEARTCODE",
   onFinish,
 }: Props) {
   // step 0 = marca · 1 = nome · 2 = dias · 3 = fotos · 4 = horas

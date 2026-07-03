@@ -1,6 +1,6 @@
 // ============================================================
 // COMPONENTE — SpotifySingleScreen (Spotify Wrapped Intro)
-// Intro animada estilo Spotify Wrapped com efeito de pixels
+// Intro animada estilo Spotify Wrapped com efeito de barras (equalizer)
 // ============================================================
 import { useEffect, useRef, useState, useCallback } from "react";
 
@@ -10,54 +10,89 @@ type Props = {
   totalDias: number;
   totalHoras: number;
   fotos: string[];
+  brandName?: string;
   onFinish?: () => void;
 };
 
-// ── Constantes do efeito de pixel ────────────────────────────
-const PIXEL_SIZE = 12;
-const PIXEL_COLORS = [
-  "#e32929",
-  "#cc3b2e",
-  "#f1524d",
-  "#bd1e19",
-  "#da3fae",
-  "#ffffff",
-];
-
-// ── Utilitário: posições aleatórias estáveis por foto ────────
+// ── Utilitário: posições aleatórias estáveis por índice ───────
 function stableRandom(seed: number): number {
   const x = Math.sin(seed + 1) * 10000;
   return x - Math.floor(x);
 }
 
-// ── Canvas de Pixels ─────────────────────────────────────────
-interface PixelCanvasProps {
+// ── Utilitários de cor (interpolação borda → centro) ──────────
+interface Rgb {
+  r: number;
+  g: number;
+  b: number;
+}
+
+function hexToRgb(hex: string): Rgb {
+  const clean = hex.replace("#", "");
+  const full =
+    clean.length === 3
+      ? clean
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : clean;
+  const num = parseInt(full, 16);
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255,
+  };
+}
+
+function mixColor(edgeRgb: Rgb, centerRgb: Rgb, intensity: number): string {
+  const r = Math.round(edgeRgb.r + (centerRgb.r - edgeRgb.r) * intensity);
+  const g = Math.round(edgeRgb.g + (centerRgb.g - edgeRgb.g) * intensity);
+  const b = Math.round(edgeRgb.b + (centerRgb.b - edgeRgb.b) * intensity);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function colorForColumn(
+  i: number,
+  total: number,
+  edgeColor: string,
+  centerColor: string
+): string {
+  const edgeRgb = hexToRgb(edgeColor);
+  const centerRgb = hexToRgb(centerColor);
+  const center = (total - 1) / 2;
+  const dist = Math.abs(i - center) / center;
+  const intensity = 1 - Math.pow(dist, 1.4);
+  return mixColor(edgeRgb, centerRgb, intensity);
+}
+
+// ── Constantes do efeito de barras ─────────────────────────────
+const BAR_WIDTH = 14;
+const BAR_EDGE_COLOR = "#280000";
+const BAR_CENTER_COLOR = "#ff2020";
+const ENTER_DURATION = 0.9; // segundos
+const EXIT_DURATION = 0.7; // segundos
+
+// ── Canvas de Barras (substitui o antigo PixelCanvas) ──────────
+interface BarsCanvasProps {
   phase: "enter" | "exit" | "idle";
   onEnterDone?: () => void;
   onExitDone?: () => void;
 }
 
-interface Pixel {
+interface Bar {
   x: number;
-  y: number;
-  color: string;
+  width: number;
   delay: number;
+  color: string;
 }
 
-// ── Canvas de Pixels ─────────────────────────────────────────
-interface PixelCanvasProps {
-  phase: "enter" | "exit" | "idle";
-  onEnterDone?: () => void;
-  onExitDone?: () => void;
-}
-
-function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
+function BarsCanvas({ phase, onEnterDone, onExitDone }: BarsCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
   const startTimeRef = useRef<number>(-1);
   const phaseRef = useRef<"enter" | "exit" | "idle">(phase);
   const callbackFiredRef = useRef<boolean>(false);
-  const pixelsRef = useRef<Pixel[]>([]);
+  const barsRef = useRef<Bar[]>([]);
   const onEnterDoneRef = useRef<(() => void) | undefined>(onEnterDone);
   const onExitDoneRef = useRef<(() => void) | undefined>(onExitDone);
   const drawRef = useRef<((timestamp: number) => void) | null>(null);
@@ -94,38 +129,32 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
     if (startTimeRef.current < 0) startTimeRef.current = timestamp;
 
     const elapsed = (timestamp - startTimeRef.current) / 1000;
-    const TOTAL_DURATION = 1.2;
+    const isEntering = phaseRef.current === "enter";
+    const totalDuration = isEntering ? ENTER_DURATION : EXIT_DURATION;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const isEntering = phaseRef.current === "enter";
     let allDone = true;
 
-    for (const px of pixelsRef.current) {
-      const availableTime = TOTAL_DURATION - px.delay;
+    for (const bar of barsRef.current) {
+      const availableTime = totalDuration - bar.delay;
       const t =
         availableTime <= 0
           ? 1
-          : Math.min(1, Math.max(0, (elapsed - px.delay) / availableTime));
+          : Math.min(1, Math.max(0, (elapsed - bar.delay) / availableTime));
 
       if (t < 1) allDone = false;
 
-      const eased = isEntering
-        ? 1 - Math.pow(1 - t, 3)
-        : Math.pow(t, 3);
+      const eased = isEntering ? 1 - Math.pow(1 - t, 3) : Math.pow(t, 3);
+      const height = isEntering
+        ? canvas.height * eased
+        : canvas.height * (1 - eased);
 
-      const alpha = isEntering ? eased : 1 - eased;
-      const size = PIXEL_SIZE * (isEntering ? eased : 1 - eased);
-
-      if (alpha > 0.01 && size > 0.5) {
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = px.color;
-        const offset = (PIXEL_SIZE - size) / 2;
-        ctx.fillRect(px.x + offset, px.y + offset, size, size);
+      if (height > 0.5) {
+        ctx.fillStyle = bar.color;
+        ctx.fillRect(bar.x, canvas.height - height, bar.width, height);
       }
     }
-
-    ctx.globalAlpha = 1;
 
     if (!allDone) {
       // Wrapper evita passar drawRef.current diretamente (poderia mudar entre frames)
@@ -163,16 +192,16 @@ function PixelCanvas({ phase, onEnterDone, onExitDone }: PixelCanvasProps) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const cols = Math.ceil(canvas.width / PIXEL_SIZE);
-    const rows = Math.ceil(canvas.height / PIXEL_SIZE);
+    const cols = Math.ceil(canvas.width / BAR_WIDTH);
 
-    pixelsRef.current = Array.from<unknown, Pixel>(
-      { length: cols * rows },
+    barsRef.current = Array.from<unknown, Bar>(
+      { length: cols },
       (_, i) => ({
-        x: (i % cols) * PIXEL_SIZE,
-        y: Math.floor(i / cols) * PIXEL_SIZE,
-        color: PIXEL_COLORS[Math.floor(stableRandom(i * 7) * PIXEL_COLORS.length)],
-        delay: stableRandom(i * 13) * 0.7,
+        x: i * BAR_WIDTH,
+        width: BAR_WIDTH,
+        // atraso escalonado esquerda → direita, com um pouco de ruído orgânico
+        delay: (i / cols) * 0.4 + stableRandom(i * 5) * 0.15,
+        color: colorForColumn(i, cols, BAR_EDGE_COLOR, BAR_CENTER_COLOR),
       })
     );
 
@@ -208,34 +237,36 @@ export default function SpotifySingleScreen({
   totalDias,
   totalHoras,
   fotos,
+  brandName = "HEARTZZU",
   onFinish,
 }: Props) {
+  // step 0 = marca · 1 = nome · 2 = dias · 3 = fotos · 4 = horas
   const [step, setStep] = useState<number | "exiting" | "done">(0);
-  const [pixelPhase, setPixelPhase] = useState<"enter" | "exit" | "idle">("idle");
+  const [barsPhase, setBarsPhase] = useState<"enter" | "exit" | "idle">("idle");
   const [contentVisible, setContentVisible] = useState(false);
 
-  // ── NOVO: flag que autoriza o timer do step a rodar ──────────
+  // ── Flag que autoriza o timer do step a rodar ─────────────────
   // O timer só começa DEPOIS que onEnterDone for chamado,
-  // evitando que um novo ciclo de pixels seja disparado antes
+  // evitando que um novo ciclo de barras seja disparado antes
   // do step atual ter terminado de aparecer.
   const [stepReady, setStepReady] = useState(false);
 
-  const STEP_DURATIONS = [2000, 2000, 3000, 3000];
-  const TOTAL_STEPS = 3; // steps 0, 1, 2, 3
+  const STEP_DURATIONS = [1800, 2000, 2000, 3000, 3000];
+  const TOTAL_STEPS = 4; // steps 0 (marca), 1, 2, 3, 4
 
   // Dispara o efeito de entrada apenas uma vez ao montar
   useEffect(() => {
-    setPixelPhase("enter");
+    setBarsPhase("enter");
   }, []);
 
-  // Pixels entraram → mostra conteúdo E marca step como pronto
+  // Barras entraram → mostra conteúdo E marca step como pronto
   const handleEnterDone = useCallback(() => {
-    setPixelPhase("idle");
+    setBarsPhase("idle");
     setContentVisible(true);
     setStepReady(true); // ← libera o timer do step
   }, []);
 
-  // Pixels saíram → chama onFinish
+  // Barras saíram → chama onFinish
   const handleExitDone = useCallback(() => {
     setStep("done");
     onFinish?.();
@@ -244,7 +275,7 @@ export default function SpotifySingleScreen({
   // Timer de duração do step — só executa quando stepReady === true
   useEffect(() => {
     if (typeof step !== "number") return;
-    if (!stepReady) return; // ← aguarda pixels terminarem de entrar
+    if (!stepReady) return; // ← aguarda barras terminarem de entrar
 
     const duration = STEP_DURATIONS[step] ?? 2000;
 
@@ -258,16 +289,16 @@ export default function SpotifySingleScreen({
       if (nextStep > TOTAL_STEPS) {
         // Todos os steps exibidos — inicia animação de saída
         setStep("exiting");
-        setPixelPhase("exit");
+        setBarsPhase("exit");
       } else {
-        // Avança para o próximo step e dispara pixels de entrada
-        // O step muda ANTES dos pixels, para que o conteúdo correto
+        // Avança para o próximo step e dispara barras de entrada
+        // O step muda ANTES das barras, para que o conteúdo correto
         // seja renderizado quando onEnterDone for chamado.
         setStep(nextStep);
         // Pequeno delay para garantir que o React renderizou o novo step
         // antes de iniciar a animação de entrada.
         setTimeout(() => {
-          setPixelPhase("enter");
+          setBarsPhase("enter");
         }, 50);
       }
     }, duration);
@@ -290,8 +321,8 @@ export default function SpotifySingleScreen({
 
   return (
     <>
-      <PixelCanvas
-        phase={pixelPhase}
+      <BarsCanvas
+        phase={barsPhase}
         onEnterDone={handleEnterDone}
         onExitDone={handleExitDone}
       />
@@ -309,8 +340,38 @@ export default function SpotifySingleScreen({
           color: "#fff",
         }}
       >
-        {/* STEP 0 — Nome do casal + frase */}
+        {/* STEP 0 — Marca */}
         {step === 0 && (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "0 2rem",
+              opacity: contentVisible ? 1 : 0,
+              transform: contentVisible ? "scale(1)" : "scale(0.9)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                fontFamily: "'Arial Black', 'Helvetica Neue', Arial, sans-serif",
+                fontWeight: 900,
+                fontStyle: "italic",
+                fontSize: "clamp(2.5rem, 10vw, 5rem)",
+                letterSpacing: "2px",
+                color: "#ff1f1f",
+                textShadow:
+                  "0 0 12px rgba(255, 20, 20, 0.85), 0 0 32px rgba(255, 0, 0, 0.55), 0 0 64px rgba(255, 0, 0, 0.35)",
+                transform: "skewX(-6deg)",
+              }}
+            >
+              {brandName}
+            </span>
+          </div>
+        )}
+
+        {/* STEP 1 — Nome do casal + frase */}
+        {step === 1 && (
           <div
             style={{
               textAlign: "center",
@@ -362,8 +423,8 @@ export default function SpotifySingleScreen({
           </div>
         )}
 
-        {/* STEP 1 — Dias */}
-        {step === 1 && (
+        {/* STEP 2 — Dias */}
+        {step === 2 && (
           <div
             style={{
               textAlign: "center",
@@ -423,8 +484,8 @@ export default function SpotifySingleScreen({
           </div>
         )}
 
-        {/* STEP 2 — Fotos caindo */}
-        {step === 2 && (
+        {/* STEP 3 — Fotos caindo */}
+        {step === 3 && (
           <>
             <div
               style={{
@@ -511,8 +572,8 @@ export default function SpotifySingleScreen({
           </>
         )}
 
-        {/* STEP 3 — Horas grande */}
-        {step === 3 && (
+        {/* STEP 4 — Horas grande */}
+        {step === 4 && (
           <div
             style={{
               textAlign: "center",
@@ -577,10 +638,12 @@ export default function SpotifySingleScreen({
             inset: 0,
             background:
               step === 0
-                ? "radial-gradient(ellipse at center, rgba(236,72,153,0.08) 0%, transparent 70%)"
+                ? "radial-gradient(ellipse at center, rgba(255,32,32,0.10) 0%, transparent 70%)"
                 : step === 1
+                ? "radial-gradient(ellipse at center, rgba(236,72,153,0.08) 0%, transparent 70%)"
+                : step === 2
                 ? "radial-gradient(ellipse at center, rgba(168,85,247,0.1) 0%, transparent 70%)"
-                : step === 3
+                : step === 4
                 ? "radial-gradient(ellipse at bottom, rgba(244,114,182,0.12) 0%, transparent 60%)"
                 : "transparent",
             pointerEvents: "none",

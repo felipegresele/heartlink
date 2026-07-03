@@ -26,7 +26,7 @@ import { FaTimeline } from "react-icons/fa6";
 import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
 import { UltimaSessaoRetrospectiva } from "../../forms-templates/retrospectiva/ultima-imagem-retrospectiva";
 
-type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
+export type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 
 // ── Label e emoji de cada seção ──────────────────────────────────────────────
 const SECTION_META: Record<
@@ -55,7 +55,7 @@ function calcularTempoDesdeData(dataConhecimento: string) {
 // ════════════════════════════════════════════════════════════════════════════
 // RETROSPECTIVA STORIES MODAL
 // ════════════════════════════════════════════════════════════════════════════
-function RetrospectiveModal({
+export function RetrospectiveModal({
   data,
   onClose,
   fotos,

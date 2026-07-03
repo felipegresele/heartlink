@@ -25,6 +25,8 @@ export interface FormTempoConhecimentoProps {
 export type ModoExibicao = "padrao" | "classico" | "simples";
 export type ModoImagem = "carrossel" | "slideshow";
 
+export type PageTemplate = "PADRAO" | "SPOTIFY";
+
 export interface FormModoExibicaoProps {
   modoExibicao: ModoExibicao;
   setModoExibicao: React.Dispatch<React.SetStateAction<ModoExibicao>>;

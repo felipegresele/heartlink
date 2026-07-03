@@ -30,6 +30,7 @@ import PreviewCarrossel from "../../preview/preview-carrosel";
 import ContentEscolherMusica from "../../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../../mensagem-efeito/mensagem-efeito";
 import { PagamentoStep } from "../../forms-templates/pagamentos/carrinho-pagamento";
+import type { PageTemplate } from "../../escolha-template/form-escolher-template";
 
 const DRAFT_KEY = "heartlink_criador_rascunho";
 
@@ -107,7 +108,11 @@ function FormsSecoesSelecionadas({
   );
 }
 
-function CriadorDeclaracaoInner() {
+function CriadorDeclaracaoInner({
+  templatePadrao = "PADRAO",
+}: {
+  templatePadrao?: PageTemplate;
+}) {
   const totalEtapas = 9;
 
   const rascunho = lerRascunho();
@@ -131,6 +136,10 @@ function CriadorDeclaracaoInner() {
 
   const [modoImagem, setModoImagem] = useState<"carrossel" | "slideshow">(
     rascunho?.modoImagem ?? "carrossel",
+  );
+
+  const [pageTemplate, setPageTemplate] = useState<PageTemplate>(
+    rascunho?.pageTemplate ?? templatePadrao,
   );
 
   const [musicaSelecionada, setMusicaSelecionada] = useState<{
@@ -180,6 +189,7 @@ function CriadorDeclaracaoInner() {
       dataConhecimento,
       modoExibicao,
       modoImagem,
+      pageTemplate,
       musicaSelecionada,
       selectedPlan,
     };
@@ -194,6 +204,7 @@ function CriadorDeclaracaoInner() {
     dataConhecimento,
     modoExibicao,
     modoImagem,
+    pageTemplate,
     musicaSelecionada,
     selectedPlan,
     saveToLocalStorage,
@@ -263,6 +274,7 @@ function CriadorDeclaracaoInner() {
             musicId: musicaSelecionada?.id,
             musicTitle: musicaSelecionada?.title,
             theme: modoExibicao,
+            pageTemplate: pageTemplate,
             planType: selectedPlan,
           }),
         },
@@ -586,10 +598,14 @@ function CriadorDeclaracaoInner() {
   );
 }
 
-export function CriadorDeclaracao() {
+export function CriadorDeclaracao({
+  templatePadrao = "PADRAO",
+}: {
+  templatePadrao?: PageTemplate;
+} = {}) {
   return (
     <RetrospectiveProvider>
-      <CriadorDeclaracaoInner />
+      <CriadorDeclaracaoInner templatePadrao={templatePadrao} />
     </RetrospectiveProvider>
   );
 }

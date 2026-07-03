@@ -121,6 +121,15 @@ function App() {
         />
 
         <Route
+          path="/spotify"
+          element={
+            <Layout>
+              <CriadorDeclaracao templatePadrao="SPOTIFY" />
+            </Layout>
+          }
+        />
+
+        <Route
           path="/netflix"
           element={
             <Layout>

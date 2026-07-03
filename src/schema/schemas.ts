@@ -11,6 +11,7 @@ export interface LovePageData {
   senderName: string;
   retrospectiva?: BackendRetrospectiva;
   tipoPresenteado?: "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
+  pageTemplate?: "PADRAO" | "SPOTIFY";
 }
 
 export interface LovePage {
@@ -23,6 +24,7 @@ export interface LovePage {
   musicId: string | null;
   musicTitle: string | null;
   theme: string | null;
+  pageTemplate: "PADRAO" | "SPOTIFY" | null;
   planType: string | null;
   status: string;
   photos: string[] | null;

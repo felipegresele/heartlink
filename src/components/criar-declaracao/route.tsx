@@ -22,6 +22,14 @@ export function EscolherTemplate() {
       demo: "https://www.heartcodegift.com.br/p/fc8f5e", // coloque o link aqui
       button: "Criar",
     },
+    {
+      id: 3,
+      title: "Template Spotify",
+      bonus: "+ Sessão Retrospectiva",
+      path: "/spotify",
+      demo: "https://www.heartcodegift.com.br/p/37ca69", // coloque o link do demo spotify aqui
+      button: "Criar",
+    },
   ];
 
   const storedUser = localStorage.getItem("user");

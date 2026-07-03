@@ -5,6 +5,7 @@ import axios from "axios";
 import type { LovePageData } from "../../../../schema/schemas";
 import PageReady from "./template-padrao/page-ready-template-padrao";
 import { mapBackendRetrospectiva } from "../../../../schema/retrospectiva";
+import PageReadySpotify from "./template-padrao/page-ready-template-spotify";
 
 export default function LovePage() {
   const { slug } = useParams();
@@ -24,8 +25,11 @@ export default function LovePage() {
 
   if (!page) return <h1>Carregando...</h1>;
 
+  const TemplateComponent =
+    page.pageTemplate === "SPOTIFY" ? PageReadySpotify : PageReady;
+
   return (
-    <PageReady
+    <TemplateComponent
       titulo={page.receiverName}
       mensagem={page.message}
       imagens={page.photos}

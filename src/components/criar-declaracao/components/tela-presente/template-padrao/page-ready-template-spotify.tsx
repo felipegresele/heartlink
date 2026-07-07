@@ -513,25 +513,25 @@ export default function PageReadySpotify({
             {[
               {
                 titulo: "Memória 1",
-                artista: "Noah Kahan",
+                artista: {titulo},
                 duracao: "2:47",
                 tocando: true,
               },
               {
                 titulo: "Memória 2",
-                artista: "Noah Kahan",
+                artista: {titulo},
                 duracao: "3:15",
                 tocando: false,
               },
               {
                 titulo: "Memória 3",
-                artista: "Noah Kahan",
+                artista: {titulo},
                 duracao: "4:01",
                 tocando: false,
               },
               {
                 titulo: "Memória 4",
-                artista: "Noah Kahan",
+                artista: {titulo},
                 duracao: "2:58",
                 tocando: false,
               },
@@ -561,7 +561,7 @@ export default function PageReadySpotify({
                     {musica.titulo}
                   </p>
                   <p className="text-[11px] text-white/50 truncate">
-                    {musica.artista}
+                    {titulo}
                   </p>
                 </div>
 

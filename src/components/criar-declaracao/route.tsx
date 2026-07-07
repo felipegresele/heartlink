@@ -27,7 +27,7 @@ export function EscolherTemplate() {
       title: "Template Spotify",
       bonus: "+ Sessão Retrospectiva",
       path: "/spotify",
-      demo: "https://www.heartcodegift.com.br/p/37ca69", // coloque o link do demo spotify aqui
+      demo: "https://www.heartcodegift.com.br/p/b90832", // coloque o link do demo spotify aqui
       button: "Criar",
     },
   ];

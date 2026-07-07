@@ -6,6 +6,7 @@ import videoLinhaTempo from "../img/retrospectiva-sessao/video-linha-tempo.mp4";
 import videoGaleria from "../img/retrospectiva-sessao/video-galeria.mp4";
 import videoRoleta from "../img/retrospectiva-sessao/video-roleta.mp4";
 import videoEnigma from "../img/retrospectiva-sessao/video-enigma.mp4";
+import videoQuiz from "../img/retrospectiva-sessao/video-sessao-quiz.mp4";
 import videoIntroducao from "../img/retrospectiva-sessao/video-introducao.mp4";
 import type { SectionType } from "../schema/retrospectiva";
 import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
@@ -69,7 +70,7 @@ export const SECOES: SecaoConfig[] = [
     descricao:
       "Será que essa pessoa consegue acertar todas as respostas?",
     cor: "#df0f39",
-    videoUrl: videoEnigma,
+    videoUrl: videoQuiz,
   },
   {
     id: "time",

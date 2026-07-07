@@ -3,7 +3,8 @@ import videoLinhaTempo from "../../img/retrospectiva-sessao/video-linha-tempo.mp
 import videoGaleria from "../../img/retrospectiva-sessao/video-galeria.mp4";
 import videoRoleta from "../../img/retrospectiva-sessao/video-roleta.mp4"
 import videoEnigma from "../../img/retrospectiva-sessao/video-enigma.mp4";
-import videoIntroducao from "../../img/retrospectiva-sessao/video-introducao.mp4";
+import videoQuiz from "../../img/retrospectiva-sessao/video-sessao-quiz.mp4";
+import videoIntroducao from "../../img/retrospectiva-sessao/intro-animada-spotify.mp4";
 import videoUltimaSessao from "../../img/retrospectiva-sessao/video-ultima-tela.mp4";
 import { Link } from "react-router-dom";
 
@@ -104,6 +105,14 @@ const sections: Section[] = [
     title: "Enigma do Amor",
     description: "Quem conhece melhor o outro? Desafios e perguntas que revelam o quanto dois corações estão conectados. Um jogo cheio de cumplicidade.",
     video: videoEnigma,
+    icon: <EnigmaIcon />,
+  },
+  {
+    id: "quiz",
+    label: "Quiz",
+    title: "Quanto você me conhece",
+    description: "Será que essa pessoa consegue acertar todas as respostas?",
+    video: videoQuiz,
     icon: <EnigmaIcon />,
   },
   {

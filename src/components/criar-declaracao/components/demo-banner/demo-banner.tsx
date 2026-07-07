@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Tabs } from "@mantine/core";
+import { FaSpotify } from "react-icons/fa6";
+import { IoImage } from "react-icons/io5";
 
 // ── Tipinhos flutuantes de fundo ──────────────────────────
 function FloatingHearts() {
@@ -262,7 +265,25 @@ export function DemoBanner({ onAbrirDemo }: Props) {
               >
                 <path d="M8 5v14l11-7z" />
               </svg>
-              <span className="relative z-10 cursor-pointer">Explorar a Demo</span>
+              <Tabs defaultValue="padrao">
+                <Tabs.List>
+                  <Tabs.Tab
+                    value="padrao"
+                    leftSection={<IoImage size={12} />}
+                  >
+                    Padrão
+                  </Tabs.Tab>
+                  <Tabs.Tab
+                    value="spotify"
+                    leftSection={<FaSpotify size={12} />}
+                  >
+                    Spotify
+                  </Tabs.Tab>
+                </Tabs.List>
+              </Tabs>
+              <span className="relative z-10 cursor-pointer">
+                Explorar a Demo
+              </span>
             </motion.button>
 
             <p className="text-white/50 text-xs">Não é necessário cadastro.</p>

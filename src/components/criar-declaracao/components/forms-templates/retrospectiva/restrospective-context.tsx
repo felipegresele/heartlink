@@ -47,10 +47,6 @@ interface RetrospectiveContextType {
   updateEnigmaItem: (id: string, texto: string) => void;
   removeEnigmaItem: (id: string) => void;
   toggleEnigmaRevelado: (id: string) => void;
-  addStarItem: (texto: string) => boolean;
-  updateStarItem: (id: string, texto: string) => void;
-  removeStarItem: (id: string) => void;
-  toggleStarRevelado: (id: string) => void;
   addQuizItem: (item: Omit<QuizItem, "id">) => boolean;
   updateQuizItem: (id: string, item: Partial<QuizItem>) => void;
   removeQuizItem: (id: string) => void;
@@ -245,41 +241,6 @@ export function RetrospectiveProvider({
     }));
   }, []);
 
-   const addStarItem = useCallback(
-    (texto: string): boolean => {
-      if (data.rainStar.length >= LIMITS.rainStar) return false;
-      setData((prev) => ({
-        ...prev,
-        rainStar: [...prev.rainStar, { id: uid(), message: texto, unlocked: false }],
-      }));
-      return true;
-    },
-    [data.rainStar.length],
-  );
-
-  const updateStarItem = useCallback((id: string, message: string) => {
-    setData((prev) => ({
-      ...prev,
-      rainStar: prev.rainStar.map((e) => (e.id === id ? { ...e, message } : e)),
-    }));
-  }, []);
-
-  const removeStarItem = useCallback((id: string) => {
-    setData((prev) => ({
-      ...prev,
-      rainStar: prev.rainStar.filter((e) => e.id !== id),
-    }));
-  }, []);
-
-  const toggleStarRevelado = useCallback((id: string) => {
-    setData((prev) => ({
-      ...prev,
-      rainStar: prev.rainStar.map((e) =>
-        e.id === id ? { ...e, unlocked: !e.unlocked } : e,
-      ),
-    }));
-  }, []);
-
    const addQuizItem = useCallback(
     (item: Omit<QuizItem, "id">): boolean => {
       if (data.quiz.length >= LIMITS.quiz) return false;
@@ -363,10 +324,6 @@ export function RetrospectiveProvider({
         updateEnigmaItem,
         removeEnigmaItem,
         toggleEnigmaRevelado,
-        addStarItem,
-        updateStarItem,
-        removeStarItem,
-        toggleStarRevelado,
         addQuizItem,
         removeQuizItem,
         updateQuizItem,

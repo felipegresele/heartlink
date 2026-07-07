@@ -1,6 +1,6 @@
 import { FiCalendar, FiImage } from "react-icons/fi";
 import { FaRandom } from "react-icons/fa";
-import { IoExtensionPuzzleSharp, IoStar } from "react-icons/io5";
+import { IoExtensionPuzzleSharp } from "react-icons/io5";
 import { FaTimeline } from "react-icons/fa6";
 import videoLinhaTempo from "../img/retrospectiva-sessao/video-linha-tempo.mp4";
 import videoGaleria from "../img/retrospectiva-sessao/video-galeria.mp4";
@@ -69,16 +69,6 @@ export const SECOES: SecaoConfig[] = [
     descricao:
       "Será que essa pessoa consegue acertar todas as respostas?",
     cor: "#df0f39",
-    videoUrl: videoEnigma,
-  },
-  {
-    id: "rainStar",
-    badge: "Mapa",
-    badgeIcon: <IoStar size={11} />,
-    titulo: "Mapa Estrelado",
-    descricao:
-      "Explore uma constelação onde cada estrela revela uma lembrança especial da história de vocês.",
-    cor: "#3B82F6",
     videoUrl: videoEnigma,
   },
   {

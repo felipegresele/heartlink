@@ -23,7 +23,6 @@ const SECTION_LABELS: Record<SectionType, string> = {
   gallery: "Nossa Galeria",
   enigma: "O que eu amo em você",
   time: "Tempo de casal animado",
-  rainStar: "Mapa estrelado",
   quiz: "Quanto você me conhece"
 };
 

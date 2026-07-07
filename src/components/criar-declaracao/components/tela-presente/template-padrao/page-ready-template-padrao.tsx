@@ -26,6 +26,7 @@ import { FaTimeline } from "react-icons/fa6";
 import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
 import { UltimaSessaoRetrospectiva } from "../../forms-templates/retrospectiva/ultima-imagem-retrospectiva";
 import { HiMiniQuestionMarkCircle, HiStar } from "react-icons/hi2";
+import StarMemoryPreview from "../../forms-templates/retrospectiva/star-memory-preview";
 
 export type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 
@@ -38,7 +39,6 @@ const SECTION_META: Record<
   wheel: { label: "Roleta de Aventuras", emoji: <FaRandom /> },
   gallery: { label: "Nossa Galeria", emoji: <FiImage /> },
   enigma: { label: "O que eu amo em você", emoji: <IoExtensionPuzzleSharp /> },
-  rainStar: { label: "Mapa estrelado", emoji: <HiStar /> },
   quiz: { label: "Quanto Você Me Conhece?", emoji: <HiMiniQuestionMarkCircle /> },
   time: { label: "", emoji: <FaTimeline /> },
 };

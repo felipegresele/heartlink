@@ -36,14 +36,13 @@ export interface QuizItem {
   respostaCorreta: number;
 }
  
-export type SectionType = "timeline" | "wheel" | "gallery" | "enigma" | "time" | "rainStar" | "quiz" ;
+export type SectionType = "timeline" | "wheel" | "gallery" | "enigma" | "time" | "quiz" ;
  
 export interface RetrospectiveData {
   timeline: TimelineItem[];
   wheel: WheelItem[];
   gallery: GalleryItem[];
   enigma: EnigmaItem[];
-  rainStar: RainStarItem[];
   quiz: QuizItem[];
   secoesSelecionadas: SectionType[];
   efeitoTime: boolean;
@@ -59,7 +58,6 @@ export const RETROSPECTIVE_INITIAL_STATE: RetrospectiveData = {
   wheel: [],
   gallery: [],
   enigma: [],
-  rainStar: [],
   quiz: [],
   secoesSelecionadas: [],
   efeitoTime: false,
@@ -135,7 +133,6 @@ export function mapBackendRetrospectiva(
     wheel: backend.wheel ?? [],
     gallery: backend.gallery ?? [],
     enigma: backend.enigma ?? [],
-    rainStar: backend.rainStar ?? [],
     quiz: backend.quiz ?? [],
     ondeSeConheceram: backend.ondeSeConheceram,
     momentoFavorito: backend.momentoFavorito,

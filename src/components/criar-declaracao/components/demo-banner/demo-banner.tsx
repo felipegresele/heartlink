@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { FaSpotify } from "react-icons/fa6";
 import { IoImage } from "react-icons/io5";
 
-// ── Tipinhos flutuantes de fundo ──────────────────────────
 function FloatingHearts() {
   const hearts = [
     { top: "10%", left: "5%", size: "w-4 h-4", delay: "0s", opacity: "opacity-20" },
@@ -35,13 +34,15 @@ function FloatingHearts() {
   );
 }
 
-// ── Componente principal ──────────────────────────────────
 interface Props {
-  linkPadrao: string;
-  linkSpotify: string;
+  linkPadrao?: string;
+  linkSpotify?: string;
 }
 
-export function DemoBanner({ linkPadrao, linkSpotify }: Props) {
+export function DemoBanner({
+  linkPadrao = "https://www.heartcodegift.com.br/p/37ca69",
+  linkSpotify = "https://www.heartcodegift.com.br/p/b90832",
+}: Props) {
   return (
     <>
       <style>{`
@@ -97,6 +98,8 @@ export function DemoBanner({ linkPadrao, linkSpotify }: Props) {
             <div className="flex gap-3">
               <motion.a
                 href={linkPadrao}
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="relative overflow-hidden flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-bold cursor-pointer"
@@ -121,6 +124,8 @@ export function DemoBanner({ linkPadrao, linkSpotify }: Props) {
 
               <motion.a
                 href={linkSpotify}
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="relative overflow-hidden flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-bold cursor-pointer"

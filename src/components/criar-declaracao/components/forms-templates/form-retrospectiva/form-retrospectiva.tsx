@@ -30,7 +30,6 @@ interface SecaoConfig {
   descricao: string;
   cor: string;
   videoUrl?: string;
-  preview: React.ReactNode;
 }
 
 // ── Helper: converte id para SectionType (exclui "time") ──
@@ -125,7 +124,7 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                 transition={{ duration: 0.25 }}
                 className="absolute inset-0"
               >
-                {secao.videoUrl ? (
+                {secao.videoUrl && (
                   <video
                     src={secao.videoUrl}
                     autoPlay
@@ -134,8 +133,6 @@ export function FormRetrospectivaSecoes({ onContinuar, onPular }: Props) {
                     playsInline
                     className="w-full h-full object-contain"
                   />
-                ) : (
-                  secao.preview
                 )}
               </motion.div>
             </AnimatePresence>

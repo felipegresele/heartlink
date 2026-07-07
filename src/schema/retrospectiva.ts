@@ -28,8 +28,15 @@ export interface RainStarItem {
   message: string;
   unlocked: boolean;
 }
+
+export interface QuizItem {
+  id: string;
+  pergunta: string;
+  opcoes: string[];
+  respostaCorreta: number;
+}
  
-export type SectionType = "timeline" | "wheel" | "gallery" | "enigma" | "time" | "rainStar" ;
+export type SectionType = "timeline" | "wheel" | "gallery" | "enigma" | "time" | "rainStar" | "quiz" ;
  
 export interface RetrospectiveData {
   timeline: TimelineItem[];
@@ -37,6 +44,7 @@ export interface RetrospectiveData {
   gallery: GalleryItem[];
   enigma: EnigmaItem[];
   rainStar: RainStarItem[];
+  quiz: QuizItem[];
   secoesSelecionadas: SectionType[];
   efeitoTime: boolean;
   // Campos opcionais de memórias do casal
@@ -52,6 +60,7 @@ export const RETROSPECTIVE_INITIAL_STATE: RetrospectiveData = {
   gallery: [],
   enigma: [],
   rainStar: [],
+  quiz: [],
   secoesSelecionadas: [],
   efeitoTime: false,
   ondeSeConheceram: undefined,
@@ -105,6 +114,12 @@ export interface BackendRetrospectiva {
     message: string;
     unlocked: boolean;
   }[];
+  quiz: {
+    id: string;
+    pergunta: string;
+    opcoes: string[];
+    respostaCorreta: number;
+  }[];
   ondeSeConheceram?: string;
   momentoFavorito?: string;
   proximoPasso?: string;
@@ -121,6 +136,7 @@ export function mapBackendRetrospectiva(
     gallery: backend.gallery ?? [],
     enigma: backend.enigma ?? [],
     rainStar: backend.rainStar ?? [],
+    quiz: backend.quiz ?? [],
     ondeSeConheceram: backend.ondeSeConheceram,
     momentoFavorito: backend.momentoFavorito,
     proximoPasso: backend.proximoPasso,

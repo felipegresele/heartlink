@@ -80,15 +80,20 @@ export function RetrospectiveProvider({
   // Se veio initialData (modo edição), usa ele.
   // Senão, tenta restaurar do localStorage; se não houver, usa o estado inicial.
   const [data, setData] = useState<RetrospectiveData>(() => {
-    if (initialData) return initialData;
+    if (initialData) return { ...RETROSPECTIVE_INITIAL_STATE, ...initialData };
     try {
       const saved = localStorage.getItem(RETRO_STORAGE_KEY);
-      if (saved) return JSON.parse(saved) as RetrospectiveData;
+      if (saved) {
+        // Mescla com o estado inicial para garantir que campos novos
+        // (ex: quiz, rainStar) sempre existam, mesmo em rascunhos
+        // salvos antes deles serem adicionados ao schema.
+        return { ...RETROSPECTIVE_INITIAL_STATE, ...(JSON.parse(saved) as RetrospectiveData) };
+      }
     } catch {
       // ignora erros de parse
     }
     return RETROSPECTIVE_INITIAL_STATE;
-  });
+});
 
   // ── Auto-save a cada mudança de estado ───────────────────
   useEffect(() => {
@@ -314,11 +319,13 @@ export function RetrospectiveProvider({
   const loadFromLocalStorage = useCallback(() => {
     try {
       const saved = localStorage.getItem(RETRO_STORAGE_KEY);
-      if (saved) setData(JSON.parse(saved));
+      if (saved) {
+        setData({ ...RETROSPECTIVE_INITIAL_STATE, ...JSON.parse(saved) });
+      }
     } catch {
       console.error("Erro ao carregar retrospectiva do localStorage");
     }
-  }, []);
+}, []);
 
   const resetData = useCallback(() => {
     setData(RETROSPECTIVE_INITIAL_STATE);

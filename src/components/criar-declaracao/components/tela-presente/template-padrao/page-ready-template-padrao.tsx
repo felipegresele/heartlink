@@ -25,6 +25,7 @@ import { FaTimeline } from "react-icons/fa6";
 
 import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
 import { UltimaSessaoRetrospectiva } from "../../forms-templates/retrospectiva/ultima-imagem-retrospectiva";
+import { HiMiniQuestionMarkCircle, HiStar } from "react-icons/hi2";
 
 export type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 
@@ -37,6 +38,8 @@ const SECTION_META: Record<
   wheel: { label: "Roleta de Aventuras", emoji: <FaRandom /> },
   gallery: { label: "Nossa Galeria", emoji: <FiImage /> },
   enigma: { label: "O que eu amo em você", emoji: <IoExtensionPuzzleSharp /> },
+  rainStar: { label: "Mapa estrelado", emoji: <HiStar /> },
+  quiz: { label: "Quanto Você Me Conhece?", emoji: <HiMiniQuestionMarkCircle /> },
   time: { label: "", emoji: <FaTimeline /> },
 };
 
@@ -155,6 +158,7 @@ export function RetrospectiveModal({
             {secao === "wheel" && <WheelView items={data.wheel} />}
             {secao === "gallery" && <GalleryView items={data.gallery} />}
             {secao === "enigma" && <EnigmaView items={data.enigma} />}
+            {secao === "quiz" && <QuizView items={data.quiz} />}
             {secao === "ultima" && (
               <UltimaSessaoRetrospectiva
                 photos={fotos}
@@ -653,6 +657,123 @@ function EnigmaView({ items }: { items: RetrospectiveData["enigma"] }) {
           </motion.div>
         );
       })}
+    </div>
+  );
+}
+
+function QuizView({ items }: { items: RetrospectiveData["quiz"] }) {
+  const [indice, setIndice] = useState(0);
+  const [selecionada, setSelecionada] = useState<number | null>(null);
+  const [acertos, setAcertos] = useState(0);
+  const [finalizado, setFinalizado] = useState(false);
+
+  if (!items.length) return null;
+
+  const pergunta = items[indice];
+  const ultima = indice === items.length - 1;
+
+  function responder(opcaoIdx: number) {
+    if (selecionada !== null) return; // trava depois de responder
+    setSelecionada(opcaoIdx);
+    if (opcaoIdx === pergunta.respostaCorreta) {
+      setAcertos((prev) => prev + 1);
+    }
+  }
+
+  function proxima() {
+    if (ultima) {
+      setFinalizado(true);
+      return;
+    }
+    setIndice((prev) => prev + 1);
+    setSelecionada(null);
+  }
+
+  function reiniciar() {
+    setIndice(0);
+    setSelecionada(null);
+    setAcertos(0);
+    setFinalizado(false);
+  }
+
+  if (finalizado) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="flex flex-col items-center justify-center text-center gap-3 py-10"
+      >
+        <span className="text-4xl">🎉</span>
+        <p className="text-white/50 text-xs">Resultado do quiz</p>
+        <p className="text-3xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+          {acertos} de {items.length} acertos
+        </p>
+        <button
+          onClick={reiniciar}
+          className="mt-2 text-xs font-bold text-white/50 hover:text-white underline"
+        >
+          Refazer o quiz
+        </button>
+      </motion.div>
+    );
+  }
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between text-xs text-white/40">
+        <span>
+          Pergunta {indice + 1} de {items.length}
+        </span>
+        <span>{acertos} acerto(s)</span>
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={pergunta.id}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          className="space-y-3"
+        >
+          <p className="text-white font-bold text-base">{pergunta.pergunta}</p>
+
+          <div className="space-y-2">
+            {pergunta.opcoes.map((opcao, idx) => {
+              const respondida = selecionada !== null;
+              const ehCorreta = idx === pergunta.respostaCorreta;
+              const ehSelecionada = idx === selecionada;
+
+              let estilo =
+                "border-white/15 bg-white/5 text-white hover:border-pink-400/50";
+              if (respondida && ehCorreta) {
+                estilo = "border-green-400 bg-green-400/10 text-green-300";
+              } else if (respondida && ehSelecionada && !ehCorreta) {
+                estilo = "border-red-400 bg-red-400/10 text-red-300";
+              }
+
+              return (
+                <button
+                  key={idx}
+                  onClick={() => responder(idx)}
+                  disabled={respondida}
+                  className={`w-full text-left px-4 py-3 rounded-xl border text-sm font-semibold transition-colors ${estilo}`}
+                >
+                  {opcao}
+                </button>
+              );
+            })}
+          </div>
+
+          {selecionada !== null && (
+            <button
+              onClick={proxima}
+              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 rounded-xl text-sm shadow-lg shadow-pink-500/30 hover:opacity-90 transition-opacity"
+            >
+              {ultima ? "Ver resultado" : "Próxima pergunta"}
+            </button>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

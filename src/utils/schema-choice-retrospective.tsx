@@ -73,7 +73,7 @@ export const SECOES: SecaoConfig[] = [
   },
   {
     id: "rainStar",
-    badge: "Memória Estrelada",
+    badge: "Mapa",
     badgeIcon: <IoStar size={11} />,
     titulo: "Mapa Estrelado",
     descricao:

@@ -17,6 +17,7 @@ import {
   RETROSPECTIVE_INITIAL_STATE,
   WHEEL_COLORS,
   type GalleryItem,
+  type QuizItem,
   type RetrospectiveData,
   type SectionType,
   type TimelineItem,
@@ -50,6 +51,9 @@ interface RetrospectiveContextType {
   updateStarItem: (id: string, texto: string) => void;
   removeStarItem: (id: string) => void;
   toggleStarRevelado: (id: string) => void;
+  addQuizItem: (item: Omit<QuizItem, "id">) => boolean;
+  updateQuizItem: (id: string, item: Partial<QuizItem>) => void;
+  removeQuizItem: (id: string) => void;
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
   resetData: () => void;
@@ -271,6 +275,32 @@ export function RetrospectiveProvider({
     }));
   }, []);
 
+   const addQuizItem = useCallback(
+    (item: Omit<QuizItem, "id">): boolean => {
+      if (data.quiz.length >= LIMITS.quiz) return false;
+      setData((prev) => ({
+        ...prev,
+        quiz: [...prev.quiz, { ...item, id: uid() }],
+      }));
+      return true;
+    },
+    [data.quiz.length],
+  );
+
+  const updateQuizItem = useCallback((id: string, item: Partial<QuizItem>) => {
+    setData((prev) => ({
+      ...prev,
+      quiz: prev.quiz.map((q) => (q.id === id ? { ...q, ...item } : q)),
+    }));
+  }, []);
+
+  const removeQuizItem = useCallback((id: string) => {
+    setData((prev) => ({
+      ...prev,
+      quiz: prev.quiz.filter((q) => q.id !== id),
+    }));
+  }, []);
+
   // Mantidos por compatibilidade — agora o auto-save já cuida de tudo,
   // mas estes métodos continuam funcionando caso sejam chamados externamente.
   const saveToLocalStorage = useCallback(() => {
@@ -330,6 +360,9 @@ export function RetrospectiveProvider({
         updateStarItem,
         removeStarItem,
         toggleStarRevelado,
+        addQuizItem,
+        removeQuizItem,
+        updateQuizItem,
         saveToLocalStorage,
         loadFromLocalStorage,
         resetData,

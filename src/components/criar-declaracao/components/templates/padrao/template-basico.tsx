@@ -152,8 +152,8 @@ function CriadorDeclaracaoInner({
   );
 
   const [pageTemplate, setPageTemplate] = useState<PageTemplate>(
-    rascunho?.pageTemplate ?? templatePadrao,
-  );
+    templatePadrao,
+);
 
   const [musicaSelecionada, setMusicaSelecionada] = useState<{
     id: string;

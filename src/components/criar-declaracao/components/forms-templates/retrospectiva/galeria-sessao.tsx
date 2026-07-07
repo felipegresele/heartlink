@@ -67,7 +67,7 @@ export function GallerySection() {
     <div className="space-y-6 bg-[#FAFAFA]">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl text-[#e687cd]">
+        <span className="text-2xl text-black">
           <FiImage />
         </span>
         <div>

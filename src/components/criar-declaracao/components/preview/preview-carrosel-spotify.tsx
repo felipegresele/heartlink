@@ -4,6 +4,8 @@ import { FaChevronDown, FaEllipsisH } from "react-icons/fa";
 import type { PreviewCarrosselProps } from "../../../../schema/preview";
 import { RetrospectiveBtn } from "../forms-templates/retrospectiva/botao-retrospectiva";
 import { SpotifyPlayerCard } from "../tela-presente/template-padrao/page-ready-template-spotify";
+import SectionPopularPlaylist from "../reusable-sections/section-popular";
+import { RetrospectiveSpotifyBtn } from "../forms-templates/retrospectiva/botao-retrospectiva-spotify";
 
 const TEMPO_LABELS: Record<string, string> = {
   anos: "Anos",
@@ -26,7 +28,8 @@ export default function PreviewSpotify({
 }: PreviewCarrosselProps) {
   const [indiceAtual, setIndiceAtual] = useState(0);
   const [mostrarMensagem, setMostrarMensagem] = useState(false);
-  const [modalRetrospectivaAberto, setModalRetrospectivaAberto] = useState(false);
+  const [modalRetrospectivaAberto, setModalRetrospectivaAberto] =
+    useState(false);
   const [tempo, setTempo] = useState({
     anos: 0,
     meses: 0,
@@ -86,7 +89,7 @@ export default function PreviewSpotify({
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <FaChevronDown size={18} className="text-white/80" />
           <p className="text-xs font-bold tracking-wide text-white/90 flex items-center gap-1">
-            Juntos para sempre <span>💖</span>
+            Sempre juntos <span>💖</span>
           </p>
           <FaEllipsisH size={18} className="text-white/80" />
         </div>
@@ -101,15 +104,17 @@ export default function PreviewSpotify({
           />
         </div>
 
+        <SectionPopularPlaylist titulo={titulo} imagens={imagens} />
+
         {/* ── Sobre Vocês ── */}
         <div className="px-5 mt-9">
-          <h2 className="text-lg font-extrabold mb-3">Sobre Vocês</h2>
+          <h2 className="text-lg font-extrabold mb-3">Sobre</h2>
           <div className="bg-[#121212]/70 backdrop-blur rounded-2xl p-4 border border-white/5">
             {imagens[0] && (
               <img
                 src={imagens[1]}
                 alt={titulo}
-                className="w-full h-48 object-cover rounded-xl mb-4"
+                className="w-full h-65 object-cover rounded-xl mb-4"
               />
             )}
             <p className="text-xl font-extrabold">{titulo}</p>
@@ -191,10 +196,9 @@ export default function PreviewSpotify({
           </div>
         )}
 
-        {/* ── CTA Retrospectiva — mesmo comportamento do preview padrão ── */}
+        {/* ── CTA Retrospectiva Spotify — mesmo comportamento do preview padrão ── */}
         <div className="mt-10">
-          <RetrospectiveBtn
-            tipoPresenteado={tipoPresenteado ?? undefined}
+          <RetrospectiveSpotifyBtn
             isVisible={() => setModalRetrospectivaAberto(true)}
           />
           {modalRetrospectivaAberto && (
@@ -221,9 +225,22 @@ function RetrospectivaBloqueadaModal({ onClose }: { onClose: () => void }) {
         <div className="flex flex-col items-center text-center gap-4">
           <div className="bg-pink-100 rounded-full p-4">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="11" width="18" height="11" rx="2" stroke="#f472b6" strokeWidth="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#f472b6" strokeWidth="2" strokeLinecap="round"/>
-              <circle cx="12" cy="16" r="1.5" fill="#f472b6"/>
+              <rect
+                x="3"
+                y="11"
+                width="18"
+                height="11"
+                rx="2"
+                stroke="#f472b6"
+                strokeWidth="2"
+              />
+              <path
+                d="M7 11V7a5 5 0 0 1 10 0v4"
+                stroke="#f472b6"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <circle cx="12" cy="16" r="1.5" fill="#f472b6" />
             </svg>
           </div>
 

@@ -32,6 +32,7 @@ import ContentEscolherMusica from "../../music/escolher-musica";
 import { MensagemComEfeitoEscritaRetrospectiva } from "../../mensagem-efeito/mensagem-efeito";
 import { PagamentoStep } from "../../forms-templates/pagamentos/carrinho-pagamento";
 import type { PageTemplate } from "../../escolha-template/form-escolher-template";
+import RainStarSection from "../../forms-templates/retrospectiva/chuva-estrelada-sessao";
 
 const DRAFT_KEY = "heartlink_criador_rascunho";
 
@@ -87,6 +88,11 @@ function FormsSecoesSelecionadas({
         {selecionadas.includes("enigma") && (
           <div className="border border-white/10 rounded-2xl p-4">
             <EnigmaSection />
+          </div>
+        )}
+        {selecionadas.includes("rainStar") && (
+          <div className="border border-white/10 rounded-2xl p-4">
+            <RainStarSection />
           </div>
         )}
       </div>
@@ -460,7 +466,7 @@ function CriadorDeclaracaoInner({
           </>
         )}
 
-        {etapa === 6 && (
+        {etapa === 6 && pageTemplate !== "SPOTIFY" && (
           <>
             <StepHeader
               icon={FaPalette}

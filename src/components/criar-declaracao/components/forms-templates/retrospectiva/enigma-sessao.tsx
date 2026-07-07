@@ -35,7 +35,7 @@ export function EnigmaSection() {
     <div className="space-y-6 bg-[#FAFAFA]">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl text-[#e687cd]"><IoExtensionPuzzleSharp /></span>
+        <span className="text-2xl text-black"><IoExtensionPuzzleSharp /></span>
         <div>
           <h3 className="text-black font-bold text-lg leading-tight">Enigma</h3>
           <p className="text-gray-500 text-xs">O que você ama nessa pessoa — revelado aos poucos</p>

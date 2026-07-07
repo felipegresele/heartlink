@@ -2,10 +2,8 @@ import imgBanner from "../../../../../img/retrospectiva-banner-imgs/bg-spotify.p
 
 export function RetrospectiveSpotifyBtn({
   isVisible,
-  tipoPresenteado,
 }: {
   isVisible: () => void;
-  tipoPresenteado?: "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 }) {
   return (
     <div

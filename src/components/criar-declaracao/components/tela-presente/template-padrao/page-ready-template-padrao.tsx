@@ -25,8 +25,7 @@ import { FaTimeline } from "react-icons/fa6";
 
 import SpotifySingleScreen from "../../forms-templates/retrospectiva/efeito-transicao-sessao";
 import { UltimaSessaoRetrospectiva } from "../../forms-templates/retrospectiva/ultima-imagem-retrospectiva";
-import { HiMiniQuestionMarkCircle, HiStar } from "react-icons/hi2";
-import StarMemoryPreview from "../../forms-templates/retrospectiva/star-memory-preview";
+import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
 
 export type TipoPresenteado = "CASAL" | "FILHO_E_MAE" | "FILHA_E_MAE";
 

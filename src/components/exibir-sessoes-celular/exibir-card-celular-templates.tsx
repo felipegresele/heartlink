@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import videoUltimaSessao from "../../img/video-tela-inicial/video-template-padrao.mp4";
+import videoSpotify from "../../img/video-tela-inicial/video-template-spotify.mp4";
 
 const Heart = ({
   size = 32,
@@ -24,7 +26,63 @@ const Heart = ({
   </svg>
 );
 
+type TemaOpcao = "padrao" | "spotify";
+
+const TEMAS: Record<
+  TemaOpcao,
+  {
+    label: string;
+    video: string;
+    accentColor: string;
+    titulo: React.ReactNode;
+    desc: string;
+    features: string[];
+  }
+> = {
+  padrao: {
+    label: "Padrão",
+    video: videoUltimaSessao,
+    accentColor: "#e687cd",
+    titulo: (
+      <>
+        Uma declaração <span>inesquecível</span>
+      </>
+    ),
+    desc: "Crie uma página personalizada com fotos, mensagem especial e um contador em tempo real. Simples de criar, impossível de esquecer.",
+    features: [
+      "Contador em tempo real",
+      "Até 4 fotos do casal",
+      "Mensagem personalizada",
+      "Seção Retrospectiva",
+      "QR Code exclusivo",
+      "URL personalizada",
+    ],
+  },
+  spotify: {
+    label: "Spotify",
+    video: videoSpotify,
+    accentColor: "#1ED760",
+    titulo: (
+      <>
+        Sua história em <span>modo playlist</span>
+      </>
+    ),
+    desc: "Um tema inspirado no Spotify, com player de música, capa personalizada e retrospectiva do casal — tudo do jeito que vocês já estão acostumados a curtir.",
+    features: [
+      "Player de música integrado",
+      "Até 4 fotos do casal",
+      "Mensagem personalizada",
+      "Seção Retrospectiva",
+      "QR Code exclusivo",
+      "URL personalizada",
+    ],
+  },
+};
+
 export default function SecaoTempadrao() {
+  const [temaAtivo, setTemaAtivo] = useState<TemaOpcao>("padrao");
+  const tema = TEMAS[temaAtivo];
+
   return (
     <div
       style={{
@@ -116,18 +174,30 @@ export default function SecaoTempadrao() {
           gap: 18px;
         }
 
-        .padrao-badge {
+        .padrao-tabs {
           display: inline-flex;
-          align-items: center;
           gap: 6px;
           background: #fdf2fb;
-          border: 1px solid rgba(230,135,205,0.4);
-          color: #e687cd;
-          font-size: 13px;
-          font-weight: 600;
-          padding: 6px 14px;
-          border-radius: 20px;
+          border: 1px solid rgba(230,135,205,0.3);
+          border-radius: 14px;
+          padding: 5px;
           width: fit-content;
+        }
+        .padrao-tab-btn {
+          border: none;
+          background: transparent;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 14px;
+          font-weight: 600;
+          padding: 9px 18px;
+          border-radius: 10px;
+          cursor: pointer;
+          color: #9A8A8D;
+          transition: background 0.2s, color 0.2s;
+        }
+        .padrao-tab-btn.active {
+          background: var(--accent-color);
+          color: #fff;
         }
 
         .padrao-title {
@@ -138,7 +208,7 @@ export default function SecaoTempadrao() {
           line-height: 1.1;
         }
         .padrao-title span {
-          color: #e687cd;
+          color: var(--accent-color);
         }
 
         .padrao-desc {
@@ -164,7 +234,7 @@ export default function SecaoTempadrao() {
         .padrao-feature-dot {
           width: 7px; height: 7px;
           border-radius: 50%;
-          background: #e687cd;
+          background: var(--accent-color);
           flex-shrink: 0;
         }
 
@@ -172,7 +242,7 @@ export default function SecaoTempadrao() {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background: #e687cd;
+          background: var(--accent-color);
           color: #fff;
           border: none;
           border-radius: 14px;
@@ -186,7 +256,7 @@ export default function SecaoTempadrao() {
           text-decoration: none;
           letter-spacing: 0.01em;
         }
-        .padrao-cta-btn:hover  { background: rgb(212,105,199); transform: scale(1.02); }
+        .padrao-cta-btn:hover  { opacity: 0.9; transform: scale(1.02); }
         .padrao-cta-btn:active { transform: scale(0.97); }
         .padrao-cta-arrow {
           width: 22px; height: 22px;
@@ -210,14 +280,17 @@ export default function SecaoTempadrao() {
       {/* Título da seção */}
       <div style={{ textAlign: "center", marginBottom: "40px" }}>
         <h1 style={{ fontSize: "clamp(28px, 5vw, 42px)", fontWeight: 800, color: "#1a1a1a", fontFamily: "'Playfair Display', serif" }}>
-          Conheça o <span style={{ color: "#e687cd" }}>Tema Padrão</span>
+          Conheça os <span style={{ color: "#e687cd" }}>Temas</span>
         </h1>
         <p style={{ color: "#9A8A8D", fontSize: "16px", marginTop: "10px" }}>
-          Simples, elegante e cheio de amor. Perfeito para uma declaração especial.
+          Simples, elegante e cheio de amor. Escolha o estilo perfeito para a sua declaração.
         </p>
       </div>
 
-      <div className="padrao-wrap">
+      <div
+        className="padrao-wrap"
+        style={{ ["--accent-color" as string]: tema.accentColor }}
+      >
 
         {/* ===== LEFT: PHONE MOCKUP ===== */}
         <div className="padrao-phone-area">
@@ -230,35 +303,32 @@ export default function SecaoTempadrao() {
           <div className="padrao-phone-bg right" />
 
           <div className="padrao-phone-frame">
-            <video src={videoUltimaSessao} autoPlay loop muted playsInline />
+            <video key={tema.video} src={tema.video} autoPlay loop muted playsInline />
           </div>
         </div>
 
         {/* ===== RIGHT: INFO ===== */}
         <div className="padrao-info-area">
 
-          {/* <div className="padrao-badge">
-            ✨ Tema Padrão
-          </div> */}
+          <div className="padrao-tabs">
+            {(Object.keys(TEMAS) as TemaOpcao[]).map((chave) => (
+              <button
+                key={chave}
+                type="button"
+                onClick={() => setTemaAtivo(chave)}
+                className={`padrao-tab-btn ${temaAtivo === chave ? "active" : ""}`}
+              >
+                {TEMAS[chave].label}
+              </button>
+            ))}
+          </div>
 
-          <h2 className="padrao-title">
-            Uma declaração <span>inesquecível</span>
-          </h2>
+          <h2 className="padrao-title">{tema.titulo}</h2>
 
-          <p className="padrao-desc">
-            Crie uma página personalizada com fotos, mensagem especial e um contador em tempo real. 
-            Simples de criar, impossível de esquecer.
-          </p>
+          <p className="padrao-desc">{tema.desc}</p>
 
           <div className="padrao-features">
-            {[
-              "Contador em tempo real",
-              "Até 3 fotos do casal",
-              "Mensagem personalizada",
-              "Seção Retrospectiva",
-              "QR Code exclusivo",
-              "URL personalizada",
-            ].map((f) => (
+            {tema.features.map((f) => (
               <div key={f} className="padrao-feature-item">
                 <div className="padrao-feature-dot" />
                 {f}

@@ -22,11 +22,11 @@ export function RetrospectiveSpotifyBtn({
             isVisible();
           }
         }}
-        className="w-full rounded-2xl cursor-pointer hover:scale-105 active:scale-95 transition overflow-hidden"
+        className="w-full max-w-[400px] rounded-2xl cursor-pointer hover:scale-105 active:scale-95 transition overflow-hidden"
       >
         <img
           src={imgBanner}
-          className="w-250 h-130 object-cover rounded-2xl"
+          className="w-full h-auto object-cover rounded-2xl"
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import imgBanner from "../../../../../img/retrospectiva-banner-imgs/bg-spotify.png";
+import imgBanner from "../../../../../img/retrospectiva-banner-imgs/bg-retrospectiva-spotify.png";
 
 export function RetrospectiveSpotifyBtn({
   isVisible,
@@ -14,6 +14,10 @@ export function RetrospectiveSpotifyBtn({
       }}
     >
       <div className="w-full max-w-sm px-4 flex justify-center items-center text-center">
+        <button
+        onClick={isVisible}
+        className="mt-6 bg-[#3EC6F0] text-black font-bold w-40 h-12 rounded-full cursor-pointer hover:scale-105 active:scale-95 transition"
+      ></button>
         <img
           src={imgBanner}
           className="w-full h-auto object-contain rounded-xl"

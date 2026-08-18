@@ -14,7 +14,7 @@ export function EscolherPlano({ selectedPlan, setSelectedPlan }: EscolherPlanoPr
       planType: "VITALICIO",
       recomendado: true,
       precoAntigo: "R$ 50,00",
-      precoAtual: "R$ 1,00",
+      precoAtual: "R$ 25,00",
       periodo: "uma vez",
       recursos: [
         { text: "Texto dedicado", ativo: true },

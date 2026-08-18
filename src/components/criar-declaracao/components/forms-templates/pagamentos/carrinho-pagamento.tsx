@@ -51,7 +51,7 @@ export function PagamentoStep({ pageId, selectedPlan }: PagamentoStepProps) {
   const plano = selectedPlan ? PLANO_INFO[selectedPlan] : null;
   const precoPlan = plano?.preco ?? 0;
   const precoMoldura = MOLDURAS.find((m) => m.id === molduraSelecionada)?.preco ?? 0;
-  const total = precoPlan + precoMoldura;
+  const total = 1;
 
   const visiveis = MOLDURAS.slice(carrosselIdx, carrosselIdx + 3);
   const userEmail = JSON.parse(localStorage.getItem("user") || "{}").email ?? "";

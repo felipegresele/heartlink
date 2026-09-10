@@ -135,6 +135,8 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     setPlaying(false);
   }, [musica]);
 
+  
+
   useEffect(() => {
     return () => {
       stopTick();

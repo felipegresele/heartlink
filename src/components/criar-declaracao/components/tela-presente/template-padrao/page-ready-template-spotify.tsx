@@ -122,6 +122,7 @@ export function SpotifyPlayerCard({
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pendingPlayRef = useRef(false);
 
   useEffect(() => {
     if (!musicaId) return;
@@ -145,6 +146,53 @@ export function SpotifyPlayerCard({
     }
   }, []);
 
+  // Pré-cria o player assim que a API YT carrega, SEM autoplay.
+  // No iOS o playVideo() só responde quando disparado dentro de um gesto do
+  // usuário; chamar no onReady (assíncrono) deixa o áudio travado em 0:00.
+  useEffect(() => {
+    if (!ytReady || !musicaId || !containerRef.current) return;
+
+    if (playerRef.current?.loadVideoById) {
+      playerRef.current.loadVideoById(musicaId);
+      return;
+    }
+
+    playerRef.current = new window.YT.Player(containerRef.current, {
+      videoId: musicaId,
+      width: "200",
+      height: "200",
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+        rel: 0,
+        playsinline: 1,
+      },
+      events: {
+        onReady: (e: any) => {
+          setDuration(Math.floor(e.target.getDuration()));
+          if (pendingPlayRef.current) {
+            pendingPlayRef.current = false;
+            e.target.playVideo();
+          }
+        },
+        onStateChange: (e: any) => {
+          if (e.data === 1) {
+            setPlaying(true);
+            setDuration(Math.floor(e.target.getDuration()));
+            startTick();
+          } else if (e.data === 2 || e.data === 0) {
+            setPlaying(false);
+            stopTick();
+          }
+        },
+      },
+    });
+  }, [ytReady, musicaId, startTick, stopTick]);
+
   useEffect(() => {
     return () => {
       stopTick();
@@ -159,54 +207,10 @@ export function SpotifyPlayerCard({
     };
   }, [stopTick]);
 
-  const initPlayer = useCallback(() => {
-    if (!musicaId || !containerRef.current) return;
-
-    if (playerRef.current?.loadVideoById) {
-      playerRef.current.loadVideoById(musicaId);
-      return;
-    }
-
-    playerRef.current = new window.YT.Player(containerRef.current, {
-      videoId: musicaId,
-      width: "1",
-      height: "1",
-      playerVars: {
-        autoplay: 0,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
-        iv_load_policy: 3,
-        modestbranding: 1,
-        rel: 0,
-        playsinline: 1,
-      },
-      events: {
-        onReady: (e: any) => {
-          setDuration(Math.floor(e.target.getDuration()));
-          e.target.playVideo();
-          setPlaying(true);
-          startTick();
-        },
-        onStateChange: (e: any) => {
-          if (e.data === 1) {
-            setPlaying(true);
-            setDuration(Math.floor(e.target.getDuration()));
-            startTick();
-          } else if (e.data === 2 || e.data === 0) {
-            setPlaying(false);
-            stopTick();
-          }
-        },
-      },
-    });
-  }, [musicaId, startTick, stopTick]);
-
   const handlePlayPause = () => {
     if (!musicaId) return;
     if (!playerRef.current) {
-      if (!ytReady) return;
-      initPlayer();
+      pendingPlayRef.current = true;
       return;
     }
     playing ? playerRef.current.pauseVideo() : playerRef.current.playVideo();
@@ -309,15 +313,17 @@ export function SpotifyPlayerCard({
         </button>
       </div>
 
-      {/* Player oculto do YouTube — motor real de áudio */}
+      {/* Player oculto do YouTube — motor real de áudio.
+          No iOS o iframe precisa de dimensões reais para o player inicializar,
+          por isso usamos 200x200 (e não 1px) mantendo-o fora da tela. */}
       <div
         ref={containerRef}
         style={{
           position: "fixed",
           top: "-9999px",
           left: "-9999px",
-          width: "1px",
-          height: "1px",
+          width: "200px",
+          height: "200px",
           pointerEvents: "none",
           opacity: 0,
         }}

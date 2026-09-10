@@ -54,6 +54,7 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
   const playerContainerRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentIdRef = useRef<string | null>(null);
+  const pendingPlayRef = useRef(false);
 
   useEffect(() => {
     preloadYTScript();
@@ -76,57 +77,59 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
     }
   }, []);
 
-  const initPlayer = useCallback(
-    (videoId: string) => {
-      if (!playerContainerRef.current) return;
+  // Pré-cria o player assim que a API YT carrega, SEM autoplay.
+  // No iOS o playVideo() só responde quando disparado dentro de um gesto do
+  // usuário; chamar no onReady (assíncrono) deixa o áudio travado em 0:00.
+  useEffect(() => {
+    if (!ytReady || !musica || !playerContainerRef.current) return;
+    if (currentIdRef.current === musica.id && playerRef.current) return;
 
-      if (playerRef.current?.loadVideoById) {
-        playerRef.current.loadVideoById(videoId);
-        return;
-      }
+    currentIdRef.current = musica.id;
 
-      playerRef.current = new window.YT.Player(playerContainerRef.current, {
-        videoId,
-        width: "1",
-        height: "1",
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          rel: 0,
-          playsinline: 1,
-        },
-        events: {
-          onReady: (e: any) => {
-            setDuration(Math.floor(e.target.getDuration()));
+    if (playerRef.current?.loadVideoById) {
+      playerRef.current.loadVideoById(musica.id);
+      return;
+    }
+
+    playerRef.current = new window.YT.Player(playerContainerRef.current, {
+      videoId: musica.id,
+      width: "200",
+      height: "200",
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+        rel: 0,
+        playsinline: 1,
+      },
+      events: {
+        onReady: (e: any) => {
+          setDuration(Math.floor(e.target.getDuration()));
+          if (pendingPlayRef.current) {
+            pendingPlayRef.current = false;
             e.target.playVideo();
-            setPlaying(true);
-            startTick();
-          },
-          onStateChange: (e: any) => {
-            if (e.data === 1) {
-              setPlaying(true);
-              setDuration(Math.floor(e.target.getDuration()));
-              startTick();
-            } else if (e.data === 2 || e.data === 0) {
-              setPlaying(false);
-              stopTick();
-            }
-          },
+          }
         },
-      });
-    },
-    [startTick, stopTick]
-  );
+        onStateChange: (e: any) => {
+          if (e.data === 1) {
+            setPlaying(true);
+            setDuration(Math.floor(e.target.getDuration()));
+            startTick();
+          } else if (e.data === 2 || e.data === 0) {
+            setPlaying(false);
+            stopTick();
+          }
+        },
+      },
+    });
+  }, [ytReady, musica, startTick, stopTick]);
 
   useEffect(() => {
     if (!musica) return;
     if (currentIdRef.current === musica.id) return;
-
-    currentIdRef.current = musica.id;
     setElapsed(0);
     setDuration(musica.duration ?? 0);
     setPlaying(false);
@@ -148,8 +151,7 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
 
   const handlePlayPause = () => {
     if (!playerRef.current) {
-      if (!ytReady) return;
-      initPlayer(musica.id);
+      pendingPlayRef.current = true;
       return;
     }
     playing
@@ -222,11 +224,12 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
       </div>
 
       {/*
-        FIX PRINCIPAL: nunca usar display:none no container do player YT.
-        O YouTube IFrame API não inicializa corretamente em elementos ocultos
-        com display:none — o player fica travado no 0:00 sem reproduzir.
-        Solução: posicionar fora da tela com position absolute (ainda "existe"
-        no DOM visualmente para o browser, mas o usuário não vê).
+        FIX PRINCIPAL: nunca usar display:none nem dimensões de 1px no
+        container do player YT. O YouTube IFrame API não inicializa
+        corretamente em elementos ocultos/zero-dimensão — no iOS o player
+        fica travado no 0:00 sem reproduzir. Solução: 200x200 posicionado
+        fora da tela (ainda existe visualmente para o browser, mas o usuário
+        não vê).
       */}
       <div
         ref={playerContainerRef}
@@ -234,8 +237,8 @@ export default function MusicPlayerFooter({ musica }: MusicPlayerFooterProps) {
           position: "fixed",
           top: "-9999px",
           left: "-9999px",
-          width: "1px",
-          height: "1px",
+          width: "200px",
+          height: "200px",
           pointerEvents: "none",
           opacity: 0,
         }}

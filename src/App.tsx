@@ -23,6 +23,7 @@ import { DemoBanner } from "./components/criar-declaracao/components/demo-banner
 import { RecursosCardContainer } from "./components/resumo-container/resumo-container";
 import { CriadorDeclaracaoDiaDasMaes } from "./components/criar-declaracao/components/templates/padrao/template-basico-mae";
 import HeartCodeTrustBar from "./components/criar-declaracao/components/ui/trust-bar";
+import Testimonials from "./components/avaliacoes/carrosel-avaliacoes";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -50,6 +51,7 @@ function App() {
                 <RegrasComoFunciona />
                 <EscolhaTema />
                 <HeartCodeTrustBar />
+                <Testimonials />
                 <RecursosCardContainer />
                 <div className="flex justify-center px-4 md:px-8 py-4 bg-[#FAFAFA]">
                   <DemoBanner
